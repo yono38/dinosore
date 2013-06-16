@@ -2,12 +2,58 @@
 window.BugListView = Backbone.View.extend({
 
     initialize:function () {
-        this.template = _.template(tpl.get('bug-list'));    
-     //   this.collection.listenTo("all", this.render, this);
+        this.template = _.template(tpl.get('bug-list'));   
+        _.bindAll(this, 'render'); 
+        this.collection = new BugList();
+    //    this.collection.on("all", this.render);
+        this.collection.on("add", this.addOne);
+        
+        
+    },
+    
+    events: {
+      'click #logout' : 'logout',
+      'click #medInfo' : 'medInfo',
+      'click #newBug' : 'newBug'
+    },
+    
+    newBug: function(){
+      app.navigate("bugs/add", {trigger: true});
+    },
+    
+    medInfo: function(){
+      app.navigate("medinfo", {trigger: true});
+    },
+    
+    addOne: function(bug){
+      var view = new BugItemView({model: bug});
+      this.$("#myList").append(view.render().el);  
+      $("#myList").listview('refresh');  
+    },
+    
+    logout: function(){
+      Parse.User.logOut(null, {
+        success: function(){
+          app.navigate("", {trigger:true});
+        }
+      });
     },
 
     render: function () {
-        $(this.el).html(this.template());      
+        console.log(this);
+        var that = this;
+        $(this.el).html(this.template());  
+        this.collection.query = new Parse.Query(Bug);
+        this.collection.query.equalTo("user", Parse.User.current());   
+        this.collection.fetch({
+          success: function(collection){
+            // This code block will be triggered only after receiving the data.
+            console.log(collection.toJSON()); 
+            for (var i=0; i<collection.length; i++){
+              that.addOne(collection.models[i]);
+            }
+          }});
+        console.log(this.collection);
         return this;
     }
 });
@@ -17,7 +63,7 @@ window.BugItemView = Backbone.View.extend({
     tagName:"li",
 
     initialize:function () {
-        this.template = _.template(tpl.get('employee-list-item'));
+        this.template = _.template(tpl.get('bug-item'));
         this.model.bind("change", this.render, this);
         this.model.bind("destroy", this.close, this);
     },
@@ -29,46 +75,39 @@ window.BugItemView = Backbone.View.extend({
 
 });
 
-window.LoginView = Backbone.View.extend({
-  initialize: function() {
-        this.template = _.template(tpl.get('login'));    
+window.NewBugView = Backbone.View.extend({
+  initialize: function(){
+    this.template = _.template(tpl.get('add-bug'));  
   },
-  
   events: {
-    'click #signupBtn' : 'signup',
-    'click #loginBtn' : 'login'
+
   },
-  
-  signup: function(){
-    var usr = this.$("#email").val();
-    var pw = this.$("#password").val();
-    var that = this;
-    Parse.User.signUp(usr, pw, {
-      success: function(user) {
-        app.navigate("list", {trigger: true});
-      }, 
-      error: function(err){
-        that.$("#error").html(err);
-      }
-    });
+  preventDefault: function(e){
+    console.log(($(this)[0]).el);
+    $(($(this)[0]).el).css("background", "red");
+    e.preventDefault();
   },
-  
-  login: function(){
-    var usr = this.$("#email").val();
-    var pw = this.$("#password").val();
-    var that = this;
-    Parse.User.logIn(usr, pw, {
-      success: function(user) {
-        app.navigate("list", {trigger: true});
-      }, 
-      error: function(usr, err){
-        that.$("#error").html(err);        
-      }
-    });  
+  choosePriority: function(e){
+    console.log($(this));
+    
+   // console.log($(this).css("background", "red"));
+   // $(this).checkboxradio('enable');
   },
-  
   render: function(){
+    $(this.el).html(this.template());
+    return this;  
+  }
+  
+});
+
+window.MedicalInfoView = Backbone.View.extend({
+
+  initialize:function(){
+    this.template = _.template(tpl.get('med-info'));
+  },
+  render: function(eventName){
     $(this.el).html(this.template());
     return this;
   }
+
 });

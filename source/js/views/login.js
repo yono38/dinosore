@@ -1,34 +1,3 @@
-
-window.BugListView = Backbone.View.extend({
-
-    initialize:function () {
-        this.template = _.template(tpl.get('bug-list'));    
-     //   this.collection.listenTo("all", this.render, this);
-    },
-
-    render: function () {
-        $(this.el).html(this.template(this.model.toJSON()));      
-        return this;
-    }
-});
-
-window.BugItemView = Backbone.View.extend({
-
-    tagName:"li",
-
-    initialize:function () {
-        this.template = _.template(tpl.get('employee-list-item'));
-        this.model.bind("change", this.render, this);
-        this.model.bind("destroy", this.close, this);
-    },
-
-    render:function (eventName) {
-        $(this.el).html(this.template(this.model.toJSON()));
-        return this;
-    }
-
-});
-
 window.LoginView = Backbone.View.extend({
   initialize: function() {
         this.template = _.template(tpl.get('login'));    
@@ -43,8 +12,9 @@ window.LoginView = Backbone.View.extend({
     var usr = this.$("#email").val();
     var pw = this.$("#password").val();
     var that = this;
-    Parse.User.signUp(usr, pw, {
+    Parse.User.signUp(usr, pw, {}, {
       success: function(user) {
+        console.log("new user signup");
         app.navigate("list", {trigger: true});
       }, 
       error: function(err){
@@ -72,3 +42,35 @@ window.LoginView = Backbone.View.extend({
     return this;
   }
 });
+
+
+function normalizeTable(tbl, isTest){
+  var results = [];
+  var keys = [];
+  var i,j;
+  var th = ($(tbl).find('thead tr')).children();
+  var tr = ($(tbl).find('tbody')).children();
+ // read out the table header keys
+  for (i=0; i<th.length; i++){
+
+    keys[i] = (th[i].textContent).replace(/\s/g, "_").replace('?', '');
+  }
+  
+  // make results using keys
+  var oneResult;
+  for (i=0; i<tr.length; i++){
+    oneResult = {};
+    var trData = $(tr[i]).children();
+    for (j=0; j< trData.length; j++){
+      if (isTest && j==4){
+        oneResult[keys[j]] = normalizeTable($(trData[j]).find('list item table'));
+      }
+      else if (trData[j].textContent != ""){
+       oneResult[keys[j]] = trData[j].textContent;
+      }
+    }
+    results.push(oneResult);
+  }
+  return results;
+}
+

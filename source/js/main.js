@@ -4,10 +4,12 @@ var AppRouter = Backbone.Router.extend({
 
     routes:{
         "":"start",
+        "bugs/add" : "newBug",
         "list":"list",
         "bugs/:id":"bugDetails",
+        "medinfo": "medInfo"
     },
-
+    
     initialize:function () {
         $('.back').live('click', function(event) {
             window.history.back();
@@ -15,6 +17,14 @@ var AppRouter = Backbone.Router.extend({
         });
         this.firstPage = true;
 
+    },
+    
+    newBug: function(){
+      this.changePage(new NewBugView());
+    },
+    
+    medInfo: function(){
+     this.changePage(new MedicalInfoView());
     },
     
     start:function() {
@@ -26,11 +36,7 @@ var AppRouter = Backbone.Router.extend({
     },
 
     list:function () {
-      this.bugs = this.bugs || new BugList();
-      this.bugs.query = new Parse.Query(Bug);
-      this.bugs.query.equalTo("user", Parse.User.current());
-      this.bugs.fetch();
-      this.changePage(new BugListView({collection: this.bugs}));
+      this.changePage(new BugListView());
     },
 
     bugDetails:function (id) {
@@ -47,6 +53,7 @@ var AppRouter = Backbone.Router.extend({
         $(page.el).attr('data-role', 'page');
         page.render();
         $('body').append($(page.el));
+        if (page.collection) page.collection.fetch();
         var transition = $.mobile.defaultPageTransition;
         // We don't want to slide the first page
         if (this.firstPage) {
@@ -55,14 +62,14 @@ var AppRouter = Backbone.Router.extend({
         }
         $.mobile.changePage($(page.el), {changeHash:false, transition: transition});
     }
-
 });
 
 $(document).ready(function () {
     
-    tpl.loadTemplates(['bug-list', 'bug-item', 'bug-details', 'add-bug-item', 'login'],
+    tpl.loadTemplates(['bug-list', 'bug-item', 'bug-details', 'add-bug', 'login', 'med-info'],
         function () {
             app = new AppRouter();
             Backbone.history.start();
         });
 });
+
