@@ -4,7 +4,7 @@ window.Bug = Parse.Object.extend({
    defaults: {
     bugStatus: "Open",
     bugPriority: 1,
-    title: "New Bug"
+    title: "New Bug",
    }
 });
 

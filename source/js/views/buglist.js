@@ -62,7 +62,7 @@ window.BugItemView = Backbone.View.extend({
     tagName:"li",
 
     initialize:function () {
-        this.template = _.template(tpl.get('bug-item'));
+        this.template = _.template(tpl.get('item'));
         this.model.bind("change", this.render, this);
         this.model.bind("destroy", this.close, this);
     },

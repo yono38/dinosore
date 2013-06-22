@@ -1,0 +1,9 @@
+window.Appointment = Parse.Object.extend({
+
+   className: "Appointment",
+   defaults: {
+    date: new Date(),
+    name: "New Appointment",
+    doctor: null,
+   }
+});

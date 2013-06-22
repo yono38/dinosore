@@ -1,4 +1,4 @@
-window.EmployeeView = Backbone.View.extend({
+window.BugDetailView = Backbone.View.extend({
 
     initialize:function () {
         this.template = _.template(tpl.get('bug-details'));

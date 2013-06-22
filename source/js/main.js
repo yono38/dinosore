@@ -6,8 +6,9 @@ var AppRouter = Backbone.Router.extend({
         "":"start",
         "bugs/add" : "newBug",
         "list":"list",
-        "bugs/:id":"bugDetails",
-        "medinfo": "medInfo"
+        "bug/:id":"bugDetails",
+        "medinfo": "medInfo",
+        "appts": "appts"
     },
     
     initialize:function () {
@@ -27,6 +28,15 @@ var AppRouter = Backbone.Router.extend({
      this.changePage(new MedicalInfoView());
     },
     
+    appts: function(){
+      var apptView = new AppointmentsView();
+      this.changePage(apptView);
+      $("#date").hide();
+      $(".hasDatepicker").off().remove();
+		  $( "input[type='date']").after( $( "<div />" ).datepicker({ altField: "#" + $(this).attr( "id" ), showOtherMonths: false, onSelect: apptView.selectDate, beforeShowDay: apptView.highlightAppt}))
+      
+    },
+    
     start:function() {
       if (Parse.User.current()){
         this.list();
@@ -40,7 +50,9 @@ var AppRouter = Backbone.Router.extend({
     },
 
     bugDetails:function (id) {
-        var bug = new Bug({id:id});
+      console.log("view bug details");
+        var bug = new Bug({objectId:id});
+        console.log(bug);
         var self = this;
         bug.fetch({
             success:function (data) {
@@ -66,7 +78,7 @@ var AppRouter = Backbone.Router.extend({
 
 $(document).ready(function () {
     
-    tpl.loadTemplates(['bug-list', 'bug-item', 'bug-details', 'add-bug', 'login', 'med-info'],
+    tpl.loadTemplates(['bug-list', 'item', 'bug-details', 'add-bug', 'login', 'med-info', 'appointments'],
         function () {
             app = new AppRouter();
             Backbone.history.start();
