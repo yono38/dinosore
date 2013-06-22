@@ -33,7 +33,7 @@ var AppRouter = Backbone.Router.extend({
       this.changePage(apptView);
       $("#date").hide();
       $(".hasDatepicker").off().remove();
-		  $( "input[type='date']").after( $( "<div />" ).datepicker({ altField: "#" + $(this).attr( "id" ), showOtherMonths: false, onSelect: apptView.selectDate, beforeShowDay: apptView.highlightAppt}))
+      $( "input[type='date']").after( $( "<div />" ).datepicker({ altField: "#" + $(this).attr( "id" ), showOtherMonths: false, onSelect: apptView.selectDate, beforeShowDay: apptView.highlightAppt}))
       
     },
     
