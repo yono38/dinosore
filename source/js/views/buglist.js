@@ -118,8 +118,6 @@ window.NewBugView = Backbone.View.extend({
     });
   },
   preventDefault: function(e){
-    console.log(($(this)[0]).el);
-    $(($(this)[0]).el).css("background", "red");
     e.preventDefault();
   },
   render: function(){

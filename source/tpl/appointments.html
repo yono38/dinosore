@@ -12,11 +12,20 @@
 <input type="date" name="date" id="date" value=""  />
 <hr>
 </div>
-
 <ul data-role="listview" data-theme="g">
 			<ul data-role="listview" data-split-icon="gear" data-split-theme="b">
-				<li id="currDate" data-role="list-divider">6/22/2013</li>
-        <li id="noAppt">No Appointments Today</li>
+				<li data-role="list-divider">
+  <div data-role="fieldcontain">
+  <fieldset data-role="controlgroup" data-mini="true" data-type="horizontal">
+    <legend><span id="currDate">6/23/2013</span></legend>
+    <input type="checkbox" name="checkbox-6" data-mini="true" id="checkbox-6" class="custom" />
+    <label for="checkbox-6">Add</label> 
+  </fieldset>
+</div>
+</li>
+<li id="noAppt">
+No appointments scheduled today
+</li>
 	      <li id="fakeAppt" style="display:none" data-theme="c"><a href="#">
 				<h3 class="ui-li-heading">Dr. Daily <span class="ui-li-count">2:00pm</span></h3>
 				<p class="ui-li-desc">Terminal Snuggling Disease</p>

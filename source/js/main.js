@@ -5,6 +5,7 @@ var AppRouter = Backbone.Router.extend({
     routes:{
         "":"start",
         "bugs/add" : "newBug",
+        "appts/add" : "newAppt",
         "list":"list",
         "bug/:id":"bugDetails",
         "medinfo": "medInfo",
@@ -18,6 +19,10 @@ var AppRouter = Backbone.Router.extend({
         });
         this.firstPage = true;
 
+    },
+    
+    newAppt: function(){
+      this.changePage(new NewApptView());
     },
     
     newBug: function(){
@@ -78,7 +83,7 @@ var AppRouter = Backbone.Router.extend({
 
 $(document).ready(function () {
     
-    tpl.loadTemplates(['bug-list', 'item', 'bug-details', 'add-bug', 'login', 'med-info', 'appointments'],
+    tpl.loadTemplates(['bug-list', 'app', 'item', 'bug-details', 'add-bug', 'login', 'med-info', 'appointments'],
         function () {
             app = new AppRouter();
             Backbone.history.start();

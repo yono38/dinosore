@@ -24,3 +24,11 @@ font-weight: normal;
   color: #fffee;
 
 }
+
+.ui-controlgroup .ui-checkbox label, .ui-controlgroup .ui-radio label {
+  font-size: 10px;
+}
+
+.ui-li-divider {
+  font-size: 4px;
+}
