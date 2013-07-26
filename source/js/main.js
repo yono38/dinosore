@@ -8,6 +8,7 @@ var AppRouter = Backbone.Router.extend({
         "appts/add" : "newAppt",
         "list":"list",
         "bug/:id":"bugDetails",
+        "bug/:id/modify": "bugModify",
         "medinfo": "medInfo",
         "appts": "appts"
     },
@@ -53,17 +54,33 @@ var AppRouter = Backbone.Router.extend({
     list:function () {
       this.changePage(new BugListView());
     },
-
-    bugDetails:function (id) {
-      console.log("view bug details");
+    
+    loadBug: function(id, callback){
+      console.log("loading bug "+id);
         var bug = new Bug({objectId:id});
         console.log(bug);
-        var self = this;
+    //    _.bind(callback, this);
         bug.fetch({
             success:function (data) {
-                self.changePage(new BugDetailView({model:data}));
+                callback(data);
             }
-        });
+        });    
+    },
+
+    bugDetails:function (id) {
+      var self = this;
+      this.loadBug(id, function(data){
+        console.log("view bug details");
+        self.changePage(new BugDetailView({model:data}));
+      });  
+    },
+    
+    bugModify:function (id) {
+      var self = this;
+      this.loadBug(id, function(data){
+        console.log("modify bug details");
+        self.changePage(new BugModifyView({model:data}));
+      });    
     },
 
     changePage:function (page) {
@@ -83,7 +100,7 @@ var AppRouter = Backbone.Router.extend({
 
 $(document).ready(function () {
     
-    tpl.loadTemplates(['bug-list', 'app', 'item', 'bug-details', 'add-bug', 'login', 'med-info', 'appointments'],
+    tpl.loadTemplates(['bug-list', 'app', 'item', 'bug-details', 'add-bug', 'login', 'med-info', 'appointments', 'bug-details-modificatio'],
         function () {
             app = new AppRouter();
             Backbone.history.start();
