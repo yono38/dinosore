@@ -39,7 +39,7 @@ var AppRouter = Backbone.Router.extend({
       this.changePage(apptView);
       $("#date").hide();
       $(".hasDatepicker").off().remove();
-      $( "input[type='date']").after( $( "<div />" ).datepicker({ altField: "#" + $(this).attr( "id" ), showOtherMonths: false, onSelect: apptView.selectDate, beforeShowDay: apptView.highlightAppt}))
+
       
     },
     
@@ -100,7 +100,7 @@ var AppRouter = Backbone.Router.extend({
 
 $(document).ready(function () {
     
-    tpl.loadTemplates(['bug-list', 'app', 'item', 'bug-details', 'add-bug', 'login', 'med-info', 'appointments', 'bug-details-modificatio'],
+    tpl.loadTemplates(['bug-list', 'app', 'item', 'bug-details', 'add-bug', 'login', 'med-info', 'appointments', 'bug-details-modificatio', 'appt'],
         function () {
             app = new AppRouter();
             Backbone.history.start();

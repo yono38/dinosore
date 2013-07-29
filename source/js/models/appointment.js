@@ -5,3 +5,7 @@ window.Appointment = Parse.Object.extend({
     title: "New Appointment"
    }
 });
+
+window.AppointmentList = Parse.Collection.extend({
+    model: Appointment
+});

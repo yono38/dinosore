@@ -2,12 +2,27 @@ window.AppointmentsView = Backbone.View.extend({
 
     initialize:function () {
         this.template = _.template(tpl.get('appointments'));
-        _.bindAll(this, 'highlightAppt');
+        this.collection = new AppointmentList();
+        this.collection.query = new Parse.Query(Appointment);
+        this.collection.query.equalTo("user", Parse.User.current());   
+        var that = this;
+        this.collection.fetch({
+          success: function(collection){
+            // This code block will be triggered only after receiving the data.
+            console.log(collection.toJSON()); 
+            for (var i=0; i<collection.length; i++){
+              var t = moment(collection.models[i].get("newDate")).add('days', 1);
+      //        console.log(t);              
+            }
+            $( "input[type='date']").after( $( "<div />" ).datepicker({ altField: "#" + $(this).attr( "id" ), showOtherMonths: false, onSelect: that.selectDate, beforeShowDay: that.highlightAppt}))
+          }});        
+        _.bindAll(this, 'highlightAppt', 'selectDate');
     },
 
     render:function (eventName) {
         $(this.el).html(this.template());  
         var that = this;
+
         this.$("#checkbox-6").on( "checkboxradiocreate", function( event, ui ) {
           $(this).bind("click", that.addAppt);
         });
@@ -26,19 +41,33 @@ window.AppointmentsView = Backbone.View.extend({
     },
 
     showAppts: function(){
-      setTimeout(function(){$("#fakeAppt").show();$("#noAppt").hide();
-}, 2);     
+      setTimeout(function(){
+        $("#fakeAppt").show();
+        $("#noAppt").hide();
+      }, 2);     
     },
     
     preventDefault: function(e){
       e.preventDefault();
       $("#fakeAppt").hide();
       $("#noAppt").show();
-      console.log($(this));
+   //   console.log($(this));
     },
     
     selectDate: function(dateText, inst){
-      console.log("selected date: "+dateText);
+      var appts = this.collection.toJSON();
+      var d = _(appts).where({"date": dateText});
+
+      if (d.length == 1){
+        var day = moment(d[0].newDate.iso);
+        console.log(day);
+        var apptData = {
+          "title" : d[0].title,
+          "doc" : d[0].doc,
+          "time" : day.format('LT')
+        };
+        $("#fakeAppt").html(_.template(tpl.get("appt"), apptData)); 
+      }
       $(".ui-controlgroup-label").html(dateText);
    //   console.log(inst);
    
@@ -51,11 +80,11 @@ window.AppointmentsView = Backbone.View.extend({
     // this is called every time a button clicked - inefficient (do better algorithm to scale)
     highlightAppt: function(date) {
    //   console.log(this);
-      var dates = this.testDates();
-      for (var i = 0; i < dates.length; i++) {
-            if (dates[i].getDate() == date.getDate() && dates[i].getMonth() == date.getMonth()) {
-          //    console.log('has appt ');    
-         //     console.log(date);
+    //  var dates = this.testDates();
+      var thisDate = moment(date);
+      for (var i = 0; i < this.collection.length; i++) {
+        var iterDate = moment(this.collection.models[i].get("newDate")).add('days', 1);
+            if (thisDate.isSame(iterDate, 'day')) {
               $("#noAppt").hide();
               return [true, 'has-appt'];
             }
