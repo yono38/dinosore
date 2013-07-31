@@ -17,6 +17,7 @@ window.BugModifyView = Backbone.View.extend({
         this.template = _.template(tpl.get('bug-details-modification'));
         _.bindAll(this, "deleteItem", "doneModifying", "addItem", "render");
         this.model.bind('change', this.render);
+        this.debounceSaveTextInput =  _.debounce(this.saveTextInput, 2000);
     },
     
     events: {
@@ -25,11 +26,11 @@ window.BugModifyView = Backbone.View.extend({
       "click #doneModify": "doneModifying",
       "click #changeAssignedTo" : "changeAssignedTo",
       "click #doneAssignment" : "doneAssigning",
-      "expand": "trackCollapsible"
+      "expand": "trackCollapsible",
+      "keyup .bugDetailTxtInput": "debounceSaveTextInput"
     },
     
     trackCollapsible: function(e){
-      console.log("expand");
       this.openCollapsible = e.target.id;
     },
     
@@ -42,6 +43,17 @@ window.BugModifyView = Backbone.View.extend({
       this.model.save(null, {
         success: function(){
           that.render();
+        }
+      });
+    },
+    
+    saveTextInput: function(e){    
+      this.model.save({
+        "bugStatus": $("#bug_status_input").val(),
+        "bugDetails": $("#bug_details_input").val()
+      }, {
+        success: function(){
+          console.log('text input saved');
         }
       });
     },
