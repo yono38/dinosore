@@ -38,7 +38,12 @@ window.BugModifyView = Backbone.View.extend({
       var item = ($(e.currentTarget).parent().children(".itemName"))[0];
       var type = $(e.currentTarget).attr("data-type")
       this.model.remove(type, $(item).text());
-      this.render();
+      var that = this;
+      this.model.save(null, {
+        success: function(){
+          that.render();
+        }
+      });
     },
     
     changeAssignedTo: function(e){
@@ -75,7 +80,16 @@ window.BugModifyView = Backbone.View.extend({
       var itemName = $(item).val();
       if (itemName != ""){
         var type = $(item).attr("data-type");
-        this.model.add(type, itemName);
+    //    this.model.add(type, itemName);
+        var typeItemArr = this.model.get(type);
+        var that = this;
+        this.model.save({
+          type: typeItemArr.push(itemName)
+        }, {
+          success: function(){
+            that.render();
+          }
+        });
       }
     },
     
