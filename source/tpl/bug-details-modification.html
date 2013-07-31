@@ -1,7 +1,7 @@
 <div data-role="header">
     <a href="#" data-icon="back" class="back ui-btn-left">Back</a>
     <h1><%= title %> <span class="ui-li-count"><%= bugPriority %></span></h1>
-		<a href="<%= window.location.hash.substr(0, window.location.hash.length - 7) %>" data-role="button" id="doneModify" data-theme="b" data-mini="true" data-inline="true">Done</a>			    
+		<a href="<%= window.location.hash.substr(0, window.location.hash.length - 7) %>" data-role="button" id="doneModify" data-theme="b" data-mini="true" data-inline="true">Save</a>			    
 </div>
 
 <div data-role="content">
@@ -11,7 +11,7 @@
 
 <div data-role="collapsible-set"  data-iconpos="right" data-theme="b">
 
-			<div data-role="collapsible">
+			<div id="symptoms-collapsible" data-role="collapsible">
 				<h3>Symptoms</h3>
         <p>
             <table style='width:100%'>
@@ -30,7 +30,7 @@
         <p>
           <ul>
             <% _.each( symptoms, function( Item ){ %>
-              <li> <span class="itemName"><span class="itemName"><%= Item %></span></span> <a href="#" data-role="button" data-inline="true" data-icon="delete" class="delete_detail_item" data=type="symptoms" data-iconpos="notext">X</a> </li>
+              <li> <span class="itemName"><span class="itemName"><%= Item %></span></span> <a href="#" data-role="button" data-inline="true" data-icon="delete" class="delete_detail_item" data-type="symptoms" data-iconpos="notext">X</a> </li>
             <% }); %>
           </ul>
         </p>
@@ -38,7 +38,7 @@
 			</div>
 
 
-			<div data-role="collapsible">
+			<div id="tests-collapsible" data-role="collapsible">
 				<h3>Relevant Test Results</h3>
         <p>
             <table style='width:100%'>
@@ -64,13 +64,13 @@
 			</div>
 
 
-			<div data-role="collapsible" >
+			<div id="assigned-collapsible" data-role="collapsible" >
 
 				<h3>Assigned to:</h3>
 					<p><span id="assignedTo"><%= assignedTo %></span> <a href="#" id="changeAssignedTo" iconpos="notext"  data-inline="true" data-mini="true" data-role="button" data-icon="back" >Change</a> </p>
 			</div>
 
-			<div data-role="collapsible" >
+			<div id="medications-collapsible" data-role="collapsible" >
 
 				<h3>Relevant Medications:</h3>
         <p>
