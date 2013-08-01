@@ -5,7 +5,15 @@ window.BugDetailView = Backbone.View.extend({
     },
 
     render:function (eventName) {
-        $(this.el).html(this.template(this.model.toJSON()));
+        var model = _.defaults(this.model.toJSON(), {
+          "symptoms": false,
+          "medications": false,
+          "tests": false,
+          "assignedTo": "Not Assigned"
+        });
+        console.log(model);    
+
+        $(this.el).html(this.template(model));
         return this;
     }
 
@@ -106,7 +114,14 @@ window.BugModifyView = Backbone.View.extend({
     },
     
     render: function() {
-        $(this.el).html(this.template(this.model.toJSON()));
+        var model = _.defaults(this.model.toJSON(), {
+          "symptoms": false,
+          "medications": false,
+          "tests": false,
+          "assignedTo": "Not Assigned"
+        });
+        console.log(model);
+        $(this.el).html(this.template(model));
         $(".ui-page").trigger("pagecreate");
         if (this.openCollapsible){
           $("#"+this.openCollapsible).trigger("expand");

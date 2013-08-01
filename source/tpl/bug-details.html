@@ -15,9 +15,14 @@
 				<h3>Symptoms</h3>
         <p>
           <ul>
-            <% _.each( symptoms, function( Item ){ %>
+            <% if (symptoms){
+            _.each( symptoms, function( Item ){ %>
               <li> <span class="itemName"><%= Item %></span> </li>
-            <% }); %>
+            <% });  } 
+            else { 
+              print("No Symptoms Recorded");
+            }
+            %>
           </ul>
         </p>
 
@@ -28,9 +33,13 @@
 				<h3>Relevant Test Results</h3>
         <p>
           <ul>
-            <% _.each( tests, function( testItem ){ %>
+            <% if (tests){ 
+            _.each( tests, function( testItem ){ %>
               <li> <span class="itemName"><%= testItem %></span> </li>
-            <% }); %>
+            <% }); } 
+            else {
+                print("No Test Results Recorded");
+             } %>
           </ul>
         </p>
 
@@ -52,9 +61,13 @@
 				<h3>Relevant Medications:</h3>
        <p>
           <ul>
-            <% _.each( medications, function( Item ){ %>
+            <% if (medications) {
+            _.each( medications, function( Item ){ %>
               <li> <span class="itemName"><%= Item %></span> </li>
-            <% }); %>
+            <% }); }
+            else {
+              print("No Medications Recorded");
+            } %>
           </ul>
         </p>
 
