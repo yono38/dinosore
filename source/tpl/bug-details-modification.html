@@ -10,6 +10,24 @@
 
   <p> <strong>Status:</strong> <input type="text" class="bugDetailTxtInput" id="bug_status_input" value="<%= bugStatus %>" /> </p>
   <p> <strong>Details:</strong> <input type="text" class="bugDetailTxtInput" id="bug_details_input" value="<%= bugDetails %>" /> </p>
+  <div data-role="fieldcontain">
+    <fieldset data-role="controlgroup">
+        <legend>Priority:</legend>
+        <label for="select-choice-month">Select Priority</label>
+        <select name="select-choice-month" id="select-choice-month">
+          <% _.each(_.range(1,6), function(num) {
+            var str;
+            if (num == bugPriority) {
+              str = "<option selected value='"+num+"'>"+num+"</option>";
+            } else { 
+              str = "<option value='"+num+"'>"+num+"</option>";
+            }
+            print(str); 
+         });   %>
+        </select>
+        
+    </fieldset>
+  </div>
 </div>
 
 <div data-role="collapsible-set"  data-iconpos="right" data-theme="b">

@@ -102,11 +102,20 @@ window.BugModifyView = Backbone.View.extend({
         var type = $(item).attr("data-type");
     //    this.model.add(type, itemName);
         var typeItemArr = this.model.get(type);
+        // defaults to false
+        console.log(typeItemArr);
+        if (!typeItemArr) {
+          typeItemArr = [];
+        }
         var that = this;
+        console.log(type);
+        console.log(typeItemArr);
         this.model.save({
           type: typeItemArr.push(itemName)
         }, {
           success: function(){
+            console.log(typeItemArr);
+            console.log(that.model);
             that.render();
           }
         });
@@ -115,9 +124,9 @@ window.BugModifyView = Backbone.View.extend({
     
     render: function() {
         var model = _.defaults(this.model.toJSON(), {
-          "symptoms": false,
-          "medications": false,
-          "tests": false,
+          "symptoms": [],
+          "medications": [],
+          "tests": [],
           "assignedTo": "Not Assigned"
         });
         console.log(model);
