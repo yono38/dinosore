@@ -108,7 +108,7 @@ window.NewApptView = Backbone.View.extend({
   addAppt: function(){
     var appt = new Appointment({
       user: Parse.User.current(),
-      date: this.$("#appt-date").val()
+      date: yyyymmdd_SlashConvert(this.$("#appt-date").val())
     });
     if (this.$("#title").val() != ""){
       appt.set("title", this.$("#title").val());
@@ -139,6 +139,11 @@ window.NewApptView = Backbone.View.extend({
    var dd  = d.getDate().toString();
    return yyyy +"-"+ (mm[1]?mm:"0"+mm[0]) +"-"+ (dd[1]?dd:"0"+dd[0]); // padding
   },
+  
+  yyyymmdd_SlashConvert: function(str){
+    var split = str.split('-');
+    return split[1]+'/'+split[2]+'/'+split[0];
+  }
   
   preventDefault: function(e){
     e.preventDefault();
