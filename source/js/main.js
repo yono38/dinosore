@@ -100,7 +100,7 @@ var AppRouter = Backbone.Router.extend({
 
 $(document).ready(function () {
     
-    tpl.loadTemplates(['bug-list', 'app', 'item', 'bug-details', 'add-bug', 'login', 'med-info', 'appointments', 'bug-details-modification', 'appt'],
+    tpl.loadTemplates(['bug-list', 'app', 'item', 'bug-details', 'add-bug', 'login', 'med-info', 'appointments', 'bug-details-mod', 'appt'],
         function () {
             app = new AppRouter();
             Backbone.history.start();

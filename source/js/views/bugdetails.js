@@ -22,7 +22,7 @@ window.BugDetailView = Backbone.View.extend({
 window.BugModifyView = Backbone.View.extend({
 
     initialize:function(){
-        this.template = _.template(tpl.get('bug-details-modification'));
+        this.template = _.template(tpl.get('bug-details-mod'));
         _.bindAll(this, "deleteItem", "doneModifying", "addItem", "render");
         this.model.bind('change', this.render);
         this.debounceSaveTextInput =  _.debounce(this.saveTextInput, 2000);
@@ -35,7 +35,18 @@ window.BugModifyView = Backbone.View.extend({
       "click #changeAssignedTo" : "changeAssignedTo",
       "click #doneAssignment" : "doneAssigning",
       "expand": "trackCollapsible",
-      "keyup .bugDetailTxtInput": "debounceSaveTextInput"
+      "keyup .bugDetailTxtInput": "debounceSaveTextInput",
+      "change #select-choice-month": "savePriority"
+    },
+    
+    savePriority: function(e){
+      this.model.save({
+        "bugPriority": parseInt($("#select-choice-month").val())
+      }, {
+        success: function(){
+          console.log('priority input saved');
+        }
+      });
     },
     
     trackCollapsible: function(e){
@@ -57,6 +68,7 @@ window.BugModifyView = Backbone.View.extend({
     
     saveTextInput: function(e){    
       this.model.save({
+        "title": $("#bugTitleTxtInput").val(),
         "bugStatus": $("#bug_status_input").val(),
         "bugDetails": $("#bug_details_input").val()
       }, {
