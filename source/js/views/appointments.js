@@ -57,24 +57,22 @@ window.AppointmentsView = Backbone.View.extend({
     selectDate: function(dateText, inst){
       var appts = this.collection.toJSON();
       var d = _(appts).where({"date": dateText});
-
       if (d.length == 1){
         var day = moment(d[0].newDate.iso);
         console.log(day);
         var apptData = {
           "title" : d[0].title,
           "doc" : d[0].doc,
-          "time" : day.format('LT')
+          "time" : day.format('LT'),
+          "apptId" : d[0].objectId
         };
         $("#fakeAppt").html(_.template(tpl.get("appt"), apptData)); 
+        this.$(".removeAppt").button();
+        this.$(".editAppt").button();
       }
       $(".ui-controlgroup-label").html(dateText);
    //   console.log(inst);
    
-    },
-    
-    testDates: function(){
-      return [ new Date(2013, 5, 18), new Date(2013, 5, 5), new Date(2013, 6, 1), new Date(2013, 5, 29)];
     },
     
     // this is called every time a button clicked - inefficient (do better algorithm to scale)
@@ -105,10 +103,12 @@ window.NewApptView = Backbone.View.extend({
   events: {
     "click #addBtn" : "addAppt"
   },
-  addAppt: function(){
+  addAppt: function(e){
+    e.preventDefault();
+    
     var appt = new Appointment({
       user: Parse.User.current(),
-      date: yyyymmdd_SlashConvert(this.$("#appt-date").val())
+      date: this.yyyymmdd_SlashConvert(this.$("#appt-date").val())
     });
     if (this.$("#title").val() != ""){
       appt.set("title", this.$("#title").val());
@@ -119,6 +119,12 @@ window.NewApptView = Backbone.View.extend({
     if (this.$("#select-doc").val() != "none"){
       appt.set("doc", this.$("#select-doc").val());    
     }
+    appt.set("newDate", 
+      moment(
+        $("#appt-date").val()+" "+$("#appt-time").val()
+      ).toDate()
+    );
+    
     appt.save(null, {
       success: function(appt){
         console.log("New appt saved: "+appt.id);
@@ -143,20 +149,58 @@ window.NewApptView = Backbone.View.extend({
   yyyymmdd_SlashConvert: function(str){
     var split = str.split('-');
     return split[1]+'/'+split[2]+'/'+split[0];
-  }
+  },
   
   preventDefault: function(e){
     e.preventDefault();
   },
+  
   render: function(){
-   var todayDate = new Date();
-   var data = { 
-    "today" : this.yyyymmdd()
+    var todayDate = new Date();
+    var data = { 
+     "today" : this.yyyymmdd()
     };
     $(this.el).html(this.template(data));
-  //  this.$("#appt-date").bind("create")
-    //$( "#appt-date" ).datepicker( "setDate", "10/12/2012" );
+    this.renderMenu("bug");
+    this.renderMenu("doctor");    
     return this;  
+  },
+  
+  // for bugs or doctors
+  renderMenu: function(type){
+    if (!(type == "doctor" || type == "bug")) {
+      console.log("invalid type: "+type);
+      return;
+    }
+    var item, query, selector;
+    if (type == "bug") {
+      item = new BugList();
+      query = Bug;
+      selector = "#select-bug";
+    } else {
+      item = new DoctorList();
+      query = Doctor;
+      selector = "#select-doc";
+    }
+    item.query = new Parse.Query(query);
+    if (type == "bug") {
+      item.query.equalTo("user", Parse.User.current());
+    }
+    var that = this;
+    item.fetch({
+      success: function(coll){
+        console.log(coll);
+        that.$(selector).html("<option value='none'>None</option>");        
+        _.each(coll['_byId'], function(v,k){
+          that.$(selector).append("<option value='"+k+"'>"+v.get("title")+"</option>");
+        });
+       // TODO add new item from menu
+       // that.$(selector).append("<option id='newBug'>New Bug</option>");
+      },  
+      error: function(coll, err){
+        console.log(err);
+      }
+    });
   }
   
 });
