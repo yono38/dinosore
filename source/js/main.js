@@ -5,12 +5,13 @@ var AppRouter = Backbone.Router.extend({
     routes:{
         "":"start",
         "bugs/add" : "newBug",
-        "appts/add" : "newAppt",
-        "list":"list",
         "bug/:id":"bugDetails",
         "bug/:id/modify": "bugModify",
-        "medinfo": "medInfo",
-        "appts": "appts"
+        "appts": "appts",        
+        "appts/:id/modify": "apptModify",
+        "appts/add" : "newAppt",
+        "list":"list",        
+        "medinfo": "medInfo"
     },
     
     initialize:function () {
@@ -39,8 +40,22 @@ var AppRouter = Backbone.Router.extend({
       this.changePage(apptView);
       $("#date").hide();
       $(".hasDatepicker").off().remove();
-
-      
+    },
+    
+    apptModify: function(id){
+      var self = this;
+      var appt = new Appointment({objectId:id});
+      appt.fetch({
+        success: function(data){
+          console.log("modify appt");
+          self.changePage(new AppointmentModifyView({model:data}));
+	  $("#date").hide();
+	  $(".hasDatepicker").off().remove();
+        },
+        error: function(data, err){
+          console.log(err);
+        }
+      });
     },
     
     start:function() {
@@ -100,7 +115,7 @@ var AppRouter = Backbone.Router.extend({
 
 $(document).ready(function () {
     
-    tpl.loadTemplates(['bug-list', 'app', 'item', 'bug-details', 'add-bug', 'login', 'med-info', 'appointments', 'bug-details-mod', 'appt'],
+    tpl.loadTemplates(['bug-list', 'app', 'item', 'bug-details', 'add-bug', 'login', 'med-info', 'appointments', 'bug-details-mod', 'mod-app', 'appt'],
         function () {
             app = new AppRouter();
             Backbone.history.start();

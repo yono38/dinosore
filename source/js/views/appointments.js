@@ -31,7 +31,47 @@ window.AppointmentsView = Backbone.View.extend({
     
     events: {
       "click" : "preventDefault",
-      "click .has-appt" : "showAppts"
+      "click .has-appt" : "showAppts",
+      "click .removeAppt" : "removeAppt",
+      "click .editAppt" : "modifyAppt"      
+    },
+
+    modifyAppt: function(){
+      var apptId = this.$(".editAppt").attr("data-apptId");
+      console.log("Time to modify appt id: "+apptId);
+      var query = new Parse.Query(Appointment);
+      query.get(apptId, {
+        success: function(appt){
+          app.navigate("appts/"+apptId+"/modify", {trigger: true});
+        },
+        error: function(appt, err){
+          console.log("appointment retrieval failed");
+          console.log(err);
+        }
+      });
+    },
+    
+    removeAppt: function(){
+      var apptId = this.$(".removeAppt").attr("data-apptId");
+      console.log("Time to remove appt id: "+apptId);
+      var query = new Parse.Query(Appointment);
+      query.get(apptId, {
+        success: function(appt){
+          appt.destroy({
+            success: function(appt){
+              console.log("appointment successfully removed");
+            },
+            error: function(appt, err){
+              console.log("appointment removal failed");
+              console.log(err);
+            }
+          })
+        },
+        error: function(appt, err){
+          console.log("appointment retrieval failed");
+          console.log(err);
+        }
+      });
     },
     
     addAppt: function(){
@@ -60,19 +100,25 @@ window.AppointmentsView = Backbone.View.extend({
       if (d.length == 1){
         var day = moment(d[0].newDate.iso);
         console.log(day);
-        var apptData = {
-          "title" : d[0].title,
-          "doc" : d[0].doc,
-          "time" : day.format('LT'),
-          "apptId" : d[0].objectId
-        };
-        $("#fakeAppt").html(_.template(tpl.get("appt"), apptData)); 
-        this.$(".removeAppt").button();
-        this.$(".editAppt").button();
+        var doc = new Parse.Query(Doctor);
+        doc.get(d[0].doc, {
+          success: function(doctor) {
+            var apptData = {
+              "title" : d[0].title,
+              "doc" : doctor.get("title"),
+              "time" : day.format('LT'),
+              "apptId" : d[0].objectId
+            };
+            $("#fakeAppt").html(_.template(tpl.get("appt"), apptData)); 
+            this.$(".removeAppt").button();
+            this.$(".editAppt").button();
+          },
+          error: function(obj, err){
+            console.log("failed to retrieve doctor");
+          }
+        });
       }
       $(".ui-controlgroup-label").html(dateText);
-   //   console.log(inst);
-   
     },
     
     // this is called every time a button clicked - inefficient (do better algorithm to scale)
@@ -81,7 +127,7 @@ window.AppointmentsView = Backbone.View.extend({
     //  var dates = this.testDates();
       var thisDate = moment(date);
       for (var i = 0; i < this.collection.length; i++) {
-        var iterDate = moment(this.collection.models[i].get("newDate")).add('days', 1);
+        var iterDate = moment(this.collection.models[i].get("newDate"));
             if (thisDate.isSame(iterDate, 'day')) {
               $("#noAppt").hide();
               return [true, 'has-appt'];
@@ -91,9 +137,6 @@ window.AppointmentsView = Backbone.View.extend({
   }
 
 });
-
-
-
 window.NewApptView = Backbone.View.extend({
   initialize: function(){
     this.template = _.template(tpl.get('app'));  
@@ -128,7 +171,7 @@ window.NewApptView = Backbone.View.extend({
     appt.save(null, {
       success: function(appt){
         console.log("New appt saved: "+appt.id);
-        app.navigate("list", {trigger: true});
+        app.navigate("appts", {trigger: true});
       },
       error: function(appt, error){
         console.log("Failed to save appt, error: "+error.description);

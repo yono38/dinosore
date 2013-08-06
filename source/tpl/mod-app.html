@@ -1,19 +1,20 @@
 <div data-role="header" >
-	<h1>New Appointment</h1>
+	<h1>Modify Appointment</h1>
 </div>
 
 <div data-role="content">				
 
   <div data-role="fieldcontain">
-  
+    <input type="hidden" id="apptId" val="<%= apptId %>" />
+    
     <label for="title">Name:</label>
-    <input type="text" name="title" id="title" />   
+    <input type="text" name="title" id="title" value="<%= title %>" />   
   
     <label for="appt-date">Date:</label>    
-    <input type="date" name="appt-date" id="appt-date" value="<%= today %>" />
+    <input type="date" name="appt-date" id="appt-date" value="<%= apptDate %>" />
 
     <label for="appt-time">Time:</label>    
-    <input type="time" name="appt-time" id="appt-time" value="12:00:00" />
+    <input type="time" name="appt-time" id="appt-time" value="<%= apptTime %>" />
     
     <label for="select-bug" class="select">Choose bug:</label>
     <select name="select-bug" id="select-bug">
@@ -28,7 +29,7 @@
 
 </div>
 
-	<a href="#" id="addBtn" data-role="button" data-icon="plus" data-theme="e">Add</a> 
+	<a href="#" id="modBtn" data-role="button" data-icon="plus" data-theme="e">Modify</a> 
 	 <a href="#" id="cancelBtn" class="back" data-role="button" data-icon="delete" data-theme="b">Cancel</a> 
 
 
