@@ -33,7 +33,7 @@ window.AppointmentsView = Backbone.View.extend({
       "click" : "preventDefault",
       "click .has-appt" : "showAppts",
       "click .removeAppt" : "removeAppt",
-      "click .editAppt" : "modifyAppt"      
+      "click .editAppt" : "modifyAppt"
     },
 
     modifyAppt: function(){
@@ -91,7 +91,6 @@ window.AppointmentsView = Backbone.View.extend({
       e.preventDefault();
       $("#fakeAppt").hide();
       $("#noAppt").show();
-   //   console.log($(this));
     },
     
     selectDate: function(dateText, inst){

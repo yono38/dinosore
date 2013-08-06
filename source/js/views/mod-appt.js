@@ -3,12 +3,7 @@ window.AppointmentModifyView = Backbone.View.extend({
     this.template = _.template(tpl.get('mod-app'));  
   },
   events: {
-    "click #addBtn" : "addAppt",
     "click #modBtn" : "modAppt"
-  },
-  addAppt: function(e){
-    e.preventDefault();
-    console.log("edit save would go here");
   },
   
   modAppt: function(e) {
