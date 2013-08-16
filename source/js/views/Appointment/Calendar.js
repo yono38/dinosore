@@ -1,7 +1,7 @@
 window.AppointmentsView = Backbone.View.extend({
 
     initialize:function () {
-        this.template = _.template(tpl.get('appointments'));
+        this.template = _.template(tpl.get('appointment-calendar'));
         this.collection = new AppointmentList();
         this.collection.query = new Parse.Query(Appointment);
         this.collection.query.equalTo("user", Parse.User.current());   
