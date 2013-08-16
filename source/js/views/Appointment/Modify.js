@@ -1,6 +1,6 @@
 window.AppointmentModifyView = Backbone.View.extend({
   initialize: function(){
-    this.template = _.template(tpl.get('mod-app'));  
+    this.template = _.template(tpl.get('appointment-modify'));  
   },
   events: {
     "click #modBtn" : "modAppt"

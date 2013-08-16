@@ -25,7 +25,11 @@ var AppRouter = Backbone.Router.extend({
     },
     
     bugDialog: function(id){
-      this.changePage(new BugModifyDialogView({bugId: id}));
+      var self = this;
+      this.loadBug(id, function(data){
+        console.log("view bug details");
+        self.changePage(new BugModifyDialogView({model:data}));
+      });      	
     },
     
     newAppt: function(){
@@ -120,7 +124,8 @@ var AppRouter = Backbone.Router.extend({
 
 $(document).ready(function () {
     
-    tpl.loadTemplates(['bug-list', 'app', 'delete-bug-dialog', 'item', 'bug-details', 'add-bug', 'login', 'med-info', 'appointments', 'bug-details-mod', 'mod-app', 'appt'],
+    tpl.loadTemplates(['bug-list', 'appointment-calendar', 'bug-delete-dialog', 'bug-list-item', 'bug-details', 'bug-new', 'login', 
+    'medical-info', 'appointment-new', 'bug-details-modify', 'appointment-modify', 'appointment-item'],
         function () {
             app = new AppRouter();
             Backbone.history.start();
