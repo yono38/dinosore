@@ -3,21 +3,22 @@ window.NewBugView = Backbone.View.extend({
     this.template = _.template(tpl.get('bug-new'));  
     this.first = true;   
     this.priority = 1;
+    _(this).bindAll("addBug", "changePriority");
   },
   events: {
     "click #addBtn" : "addBug",
-    "create": "changePriority"
+    "click .ui-radio": "changePriority"
   },
   changePriority: function(){
     var that = this;
-    $(this).click(function(){ 
-      that.priority = $(this).val();
-      console.log(that.priority);
-    });
+    setTimeout(function(){
+		that.priority = $(".ui-radio-on").prev().val() || 1;
+    }, 200);
   },
-  addBug: function(){
+  addBug: function(e){
+  	e.preventDefault();
     var bug = new Bug({
-      bugPriority: this.priority,
+      bugPriority: parseInt(this.priority),
       user: Parse.User.current()
     });
     if (this.$("#bugtitle").val() != ""){
