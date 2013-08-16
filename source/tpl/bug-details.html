@@ -18,7 +18,9 @@
 				<h3>Symptoms</h3>
         <p>
           <ul>
-            <% if (symptoms){
+            <%
+						if
+						(symptoms != []){
             _.each( symptoms, function( Item ){ %>
               <li> <span class="itemName"><%= Item %></span> </li>
             <% });  } 
@@ -36,7 +38,9 @@
 				<h3>Relevant Test Results</h3>
         <p>
           <ul>
-            <% if (tests){ 
+            <%
+						if
+						(tests){ 
             _.each( tests, function( testItem ){ %>
               <li> <span class="itemName"><%= testItem %></span> </li>
             <% }); } 
@@ -53,10 +57,6 @@
 
 				<h3>Assigned to:</h3>
 					<p>Doctor: <span id="assignedTo"><%= assignedTo %></span></p>
-					<p>Address: N/a </p>
-					<p>Phone: N/a </p>
-					<p>Fax: N/a</p>
-
 			</div>
 
 			<div data-role="collapsible" >

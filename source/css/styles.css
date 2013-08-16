@@ -1,34 +1,7 @@
-.employee-pic {
-	float: left;
-	padding-right: 10px;
-	padding-bottom: 16px;
-}
-
-.employee-details p {
-	margin-top: 0px;
-	margin-bottom: 8px;
-}
-
-.action-list {
-	clear: both;
-}
-
-.has-appt {
-border: 1px solid #45930b;
-background: #4ca20b url(../img/ui-green-bg.png) 50% 50% repeat-x;
-font-weight: normal;
-}
-
-.has-appt .ui-btn {
-  background: none;
-  color: #fffee;
-
-}
-
-.ui-controlgroup .ui-checkbox label, .ui-controlgroup .ui-radio label {
-  font-size: 10px;
-}
-
-.ui-li-divider {
-  font-size: 4px;
+#savePopup p {
+background: darkgray;
+padding: 10px;
+border-radius: 15px;
+text-align: center;
+font-weight: bold;
 }

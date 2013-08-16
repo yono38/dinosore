@@ -1,13 +1,12 @@
 <div data-role="header">
     <a href="#" data-icon="back" class="back ui-btn-left">Back</a>
     <h1><input type="text" id="bugTitleTxtInput" class="bugDetailTxtInput" value="<%= title %>" /></h1>
-		<a href="<%= window.location.hash.substr(0, window.location.hash.length - 7) %>" data-role="button" id="doneModify" data-theme="b" data-mini="true" data-inline="true">Done</a>			    
-</div>
-<div data-role="popup" id="popupSaved">
-	<p>Bug Saved<p>
+		<a href="#bug/<% objectId %>" data-role="button" id="doneModify" data-theme="b" data-mini="true" data-inline="true">Done</a>			    
 </div>
 <div data-role="content">
-
+  <div id="savePopup">
+	<p>Bug Saved</p>
+  </div>
   <p> <strong>Status:</strong> <input type="text" class="bugDetailTxtInput" id="bug_status_input" value="<%= bugStatus %>" /> </p>
   <p> <strong>Details:</strong> <input type="text" class="bugDetailTxtInput" id="bug_details_input" value="<%= bugDetails %>" /> </p>
   <div data-role="fieldcontain">
@@ -117,3 +116,4 @@
         </p>
 			</div>
 </div>
+<a href="#" id="deleteBug" data-id="<% objectId %>" data-theme="e" data-role="button">Delete</a>
