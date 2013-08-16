@@ -9,6 +9,11 @@ window.BugListView = Backbone.View.extend({
            
     },
     
+    sortList: function(bug){
+    	console.log(bug);
+    	return -bug.get("bugPriority");
+    },
+    
     events: {
       'click #logout' : 'logout',
       'click #medInfo' : 'medInfo',
@@ -45,8 +50,10 @@ window.BugListView = Backbone.View.extend({
         this.collection.query.equalTo("user", Parse.User.current());   
         this.collection.fetch({
           success: function(collection){
+          	collection.comparator = that.sortList;
+          	
+          	collection.sort();
             // This code block will be triggered only after receiving the data.
-            console.log(collection.toJSON()); 
             for (var i=0; i<collection.length; i++){
               that.addOne(collection.models[i]);
             }
