@@ -5,6 +5,10 @@ window.Bug = Parse.Object.extend({
     bugStatus: "Open",
     bugPriority: 1,
     title: "New Bug",
+		symptoms: [],
+		doctor: "",
+		medications: [],
+		tests: []
    }
 });
 
