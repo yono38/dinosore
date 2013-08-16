@@ -2,7 +2,7 @@
 window.BugModifyView = Backbone.View.extend({
 
     initialize:function(){
-        this.template = _.template(tpl.get('bug-details-mod'));
+        this.template = _.template(tpl.get('bug-details-modify'));
         _.bindAll(this, "deleteItem", "doneModifying", "addItem", "render");
         this.model.bind('change', this.render);
         this.debounceSaveTextInput =  _.debounce(this.saveTextInput, 2000);
@@ -132,7 +132,7 @@ window.BugModifyView = Backbone.View.extend({
         });
         console.log(model);
         $(this.el).html(this.template(model));
-        this.dialog = this.dialog || new BugModifyDialogView({bugId: model.objectId});
+        this.dialog = this.dialog || new BugModifyDialogView({model: this.model});
         this.dialog.render();
         this.$("#deleteDialog").html(this.dialog.el);
         this.$("#savePopup").hide();
@@ -145,45 +145,3 @@ window.BugModifyView = Backbone.View.extend({
 
 });
 
-window.BugModifyDialogView = Backbone.View.extend({
-  id: "deleteDialog",
-  initialize: function(options){
-    this.bugId = options.bugId;
-    this.template = _.template(tpl.get('delete-bug-dialog'));
-  },
-  events: {
-    "click #confirmDelete" : "deleteBug"
-  },
-  
-  deleteBug: function(e){
-    e.preventDefault();
-    var Bug = Parse.Object.extend("Bug");
-    var query = new Parse.Query(Bug);
-    query.get(this.bugId, {
-      success: function(bug) {
-        // The object was retrieved successfully.
-        bug.destroy({
-          success: function(){
-            console.log("bug deleted successfully");
-            app.navigate("list", {trigger: true});
-          },
-          error: function(){
-            console.log("failed to delete");
-          }
-        });
-      },
-      error: function(object, error) {
-        // The object was not retrieved successfully.
-        // error is a Parse.Error with an error code and description.
-        console.log("Failed to delete");
-      }
-    });
-  },
-  
-  render: function(){
-    $(this.el).html(this.template(this.bugId));
-    $(this.el).dialog({closeBtn: "none"});
-  //  $( "#deleteDialog" ).dialog( "option", "closeBtn", "none" );
-    
-  }
-});

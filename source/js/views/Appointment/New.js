@@ -1,7 +1,7 @@
 
 window.NewApptView = Backbone.View.extend({
   initialize: function(){
-    this.template = _.template(tpl.get('app'));  
+    this.template = _.template(tpl.get('appointment-new'));  
     this.first = true;   
     this.priority = 1;
   },
