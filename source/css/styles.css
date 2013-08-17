@@ -5,3 +5,12 @@ border-radius: 15px;
 text-align: center;
 font-weight: bold;
 }
+.ui-datebox-container {
+  width: 346px;
+}
+#add-appt-header, #add-appt-header div {
+  margin-top: 0;
+  margin-bottom: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+}

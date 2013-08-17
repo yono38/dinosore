@@ -13,7 +13,7 @@ window.NewApptView = Backbone.View.extend({
     
     var appt = new Appointment({
       user: Parse.User.current(),
-      date: this.yyyymmdd_SlashConvert(this.$("#appt-date").val())
+      date: this.$("#appt-date").val()
     });
     if (this.$("#title").val() != ""){
       appt.set("title", this.$("#title").val());

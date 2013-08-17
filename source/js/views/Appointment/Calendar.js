@@ -6,23 +6,60 @@ window.AppointmentsView = Backbone.View.extend({
         this.collection.query = new Parse.Query(Appointment);
         this.collection.query.equalTo("user", Parse.User.current());   
         var that = this;
+        this.highDates = [];
         this.collection.fetch({
           success: function(collection){
             // This code block will be triggered only after receiving the data.
             console.log(collection.toJSON()); 
             for (var i=0; i<collection.length; i++){
-              var t = moment(collection.models[i].get("newDate")).add('days', 1);
-      //        console.log(t);              
+              var t = moment(collection.models[i].get("newDate")).format('YYYY-MM-DD');
+              that.highDates.push(t);
             }
-            $( "input[type='date']").after( $( "<div />" ).datepicker({ altField: "#" + $(this).attr( "id" ), showOtherMonths: false, onSelect: that.selectDate, beforeShowDay: that.highlightAppt}))
-          }});        
-        _.bindAll(this, 'highlightAppt', 'selectDate');
+          }
+        });        
+        _.bindAll(this, 'changeDate');
     },
+    
+    changeDate: function(e, passed){
+        if ( passed.method === 'set' ) {
+              var appts = this.collection.toJSON();
+              var d = _(appts).where({"date": passed.value});
+              if (d.length == 1){
+                var day = moment(d[0].newDate.iso);
+                var doc = new Parse.Query(Doctor);
+                doc.get(d[0].doc, {
+                  success: function(doctor) {
+                    var apptData = {
+                      "title" : d[0].title,
+                      "doc" : doctor.get("title"),
+                      "time" : day.format('LT'),
+                      "apptId" : d[0].objectId
+                    };
+                    $("#fakeAppt").html(_.template(tpl.get("appointment-item"), apptData)); 
+                    $("#fakeAppt").show();
+                    $("#noAppt").hide();
+                    
+                    this.$(".removeAppt").button();
+                    this.$(".editAppt").button();
+                  },
+                  error: function(obj, err){
+                    console.log("failed to retrieve doctor");
+                  }
+                });
+              }
+          $("#currDate").html(passed.value);
+              
+        }  else {
+          e.stopPropagation();
+        }
+           },
 
     render:function (eventName) {
-        $(this.el).html(this.template());  
+        $(this.el).html(this.template({today: moment().format("YYYY-MM-DD")}));        
         var that = this;
-
+        setTimeout( function(){
+            $("#mydate").datebox({"mode": "calbox", "highDates": that.highDates,  "useInline": true, "useImmediate":true, hideInput:true, calHighToday: false}); 
+        }, 200);
         this.$("#checkbox-6").on( "checkboxradiocreate", function( event, ui ) {
           $(this).bind("click", that.addAppt);
         });
@@ -30,10 +67,16 @@ window.AppointmentsView = Backbone.View.extend({
     },
     
     events: {
+      "click .footerBtn": "navBtn",    	
       "click" : "preventDefault",
       "click .has-appt" : "showAppts",
       "click .removeAppt" : "removeAppt",
-      "click .editAppt" : "modifyAppt"
+      "click .editAppt" : "modifyAppt",
+      "datebox" : "changeDate"
+    },
+    
+    navBtn: function(){
+    	this.noPrevent = true;
     },
 
     modifyAppt: function(){
@@ -88,54 +131,15 @@ window.AppointmentsView = Backbone.View.extend({
     },
     
     preventDefault: function(e){
-      e.preventDefault();
+      if (!this.noPrevent){
+    	  e.preventDefault();
+      }
       $("#fakeAppt").hide();
       $("#noAppt").show();
-    },
-    
-    selectDate: function(dateText, inst){
-      var appts = this.collection.toJSON();
-      var d = _(appts).where({"date": dateText});
-      if (d.length == 1){
-        var day = moment(d[0].newDate.iso);
-        console.log(day);
-        var doc = new Parse.Query(Doctor);
-        doc.get(d[0].doc, {
-          success: function(doctor) {
-            var apptData = {
-              "title" : d[0].title,
-              "doc" : doctor.get("title"),
-              "time" : day.format('LT'),
-              "apptId" : d[0].objectId
-            };
-            $("#fakeAppt").html(_.template(tpl.get("appt"), apptData)); 
-            this.$(".removeAppt").button();
-            this.$(".editAppt").button();
-          },
-          error: function(obj, err){
-            console.log("failed to retrieve doctor");
-          }
-        });
-      }
-      $(".ui-controlgroup-label").html(dateText);
-    },
-    
-    // this is called every time a button clicked - inefficient (do better algorithm to scale)
-    highlightAppt: function(date) {
-   //   console.log(this);
-    //  var dates = this.testDates();
-      var thisDate = moment(date);
-      for (var i = 0; i < this.collection.length; i++) {
-        var iterDate = moment(this.collection.models[i].get("newDate"));
-            if (thisDate.isSame(iterDate, 'day')) {
-              $("#noAppt").hide();
-              return [true, 'has-appt'];
-            }
-      }
-      return [true, ''];
-  }
+    }
 
 });
+
 window.NewApptView = Backbone.View.extend({
   initialize: function(){
     this.template = _.template(tpl.get('app'));  
@@ -143,14 +147,21 @@ window.NewApptView = Backbone.View.extend({
     this.priority = 1;
   },
   events: {
-    "click #addBtn" : "addAppt"
+    "click #addBtn" : "addAppt",
+    "click" : "navBtn"
   },
+  
+  navBtn: function(e){
+  	
+  	console.log(e);
+  },
+  
   addAppt: function(e){
     e.preventDefault();
     
     var appt = new Appointment({
       user: Parse.User.current(),
-      date: this.yyyymmdd_SlashConvert(this.$("#appt-date").val())
+      date: this.$("#appt-date").val()
     });
     if (this.$("#title").val() != ""){
       appt.set("title", this.$("#title").val());

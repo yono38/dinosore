@@ -1,32 +1,27 @@
 <div data-role="header">
     <a href="#" data-icon="back" class="back ui-btn-left">Back</a>
     <h1>Appointments</h1>
-    <a href="#" data-icon="grid" data-role="button" data-theme="e" data-mini="true" data-inline="true">List View</a>
+    <a href="#" data-icon="grid" class='ui-disabled' data-role="button" data-theme="e" data-mini="true" data-inline="true">List View</a>
 </div>
 
 <div data-role="content">
-<link rel="stylesheet" href="css/jquery.ui.datepicker.mobile.css" /> 
-<script src="js/jQuery.ui.datepicker.js"></script>
-<script src="js/jquery.ui.datepicker.mobile.js"></script>
 
-<input type="date" name="date" id="date" value=""  />
-<hr>
+
+<input name="mydate" id="mydate" data-datebox="" />
+   <hr>
 </div>
-<ul data-role="listview" data-theme="g">
-			<ul data-role="listview" data-split-icon="gear" data-split-theme="b">
-				<li data-role="list-divider">
+<ul data-role="listview" data-split-icon="gear" data-split-theme="b">
+<li id="add-appt-header" data-role="list-divider">
   <div data-role="fieldcontain">
-  <fieldset data-role="controlgroup" data-mini="true" data-type="horizontal">
-    <legend><span id="currDate">6/23/2013</span></legend>
-    <input type="checkbox" name="checkbox-6" data-mini="true" id="checkbox-6" class="custom" />
-    <label for="checkbox-6">Add</label> 
+   [ <span id="currDate"><%= today %></span> ] 
+    <a href="#" data-role="button" data-inline="true" data-icon="plus">Add</a>
   </fieldset>
 </div>
 </li>
 <li id="noAppt">
 No appointments scheduled today
 </li>
-	      <li id="fakeAppt" style="display:none" data-theme="c"></li>
+<li id="fakeAppt" style="display:none" data-theme="c"></li>
 </ul>
 <div data-role="footer" class="ui-bar" data-position="fixed">
 	<a href="#symptoms" class="footerBtn" data-role="button"  data-icon="check">Symptoms</a>

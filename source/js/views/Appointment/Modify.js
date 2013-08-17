@@ -23,7 +23,7 @@ window.AppointmentModifyView = Backbone.View.extend({
       ).toDate()
     );
     this.model.set("date", 
-      moment($("#appt-date").val()).format("MM/DD/YYYY")
+      moment($("#appt-date").val()).format("YYYY-MM-DD")
     );
     this.model.set("doc", $("#select-doc").val());
     this.model.set("bug", $("#select-bug").val());
