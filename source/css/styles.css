@@ -14,3 +14,7 @@ font-weight: bold;
   padding-top: 0;
   padding-bottom: 0;
 }
+.ui-datebox-container {
+	margin: auto;
+	width: 285px;
+}
