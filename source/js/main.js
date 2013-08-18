@@ -12,7 +12,7 @@ var AppRouter = Backbone.Router.extend({
         "appts/:id/modify": "apptModify",
         "appts/add" : "newAppt",
         "list":"list",        
-        "medinfo": "medInfo"
+        "medinfo": "medInfo" 
     },
     
     initialize:function () {

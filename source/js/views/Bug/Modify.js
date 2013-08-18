@@ -96,26 +96,20 @@ window.BugModifyView = Backbone.View.extend({
     },
     
     addItem: function(e){
-      var item = $(e.currentTarget).parent().siblings("td").children()[0];
-      var itemName = $(item).val();
-      if (itemName != ""){
-        var type = $(item).attr("data-type");
-    //    this.model.add(type, itemName);
-        var typeItemArr = this.model.get(type);
+      var itemType = $(e.currentTarget).data('type');
+      var itemVal = $("input[data-type='"+itemType+"']").val();
+      if (itemVal && itemVal != ""){
+        var typeItemArr = this.model.get(itemType);
         // defaults to false
-        console.log(typeItemArr);
         if (!typeItemArr) {
           typeItemArr = [];
         }
         var that = this;
-        console.log(type);
-        console.log(typeItemArr);
         this.model.save({
-          type: typeItemArr.push(itemName)
+          type: typeItemArr.push(itemVal)
         }, {
           success: function(){
             console.log(typeItemArr);
-            console.log(that.model);
             that.render();
           }
         });
