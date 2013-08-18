@@ -1,79 +1,88 @@
 <div data-role="header">
-    <a
-						href="#list"
-						data-icon="home"
-						class="ui-btn-left">BugList</a>
-    <h1><%= title %> <span class="ui-li-count">P<%= bugPriority %></span></h1>
-		<a href="<%= window.location.hash + "/modify" %>" data-role="button" data-theme="e" data-mini="true" data-inline="true">Modify</a>			    
+	<a
+	href="#list"
+	data-icon="home"
+	class="ui-btn-left">BugList</a>
+	<h1><%= title %> <span class="ui-li-count">P<%= bugPriority %></span></h1>
+	<a href="<%= window.location.hash + "/modify" %>" data-role="button" data-theme="e" data-mini="true" data-inline="true">Modify</a>
 </div>
 
 <div data-role="content">
-  <p> <strong>Status:</strong> <%= bugStatus %> </p>
-  <p> <strong>Details:</strong> <%= bugDetails %> </p>
+	<p>
+		<strong>Status:</strong> <%= bugStatus %>
+	</p>
+	<p>
+		<strong>Details:</strong> <%= bugDetails %>
+	</p>
 </div>
 
 <div data-role="collapsible-set">
 
-			<div data-role="collapsible">
-				<h3>Symptoms</h3>
-        <p>
-          <ul>
-            <%
-						if
-						(symptoms != []){
-            _.each( symptoms, function( Item ){ %>
-              <li> <span class="itemName"><%= Item %></span> </li>
-            <% });  } 
-            else { 
-              print("No Symptoms Recorded");
-            }
-            %>
-          </ul>
-        </p>
+	<div data-role="collapsible">
+		<h3>Symptoms</h3>
+		<p>
+			<ul>
+				<%
+				if
+				(symptoms != []){
+				_.each( symptoms, function( Item ){ %>
+				<li>
+					<span class="itemName"><%= Item %></span>
+				</li>
+				<% });  }
+				else {
+				print("No Symptoms Recorded");
+				}
+				%>
+			</ul>
+		</p>
 
-			</div>
+	</div>
 
+	<div data-role="collapsible">
+		<h3>Relevant Test Results</h3>
+		<p>
+			<ul>
+				<%
+				if
+				(tests){
+				_.each( tests, function( testItem ){ %>
+				<li>
+					<span class="itemName"><%= testItem %></span>
+				</li>
+				<% }); }
+				else {
+				print("No Test Results Recorded");
+				} %>
+			</ul>
+		</p>
 
-			<div data-role="collapsible">
-				<h3>Relevant Test Results</h3>
-        <p>
-          <ul>
-            <%
-						if
-						(tests){ 
-            _.each( tests, function( testItem ){ %>
-              <li> <span class="itemName"><%= testItem %></span> </li>
-            <% }); } 
-            else {
-                print("No Test Results Recorded");
-             } %>
-          </ul>
-        </p>
+	</div>
 
-			</div>
+	<div data-role="collapsible" >
 
+		<h3>Assigned to:</h3>
+		<p>
+			Doctor: <span id="assignedTo"><%= assignedTo %></span>
+		</p>
+	</div>
 
-			<div data-role="collapsible" >
+	<div data-role="collapsible" >
 
-				<h3>Assigned to:</h3>
-					<p>Doctor: <span id="assignedTo"><%= assignedTo %></span></p>
-			</div>
+		<h3>Relevant Medications:</h3>
+		<p>
+			<ul>
+				<% if (medications) {
+				_.each( medications, function( Item ){ %>
+				<li>
+					<span class="itemName"><%= Item %></span>
+				</li>
+				<% }); }
+				else {
+				print("No Medications Recorded");
+				} %>
+			</ul>
+		</p>
 
-			<div data-role="collapsible" >
-
-				<h3>Relevant Medications:</h3>
-       <p>
-          <ul>
-            <% if (medications) {
-            _.each( medications, function( Item ){ %>
-              <li> <span class="itemName"><%= Item %></span> </li>
-            <% }); }
-            else {
-              print("No Medications Recorded");
-            } %>
-          </ul>
-        </p>
-
-
-			</div>
+	</div>
 
