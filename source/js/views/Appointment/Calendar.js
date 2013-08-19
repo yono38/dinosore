@@ -2,7 +2,6 @@ window.AppointmentsView = Backbone.View.extend({
 
     initialize:function () {
         this.template = _.template(tpl.get('appointment-calendar'));
-        this.collection = new AppointmentList();
         this.collection.query = new Parse.Query(Appointment);
         this.collection.query.equalTo("user", Parse.User.current());   
         var that = this;
@@ -15,37 +14,55 @@ window.AppointmentsView = Backbone.View.extend({
               var t = moment(collection.models[i].get("newDate")).format('YYYY-MM-DD');
               that.highDates.push(t);
             }
+            // remove dupes
+            that.highDates = _.uniq(that.highDates);
           }
         });        
         _.bindAll(this, 'changeDate');
     },
     
+    loadApptItem: function(appt){
+    	console.log(appt);
+    	var day = moment(appt.newDate.iso);
+        var doc = new Parse.Query(Doctor);
+        doc.get(appt.doc, {
+          success: function(doctor){
+	          	var apptData = {
+	          "title" : appt.title,
+	          "doc" : doctor.get("title"),
+	          "time" : day.format('LT'),
+	          "apptId" : appt.objectId
+	        };
+	        $("#fakeAppt").append(_.template(tpl.get("appointment-item"), apptData)); 
+            $("#fakeAppt").show();
+            $("#noAppt").hide();
+	        this.$(".removeAppt").button();
+	        this.$(".editAppt").button();
+          }, 
+          error: function(obj, err){
+            console.log("failed to retrieve doctor");
+          }
+        });
+        
+    },
+    
     changeDate: function(e, passed){
+    	var self = this;
         if ( passed.method === 'set' ) {
+        	// TODO modify to use highdates as index instead of whole collection
               var appts = this.collection.toJSON();
               var d = _(appts).where({"date": passed.value});
-              if (d.length == 1){
-                var day = moment(d[0].newDate.iso);
-                var doc = new Parse.Query(Doctor);
-                doc.get(d[0].doc, {
-                  success: function(doctor) {
-                    var apptData = {
-                      "title" : d[0].title,
-                      "doc" : doctor.get("title"),
-                      "time" : day.format('LT'),
-                      "apptId" : d[0].objectId
-                    };
-                    $("#fakeAppt").html(_.template(tpl.get("appointment-item"), apptData)); 
-                    $("#fakeAppt").show();
-                    $("#noAppt").hide();
-
-                    this.$(".removeAppt").button();
-                    this.$(".editAppt").button();
-                  },
-                  error: function(obj, err){
-                    console.log("failed to retrieve doctor");
-                  }
-                });
+              d = _(d).sortBy(function(m){
+              	console.log(m);
+              	return moment(m.newDate.iso);
+              });
+              if (d.length > 0){
+              	var i;
+                $("#fakeAppt").empty().show();
+                $("#noAppt").hide();
+              	for (i=0; i<d.length; i++){
+              		this.loadApptItem(d[i]);
+                }
               }
           $("#currDate").html(passed.value);
               
@@ -74,7 +91,12 @@ window.AppointmentsView = Backbone.View.extend({
       "click .has-appt" : "showAppts",
       "click .removeAppt" : "removeAppt",
       "click .editAppt" : "modifyAppt",
-      "datebox" : "changeDate"
+      "datebox" : "changeDate",
+      "click #addApptBtn" : "newAppt"
+    },
+    
+    newAppt: function(){
+    	app.navigate("appts/add", {trigger: true});
     },
     
     navBtn: function(){

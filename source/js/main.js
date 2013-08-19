@@ -45,7 +45,7 @@ var AppRouter = Backbone.Router.extend({
     },
     
     appts: function(){
-      var apptView = new AppointmentsView();
+      var apptView = new AppointmentsView({"collection": new AppointmentList()});
       this.changePage(apptView);
       $("#date").hide();
       $(".hasDatepicker").off().remove();
