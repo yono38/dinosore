@@ -117,12 +117,20 @@ window.AppointmentsView = Backbone.View.extend({
 
 	events : {
 		"click .footerBtn" : "navBtn",
+		"click .ui-datebox-griddate.ui-corner-all" : "hideEmptyAppt",
 		"click" : "preventDefault",
 		"click .has-appt" : "showAppts",
 		"click .removeAppt" : "removeAppt",
 		"click .editAppt" : "modifyAppt",
 		"datebox" : "changeDate",
 		"click #addApptBtn" : "newAppt"
+	},
+	
+	// handles case where user clicks calendar date with no appt
+	"hideEmptyAppt": function(){
+		console.log('test');
+		$("#fakeAppt").hide();
+		$("#noAppt").show();
 	},
 
 	newAppt : function() {
@@ -194,7 +202,5 @@ window.AppointmentsView = Backbone.View.extend({
 		if (!this.noPrevent) {
 			e.preventDefault();
 		}
-		$("#fakeAppt").hide();
-		$("#noAppt").show();
 	}
 });
