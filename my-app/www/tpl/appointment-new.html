@@ -1,0 +1,34 @@
+<div data-role="header" >
+	<h1>New Appointment</h1>
+</div>
+
+<div data-role="content">				
+
+  <div data-role="fieldcontain">
+  
+    <label for="title">Name:</label>
+    <input type="text" name="title" id="title" />   
+  
+    <label for="appt-date">Date:</label>    
+    <input type="date" name="appt-date" id="appt-date" value="<%= today %>" />
+
+    <label for="appt-time">Time:</label>    
+    <input type="time" name="appt-time" id="appt-time" value="12:00:00" />
+    
+    <label for="select-bug" class="select">Choose bug:</label>
+    <select name="select-bug" id="select-bug">
+      <option value="none">None</option>
+    </select> 
+
+    <label for="select-doc" class="select">Choose doctor:</label>
+    <select name="select-doc" id="select-doc">
+      <option value="none">None</option>
+    </select>
+  </div>
+
+</div>
+
+	<a href="#" id="addBtn" data-role="button" data-icon="plus" data-theme="e">Add</a> 
+	 <a href="#" id="cancelBtn" class="back" data-role="button" data-icon="delete" data-theme="b">Cancel</a> 
+
+
