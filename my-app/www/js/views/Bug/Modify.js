@@ -1,0 +1,141 @@
+
+window.BugModifyView = Backbone.View.extend({
+
+    initialize:function(){
+        this.template = _.template(tpl.get('bug-details-modify'));
+        _.bindAll(this, "deleteItem", "doneModifying", "addItem", "render");
+        this.model.bind('change', this.render);
+        this.debounceSaveTextInput =  _.debounce(this.saveTextInput, 2000);
+    },
+    
+    events: {
+      "click .add_detail_item": "addItem",
+      "click .delete_detail_item": "deleteItem",
+      "click #doneModify": "doneModifying",
+      "click #changeAssignedTo": "changeAssignedTo",
+      "click #doneAssignment": "doneAssigning",
+      "expand": "trackCollapsible",
+      "keyup .bugDetailTxtInput": "debounceSaveTextInput",
+      "change #select-choice-month": "savePriority",
+      "click #deleteBug": "deleteBug"
+    },
+    
+    deleteBug: function(e){
+      e.preventDefault();
+      var route = window.location.hash + "/dialog";
+      app.navigate(route, {trigger: true});     
+    },
+    
+    savePriority: function(e){
+      this.model.save({
+        "bugPriority": parseInt($("#select-choice-month").val())
+      }, {
+        success: function(){
+          console.log('priority input saved');
+        }
+      });
+    },
+    
+    trackCollapsible: function(e){
+      this.openCollapsible = e.target.id;
+    },
+    
+    deleteItem: function(e){
+      e.preventDefault();
+      var item = ($(e.currentTarget).parent().children(".itemName"))[0];
+      var type = $(e.currentTarget).attr("data-type")
+      this.model.remove(type, $(item).text());
+      var that = this;
+      this.model.save(null, {
+        success: function(){
+          that.render();
+        }
+      });
+    },
+    
+    saveTextInput: function(e){    
+      this.model.save({
+        "title": $("#bugTitleTxtInput").val(),
+        "bugStatus": $("#bug_status_input").val(),
+        "bugDetails": $("#bug_details_input").val()
+      }, {
+        success: function(){
+          console.log('text input saved');
+          $("#savePopup").show().delay(2000).fadeOut();
+        }
+      });
+    },
+    
+    changeAssignedTo: function(e){
+      e.preventDefault();
+      $(e.currentTarget).parent().html('<input id="newAssignment" value="'+this.$("#assignedTo").text()+'" /><a href="#" id="doneAssignment" data-icon="check">Done</a>');
+      this.$("#newAssignment").textinput();
+      this.$("#doneAssignment").button();
+     },
+     
+    doneAssigning: function(e){
+      e.preventDefault();
+      var assign = this.$("#newAssignment").val();
+      $(e.currentTarget).parent().html('<span id="assignedTo">'+assign+'</span> <a href="#" id="changeAssignedTo" iconpos="notext"  data-inline="true" data-mini="true" data-role="button" data-icon="back" >Change</a>');
+      this.model.set("assignedTo", assign);
+    },
+    
+    doneModifying: function(e){
+      e.preventDefault();
+      this.model.save({
+        "bugDetails": $("#bug_details_input").val(),
+        "bugStatus": $("#bug_status_input").val(),
+      }, {
+        success: function(me){
+          console.log("successful update");
+          // cut off /modify
+          var route = (window.location.hash).slice(0,-7);
+          app.navigate(route, {trigger: true});
+        }
+      });
+    },
+    
+    addItem: function(e){
+      var itemType = $(e.currentTarget).data('type');
+      var itemVal = $("input[data-type='"+itemType+"']").val();
+      if (itemVal && itemVal != ""){
+        var typeItemArr = this.model.get(itemType);
+        // defaults to false
+        if (!typeItemArr) {
+          typeItemArr = [];
+        }
+        var that = this;
+        this.model.save({
+          type: typeItemArr.push(itemVal)
+        }, {
+          success: function(){
+            console.log(typeItemArr);
+            that.render();
+          }
+        });
+      }
+    },
+    
+    render: function() {
+        console.log(this.model.toJSON());
+        var model = _.defaults(this.model.toJSON(), {
+          "symptoms": [],
+          "medications": [],
+          "tests": [],
+          "assignedTo": "Not Assigned"
+        });
+        console.log(model);
+        $(this.el).html(this.template(model));
+        this.dialog = this.dialog || new BugModifyDialogView({model: this.model});
+        this.dialog.render();
+        this.$("#deleteDialog").html(this.dialog.el);
+        this.$("#savePopup").hide();
+        $(".ui-page").trigger("pagecreate");
+        if (this.openCollapsible){
+          $("#"+this.openCollapsible).trigger("expand");
+        }
+        return this;
+    }
+
+});
+

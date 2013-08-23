@@ -1,10 +1,3 @@
-document.addEventListener("deviceready", onDeviceReady, false);
-
-// PhoneGap is loaded and it is now safe to make calls PhoneGap methods
-//
-function onDeviceReady() {
- 
-
 Parse.initialize("ILMokni7fwKhJSdWh38cGPpEwL2CLsrhcrUgJmG6", "cDQoHLQqGRRj9srzrpG2jv6X5nl2BPdh7hVUBRoc");
 
 var AppRouter = Backbone.Router.extend({
@@ -19,7 +12,7 @@ var AppRouter = Backbone.Router.extend({
         "appts/:id/modify": "apptModify",
         "appts/add" : "newAppt",
         "list":"list",        
-        "medinfo": "medInfo"
+        "medinfo": "medInfo" 
     },
     
     initialize:function () {
@@ -52,7 +45,7 @@ var AppRouter = Backbone.Router.extend({
     },
     
     appts: function(){
-      var apptView = new AppointmentsView();
+      var apptView = new AppointmentsView({"collection": new AppointmentList()});
       this.changePage(apptView);
       $("#date").hide();
       $(".hasDatepicker").off().remove();
@@ -138,6 +131,4 @@ $(document).ready(function () {
             Backbone.history.start();
         });
 });
-
-}
 
