@@ -28,7 +28,7 @@ window.NewBugView = Backbone.View.extend({
       bug.set("bugDetails", this.$("#bugdetails").val());    
     }
     if (this.$("#assignedto").val() != ""){
-      bug.set("doctor", this.$("#assignedto").val());    
+      bug.set("assignedTo", this.$("#assignedto").val());    
       bug.set("bugStatus", "Assigned");          
     }
     bug.save(null, {
