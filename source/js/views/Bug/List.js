@@ -10,7 +10,6 @@ window.BugListView = Backbone.View.extend({
     },
     
     sortList: function(bug){
-    	console.log(bug);
     	return -bug.get("bugPriority");
     },
     

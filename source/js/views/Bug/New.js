@@ -3,7 +3,10 @@ window.NewBugView = Backbone.View.extend({
     this.template = _.template(tpl.get('bug-new'));  
     this.first = true;   
     this.priority = 1;
-    _(this).bindAll("addBug", "changePriority");
+    this.colors = new ColorList();
+   // this.colors.bind("change", this.makeList);
+    this.colors.bind('add', this.makeList);
+    _(this).bindAll("addBug", "render", "makeList", "changePriority");
   },
   events: {
     "click #addBtn" : "addBug",
@@ -31,6 +34,7 @@ window.NewBugView = Backbone.View.extend({
       bug.set("doctor", this.$("#assignedto").val());    
       bug.set("bugStatus", "Assigned");          
     }
+    bug.set("color", this.colors.get(this.$("#select-color").val()));
     bug.save(null, {
       success: function(bug){
         console.log("New bug saved: "+bug.id);
@@ -45,9 +49,25 @@ window.NewBugView = Backbone.View.extend({
   preventDefault: function(e){
     e.preventDefault();
   },
+  makeList: function(){
+  	var that = this;
+    this.colors.fetch({
+	  success: function(collection) {
+	  	$("#select-color").empty();
+	    collection.each(function(color) {
+  			$("#select-color").append('<option value="' + color.id + '" style="background:#' + color.get("hex") + '" class="colorName">'+color.get("color")+'</option>')
+        });
+	  },
+     error: function(collection, error) {
+    // The collection could not be retrieved.
+    console.log(error);
+    }
+    });
+  },
   render: function(){
     $(this.el).html(this.template());
     var that = this;
+    this.makeList();
     if (this.first){
       this.first = false;
       $(this.el).find("input[type='radio']").checkboxradio({
