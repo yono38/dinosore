@@ -123,7 +123,7 @@ var AppRouter = Backbone.Router.extend({
 });
 
 $(document).ready(function () {
-    
+    FastClick.attach(document.body);
     tpl.loadTemplates(['bug-list', 'appointment-calendar', 'bug-delete-dialog', 'bug-list-item', 'bug-details', 'bug-new', 'login', 
     'medical-info', 'appointment-new', 'bug-details-modify', 'appointment-modify', 'appointment-item'],
         function () {
