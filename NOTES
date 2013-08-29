@@ -1,0 +1,4 @@
+# To Get phonegap build url:
+jason@jason-N56VM:/usr/lib/node_modules/phonegap$ sudo vim !$
+sudo vim lib/phonegap/remote.install.js
+

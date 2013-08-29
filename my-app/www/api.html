@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html class="ui-mobile-rendering">
+<head>
+    <title>API Test</title>
+
+    <!-- The Scripts -->
+    <script src="lib/jquery-1.7.1.min.js"></script>
+
+
+</head>
+
+<body>
+
+<h1>Test API Stuff</h1>
+
+<div id="med"></div>
+
+<script type="text/javascript">
+
+function normalizeTable(tbl, isTest){
+  var results = [];
+  var keys = [];
+  var i,j;
+  var th = ($(tbl).find('thead tr')).children();
+  var tr = ($(tbl).find('tbody')).children();
+ // read out the table header keys
+  for (i=0; i<th.length; i++){
+    keys[i] = th[i].textContent;
+  }
+  
+  // make results using keys
+  var oneResult;
+  for (i=0; i<tr.length; i++){
+    oneResult = {};
+    var trData = $(tr[i]).children();
+    for (j=0; j< trData.length; j++){
+      if (isTest && j==4){
+        oneResult[keys[j]] = normalizeTable($(trData[j]).find('list item table'));
+      }
+      else if (trData[j].textContent != ""){
+       oneResult[keys[j]] = trData[j].textContent;
+      }
+    }
+    results.push(oneResult);
+  }
+  return results;
+}
+
+$(document).ready(function(){
+
+  $.ajax({
+    url: 'http://shin-ny.herokuapp.com/bb/record/documentreference/2/document',
+    dataType: 'xml',
+    success: function(data){
+      console.log(data);
+      $med = $(data).find( "code[code='10160-0'] ~ text");
+      medInfo = normalizeTable($med.children()[0], false);
+      $probs = $(data).find("code[code='11450-4'] ~ text");
+      // probs only contains name
+      problems = normalizeTable($probs.children()[0], false);
+      $tests = $(data).find("code[code='30954-2'] ~ text");
+      tests = normalizeTable($tests.children()[0], true);
+      var profile = {
+        "medications" : medInfo,
+        "problems" : problems,
+        "tests" : tests
+      };
+      console.log(profile);
+    }
+  });
+});
+</script>
+</body>
+
+</html>
