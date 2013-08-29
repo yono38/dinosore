@@ -41,12 +41,12 @@ var AppRouter = Backbone.Router.extend({
     },
     
     medInfo: function(){
-     this.changePage(new MedicalInfoView());
+     this.changePage(new MedicalInfoView(), true);
     },
     
     appts: function(){
       var apptView = new AppointmentsView({"collection": new AppointmentList()});
-      this.changePage(apptView);
+      this.changePage(apptView, true);
       $("#date").hide();
       $(".hasDatepicker").off().remove();
     },
@@ -76,7 +76,7 @@ var AppRouter = Backbone.Router.extend({
     },
 
     list:function () {
-      this.changePage(new BugListView());
+      this.changePage(new BugListView(), true);
     },
     
     loadBug: function(id, callback){
@@ -95,7 +95,7 @@ var AppRouter = Backbone.Router.extend({
       var self = this;
       this.loadBug(id, function(data){
         console.log("view bug details");
-        self.changePage(new BugDetailView({model:data}));
+        self.changePage(new BugDetailView({model:data}), true);
       });  
     },
     
@@ -107,9 +107,14 @@ var AppRouter = Backbone.Router.extend({
       });    
     },
 
-    changePage:function (page) {
+    changePage:function (page, hasFooter) {
         $(page.el).attr('data-role', 'page');
         page.render();
+        if (hasFooter){
+        	this.footer = this.footer || new FooterView();
+        	this.footer.render();
+        	$(page.el).append($(this.footer.el));
+        }
         $('body').append($(page.el));
         if (page.collection) page.collection.fetch();
         var transition = $.mobile.defaultPageTransition;
@@ -125,10 +130,18 @@ var AppRouter = Backbone.Router.extend({
 $(document).ready(function () {
     FastClick.attach(document.body);
     tpl.loadTemplates(['bug-list', 'appointment-calendar', 'bug-delete-dialog', 'bug-list-item', 'bug-details', 'bug-new', 'login', 
-    'medical-info', 'appointment-new', 'bug-details-modify', 'appointment-modify', 'appointment-item'],
+    'medical-info', 'appointment-new', 'bug-details-modify', 'footer', 'appointment-modify', 'appointment-item'],
         function () {
             app = new AppRouter();
             Backbone.history.start();
         });
 });
+$(document).on("pageshow", ".ui-page", function () {
+    var $page  = $(this),
+        vSpace = $page.children('.ui-header').outerHeight() + $page.children('.ui-footer').outerHeight() + $page.children('.ui-content').height();
 
+    if (vSpace < $(window).height()) {
+        var vDiff = $(window).height() - $page.children('.ui-header').outerHeight() - $page.children('.ui-footer').outerHeight() - 40;//minus thirty for margin
+        $page.children('.ui-content').height(vDiff);
+    }
+});

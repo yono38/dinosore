@@ -116,7 +116,6 @@ window.AppointmentsView = Backbone.View.extend({
 	},
 
 	events : {
-		"click .footerBtn" : "navBtn",
 		"click .ui-datebox-griddate.ui-corner-all" : "hideEmptyAppt",
 		"click" : "preventDefault",
 		"click .has-appt" : "showAppts",
@@ -137,10 +136,6 @@ window.AppointmentsView = Backbone.View.extend({
 		app.navigate("appts/add", {
 			trigger : true
 		});
-	},
-
-	navBtn : function() {
-		this.noPrevent = true;
 	},
 
 	modifyAppt : function() {
@@ -174,7 +169,7 @@ window.AppointmentsView = Backbone.View.extend({
 						console.log("appointment removal failed");
 						console.log(err);
 					}
-				})
+				});
 			},
 			error : function(appt, err) {
 				console.log("appointment retrieval failed");
@@ -199,8 +194,6 @@ window.AppointmentsView = Backbone.View.extend({
 	},
 
 	preventDefault : function(e) {
-		if (!this.noPrevent) {
-			e.preventDefault();
-		}
+		e.preventDefault();
 	}
 });
