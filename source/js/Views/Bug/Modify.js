@@ -5,6 +5,7 @@ window.BugModifyView = Backbone.View.extend({
         this.template = _.template(tpl.get('bug-details-modify'));
         _.bindAll(this, "deleteItem", "doneModifying", "addItem", "render");
         this.model.bind('change', this.render);
+        this.colors = new ColorList();
         this.debounceSaveTextInput =  _.debounce(this.saveTextInput, 2000);
     },
     
@@ -17,10 +18,11 @@ window.BugModifyView = Backbone.View.extend({
       "expand": "trackCollapsible",
       "keyup .bugDetailTxtInput": "debounceSaveTextInput",
       "change #select-choice-month": "savePriority",
-      "click #deleteBug": "deleteBug"
+      "click #deleteBug": "deleteBug",
+      "change #select-color": "changeColor"
     },
-    
-    deleteBug: function(e){
+	
+	deleteBug: function(e){
       e.preventDefault();
       var route = window.location.hash + "/dialog";
       app.navigate(route, {trigger: true});     
@@ -33,6 +35,36 @@ window.BugModifyView = Backbone.View.extend({
         success: function(){
           console.log('priority input saved');
         }
+      });
+    },
+    
+     makeList: function(selectedColor){
+      var that = this;
+      this.colors.fetch({
+        success: function(collection) {
+          $("#select-color").empty();
+          collection.each(function(color) {
+            var selected = "";
+            if (selectedColor && selectedColor.id == color.id) selected = "selected";
+            $("#select-color").append('<option '+selected+' value="' + color.id + '" style="background:#' + color.get("hex") + '" class="colorName">'+color.get("color")+'</option>');
+          });
+          $("#select-color").selectmenu("refresh", true);
+          if (selectedColor){
+            var background = $("#select-color option:selected").attr("style");
+            $("#select-color").parent().attr("style", background);
+          }
+        },
+         error: function(collection, error) {
+        // The collection could not be retrieved.
+        console.log(error);
+      }
+      });
+  },
+    
+    changeColor: function(e){
+      console.log('new color');
+       this.model.save({
+          "color": this.colors.get(this.$("#select-color").val())
       });
     },
     
@@ -117,6 +149,7 @@ window.BugModifyView = Backbone.View.extend({
     },
     
     render: function() {
+    	var that = this;
         console.log(this.model.toJSON());
         var model = _.defaults(this.model.toJSON(), {
           "symptoms": [],
@@ -126,6 +159,16 @@ window.BugModifyView = Backbone.View.extend({
         });
         console.log(model);
         $(this.el).html(this.template(model));
+        var color = this.model.get("color");
+        if (color) {
+          color.fetch({
+            success: function(col){
+              that.makeList(col);  
+            }
+          });
+        } else {
+          this.makeList();
+        }
         this.dialog = this.dialog || new BugModifyDialogView({model: this.model});
         this.dialog.render();
         this.$("#deleteDialog").html(this.dialog.el);
