@@ -2,7 +2,7 @@ window.SymptomListView = Backbone.View.extend({
 
     initialize:function () {
         this.template = _.template(tpl.get('symptom-list'));   
-        _.bindAll(this, 'render'); 
+        _.bindAll(this, 'render', 'addToCollection'); 
         this.collection = new SymptomList();
     },    
     
@@ -23,6 +23,7 @@ window.SymptomListView = Backbone.View.extend({
     newSymptom: function(e){
     	e.preventDefault();
     	var newSymptomListItem = new SymptomListNewView();
+      	newSymptomListItem.bind('newItem', this.renderList);
     	console.log(newSymptomListItem);
     	this.$("#myList").append(newSymptomListItem.render().el);
     	this.$("#myList").listview('refresh');
@@ -43,15 +44,10 @@ window.SymptomListView = Backbone.View.extend({
       });
     },
     
-    
-    render: function () {
-        console.log(this);
-        
-        var that = this;
-        
-        $(this.el).html(this.template());  
-        
-        this.collection.query = new Parse.Query(Symptom);
+    renderList: function() {
+    	var that = this;
+    	this.$("#myList").empty();
+    	this.collection.query = new Parse.Query(Symptom);
         this.collection.query.equalTo("user", Parse.User.current());   
         this.collection.fetch({
        
@@ -63,10 +59,15 @@ window.SymptomListView = Backbone.View.extend({
             for (var i=0; i<collection.length; i++){
               that.addOne(collection.models[i]);
             }
+	      	that.$("#myList").listview();  
 	      	that.$("#myList").listview('refresh');  
           }});
-        console.log(this.collection); 
-        
+        return this;
+    },
+    
+    render: function () {                
+        $(this.el).html(this.template());  
+        this.renderList();
         return this;
     }
 });

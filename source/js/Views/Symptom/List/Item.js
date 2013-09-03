@@ -32,8 +32,6 @@ window.SymptomListItemView = Backbone.View.extend({
 	},
 	
 	render:function(eventName){
-        $("#myList").listview('refresh');
-		
 		$(this.el).html(this.template(this.model.toJSON()));
         return this;
 	}
