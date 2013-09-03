@@ -5,6 +5,8 @@ var AppRouter = Backbone.Router.extend({
     routes:{
         "":"start",
         "bugs/add" : "newBug",
+        "symptoms/add" : "newSymptom",
+        "symptoms" : "symptomList",
         "bug/:id":"bugDetails",
         "bug/:id/modify": "bugModify",
         "bug/:id/modify/dialog": "bugDialog",        
@@ -79,6 +81,12 @@ var AppRouter = Backbone.Router.extend({
       this.changePage(new BugListView(), true);
     },
     
+    symptomList:function () {
+      console.log("in symptomList");
+      this.changePage(new SymptomListView(), true);
+    },
+
+    
     loadBug: function(id, callback){
       console.log("loading bug "+id);
         var bug = new Bug({objectId:id});
@@ -130,7 +138,8 @@ var AppRouter = Backbone.Router.extend({
 $(document).ready(function () {
     FastClick.attach(document.body);
     tpl.loadTemplates(['bug-list', 'appointment-calendar', 'bug-delete-dialog', 'bug-list-item', 'bug-details', 'bug-new', 'login', 
-    'medical-info', 'appointment-new', 'bug-details-modify', 'footer', 'appointment-modify', 'appointment-item'],
+    'medical-info', 'appointment-new', 'bug-details-modify', 'symptom-list',
+    'symptom-list-item', 'symptom-list-new', 'footer', 'appointment-modify', 'appointment-item'],
         function () {
             app = new AppRouter();
             Backbone.history.start();
