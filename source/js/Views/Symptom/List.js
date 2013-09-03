@@ -3,17 +3,11 @@ window.SymptomListView = Backbone.View.extend({
     initialize:function () {
         this.template = _.template(tpl.get('symptom-list'));   
         _.bindAll(this, 'render'); 
-        
         this.collection = new SymptomList();
-    //    this.collection.on("all", this.render);
-    
-        //this.collection.on("add", this.addOne);
-   
     },    
     
-    
     sortList: function(bug){
-    	//return -bug.get("bugPriority");
+    	return -bug.get("count");
     },
     
     events: {
@@ -31,16 +25,14 @@ window.SymptomListView = Backbone.View.extend({
     	var newSymptomListItem = new SymptomListNewView();
     	console.log(newSymptomListItem);
     	this.$("#myList").append(newSymptomListItem.render().el);
-    	$("#myList").listview('refresh');
+    	this.$("#myList").listview('refresh');
    		$("#newSymptomInput").textinput();
     },
-    
     
     addOne: function(symptom){
     	console.log("berzo adds poop to scoopah");
       	var view = new SymptomListItemView({model: symptom});
      	this.$("#myList").append(view.render().el);  
-      	$("#myList").listview('refresh');  
     },
     
     logout: function(){
@@ -65,12 +57,13 @@ window.SymptomListView = Backbone.View.extend({
        
           success: function(collection){
           	
-          	//collection.comparator = that.sortList;
+          	collection.comparator = that.sortList;
           	
-          	//collection.sort();
+          	collection.sort();
             for (var i=0; i<collection.length; i++){
               that.addOne(collection.models[i]);
             }
+	      	that.$("#myList").listview('refresh');  
           }});
         console.log(this.collection); 
         
