@@ -1,5 +1,5 @@
 window.BugListItemView = Backbone.View.extend({
-
+	
     tagName:"li",
 
     initialize:function () {
