@@ -10,7 +10,16 @@ window.SymptomListItemView = Backbone.View.extend({
 	}, 
 	
 	events: {
-		"click .plus-one":"clickPlus",
+		"click .plus-one" : "clickPlus",
+		"swiperight" : "confirmDelete"
+	},
+	
+	confirmDelete: function(){
+		this.deleteDialog = new DialogDeleteView({model: this.model});
+		console.log(this.$el);
+		this.deleteDialog.render();
+		$(this.el).append(this.deleteDialog);
+		this.deleteDialog.open();
 	},
 
 	clickPlus: function(e){

@@ -2,8 +2,9 @@ window.SymptomListView = Backbone.View.extend({
 
     initialize:function () {
         this.template = _.template(tpl.get('symptom-list'));   
-        _.bindAll(this, 'render', 'addToCollection'); 
+        _.bindAll(this, 'render', 'renderList'); 
         this.collection = new SymptomList();
+        this.collection.bind('destroy', this.renderList);
     },    
     
     sortList: function(bug){
@@ -13,7 +14,7 @@ window.SymptomListView = Backbone.View.extend({
     events: {
       'click #logout' : 'logout',
       'click #newSymptom' : 'newSymptom',
-      'click #newSymptomLi' : 'dontClick'
+      'click #newSymptomLi' : 'dontClick',
     },
     
     dontClick:function(e){
@@ -24,10 +25,9 @@ window.SymptomListView = Backbone.View.extend({
     	e.preventDefault();
     	var newSymptomListItem = new SymptomListNewView();
       	newSymptomListItem.bind('newItem', this.renderList);
-    	console.log(newSymptomListItem);
     	this.$("#myList").append(newSymptomListItem.render().el);
     	this.$("#myList").listview('refresh');
-   		$("#newSymptomInput").textinput();
+   		$("#newSymptomInput").textinput().focus();
     },
     
     addOne: function(symptom){
@@ -45,6 +45,7 @@ window.SymptomListView = Backbone.View.extend({
     },
     
     renderList: function() {
+    	console.log('render list');
     	var that = this;
     	this.$("#myList").empty();
     	this.collection.query = new Parse.Query(Symptom);
