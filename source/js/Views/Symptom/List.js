@@ -2,9 +2,10 @@ window.SymptomListView = Backbone.View.extend({
 
     initialize:function () {
         this.template = _.template(tpl.get('symptom-list'));   
-        _.bindAll(this, 'render', 'renderList'); 
+        _.bindAll(this, 'render', 'renderList', 'addSymptomToList'); 
         this.collection = new SymptomList();
         this.collection.bind('destroy', this.renderList);
+        this.adding = false;
     },    
     
     sortList: function(bug){
@@ -21,13 +22,34 @@ window.SymptomListView = Backbone.View.extend({
     	e.preventDefault();
     },
     
+    addSymptomToList: function(e){
+    	if (e)	e.preventDefault();
+    	if (this.newSymptomListItem){
+			this.newSymptomListItem.remove();    	
+			this.newSymptomListItem = null;
+		}
+   		this.$("#newSymptom .ui-btn-text").text("Add");
+   		this.$("#newSymptom").removeClass("cancelBtn");
+   		this.$("#newSymptom").buttonMarkup({ icon: "plus" });
+		this.adding = false;
+		this.renderList();
+    },
+    
     newSymptom: function(e){
     	e.preventDefault();
-    	var newSymptomListItem = new SymptomListNewView();
-      	newSymptomListItem.bind('newItem', this.renderList);
-    	this.$("#myList").append(newSymptomListItem.render().el);
-    	this.$("#myList").listview('refresh');
-   		$("#newSymptomInput").textinput().focus();
+    	if (!this.adding){
+	    	this.newSymptomListItem = new SymptomListNewView();
+	      	this.newSymptomListItem.bind('newItem', this.addSymptomToList);
+	    	this.$("#myList").prepend(this.newSymptomListItem.render().el);
+	    	this.$("#myList").listview('refresh');
+	   		this.$("#newSymptomInput").textinput().focus();
+	   		this.$("#newSymptom .ui-btn-text").text("Cancel");
+	   		this.$("#newSymptom").addClass("cancelBtn");
+	   		this.$("#newSymptom").buttonMarkup({ icon: "delete" });
+	   		this.adding = true;
+   		} else if (this.newSymptomListItem) {
+   			this.addSymptomToList();
+   		}
     },
     
     addOne: function(symptom){

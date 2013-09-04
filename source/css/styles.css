@@ -11,7 +11,7 @@
 
 }
 
-.ui-title, #confirm, #yes {
+.ui-title, #confirm, #yes, #cancel {
 	font-family: 'bobregular' !important
 }
 
@@ -63,4 +63,8 @@ font-weight: bold;
 #confirm .topic.ui-li-desc {
 	font-size: inherit; /* The cloned topic will have class ui-li-desc so we negate the font-size settings of this class */
 	text-align: center;
+}
+
+.cancelBtn {
+	background: red;
 }
