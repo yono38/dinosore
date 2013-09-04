@@ -3,10 +3,8 @@ window.SymptomListItemView = Backbone.View.extend({
 	tagName: "li",
 	
 	initialize: function(){
-		
 		this.template = _.template(tpl.get('symptom-list-item'));
-//		this.model.bind("change", this.render, this);
-				
+		this.model.bind('remove', this.destroy);
 	}, 
 	
 	events: {
@@ -38,6 +36,11 @@ window.SymptomListItemView = Backbone.View.extend({
 		}
 		});
 		console.log("tried to plus one but bearzo playin with himself");
+	},
+	
+	destroy: function(){
+		this.unbind();
+		this.remove();
 	},
 	
 	render:function(eventName){
