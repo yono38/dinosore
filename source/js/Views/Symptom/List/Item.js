@@ -12,7 +12,7 @@ window.SymptomListItemView = Backbone.View.extend({
 		"swiperight" : "confirmDelete",
 		"swipeleft" : "setSeverity",
 		"slidestop" : "changeSeverity",
-		"click #cancel-change-severity" : "cancelSeverity",
+		"click #cancel-change-severity" : "resetTitle",
 		"click #symptom-detail" : "goToSymptomDetail"
 	},
 	
@@ -21,12 +21,18 @@ window.SymptomListItemView = Backbone.View.extend({
 		e.preventDefault();
 	},
 	
-	cancelSeverity: function(e, isAdding){
+	// resets the title (removes severity slider)
+	// can place added bubble on plusOne
+	resetTitle: function(e, type){
 		if (e) e.preventDefault();
 		var title = this.$(".symptom-title").text();
-	//	var itemHtml = ;
-		this.$("h3").html('<span class="symptom-title">'+title+'</span><span data-count-theme="b" class="ui-li-count ui-btn-up-e ui-btn-corner-all added-bubble">Added</span>');
-		this.$(".added-bubble").fadeToggle(3000);
+		var itemHtml = '<span class="symptom-title">'+title+'</span>';
+		if (type == "added"){
+			console.log("adding bubble");
+			itemHtml += '<span data-count-theme="b" class="ui-li-count ui-btn-up-e ui-btn-corner-all added-bubble">Added</span>';			
+		}
+		this.$("h3").html(itemHtml);
+		if (type == "added") this.$(".added-bubble").fadeToggle(3000);
 		this.settingSeverity = false;
 	},
 	
@@ -78,7 +84,7 @@ window.SymptomListItemView = Backbone.View.extend({
 			success: function(item){
 				console.log('added plusone successfully!');
 				that.$(".plus-one").addClass("symptom-added");
-				that.cancelSeverity();
+				that.resetTitle(null, "added");
 				that.added = true;
 			}
 			});
