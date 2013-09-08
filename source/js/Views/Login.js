@@ -15,7 +15,7 @@ window.LoginView = Backbone.View.extend({
     Parse.User.signUp(usr, pw, {}, {
       success: function(user) {
         console.log("new user signup");
-        app.navigate("list", {trigger: true});
+        app.navigate("symptoms", {trigger: true});
       }, 
       error: function(err){
         that.$("#error").html(err);

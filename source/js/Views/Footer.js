@@ -10,7 +10,7 @@ window.FooterView = Backbone.View.extend({
   
   navBtn: function(e){
   	var hash = $(e.currentTarget).attr("href");
-  	if ($.inArray(hash, ['appts', 'medinfo', 'list', 'symptoms'] )){
+  	if ($.inArray(hash, ['appts', 'medinfo', 'bugs', 'symptoms'] )){
   		app.navigate(hash, true);
   	}
   },

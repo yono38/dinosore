@@ -1,13 +1,10 @@
 window.BugListView = Backbone.View.extend({
-
+    
     initialize:function () {
         this.template = _.template(tpl.get('bug-list'));   
         _.bindAll(this, 'render'); 
         this.collection = new BugList();
-    //    this.collection.on("all", this.render);
-        this.collection.on("add", this.addOne);
-           
-    },
+    },    
     
     sortList: function(bug){
     	return -bug.get("bugPriority");
@@ -28,9 +25,9 @@ window.BugListView = Backbone.View.extend({
     },
     
     addOne: function(bug){
-      var view = new BugListItemView({model: bug});
+      var view = new BugListItemView({model: bug, name:'cutiebear'});
       this.$("#myList").append(view.render().el);  
-      $("#myList").listview('refresh');  
+      this.$("#myList").listview('refresh');  
     },
     
     logout: function(){
@@ -40,9 +37,9 @@ window.BugListView = Backbone.View.extend({
         }
       });
     },
-
     render: function () {
         console.log(this);
+        
         var that = this;
         $(this.el).html(this.template());  
         this.collection.query = new Parse.Query(Bug);
@@ -52,10 +49,10 @@ window.BugListView = Backbone.View.extend({
           	collection.comparator = that.sortList;
           	
           	collection.sort();
-            // This code block will be triggered only after receiving the data.
             for (var i=0; i<collection.length; i++){
               that.addOne(collection.models[i]);
             }
+	      	this.$("#myList").listview('refresh');  
           }});
         console.log(this.collection);
         return this;
