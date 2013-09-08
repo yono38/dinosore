@@ -21,10 +21,12 @@ window.SymptomListItemView = Backbone.View.extend({
 		e.preventDefault();
 	},
 	
-	cancelSeverity: function(e){
-		e.preventDefault();
+	cancelSeverity: function(e, isAdding){
+		if (e) e.preventDefault();
 		var title = this.$(".symptom-title").text();
-		this.$("h3").html('<span class="symptom-title">'+title+'</span>');
+	//	var itemHtml = ;
+		this.$("h3").html('<span class="symptom-title">'+title+'</span><span data-count-theme="b" class="ui-li-count ui-btn-up-e ui-btn-corner-all added-bubble">Added</span>');
+		this.$(".added-bubble").fadeToggle(3000);
 		this.settingSeverity = false;
 	},
 	
@@ -59,21 +61,28 @@ window.SymptomListItemView = Backbone.View.extend({
 
 	clickPlus: function(e){
 		e.preventDefault();
-		this.model.increment("count", 1);
-		this.model.save(); 
-		//create a new plusOne object when someone clicks plusOne
-		var plusOne = new PlusOne();
-		console.log(this.model.id);
-		var severityLvl = this.settingSeverity ? parseInt(this.$("#severity").val()) : null;
-		plusOne.save({
-			item: this.model.id,
-			severity: severityLvl,
-			user: Parse.User.current()
-		}, {
-		success: function(item){
-			console.log('added plusone successfully!');
+		if (!this.added){
+			var that = this;
+			if (this.alreadyClicked) return;
+			this.model.increment("count", 1);
+			this.model.save(); 
+			//create a new plusOne object when someone clicks plusOne
+			var plusOne = new PlusOne();
+			console.log(this.model.id);
+			var severityLvl = this.settingSeverity ? parseInt(this.$("#severity").val()) : null;
+			plusOne.save({
+				item: this.model.id,
+				severity: severityLvl,
+				user: Parse.User.current()
+			}, {
+			success: function(item){
+				console.log('added plusone successfully!');
+				that.$(".plus-one").addClass("symptom-added");
+				that.cancelSeverity();
+				that.added = true;
+			}
+			});
 		}
-		});
 	},
 	
 	destroy: function(){

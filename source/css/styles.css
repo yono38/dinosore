@@ -72,3 +72,12 @@ font-weight: bold;
 #cancel-change-severity .ui-btn-inner {
 	padding-right: 15px;
 }
+
+.symptom-added {
+	opacity: 0.3
+}
+
+.added-bubble {
+	font-size: 12px;
+	margin-left: 10px;
+}
