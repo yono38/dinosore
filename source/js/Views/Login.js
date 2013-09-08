@@ -1,11 +1,25 @@
 window.LoginView = Backbone.View.extend({
   initialize: function() {
         this.template = _.template(tpl.get('login'));    
+        
   },
   
   events: {
     'click #signupBtn' : 'signup',
-    'click #loginBtn' : 'login'
+    'click #loginBtn' : 'login',
+    'focus input' : 'increasePageHeight'
+  },
+  
+  increasePageHeight: function(){
+  	console.log('make it taller baby!');
+    var $page  = $(".ui-page"),
+        vSpace = $page.children('.ui-header').outerHeight() + $page.children('.ui-footer').outerHeight() + $page.children('.ui-content').height();
+        console.log($page);
+
+    if (vSpace < $(window).height()) {
+        var vDiff = $(window).height() - $page.children('.ui-header').outerHeight() - $page.children('.ui-footer').outerHeight() - 40;//minus thirty for margin
+        $page.children('.ui-content').height(vDiff);
+    }
   },
   
   signup: function(){
