@@ -15,9 +15,13 @@ window.DialogDeleteView = Backbone.View.extend({
 		this.model.destroy({
 			success: function(){
 				console.log('item successfully destroyed');
+				// fixed problem where sometimes itemview isn't removed
+				// on model destroy
+				if (that.parentView) that.parentView.destroy();
 				that.destroy();
 			}			
 		});
+		
 	},
 	
 	className: 'ui-content',

@@ -14,7 +14,8 @@ var AppRouter = Backbone.Router.extend({
         "appts/:id/modify": "apptModify",
         "appts/add" : "newAppt",
         "bugs":"bugList",        
-        "medinfo": "medInfo" 
+        "medinfo": "medInfo",
+        "*path" : "start"
     },
     
     initialize:function () {

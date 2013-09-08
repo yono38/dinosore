@@ -57,7 +57,7 @@ window.SymptomListItemView = Backbone.View.extend({
 	
 	confirmDelete: function(){
 		if (!this.settingSeverity){		
-			this.deleteDialog = new DialogDeleteView({model: this.model});
+			this.deleteDialog = new DialogDeleteView({model: this.model, parentView: this});
 			console.log(this.$el);
 			this.deleteDialog.render();
 			$(this.el).append(this.deleteDialog);

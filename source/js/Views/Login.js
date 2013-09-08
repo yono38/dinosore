@@ -11,7 +11,6 @@ window.LoginView = Backbone.View.extend({
   },
   
   increasePageHeight: function(){
-  	console.log('make it taller baby!');
     var $page  = $(".ui-page"),
         vSpace = $page.children('.ui-header').outerHeight() + $page.children('.ui-footer').outerHeight() + $page.children('.ui-content').height();
         console.log($page);
@@ -43,7 +42,7 @@ window.LoginView = Backbone.View.extend({
     var that = this;
     Parse.User.logIn(usr, pw, {
       success: function(user) {
-        app.navigate("list", {trigger: true});
+        app.navigate("symptoms", {trigger: true});
       }, 
       error: function(usr, err){
         that.$("#error").html(err);        
