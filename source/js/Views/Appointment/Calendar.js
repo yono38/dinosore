@@ -22,7 +22,6 @@ window.AppointmentsView = Backbone.View.extend({
 	},
 
 	loadApptItem : function(appt) {
-		console.log(appt);
 		var day = moment(appt.newDate.iso);
 		if (appt.doc != 'none') {
 			var doc = new Parse.Query(Doctor);
