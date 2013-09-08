@@ -1,7 +1,8 @@
-window.DialogDeleteView = Backbone.View.extend({
-	initialize: function(){
+window.$dino.DialogDeleteView = Backbone.View.extend({
+	initialize: function(options){
 		this.template = _.template(tpl.get('delete-confirm'));
 		this.$el.attr("data-theme", "none");
+		this.parentView = options.parentView;
 	},
 	
 	events: {
@@ -15,9 +16,16 @@ window.DialogDeleteView = Backbone.View.extend({
 		this.model.destroy({
 			success: function(){
 				console.log('item successfully destroyed');
+				// fixed problem where sometimes itemview isn't removed
+				// on model destroy
+				if (that.parentView) {
+					console.log('parentview for symptom item still exists');
+					that.parentView.destroy();
+				}
 				that.destroy();
 			}			
 		});
+		
 	},
 	
 	className: 'ui-content',
