@@ -1,11 +1,24 @@
-window.LoginView = Backbone.View.extend({
+window.$dino.LoginView = Backbone.View.extend({
   initialize: function() {
         this.template = _.template(tpl.get('login'));    
+        
   },
   
   events: {
     'click #signupBtn' : 'signup',
-    'click #loginBtn' : 'login'
+    'click #loginBtn' : 'login',
+    'focus input' : 'increasePageHeight'
+  },
+  
+  increasePageHeight: function(){
+    var $page  = $(".ui-page"),
+        vSpace = $page.children('.ui-header').outerHeight() + $page.children('.ui-footer').outerHeight() + $page.children('.ui-content').height();
+        console.log($page);
+
+    if (vSpace < $(window).height()) {
+        var vDiff = $(window).height() - $page.children('.ui-header').outerHeight() - $page.children('.ui-footer').outerHeight() - 40;//minus thirty for margin
+        $page.children('.ui-content').height(vDiff);
+    }
   },
   
   signup: function(){
@@ -15,7 +28,7 @@ window.LoginView = Backbone.View.extend({
     Parse.User.signUp(usr, pw, {}, {
       success: function(user) {
         console.log("new user signup");
-        app.navigate("symptoms", {trigger: true});
+        $dino.app.navigate("symptoms", {trigger: true});
       }, 
       error: function(err){
         that.$("#error").html(err);
@@ -29,7 +42,7 @@ window.LoginView = Backbone.View.extend({
     var that = this;
     Parse.User.logIn(usr, pw, {
       success: function(user) {
-        app.navigate("list", {trigger: true});
+        $dino.app.navigate("symptoms", {trigger: true});
       }, 
       error: function(usr, err){
         that.$("#error").html(err);        

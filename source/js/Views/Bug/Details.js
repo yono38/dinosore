@@ -1,4 +1,4 @@
-window.BugDetailView = Backbone.View.extend({
+window.$dino.BugDetailView = Backbone.View.extend({
 
     initialize:function () {
         this.template = _.template(tpl.get('bug-details'));

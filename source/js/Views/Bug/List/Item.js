@@ -1,4 +1,4 @@
-window.BugListItemView = Backbone.View.extend({
+window.$dino.BugListItemView = Backbone.View.extend({
 	
     tagName:"li",
 

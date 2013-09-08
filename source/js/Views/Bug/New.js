@@ -1,9 +1,9 @@
-window.NewBugView = Backbone.View.extend({
+window.$dino.NewBugView = Backbone.View.extend({
   initialize: function(){
     this.template = _.template(tpl.get('bug-new'));  
     this.first = true;   
     this.priority = 1;
-    this.colors = new ColorList();
+    this.colors = new $dino.ColorList();
    // this.colors.bind("change", this.makeList);
     this.colors.bind('add', this.makeList);
     _(this).bindAll("addBug", "render", "makeList", "changePriority");
@@ -38,7 +38,7 @@ window.NewBugView = Backbone.View.extend({
     bug.save(null, {
       success: function(bug){
         console.log("New bug saved: "+bug.id);
-        app.navigate("list", {trigger: true});
+        $dino.app.navigate("list", {trigger: true});
       },
       error: function(bugg, error){
         console.log("Failed to save bug, error: "+error.description);

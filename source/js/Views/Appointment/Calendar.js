@@ -1,8 +1,8 @@
-window.AppointmentsView = Backbone.View.extend({
+window.$dino.AppointmentsView = Backbone.View.extend({
 
 	initialize : function() {
 		this.template = _.template(tpl.get('appointment-calendar'));
-		this.collection.query = new Parse.Query(Appointment);
+		this.collection.query = new Parse.Query($dino.Appointment);
 		this.collection.query.equalTo("user", Parse.User.current());
 		var that = this;
 		this.highDates = [];
@@ -25,7 +25,7 @@ window.AppointmentsView = Backbone.View.extend({
 		console.log(appt);
 		var day = moment(appt.newDate.iso);
 		if (appt.doc != 'none') {
-			var doc = new Parse.Query(Doctor);
+			var doc = new Parse.Query($dino.Doctor);
 			doc.get(appt.doc, {
 				success : function(doctor) {
 					var apptData = {
@@ -133,7 +133,7 @@ window.AppointmentsView = Backbone.View.extend({
 	},
 
 	newAppt : function() {
-		app.navigate("appts/add", {
+		$dino.app.navigate("appts/add", {
 			trigger : true
 		});
 	},
@@ -141,10 +141,10 @@ window.AppointmentsView = Backbone.View.extend({
 	modifyAppt : function() {
 		var apptId = this.$(".editAppt").attr("data-apptId");
 		console.log("Time to modify appt id: " + apptId);
-		var query = new Parse.Query(Appointment);
+		var query = new Parse.Query($dino.Appointment);
 		query.get(apptId, {
 			success : function(appt) {
-				app.navigate("appts/" + apptId + "/modify", {
+				$dino.app.navigate("appts/" + apptId + "/modify", {
 					trigger : true
 				});
 			},
@@ -158,7 +158,7 @@ window.AppointmentsView = Backbone.View.extend({
 	removeAppt : function() {
 		var apptId = this.$(".removeAppt").attr("data-apptId");
 		console.log("Time to remove appt id: " + apptId);
-		var query = new Parse.Query(Appointment);
+		var query = new Parse.Query($dino.Appointment);
 		query.get(apptId, {
 			success : function(appt) {
 				appt.destroy({
@@ -179,7 +179,7 @@ window.AppointmentsView = Backbone.View.extend({
 	},
 
 	addAppt : function() {
-		app.navigate("#appts/add", {
+		$dino.app.navigate("#appts/add", {
 			trigger : true
 		});
 		// bad practice!
