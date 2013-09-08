@@ -1,4 +1,4 @@
-window.FooterView = Backbone.View.extend({
+window.$dino.FooterView = Backbone.View.extend({
 	
   initialize: function() {
     this.template = _.template(tpl.get('footer'));    
@@ -11,7 +11,7 @@ window.FooterView = Backbone.View.extend({
   navBtn: function(e){
   	var hash = $(e.currentTarget).attr("href");
   	if ($.inArray(hash, ['appts', 'medinfo', 'bugs', 'symptoms'] )){
-  		app.navigate(hash, true);
+  		$dino.app.navigate(hash, true);
   	}
   },
   

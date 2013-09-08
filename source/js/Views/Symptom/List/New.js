@@ -1,4 +1,4 @@
-window.SymptomListNewView = Backbone.View.extend({
+window.$dino.SymptomListNewView = Backbone.View.extend({
 	
 	tagName:"li",
 	
@@ -23,7 +23,7 @@ window.SymptomListNewView = Backbone.View.extend({
 	createNew: function(e){
 		if (e) e.preventDefault();
 		if (this.$("#newSymptomInput").val() != ""){
-			var symp = new Symptom({
+			var symp = new $dino.Symptom({
 				user: Parse.User.current(),
 				title: this.$("#newSymptomInput").val()
 			});

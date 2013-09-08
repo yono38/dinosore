@@ -1,10 +1,11 @@
-window.SymptomListItemView = Backbone.View.extend({
+window.$dino.SymptomListItemView = Backbone.View.extend({
 	
 	tagName: "li",
 	
 	initialize: function(){
 		this.template = _.template(tpl.get('symptom-list-item'));
 		this.model.bind('remove', this.destroy);
+		_.bindAll(this, 'destroy');
 	}, 
 	
 	events: {
@@ -57,7 +58,7 @@ window.SymptomListItemView = Backbone.View.extend({
 	
 	confirmDelete: function(){
 		if (!this.settingSeverity){		
-			this.deleteDialog = new DialogDeleteView({model: this.model, parentView: this});
+			this.deleteDialog = new $dino.DialogDeleteView({model: this.model, parentView: this});
 			console.log(this.$el);
 			this.deleteDialog.render();
 			$(this.el).append(this.deleteDialog);
@@ -73,7 +74,7 @@ window.SymptomListItemView = Backbone.View.extend({
 			this.model.increment("count", 1);
 			this.model.save(); 
 			//create a new plusOne object when someone clicks plusOne
-			var plusOne = new PlusOne();
+			var plusOne = new $dino.PlusOne();
 			console.log(this.model.id);
 			var severityLvl = this.settingSeverity ? parseInt(this.$("#severity").val()) : null;
 			plusOne.save({
@@ -92,6 +93,7 @@ window.SymptomListItemView = Backbone.View.extend({
 	},
 	
 	destroy: function(){
+		console.log('destroying itemview');
 		this.unbind();
 		this.remove();
 	},

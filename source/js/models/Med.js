@@ -1,9 +1,9 @@
 
-window.Med = Parse.Object.extend({
+window.$dino.Med = Parse.Object.extend({
   className: "Med",
   title: "New Medication"
 });
 
-window.MedList = Parse.Collection.extend({
-  model: Med
+window.$dino.MedList = Parse.Collection.extend({
+  model: $dino.Med
 });

@@ -1,4 +1,4 @@
-window.Symptom= Parse.Object.extend({
+window.$dino.Symptom= Parse.Object.extend({
     className: "Symptom",
    defaults: {
     title: "New Symptom",
@@ -6,7 +6,7 @@ window.Symptom= Parse.Object.extend({
    }
 });
 
-window.SymptomList = Parse.Collection.extend({
-    model: Symptom
+window.$dino.SymptomList = Parse.Collection.extend({
+    model: $dino.Symptom
 });
 
