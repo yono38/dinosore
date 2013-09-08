@@ -1,4 +1,4 @@
-window.LoginView = Backbone.View.extend({
+window.$dino.LoginView = Backbone.View.extend({
   initialize: function() {
         this.template = _.template(tpl.get('login'));    
         
@@ -28,7 +28,7 @@ window.LoginView = Backbone.View.extend({
     Parse.User.signUp(usr, pw, {}, {
       success: function(user) {
         console.log("new user signup");
-        app.navigate("symptoms", {trigger: true});
+        $dino.app.navigate("symptoms", {trigger: true});
       }, 
       error: function(err){
         that.$("#error").html(err);
@@ -42,7 +42,7 @@ window.LoginView = Backbone.View.extend({
     var that = this;
     Parse.User.logIn(usr, pw, {
       success: function(user) {
-        app.navigate("symptoms", {trigger: true});
+        $dino.app.navigate("symptoms", {trigger: true});
       }, 
       error: function(usr, err){
         that.$("#error").html(err);        

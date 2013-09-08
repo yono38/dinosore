@@ -1,9 +1,9 @@
-window.BugListView = Backbone.View.extend({
+window.$dino.BugListView = Backbone.View.extend({
     
     initialize:function () {
         this.template = _.template(tpl.get('bug-list'));   
         _.bindAll(this, 'render'); 
-        this.collection = new BugList();
+        this.collection = new $dino.BugList();
     },    
     
     sortList: function(bug){
@@ -17,15 +17,15 @@ window.BugListView = Backbone.View.extend({
     },
     
     newBug: function(){
-      app.navigate("bugs/add", {trigger: true});
+      $dino.app.navigate("bugs/add", {trigger: true});
     },
     
     medInfo: function(){
-      app.navigate("medinfo", {trigger: true});
+      $dino.app.navigate("medinfo", {trigger: true});
     },
     
     addOne: function(bug){
-      var view = new BugListItemView({model: bug, name:'cutiebear'});
+      var view = new $dino.BugListItemView({model: bug, name:'cutiebear'});
       this.$("#myList").append(view.render().el);  
       this.$("#myList").listview('refresh');  
     },
@@ -33,7 +33,7 @@ window.BugListView = Backbone.View.extend({
     logout: function(){
       Parse.User.logOut(null, {
         success: function(){
-          app.navigate("", {trigger:true});
+          $dino.app.navigate("", {trigger:true});
         }
       });
     },
@@ -42,7 +42,7 @@ window.BugListView = Backbone.View.extend({
         
         var that = this;
         $(this.el).html(this.template());  
-        this.collection.query = new Parse.Query(Bug);
+        this.collection.query = new Parse.Query($dino.Bug);
         this.collection.query.equalTo("user", Parse.User.current());   
         this.collection.fetch({
           success: function(collection){

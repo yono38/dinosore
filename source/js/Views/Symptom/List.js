@@ -1,9 +1,9 @@
-window.SymptomListView = Backbone.View.extend({
+window.$dino.SymptomListView = Backbone.View.extend({
 
     initialize:function () {
         this.template = _.template(tpl.get('symptom-list'));   
         _.bindAll(this, 'render', 'renderList', 'addSymptomToList'); 
-        this.collection = new SymptomList();
+        this.collection = new $dino.SymptomList();
         this.collection.bind('destroy', this.renderList);
         this.adding = false;
     },    
@@ -38,7 +38,7 @@ window.SymptomListView = Backbone.View.extend({
     newSymptom: function(e){
     	e.preventDefault();
     	if (!this.adding){
-	    	this.newSymptomListItem = new SymptomListNewView();
+	    	this.newSymptomListItem = new $dino.SymptomListNewView();
 	      	this.newSymptomListItem.bind('newItem', this.addSymptomToList);
 	    	this.$("#myList").prepend(this.newSymptomListItem.render().el);
 	    	this.$("#myList").listview('refresh');
@@ -54,7 +54,7 @@ window.SymptomListView = Backbone.View.extend({
     
     addOne: function(symptom){
     	console.log("berzo adds poop to scoopah");
-      	var view = new SymptomListItemView({model: symptom});
+      	var view = new $dino.SymptomListItemView({model: symptom});
      	this.$("#myList").append(view.render().el);  
     },
     
@@ -70,7 +70,7 @@ window.SymptomListView = Backbone.View.extend({
     	console.log('render list');
     	var that = this;
     	this.$("#myList").empty();
-    	this.collection.query = new Parse.Query(Symptom);
+    	this.collection.query = new Parse.Query($dino.Symptom);
         this.collection.query.equalTo("user", Parse.User.current());   
         this.collection.fetch({
        

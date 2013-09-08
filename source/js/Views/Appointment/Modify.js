@@ -1,4 +1,4 @@
-window.AppointmentModifyView = Backbone.View.extend({
+window.$dino.AppointmentModifyView = Backbone.View.extend({
   initialize: function(){
     this.template = _.template(tpl.get('appointment-modify'));  
   },
@@ -31,7 +31,7 @@ window.AppointmentModifyView = Backbone.View.extend({
     this.model.save(null, {
       success: function(appt){
         console.log("New appt saved: "+appt.id);
-        app.navigate("appts", {trigger: true});
+        $dino.app.navigate("appts", {trigger: true});
       },
       error: function(appt, error){
         console.log("Failed to save appt, error: "+error.description);
@@ -68,13 +68,13 @@ window.AppointmentModifyView = Backbone.View.extend({
     }
     var item, query, selector, selected;
     if (type == "bug") {
-      item = new BugList();
-      query = Bug;
+      item = new $dino.BugList();
+      query = $dino.Bug;
       selector = "#select-bug";
       selected = this.model.get("bug");
     } else {
-      item = new DoctorList();
-      query = Doctor;
+      item = new $dino.DoctorList();
+      query = $dino.Doctor;
       selector = "#select-doc";
       selected = this.model.get("doc");
     }
