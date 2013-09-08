@@ -68,3 +68,7 @@ font-weight: bold;
 .cancelBtn {
 	background: red;
 }
+
+#cancel-change-severity .ui-btn-inner {
+	padding-right: 15px;
+}
