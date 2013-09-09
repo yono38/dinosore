@@ -1,9 +1,16 @@
 describe("SymptomListItemView", function(){
+	Parse.Object.save = function(data, cbObj){
+		cbObj['success']();
+	};
+	
 	var view, model;
 	
 	beforeEach(function(){
 		model = new $dino.Symptom();
-		model.set("objectId", "123");
+		model.set({
+			"objectId": "123",
+			"id" : "123"
+			});
 		view = new $dino.SymptomListItemView({ "model" : model});
 	});	
 	
@@ -41,5 +48,24 @@ describe("SymptomListItemView", function(){
 		view.clickPlus();
 		expect(view.model.get("count")).toEqual(1);
 		expect(view.model.save.calls.length).toEqual(1);
+	});
+	
+	it("cannot plusOne twice", function(){
+		view.render();
+		spyOn(view.model, 'save').andCallFake(function(){
+			view.added = true;
+		});
+		view.clickPlus();
+		view.clickPlus();
+		expect(view.model.get("count")).toEqual(1);
+		expect(view.model.save.calls.length).toEqual(1);
+	});
+	
+	it("plusOnes with severity", function(){
+		view.render();
+		view.setSeverity();
+		view.$("#severity").val("5");
+		view.clickPlus();
+		expect(view.plusOne.get("severity")).toEqual(5);
 	});
 });

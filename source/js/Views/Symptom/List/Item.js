@@ -74,10 +74,9 @@ window.$dino.SymptomListItemView = Backbone.View.extend({
 			this.model.increment("count", 1);
 			this.model.save(); 
 			//create a new plusOne object when someone clicks plusOne
-			var plusOne = new $dino.PlusOne();
-			console.log(this.model.id);
+			this.plusOne = new $dino.PlusOne();
 			var severityLvl = this.settingSeverity ? parseInt(this.$("#severity").val()) : null;
-			plusOne.save({
+			this.plusOne.save({
 				item: this.model.id,
 				severity: severityLvl,
 				user: Parse.User.current()
