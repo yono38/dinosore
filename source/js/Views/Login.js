@@ -1,7 +1,6 @@
 window.$dino.LoginView = Backbone.View.extend({
   initialize: function() {
         this.template = _.template(tpl.get('login'));    
-        
   },
   
   events: {
@@ -25,13 +24,16 @@ window.$dino.LoginView = Backbone.View.extend({
     var usr = this.$("#email").val();
     var pw = this.$("#password").val();
     var that = this;
+   if (usr == "" || pw == ""){
+    	this.$("#error").html("Email & Password Cannot Be Blank");
+    	return;
+    }
     Parse.User.signUp(usr, pw, {}, {
       success: function(user) {
-        console.log("new user signup");
         $dino.app.navigate("symptoms", {trigger: true});
       }, 
       error: function(err){
-        that.$("#error").html(err);
+        that.$("#error").html(err.message.toTitleCase());
       }
     });
   },
@@ -40,12 +42,17 @@ window.$dino.LoginView = Backbone.View.extend({
     var usr = this.$("#email").val();
     var pw = this.$("#password").val();
     var that = this;
+    if (usr == "" || pw == ""){
+    	this.$("#error").html("Email & Password Cannot Be Blank");
+    	return;
+    }
+    
     Parse.User.logIn(usr, pw, {
       success: function(user) {
         $dino.app.navigate("symptoms", {trigger: true});
       }, 
       error: function(usr, err){
-        that.$("#error").html(err);        
+        that.$("#error").html(err.message.toTitleCase());        
       }
     });  
   },

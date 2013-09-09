@@ -67,7 +67,7 @@ window.$dino.SymptomListItemView = Backbone.View.extend({
 	},
 
 	clickPlus: function(e){
-		e.preventDefault();
+		if (e) e.preventDefault();
 		if (!this.added){
 			var that = this;
 			if (this.alreadyClicked) return;

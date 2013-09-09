@@ -36,7 +36,7 @@ window.$dino.SymptomListView = Backbone.View.extend({
     },
     
     newSymptom: function(e){
-    	e.preventDefault();
+    	if (e) e.preventDefault();
     	if (!this.adding){
 	    	this.newSymptomListItem = new $dino.SymptomListNewView();
 	      	this.newSymptomListItem.bind('newItem', this.addSymptomToList);
@@ -61,7 +61,7 @@ window.$dino.SymptomListView = Backbone.View.extend({
     logout: function(){
       Parse.User.logOut(null, {
         success: function(){
-          app.navigate("", {trigger:true});
+          $dino.app.navigate("", {trigger:true});
         }
       });
     },
@@ -75,6 +75,11 @@ window.$dino.SymptomListView = Backbone.View.extend({
         this.collection.fetch({
        
           success: function(collection){
+          	if (collection.length ==0){
+          		that.$("#myList").html('<span class="bobregular"><div>No Symptoms Added Yet!</div><hr> <div>Click "Add" Above to Get Started</div><hr></span>')
+          		this.emptyCollection = true;
+          		return;
+          	}
           	
           	collection.comparator = that.sortList;
           	

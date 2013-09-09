@@ -3,6 +3,8 @@ tpl = {
     // Hash of preloaded templates for the app
     templates:{},
 
+	tplDir: 'tpl/',
+	
     // Recursively pre-load all the templates for the app.
     // This implementation should be changed in a production environment. All the template files should be
     // concatenated in a single file.
@@ -13,7 +15,7 @@ tpl = {
         var loadTemplate = function (index) {
             var name = names[index];
        //     console.log('Loading template: ' + name);
-            $.get('tpl/' + name + '.html', function (data) {
+            $.get(that.tplDir + name + '.html', function (data) {
                 that.templates[name] = data;
                 index++;
                 if (index < names.length) {
@@ -22,7 +24,7 @@ tpl = {
                     callback();
                 }
             });
-        }
+        };
 
         loadTemplate(0);
     },
