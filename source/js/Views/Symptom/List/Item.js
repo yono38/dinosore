@@ -93,6 +93,7 @@ window.$dino.SymptomListItemView = Backbone.View.extend({
 	
 	destroy: function(){
 		console.log('destroying itemview');
+		if (this.deleteDialog) this.deleteDialog.destroy();
 		this.unbind();
 		this.remove();
 	},

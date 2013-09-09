@@ -2,6 +2,9 @@ describe("SymptomListItemView", function(){
 	Parse.Object.save = function(data, cbObj){
 		cbObj['success']();
 	};
+	Parse.Object.destroy = function(cbObj){
+		cbObj['success']();
+	};
 	
 	var view, model;
 	
@@ -13,6 +16,10 @@ describe("SymptomListItemView", function(){
 			});
 		view = new $dino.SymptomListItemView({ "model" : model});
 	});	
+	
+	afterEach(function(){
+		view.destroy();
+	});
 	
 	it("renders", function(){
 		expect(view.$el).toBeEmpty();
@@ -63,9 +70,20 @@ describe("SymptomListItemView", function(){
 	
 	it("plusOnes with severity", function(){
 		view.render();
+		spyOn(view.model, 'save');
 		view.setSeverity();
 		view.$("#severity").val("5");
 		view.clickPlus();
+		expect(view.model.save.calls.length).toEqual(1);
 		expect(view.plusOne.get("severity")).toEqual(5);
+	});
+	
+	it("can be deleted", function(){
+		spyOn(view.model, 'destroy');
+		view.render();
+		view.confirmDelete();
+		expect(view.deleteDialog).toBeDefined();
+		view.deleteDialog.deleteItem();
+		expect(view.model.destroy.calls.length).toEqual(1);		
 	});
 });

@@ -45,6 +45,7 @@ window.$dino.DialogDeleteView = Backbone.View.extend({
 		this.$("#yes").remove();
 		this.$("#cancel").remove();	
 		$(this.el).popup("close");
+		this.unbind();
 		this.remove();	
 	},
 	

@@ -79,7 +79,10 @@ $dino.AppRouter = Backbone.Router.extend({
     },
 
     bugList:function () {
-      this.changePage(new $dino.BugListView(), true);
+      var collection = new $dino.BugList();
+      collection.query = new Parse.Query($dino.Bug);
+      collection.query.equalTo("user", Parse.User.current());   
+      this.changePage(new $dino.BugListView({"collection" : collection}), true);
     },
     
     symptomList:function () {
