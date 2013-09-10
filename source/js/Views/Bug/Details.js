@@ -6,9 +6,10 @@ window.$dino.BugDetailView = Backbone.View.extend({
 
     render:function (eventName) {
         var model = _.defaults(this.model.toJSON(), {
-          "symptoms": false,
-          "medications": false,
-          "tests": false,
+          "bugDetails" : "",
+          "symptoms": [],
+          "medications": [],
+          "tests": [],
           "assignedTo": "Not Assigned"
         });
         console.log(model);    
