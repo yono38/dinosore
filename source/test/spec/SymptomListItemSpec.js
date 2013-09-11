@@ -24,7 +24,6 @@ describe("SymptomListItemView", function(){
 	it("renders", function(){
 		expect(view.$el).toBeEmpty();
 		view.render();
-		console.log(view.$el.html());
 		expect(view.$el).not.toBeEmpty();
 		expect(view.$(".symptom-title").text()).toEqual('New Symptom');	
 	});
@@ -76,6 +75,17 @@ describe("SymptomListItemView", function(){
 		view.clickPlus();
 		expect(view.model.save.calls.length).toEqual(1);
 		expect(view.plusOne.get("severity")).toEqual(5);
+	});
+	
+	it("plusOnes with notes", function(){
+		view.render();
+		spyOn(view.model, 'save');
+		view.setSeverity();
+		expect(view.$("#symptom-notes").length).toEqual(1);
+		view.$("#symptom-notes").val("Test Note");
+		view.clickPlus();
+		expect(view.model.save.calls.length).toEqual(1);
+		expect(view.plusOne.get("notes")).toEqual("Test Note");
 	});
 	
 	it("can be deleted", function(){

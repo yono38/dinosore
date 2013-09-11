@@ -19,7 +19,6 @@ describe("SymptomListView", function(){
 		view.newSymptom();
 		expect(view.adding).toBeTruthy();
 		expect(view.newSymptomListItem).toBeDefined();
-		console.log(view.newSymptomListItem.$("#newSymptomLi"));
 		expect(view.newSymptomListItem.$("#newSymptomLi").length).toEqual(1);
 //		expect(view.$("#newSymptom .ui-btn-text").text()).toEqual("Cancel");
 	});

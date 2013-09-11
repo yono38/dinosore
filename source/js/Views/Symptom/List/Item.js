@@ -29,7 +29,6 @@ window.$dino.SymptomListItemView = Backbone.View.extend({
 		var title = this.$(".symptom-title").text();
 		var itemHtml = '<span class="symptom-title">'+title+'</span>';
 		if (type == "added"){
-			console.log("adding bubble");
 			itemHtml += '<span data-count-theme="b" class="ui-li-count ui-btn-up-e ui-btn-corner-all added-bubble">Added</span>';			
 		}
 		this.$("h3").html(itemHtml);
@@ -85,7 +84,6 @@ window.$dino.SymptomListItemView = Backbone.View.extend({
 				notes: sympNotes
 			}, {
 			success: function(item){
-				console.log('added plusone successfully!');
 				that.$(".plus-one").addClass("symptom-added");
 				that.resetTitle(null, "added");
 				that.added = true;
