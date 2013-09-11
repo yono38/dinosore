@@ -43,7 +43,8 @@ window.$dino.SymptomListItemView = Backbone.View.extend({
 	
 	setSeverity: function(){
 		if (!this.settingSeverity){
-			this.$("h3").append('<label for="severity">Ouch Level:</label><input type="range" name="severity" id="severity" value="3" min="1" max="5" /><a data-inline="true" data-theme="b" data-mini="true" id="cancel-change-severity" class="cancelBtn ui-mini">Cancel</a>').css("padding-top", "10px");
+			this.$("h3").append('<label for="severity">Ouch Level:</label><input type="range" name="severity" id="severity" value="3" min="1" max="5" /><input type="text" placeholder="Notes" id="symptom-notes" value="" /><a data-inline="true" data-theme="b" data-mini="true" id="cancel-change-severity" class="cancelBtn ui-mini">Cancel</a>').css("padding-top", "10px");
+			this.$("#symptom-notes").textinput();
 			this.$("#severity").slider({
 				trackTheme: 'b'
 			});
@@ -76,10 +77,12 @@ window.$dino.SymptomListItemView = Backbone.View.extend({
 			//create a new plusOne object when someone clicks plusOne
 			this.plusOne = new $dino.PlusOne();
 			var severityLvl = this.settingSeverity ? parseInt(this.$("#severity").val()) : null;
+			var sympNotes = this.$("#symptom-notes").val();
 			this.plusOne.save({
 				item: this.model.id,
 				severity: severityLvl,
-				user: Parse.User.current()
+				user: Parse.User.current(),
+				notes: sympNotes
 			}, {
 			success: function(item){
 				console.log('added plusone successfully!');
