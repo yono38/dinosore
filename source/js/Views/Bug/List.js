@@ -46,7 +46,6 @@ window.$dino.BugListView = Backbone.View.extend({
             }
 	      	that.$("#myList").listview('refresh');  
           }});
-        console.log(this.collection);
         return this;
     }
 });

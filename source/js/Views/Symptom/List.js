@@ -53,7 +53,6 @@ window.$dino.SymptomListView = Backbone.View.extend({
     },
     
     addOne: function(symptom){
-    	console.log("berzo adds poop to scoopah");
       	var view = new $dino.SymptomListItemView({model: symptom});
      	this.$("#myList").append(view.render().el);  
     },
@@ -67,7 +66,6 @@ window.$dino.SymptomListView = Backbone.View.extend({
     },
     
     renderList: function() {
-    	console.log('render list');
     	var that = this;
     	this.$("#myList").empty();
     	this.collection.query = new Parse.Query($dino.Symptom);

@@ -48,7 +48,10 @@ $dino.AppRouter = Backbone.Router.extend({
     },
     
     appts: function(){
-      var apptView = new $dino.AppointmentsView({"collection": new $dino.AppointmentList()});
+	  var collection = new $dino.AppointmentList();
+	  collection.query = new Parse.Query($dino.Appointment);
+	  collection.query.equalTo("user", Parse.User.current());
+      var apptView = new $dino.AppointmentsView({"collection": collection});
       this.changePage(apptView, true);
       $("#date").hide();
       $(".hasDatepicker").off().remove();

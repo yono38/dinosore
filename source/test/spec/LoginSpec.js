@@ -48,7 +48,7 @@ describe("LoginView", function(){
 		
 		waitsFor(function(){
 			return Parse.User.current() != null;
-		}, "User should be logged in", 1000);
+		}, "User should be logged in", 1500);
 		
 		runs(function(){
 			expect(Parse.User.current()).toBeDefined();
@@ -67,7 +67,7 @@ describe("LoginView", function(){
 		
 		waitsFor(function(){
 			return Parse.User.current() != null;
-		}, "User should be logged in", 750);
+		}, "User should be logged in", 1500);
 		
 		runs(function(){
 			expect($dino.app.navigate).toHaveBeenCalled();

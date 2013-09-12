@@ -14,7 +14,6 @@ describe("BugDetailView", function(){
 		view.model = new $dino.MockBug();
 		view.render();
 		expect(view.$el).not.toBeEmpty();
-		console.log(view.$el);
 		expect(view.$("#symptomList").text().trim()).toEqual("No Symptoms Recorded");
 		expect(view.$("#medicationList").text().trim()).toEqual("No Medications Recorded");
 		expect(view.$("#assignedTo").html()).toEqual("Not Assigned");
@@ -28,7 +27,6 @@ describe("BugDetailView", function(){
 		});
 		view.model = model;
 		view.render();
-		console.log(view.$("#symptomList li"));
 		expect(view.$("#symptomList li").length).toEqual(2);
 		expect(view.$("#medicationList li").length).toEqual(1);
 		expect(view.$("#medicationList li .itemName").text()).toEqual("Tylenol");

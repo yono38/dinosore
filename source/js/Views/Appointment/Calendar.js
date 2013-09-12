@@ -1,9 +1,8 @@
 window.$dino.AppointmentsView = Backbone.View.extend({
 
-	initialize : function() {
+	initialize : function(opts) {
+		this.collection = opts.collection;
 		this.template = _.template(tpl.get('appointment-calendar'));
-		this.collection.query = new Parse.Query($dino.Appointment);
-		this.collection.query.equalTo("user", Parse.User.current());
 		var that = this;
 		this.highDates = [];
 		this.collection.fetch({
@@ -23,6 +22,7 @@ window.$dino.AppointmentsView = Backbone.View.extend({
 
 	loadApptItem : function(appt) {
 		var day = moment(appt.newDate.iso);
+		var that = this;
 		if (appt.doc != 'none') {
 			var doc = new Parse.Query($dino.Doctor);
 			doc.get(appt.doc, {
@@ -33,26 +33,27 @@ window.$dino.AppointmentsView = Backbone.View.extend({
 						"time" : day.format('LT'),
 						"apptId" : appt.objectId
 					};
-					$("#fakeAppt").append(_.template(tpl.get("appointment-item"), apptData));
-					$("#fakeAppt").show();
-					$("#noAppt").hide();
-					this.$(".removeAppt").button();
-					this.$(".editAppt").button();
+					that.$("#fakeAppt").append(_.template(tpl.get("appointment-item"), apptData));
+					that.$("#fakeAppt").show();
+					that.$("#noAppt").hide();
+					that.$(".removeAppt").button();
+					that.$(".editAppt").button();
 				},
 				error : function(obj, err) {
 					console.log("failed to retrieve doctor");
 				}
 			});
 		} else {
+			console.log('making appointment');
 			var apptData = {
 				"title" : appt.title,
 				"doc" : "No Doctor",
 				"time" : day.format('LT'),
 				"apptId" : appt.objectId
 			};
-			$("#fakeAppt").append(_.template(tpl.get("appointment-item"), apptData));
-			$("#fakeAppt").show();
-			$("#noAppt").hide();
+			this.$("#fakeAppt").append(_.template(tpl.get("appointment-item"), apptData));
+			this.$("#fakeAppt").show();
+			this.$("#noAppt").hide();
 			this.$(".removeAppt").button();
 			this.$(".editAppt").button();
 		}
@@ -68,18 +69,18 @@ window.$dino.AppointmentsView = Backbone.View.extend({
 				"date" : passed.value
 			});
 			d = _(d).sortBy(function(m) {
-				console.log(m);
 				return moment(m.newDate.iso);
 			});
+			console.log(d);
 			if (d.length > 0) {
 				var i;
-				$("#fakeAppt").empty().show();
-				$("#noAppt").hide();
+				this.$("#fakeAppt").empty().show();
+				this.$("#noAppt").hide();
 				for ( i = 0; i < d.length; i++) {
 					this.loadApptItem(d[i]);
 				}
 			}
-			$("#currDate").html(passed.value);
+			this.$("#currDate").html(passed.value);
 
 		} else {
 			e.stopPropagation();
@@ -92,7 +93,7 @@ window.$dino.AppointmentsView = Backbone.View.extend({
 		}));
 		var that = this;
 		setTimeout(function() {
-			$("#mydate").datebox({
+			that.$("#mydate").datebox({
 				"mode" : "calbox",
 				"highDates" : that.highDates,
 				"useInline" : true,

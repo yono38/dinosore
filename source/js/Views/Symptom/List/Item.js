@@ -59,7 +59,6 @@ window.$dino.SymptomListItemView = Backbone.View.extend({
 	confirmDelete: function(){
 		if (!this.settingSeverity){		
 			this.deleteDialog = new $dino.DialogDeleteView({model: this.model, parentView: this});
-			console.log(this.$el);
 			this.deleteDialog.render();
 			$(this.el).append(this.deleteDialog);
 			this.deleteDialog.open();
@@ -93,7 +92,6 @@ window.$dino.SymptomListItemView = Backbone.View.extend({
 	},
 	
 	destroy: function(){
-		console.log('destroying itemview');
 		if (this.deleteDialog) this.deleteDialog.destroy();
 		this.unbind();
 		this.remove();

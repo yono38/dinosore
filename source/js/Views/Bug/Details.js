@@ -12,7 +12,6 @@ window.$dino.BugDetailView = Backbone.View.extend({
           "tests": [],
           "assignedTo": "Not Assigned"
         });
-        console.log(model);    
 
         $(this.el).html(this.template(model));
         return this;
