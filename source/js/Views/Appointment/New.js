@@ -94,7 +94,6 @@ window.$dino.NewApptView = Backbone.View.extend({
     var that = this;
     item.fetch({
       success: function(coll){
-        console.log(coll);
         that.$(selector).html("<option value='none'>None</option>");        
         _.each(coll['_byId'], function(v,k){
           that.$(selector).append("<option value='"+k+"'>"+v.get("title")+"</option>");

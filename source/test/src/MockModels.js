@@ -18,6 +18,10 @@ $dino.MockBug = Backbone.Model.extend({
 	}
 }); 
 
+$dino.MockBugList = Backbone.Collection.extend({
+	model: $dino.MockBug
+});
+
 $dino.MockColor= Backbone.Model.extend({});
 
 $dino.MockAppointment = Backbone.Model.extend({

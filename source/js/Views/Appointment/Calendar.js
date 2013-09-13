@@ -8,7 +8,6 @@ window.$dino.AppointmentsView = Backbone.View.extend({
 		this.collection.fetch({
 			success : function(collection) {
 				// This code block will be triggered only after receiving the data.
-				console.log(collection.toJSON());
 				for (var i = 0; i < collection.length; i++) {
 					var t = moment(collection.models[i].get("newDate")).format('YYYY-MM-DD');
 					that.highDates.push(t);
@@ -44,7 +43,6 @@ window.$dino.AppointmentsView = Backbone.View.extend({
 				}
 			});
 		} else {
-			console.log('making appointment');
 			var apptData = {
 				"title" : appt.title,
 				"doc" : "No Doctor",
@@ -71,7 +69,6 @@ window.$dino.AppointmentsView = Backbone.View.extend({
 			d = _(d).sortBy(function(m) {
 				return moment(m.newDate.iso);
 			});
-			console.log(d);
 			if (d.length > 0) {
 				var i;
 				this.$("#fakeAppt").empty().show();
@@ -127,7 +124,6 @@ window.$dino.AppointmentsView = Backbone.View.extend({
 	
 	// handles case where user clicks calendar date with no appt
 	"hideEmptyAppt": function(){
-		console.log('test');
 		$("#fakeAppt").hide();
 		$("#noAppt").show();
 	},
@@ -140,7 +136,6 @@ window.$dino.AppointmentsView = Backbone.View.extend({
 
 	modifyAppt : function() {
 		var apptId = this.$(".editAppt").attr("data-apptId");
-		console.log("Time to modify appt id: " + apptId);
 		var query = new Parse.Query($dino.Appointment);
 		query.get(apptId, {
 			success : function(appt) {
@@ -157,7 +152,6 @@ window.$dino.AppointmentsView = Backbone.View.extend({
 
 	removeAppt : function() {
 		var apptId = this.$(".removeAppt").attr("data-apptId");
-		console.log("Time to remove appt id: " + apptId);
 		var query = new Parse.Query($dino.Appointment);
 		query.get(apptId, {
 			success : function(appt) {
