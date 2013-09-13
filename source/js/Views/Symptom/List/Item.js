@@ -1,10 +1,11 @@
-window.SymptomListItemView = Backbone.View.extend({
+window.$dino.SymptomListItemView = Backbone.View.extend({
 	
 	tagName: "li",
 	
 	initialize: function(){
 		this.template = _.template(tpl.get('symptom-list-item'));
 		this.model.bind('remove', this.destroy);
+		_.bindAll(this, 'destroy');
 	}, 
 	
 	events: {
@@ -28,7 +29,6 @@ window.SymptomListItemView = Backbone.View.extend({
 		var title = this.$(".symptom-title").text();
 		var itemHtml = '<span class="symptom-title">'+title+'</span>';
 		if (type == "added"){
-			console.log("adding bubble");
 			itemHtml += '<span data-count-theme="b" class="ui-li-count ui-btn-up-e ui-btn-corner-all added-bubble">Added</span>';			
 		}
 		this.$("h3").html(itemHtml);
@@ -58,8 +58,7 @@ window.SymptomListItemView = Backbone.View.extend({
 	
 	confirmDelete: function(){
 		if (!this.settingSeverity){		
-			this.deleteDialog = new DialogDeleteView({model: this.model, parentView: this});
-			console.log(this.$el);
+			this.deleteDialog = new $dino.DialogDeleteView({model: this.model, parentView: this});
 			this.deleteDialog.render();
 			$(this.el).append(this.deleteDialog);
 			this.deleteDialog.open();
@@ -67,25 +66,23 @@ window.SymptomListItemView = Backbone.View.extend({
 	},
 
 	clickPlus: function(e){
-		e.preventDefault();
+		if (e) e.preventDefault();
 		if (!this.added){
 			var that = this;
 			if (this.alreadyClicked) return;
 			this.model.increment("count", 1);
 			this.model.save(); 
 			//create a new plusOne object when someone clicks plusOne
-			var plusOne = new PlusOne();
-			console.log(this.model.id);
+			this.plusOne = new $dino.PlusOne();
 			var severityLvl = this.settingSeverity ? parseInt(this.$("#severity").val()) : null;
 			var sympNotes = this.$("#symptom-notes").val();
-			plusOne.save({
+			this.plusOne.save({
 				item: this.model.id,
 				severity: severityLvl,
 				user: Parse.User.current(),
 				notes: sympNotes
 			}, {
 			success: function(item){
-				console.log('added plusone successfully!');
 				that.$(".plus-one").addClass("symptom-added");
 				that.resetTitle(null, "added");
 				that.added = true;
@@ -95,6 +92,7 @@ window.SymptomListItemView = Backbone.View.extend({
 	},
 	
 	destroy: function(){
+		if (this.deleteDialog) this.deleteDialog.destroy();
 		this.unbind();
 		this.remove();
 	},

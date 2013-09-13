@@ -1,4 +1,4 @@
-window.BugModifyDialogView = Backbone.View.extend({
+window.$dino.BugModifyDialogView = Backbone.View.extend({
   id: "deleteDialog",
   initialize: function(options){
   	this.model = options.model;
@@ -13,7 +13,7 @@ window.BugModifyDialogView = Backbone.View.extend({
     this.model.destroy({
       success: function(){
         console.log("bug deleted successfully");
-        app.navigate("list", {trigger: true});
+        $dino.app.navigate("list", {trigger: true});
       },
       error: function(object, error) {
         console.log("Failed to delete");

@@ -1,4 +1,4 @@
-window.BugListItemView = Backbone.View.extend({
+window.$dino.BugListItemView = Backbone.View.extend({
 	
     tagName:"li",
 
@@ -21,7 +21,6 @@ window.BugListItemView = Backbone.View.extend({
     },
 
     render:function (eventName) {
-    	console.log(this.model.toJSON());
         $(this.el).html(this.template(this.model.toJSON()));
         return this;
     }
