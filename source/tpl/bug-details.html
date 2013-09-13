@@ -1,6 +1,6 @@
 <div data-role="header">
 	<a
-	href="#list"
+	href="#bugs"
 	data-icon="home"
 	class="ui-btn-left">BugList</a>
 	<h1><%= title %> <span class="ui-li-count">P<%= bugPriority %></span></h1>
@@ -21,10 +21,10 @@
 	<div data-role="collapsible">
 		<h3>Symptoms</h3>
 		<p>
-			<ul>
+			<ul id="symptomList">
 				<%
 				if
-				(symptoms != []){
+				(symptoms.length > 0){
 				_.each( symptoms, function( Item ){ %>
 				<li>
 					<span class="itemName"><%= Item %></span>
@@ -42,10 +42,10 @@
 	<div data-role="collapsible">
 		<h3>Relevant Test Results</h3>
 		<p>
-			<ul>
+			<ul id="testList">
 				<%
 				if
-				(tests){
+				(tests.length > 0){
 				_.each( tests, function( testItem ){ %>
 				<li>
 					<span class="itemName"><%= testItem %></span>
@@ -71,8 +71,8 @@
 
 		<h3>Relevant Medications:</h3>
 		<p>
-			<ul>
-				<% if (medications) {
+			<ul id="medicationList">
+				<% if (medications.length > 0) {
 				_.each( medications, function( Item ){ %>
 				<li>
 					<span class="itemName"><%= Item %></span>

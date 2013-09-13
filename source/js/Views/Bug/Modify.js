@@ -1,11 +1,11 @@
 
-window.BugModifyView = Backbone.View.extend({
+window.$dino.BugModifyView = Backbone.View.extend({
 
     initialize:function(){
         this.template = _.template(tpl.get('bug-details-modify'));
         _.bindAll(this, "deleteItem", "doneModifying", "addItem", "render");
         this.model.bind('change', this.render);
-        this.colors = new ColorList();
+        this.colors = new $dino.ColorList();
         this.debounceSaveTextInput =  _.debounce(this.saveTextInput, 2000);
     },
     
@@ -25,7 +25,7 @@ window.BugModifyView = Backbone.View.extend({
 	deleteBug: function(e){
       e.preventDefault();
       var route = window.location.hash + "/dialog";
-      app.navigate(route, {trigger: true});     
+      $dino.app.navigate(route, {trigger: true});     
     },
     
     savePriority: function(e){
@@ -75,7 +75,7 @@ window.BugModifyView = Backbone.View.extend({
     deleteItem: function(e){
       e.preventDefault();
       var item = ($(e.currentTarget).parent().children(".itemName"))[0];
-      var type = $(e.currentTarget).attr("data-type")
+      var type = $(e.currentTarget).attr("data-type");
       this.model.remove(type, $(item).text());
       var that = this;
       this.model.save(null, {
@@ -122,7 +122,7 @@ window.BugModifyView = Backbone.View.extend({
           console.log("successful update");
           // cut off /modify
           var route = (window.location.hash).slice(0,-7);
-          app.navigate(route, {trigger: true});
+          $dino.app.navigate(route, {trigger: true});
         }
       });
     },
@@ -150,14 +150,12 @@ window.BugModifyView = Backbone.View.extend({
     
     render: function() {
     	var that = this;
-        console.log(this.model.toJSON());
         var model = _.defaults(this.model.toJSON(), {
           "symptoms": [],
           "medications": [],
           "tests": [],
           "assignedTo": "Not Assigned"
         });
-        console.log(model);
         $(this.el).html(this.template(model));
         var color = this.model.get("color");
         if (color) {
@@ -169,7 +167,7 @@ window.BugModifyView = Backbone.View.extend({
         } else {
           this.makeList();
         }
-        this.dialog = this.dialog || new BugModifyDialogView({model: this.model});
+        this.dialog = this.dialog || new $dino.BugModifyDialogView({model: this.model});
         this.dialog.render();
         this.$("#deleteDialog").html(this.dialog.el);
         this.$("#savePopup").hide();

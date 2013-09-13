@@ -1,4 +1,4 @@
-window.Bug = Parse.Object.extend({
+window.$dino.Bug = Parse.Object.extend({
     className: "Bug",
    defaults: {
     bugStatus: "Open",
@@ -11,7 +11,7 @@ window.Bug = Parse.Object.extend({
    }
 });
 
-window.BugList = Parse.Collection.extend({
-    model: Bug
+window.$dino.BugList = Parse.Collection.extend({
+    model: $dino.Bug
 });
 

@@ -1,4 +1,4 @@
-window.MedicalInfoView = Backbone.View.extend({
+window.$dino.MedicalInfoView = Backbone.View.extend({
 
   initialize:function(){
     this.template = _.template(tpl.get('medical-info'));

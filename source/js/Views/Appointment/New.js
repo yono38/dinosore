@@ -1,5 +1,5 @@
 
-window.NewApptView = Backbone.View.extend({
+window.$dino.NewApptView = Backbone.View.extend({
   initialize: function(){
     this.template = _.template(tpl.get('appointment-new'));  
     this.first = true;   
@@ -11,7 +11,7 @@ window.NewApptView = Backbone.View.extend({
   addAppt: function(e){
     e.preventDefault();
     
-    var appt = new Appointment({
+    var appt = new $dino.Appointment({
       user: Parse.User.current(),
       date: this.$("#appt-date").val()
     });
@@ -33,7 +33,7 @@ window.NewApptView = Backbone.View.extend({
     appt.save(null, {
       success: function(appt){
         console.log("New appt saved: "+appt.id);
-        app.navigate("appts", {trigger: true});
+        $dino.app.navigate("appts", {trigger: true});
       },
       error: function(appt, error){
         console.log("Failed to save appt, error: "+error.description);
@@ -79,12 +79,12 @@ window.NewApptView = Backbone.View.extend({
     }
     var item, query, selector;
     if (type == "bug") {
-      item = new BugList();
-      query = Bug;
+      item = new $dino.BugList();
+      query = $dino.Bug;
       selector = "#select-bug";
     } else {
-      item = new DoctorList();
-      query = Doctor;
+      item = new $dino.DoctorList();
+      query = $dino.Doctor;
       selector = "#select-doc";
     }
     item.query = new Parse.Query(query);
@@ -94,7 +94,6 @@ window.NewApptView = Backbone.View.extend({
     var that = this;
     item.fetch({
       success: function(coll){
-        console.log(coll);
         that.$(selector).html("<option value='none'>None</option>");        
         _.each(coll['_byId'], function(v,k){
           that.$(selector).append("<option value='"+k+"'>"+v.get("title")+"</option>");

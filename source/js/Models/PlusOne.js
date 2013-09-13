@@ -1,5 +1,5 @@
 
-window.PlusOne= Parse.Object.extend({
+window.$dino.PlusOne= Parse.Object.extend({
     className: "PlusOne",
    defaults: {
 	date: new Date(),

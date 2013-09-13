@@ -11,7 +11,7 @@
 
 }
 
-.ui-title, #confirm, #yes, #cancel {
+.ui-title, #confirm, #yes, #cancel, .bobregular {
 	font-family: 'bobregular' !important
 }
 
@@ -67,6 +67,10 @@ font-weight: bold;
 
 .cancelBtn {
 	background: red;
+}
+
+#error {
+	color: red;
 }
 
 #cancel-change-severity .ui-btn-inner {

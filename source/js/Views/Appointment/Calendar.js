@@ -1,15 +1,13 @@
-window.AppointmentsView = Backbone.View.extend({
+window.$dino.AppointmentsView = Backbone.View.extend({
 
-	initialize : function() {
+	initialize : function(opts) {
+		this.collection = opts.collection;
 		this.template = _.template(tpl.get('appointment-calendar'));
-		this.collection.query = new Parse.Query(Appointment);
-		this.collection.query.equalTo("user", Parse.User.current());
 		var that = this;
 		this.highDates = [];
 		this.collection.fetch({
 			success : function(collection) {
 				// This code block will be triggered only after receiving the data.
-				console.log(collection.toJSON());
 				for (var i = 0; i < collection.length; i++) {
 					var t = moment(collection.models[i].get("newDate")).format('YYYY-MM-DD');
 					that.highDates.push(t);
@@ -22,10 +20,10 @@ window.AppointmentsView = Backbone.View.extend({
 	},
 
 	loadApptItem : function(appt) {
-		console.log(appt);
 		var day = moment(appt.newDate.iso);
+		var that = this;
 		if (appt.doc != 'none') {
-			var doc = new Parse.Query(Doctor);
+			var doc = new Parse.Query($dino.Doctor);
 			doc.get(appt.doc, {
 				success : function(doctor) {
 					var apptData = {
@@ -34,11 +32,11 @@ window.AppointmentsView = Backbone.View.extend({
 						"time" : day.format('LT'),
 						"apptId" : appt.objectId
 					};
-					$("#fakeAppt").append(_.template(tpl.get("appointment-item"), apptData));
-					$("#fakeAppt").show();
-					$("#noAppt").hide();
-					this.$(".removeAppt").button();
-					this.$(".editAppt").button();
+					that.$("#fakeAppt").append(_.template(tpl.get("appointment-item"), apptData));
+					that.$("#fakeAppt").show();
+					that.$("#noAppt").hide();
+					that.$(".removeAppt").button();
+					that.$(".editAppt").button();
 				},
 				error : function(obj, err) {
 					console.log("failed to retrieve doctor");
@@ -51,9 +49,9 @@ window.AppointmentsView = Backbone.View.extend({
 				"time" : day.format('LT'),
 				"apptId" : appt.objectId
 			};
-			$("#fakeAppt").append(_.template(tpl.get("appointment-item"), apptData));
-			$("#fakeAppt").show();
-			$("#noAppt").hide();
+			this.$("#fakeAppt").append(_.template(tpl.get("appointment-item"), apptData));
+			this.$("#fakeAppt").show();
+			this.$("#noAppt").hide();
 			this.$(".removeAppt").button();
 			this.$(".editAppt").button();
 		}
@@ -69,18 +67,17 @@ window.AppointmentsView = Backbone.View.extend({
 				"date" : passed.value
 			});
 			d = _(d).sortBy(function(m) {
-				console.log(m);
 				return moment(m.newDate.iso);
 			});
 			if (d.length > 0) {
 				var i;
-				$("#fakeAppt").empty().show();
-				$("#noAppt").hide();
+				this.$("#fakeAppt").empty().show();
+				this.$("#noAppt").hide();
 				for ( i = 0; i < d.length; i++) {
 					this.loadApptItem(d[i]);
 				}
 			}
-			$("#currDate").html(passed.value);
+			this.$("#currDate").html(passed.value);
 
 		} else {
 			e.stopPropagation();
@@ -93,7 +90,7 @@ window.AppointmentsView = Backbone.View.extend({
 		}));
 		var that = this;
 		setTimeout(function() {
-			$("#mydate").datebox({
+			that.$("#mydate").datebox({
 				"mode" : "calbox",
 				"highDates" : that.highDates,
 				"useInline" : true,
@@ -127,24 +124,22 @@ window.AppointmentsView = Backbone.View.extend({
 	
 	// handles case where user clicks calendar date with no appt
 	"hideEmptyAppt": function(){
-		console.log('test');
 		$("#fakeAppt").hide();
 		$("#noAppt").show();
 	},
 
 	newAppt : function() {
-		app.navigate("appts/add", {
+		$dino.app.navigate("appts/add", {
 			trigger : true
 		});
 	},
 
 	modifyAppt : function() {
 		var apptId = this.$(".editAppt").attr("data-apptId");
-		console.log("Time to modify appt id: " + apptId);
-		var query = new Parse.Query(Appointment);
+		var query = new Parse.Query($dino.Appointment);
 		query.get(apptId, {
 			success : function(appt) {
-				app.navigate("appts/" + apptId + "/modify", {
+				$dino.app.navigate("appts/" + apptId + "/modify", {
 					trigger : true
 				});
 			},
@@ -157,8 +152,7 @@ window.AppointmentsView = Backbone.View.extend({
 
 	removeAppt : function() {
 		var apptId = this.$(".removeAppt").attr("data-apptId");
-		console.log("Time to remove appt id: " + apptId);
-		var query = new Parse.Query(Appointment);
+		var query = new Parse.Query($dino.Appointment);
 		query.get(apptId, {
 			success : function(appt) {
 				appt.destroy({
@@ -179,7 +173,7 @@ window.AppointmentsView = Backbone.View.extend({
 	},
 
 	addAppt : function() {
-		app.navigate("#appts/add", {
+		$dino.app.navigate("#appts/add", {
 			trigger : true
 		});
 		// bad practice!

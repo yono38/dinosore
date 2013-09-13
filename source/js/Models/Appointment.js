@@ -1,4 +1,4 @@
-window.Appointment = Parse.Object.extend({
+window.$dino.Appointment = Parse.Object.extend({
    className: "Appointment",
    defaults: {
     date: new Date(),
@@ -6,6 +6,6 @@ window.Appointment = Parse.Object.extend({
    }
 });
 
-window.AppointmentList = Parse.Collection.extend({
-    model: Appointment
+window.$dino.AppointmentList = Parse.Collection.extend({
+    model: $dino.Appointment
 });

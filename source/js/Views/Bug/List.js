@@ -1,9 +1,9 @@
-window.BugListView = Backbone.View.extend({
+window.$dino.BugListView = Backbone.View.extend({
     
-    initialize:function () {
+    initialize:function (opts) {
         this.template = _.template(tpl.get('bug-list'));   
-        _.bindAll(this, 'render'); 
-        this.collection = new BugList();
+        _.bindAll(this, 'render');
+        this.collection = opts.collection;
     },    
     
     sortList: function(bug){
@@ -12,20 +12,15 @@ window.BugListView = Backbone.View.extend({
     
     events: {
       'click #logout' : 'logout',
-      'click #medInfo' : 'medInfo',
       'click #newBug' : 'newBug'
     },
     
     newBug: function(){
-      app.navigate("bugs/add", {trigger: true});
-    },
-    
-    medInfo: function(){
-      app.navigate("medinfo", {trigger: true});
+      $dino.app.navigate("bugs/add", {trigger: true});
     },
     
     addOne: function(bug){
-      var view = new BugListItemView({model: bug, name:'cutiebear'});
+      var view = new $dino.BugListItemView({model: bug});
       this.$("#myList").append(view.render().el);  
       this.$("#myList").listview('refresh');  
     },
@@ -33,17 +28,14 @@ window.BugListView = Backbone.View.extend({
     logout: function(){
       Parse.User.logOut(null, {
         success: function(){
-          app.navigate("", {trigger:true});
+          $dino.app.navigate("", {trigger:true});
         }
       });
     },
     render: function () {
-        console.log(this);
-        
         var that = this;
         $(this.el).html(this.template());  
-        this.collection.query = new Parse.Query(Bug);
-        this.collection.query.equalTo("user", Parse.User.current());   
+       // this.$("#myList").listview();
         this.collection.fetch({
           success: function(collection){
           	collection.comparator = that.sortList;
@@ -52,9 +44,8 @@ window.BugListView = Backbone.View.extend({
             for (var i=0; i<collection.length; i++){
               that.addOne(collection.models[i]);
             }
-	      	this.$("#myList").listview('refresh');  
+	      	that.$("#myList").listview('refresh');  
           }});
-        console.log(this.collection);
         return this;
     }
 });
