@@ -1,13 +1,15 @@
 describe("SymptomListItemView", function(){
+
+	var view, model;
+	
 	Parse.Object.save = function(data, cbObj){
+		model.set(data);
 		cbObj['success']();
 	};
 	Parse.Object.destroy = function(cbObj){
 		cbObj['success']();
 	};
-	
-	var view, model;
-	
+		
 	beforeEach(function(){
 		model = new $dino.Symptom();
 		model.set({
@@ -31,7 +33,7 @@ describe("SymptomListItemView", function(){
 	it("opens severity slider", function(){
 		view.render();
 		view.setSeverity();
-		expect(view.$("#severity").val()).toEqual("3");
+		expect(view.$("#severity").val()).toEqual("0");
 		expect(view.$("#severity")).toBeHidden();
 	});
 	
@@ -70,22 +72,42 @@ describe("SymptomListItemView", function(){
 	it("plusOnes with severity", function(){
 		view.render();
 		spyOn(view.model, 'save');
-		view.setSeverity();
-		view.$("#severity").val("5");
 		view.clickPlus();
 		expect(view.model.save.calls.length).toEqual(1);
-		expect(view.plusOne.get("severity")).toEqual(5);
+		runs(function(){
+			view.setSeverity();
+			view.$("#severity").val("5");
+			view.debounceSaveSeverity();
+		});
+		
+		waitsFor(function(){
+			var sev = view.plusOne.get("severity");
+			return sev == 5;
+		}, "severity to set on model", 2100);
+		
+		runs(function(){
+			expect(view.plusOne.get("severity")).toEqual(5)
+		});
 	});
 	
 	it("plusOnes with notes", function(){
 		view.render();
 		spyOn(view.model, 'save');
-		view.setSeverity();
-		expect(view.$("#symptom-notes").length).toEqual(1);
-		view.$("#symptom-notes").val("Test Note");
 		view.clickPlus();
-		expect(view.model.save.calls.length).toEqual(1);
-		expect(view.plusOne.get("notes")).toEqual("Test Note");
+		runs(function(){
+			view.setSeverity();
+			expect(view.$("#symptom-notes").length).toEqual(1);
+			view.$("#symptom-notes").val("Test Note");
+			view.debounceSaveSeverity();
+		});
+		
+		waitsFor(function(){
+			return view.plusOne.get("notes") == "Test Note";
+		}, "notes to set on model", 2100);
+		
+		runs(function(){
+			expect(view.plusOne.get("notes")).toEqual("Test Note");
+		});
 	});
 	
 	it("can be deleted", function(){

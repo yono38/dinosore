@@ -85,3 +85,9 @@ font-weight: bold;
 	font-size: 12px;
 	margin-left: 10px;
 }
+
+@media (max-width:600px) {
+	.ui-icon-check {
+		background-position: -282px 50%;
+	}
+}

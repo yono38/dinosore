@@ -74,6 +74,7 @@ window.$dino.SymptomListItemView = Backbone.View.extend({
 		if (e) e.preventDefault();
 		if (!this.added){
 			var that = this;
+			console.log('clickcing');
 			if (this.alreadyClicked) return;
 			this.model.increment("count", 1);
 			this.model.save(); 
@@ -84,6 +85,7 @@ window.$dino.SymptomListItemView = Backbone.View.extend({
 				user: Parse.User.current()
 			}, {
 			success: function(item){
+				console.log('test');
 				that.added = true;
 				that.setSeverity();
 				that.$(".ui-icon").removeClass("ui-icon-plus");
