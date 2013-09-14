@@ -13,10 +13,15 @@ window.$dino.SymptomListItemView = Backbone.View.extend({
 		"click .plus-one" : "clickPlus",
 		"swiperight" : "confirmDelete",
 	//	"swipeleft" : "setSeverity",
+		"dblclick #symptom-detail" : "openSymptomDetails",
 		"slidestop" : "changeSeverity",
-		"keyup #symptom-notes" : "debounceSaveSeverity",
 		"click #cancel-change-severity" : "resetTitle",
 		"click #symptom-detail" : "goToSymptomDetail"
+	},
+	
+	openSymptomDetails: function(e){
+		e.preventDefault();
+		console.log('opening detail page');
 	},
 	
 	// temporarily disabled
@@ -50,7 +55,6 @@ window.$dino.SymptomListItemView = Backbone.View.extend({
 			this.$("#symptom-notes").textinput();
 			this.$("#severity").slider({
 				trackTheme: 'b',
-				stop: this.debounceSaveSeverity
 			});
 			this.$("#severity").hide();
 			this.$("#cancel-change-severity").button({
@@ -90,15 +94,23 @@ window.$dino.SymptomListItemView = Backbone.View.extend({
 				that.setSeverity();
 				that.$(".ui-icon").removeClass("ui-icon-plus");
 				that.$(".ui-icon").addClass("ui-icon-check");
-				that.$(".plus-one span .ui-btn").css("background", "purple");
-				that.$(".ui-slider-track").css("background", "purple");
+	//			that.$(".plus-one span .ui-btn").css("background", "purple");
+	//			that.$(".ui-slider-track").css("background", "purple");
 			}
 			});
 		} else {
-			this.saveSeverity();
-			this.$(".plus-one").addClass("symptom-added");
-			this.resetTitle();
+			this.clickCheck();
 		}
+	},
+	
+	clickCheck: function(){
+		this.saveSeverity();
+		// reset added button
+		this.added = false;
+		this.$(".ui-icon").removeClass("ui-icon-check");
+		this.$(".ui-icon").addClass("ui-icon-plus");
+		this.resetTitle();
+		this.addBubble('h3', 'Saved');		
 	},
 	
 	saveSeverity: function(){

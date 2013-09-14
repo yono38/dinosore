@@ -81,12 +81,11 @@ describe("SymptomListItemView", function(){
 		});
 		
 		waitsFor(function(){
-			var sev = view.plusOne.get("severity");
-			return sev == 5;
+			return view.plusOne.get("severity") == 5;
 		}, "severity to set on model", 2100);
 		
 		runs(function(){
-			expect(view.plusOne.get("severity")).toEqual(5)
+			expect(view.plusOne.get("severity")).toEqual(5);
 		});
 	});
 	
