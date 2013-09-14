@@ -2,7 +2,6 @@ describe("BugDetailView", function(){
 	var view;
 	
 	beforeEach(function(){
-		console.log($dino);
 		view = new $dino.BugDetailView();
 	});
 	

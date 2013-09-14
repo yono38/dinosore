@@ -3,7 +3,6 @@ window.$dino.ListItemView = Backbone.View.extend({
 	tagName: "li",
 	
 	initialize: function(opts) {
-		console.log('testing inheritence');
 		this.name = opts.name;
 		this.template = _.template(tpl.get('list-item'));
 		this.model.bind('remove', this.destroy);

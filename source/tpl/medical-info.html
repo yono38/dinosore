@@ -1,4 +1,5 @@
 <div data-role="header" >
+	<a href="#" id="logout" data-icon="delete" data-theme="c">Logout</a>
 	<h1>Medical Info</h1>
 	<a href="#" class="edit" data-icon="gear" data-theme="e">Modify</a>
 </div>
@@ -11,28 +12,8 @@
 		<span style="float:right;"> <strong>A Pos.</strong/> </span>
 	</li>
 </ul>
-	<h2>Jason Schapiro</h2>
-	<h3>Age 22 | 6'1" | 190lbs</h3>
-	<h3>Last Checkup: 11/10/2012</h3>
-<div data-role="collapsible-set">
-	<div data-role="collapsible">
-		<h3>Allergies</h3>
-		<p>
-			No allergies listed
-		<p>
-	</div>
-	<div data-role="collapsible" >
-		<h3>Medications</h3>
-		<p>
-			No medications listed
-		<p>
-	</div>
-	<div data-role="collapsible" >
-		<h3>Surgeries</h3>
-		<p>
-			No surgeries listed
-		<p>
-	</div>
-</div>
+	<h2 id="username"><%= username %></h2>
+	<h3 id="age">Age <%= age %></h3>
+	<h3 id="last-checkup">Last Checkup: <%= last_checkup %></h3>
 
 </div>

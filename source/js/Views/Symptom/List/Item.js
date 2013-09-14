@@ -5,7 +5,6 @@ window.$dino.SymptomListItemView = $dino.ListItemView.extend({
 		$dino.SymptomListItemView.__super__.initialize.call(this, {name: "symptom"});
 		this.debounceSaveSeverity =  _.debounce(this.saveSeverity, 2000);
 		_.bindAll(this, 'saveSeverity', 'debounceSaveSeverity');
-		console.log(this.events);
 	}, 
 	
 	events: {

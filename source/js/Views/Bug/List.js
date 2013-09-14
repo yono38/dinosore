@@ -25,13 +25,6 @@ window.$dino.BugListView = Backbone.View.extend({
       this.$("#myList").listview('refresh');  
     },
     
-    logout: function(){
-      Parse.User.logOut(null, {
-        success: function(){
-          $dino.app.navigate("", {trigger:true});
-        }
-      });
-    },
     render: function () {
         var that = this;
         $(this.el).html(this.template());  
