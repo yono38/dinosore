@@ -2,11 +2,11 @@ describe("SymptomListItemView", function(){
 
 	var view, model;
 	
-	Parse.Object.prototype.save = function(data, cbObj){
-		this.set(data);
-		if (cbObj) cbObj['success']();
+	Parse.Object.save = function(data, cbObj){
+		model.set(data);
+		cbObj['success']();
 	};
-	Parse.Object.prototype.destroy = function(cbObj){
+	Parse.Object.destroy = function(cbObj){
 		cbObj['success']();
 	};
 		

@@ -15,6 +15,7 @@ $dino.AppRouter = Backbone.Router.extend({
         "appts/add" : "newAppt",
         "bugs":"bugList",        
         "medinfo": "medInfo",
+        "medications" : "medicationList",
         "*path" : "start"
     },
     
@@ -122,6 +123,14 @@ $dino.AppRouter = Backbone.Router.extend({
       });    
     },
 
+	medicationList: function(){
+	  var collection = new $dino.MedicationList();
+	  collection.query = new Parse.Query($dino.Medication);
+	  collection.query.equalTo("user", Parse.User.current());
+      var medView = new $dino.MedicationListView({"collection": collection});
+      this.changePage(medView, true);
+	},
+	
     changePage:function (page, hasFooter) {
         $(page.el).attr('data-role', 'page');
         page.render();
@@ -145,8 +154,8 @@ $dino.AppRouter = Backbone.Router.extend({
 $(document).ready(function () {
     FastClick.attach(document.body);
     tpl.loadTemplates(['bug-list', 'appointment-calendar', 'bug-delete-dialog', 'bug-list-item', 'bug-details', 'bug-new', 'login', 
-    'medical-info', 'appointment-new', 'bug-details-modify', 'symptom-list',
-    'symptom-list-item', 'symptom-list-new', 'delete-confirm', 'footer', 'appointment-modify', 'appointment-item'],
+    'medical-info', 'appointment-new', 'bug-details-modify', 'list-view', 'list-item',
+    'list-new', 'delete-confirm', 'footer', 'appointment-modify', 'appointment-item'],
         function () {
         	$dino = window.$dino || {};
             $dino.app = new $dino.AppRouter();

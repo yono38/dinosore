@@ -1,32 +1,33 @@
-window.$dino.SymptomListView = Backbone.View.extend({
+window.$dino.MedicationListView = Backbone.View.extend({
 
     initialize:function () {
         this.template = _.template(tpl.get('list-view'));   
-        _.bindAll(this, 'render', 'renderList', 'addSymptomToList'); 
-        this.collection = new $dino.SymptomList();
+        _.bindAll(this, 'render', 'renderList', 'addMedicationToList'); 
+        this.collection = new $dino.MedicationList();
         this.collection.bind('destroy', this.renderList);
         this.adding = false;
     },    
     
-    sortList: function(bug){
-    	return -bug.get("count");
+    sortList: function(med){
+    	return -med.get("count");
     },
     
     events: {
       'click #logout' : 'logout',
-      'click #newItem' : 'newSymptom',
+      'click #newItem' : 'newMedication',
       'click #newItemLi' : 'dontClick',
+      'click #medication-detail' : 'dontClick'
     },
     
     dontClick:function(e){
     	e.preventDefault();
     },
     
-    addSymptomToList: function(e){
+    addMedicationToList: function(e){
     	if (e)	e.preventDefault();
-    	if (this.newSymptomListItem){
-			this.newSymptomListItem.remove();    	
-			this.newSymptomListItem = null;
+    	if (this.newMedicationListItem){
+			this.newMedicationListItem.remove();    	
+			this.newMedicationListItem = null;
 		}
    		this.$("#newItem .ui-btn-text").text("Add");
    		this.$("#newItem").removeClass("cancelBtn");
@@ -35,28 +36,28 @@ window.$dino.SymptomListView = Backbone.View.extend({
 		this.renderList();
     },
     
-    newSymptom: function(e){
+    newMedication: function(e){
     	if (e) e.preventDefault();
     	if (!this.adding){
-	    	this.newSymptomListItem = new $dino.ListNewView({
-	    		modelType: $dino.Symptom,
-	    		header: "Symptoms"
+	    	this.newMedicationListItem = new $dino.ListNewView({
+	    		modelType: $dino.Medication,
+	    		header: "Medications"
 	    	});
-	      	this.newSymptomListItem.bind('newItem', this.addSymptomToList);
-	    	this.$("#myList").prepend(this.newSymptomListItem.render().el);
+	      	this.newMedicationListItem.bind('newItem', this.addMedicationToList);
+	    	this.$("#myList").prepend(this.newMedicationListItem.render().el);
 	    	this.$("#myList").listview('refresh');
 	   		this.$("#newItemInput").textinput().focus();
 	   		this.$("#newItem .ui-btn-text").text("Cancel");
 	   		this.$("#newItem").addClass("cancelBtn");
 	   		this.$("#newItem").buttonMarkup({ icon: "delete" });
 	   		this.adding = true;
-   		} else if (this.newSymptomListItem) {
-   			this.addSymptomToList();
+   		} else if (this.newMedicationListItem) {
+   			this.addMedicationToList();
    		}
     },
     
-    addOne: function(symptom){
-      	var view = new $dino.SymptomListItemView({model: symptom});
+    addOne: function(Medication){
+      	var view = new $dino.ListItemView({model: Medication, name: "medication"});
      	this.$("#myList").append(view.render().el);  
     },
     
@@ -71,13 +72,13 @@ window.$dino.SymptomListView = Backbone.View.extend({
     renderList: function() {
     	var that = this;
     	this.$("#myList").empty();
-    	this.collection.query = new Parse.Query($dino.Symptom);
+    	this.collection.query = new Parse.Query($dino.Medication);
         this.collection.query.equalTo("user", Parse.User.current());   
         this.collection.fetch({
        
           success: function(collection){
           	if (collection.length ==0){
-          		that.$("#myList").html('<span class="bobregular"><div>No Symptoms Added Yet!</div><hr> <div>Click "Add" Above to Get Started</div><hr></span>');
+          		that.$("#myList").html('<span class="bobregular"><div>No Medications Added Yet!</div><hr> <div>Click "Add" Above to Get Started</div><hr></span>');
           		this.emptyCollection = true;
           		return;
           	}
@@ -95,7 +96,7 @@ window.$dino.SymptomListView = Backbone.View.extend({
     },
     
     render: function () {                
-        $(this.el).html(this.template({"header":"Symptoms"}));  
+        $(this.el).html(this.template({"header":"Medications"}));  
         this.renderList();
         return this;
     }

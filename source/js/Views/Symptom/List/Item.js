@@ -1,34 +1,23 @@
-window.$dino.SymptomListItemView = Backbone.View.extend({
-	
-	tagName: "li",
+window.$dino.SymptomListItemView = $dino.ListItemView.extend({
 	
 	initialize: function(){
-		this.template = _.template(tpl.get('symptom-list-item'));
+		// calling super.constructor
+		$dino.SymptomListItemView.__super__.initialize.call(this, {name: "symptom"});
 		this.debounceSaveSeverity =  _.debounce(this.saveSeverity, 2000);
-		this.model.bind('remove', this.destroy);
-		_.bindAll(this, 'destroy', 'saveSeverity', 'debounceSaveSeverity');
+		_.bindAll(this, 'saveSeverity', 'debounceSaveSeverity');
+		console.log(this.events);
 	}, 
 	
 	events: {
+		"click" : "dontclick",
 		"click .plus-one" : "clickPlus",
 		"swiperight" : "confirmDelete",
-	//	"swipeleft" : "setSeverity",
-		"dblclick #symptom-detail" : "openSymptomDetails",
+		"dblclick #item-detail" : "openDetails",
 		"slidestop" : "changeSeverity",
 		"click #cancel-change-severity" : "resetTitle",
 		"click #symptom-detail" : "goToSymptomDetail"
 	},
-	
-	openSymptomDetails: function(e){
-		e.preventDefault();
-		console.log('opening detail page');
-	},
-	
-	// temporarily disabled
-	goToSymptomDetail: function(e){
-		e.preventDefault();
-	},
-	
+
 	// resets the title (removes severity slider)
 	// can place added bubble on plusOne
 	resetTitle: function(e){
@@ -37,12 +26,6 @@ window.$dino.SymptomListItemView = Backbone.View.extend({
 		var itemHtml = '<span class="symptom-title">'+title+'</span>';
 		this.$("h3").html(itemHtml);
 		this.settingSeverity = false;
-	},
-	
-	addBubble: function(selector, text){
-		if (this.$(".added-bubble").length < 1) {this.$(selector).append('<span data-count-theme="b" class="ui-li-count ui-btn-up-e ui-btn-corner-all added-bubble">'+ text +'</span>');}
-		this.$(".added-bubble").show();
-		this.$(".added-bubble").fadeToggle(3000);
 	},
 	
 	changeSeverity: function(){
@@ -65,21 +48,10 @@ window.$dino.SymptomListItemView = Backbone.View.extend({
 		}
 	},
 	
-	confirmDelete: function(){
-		if (!this.settingSeverity){		
-			this.deleteDialog = new $dino.DialogDeleteView({model: this.model, parentView: this});
-			this.deleteDialog.render();
-			$(this.el).append(this.deleteDialog);
-			this.deleteDialog.open();
-		}
-	},
-
 	clickPlus: function(e){
 		if (e) e.preventDefault();
 		if (!this.added){
 			var that = this;
-			console.log('clickcing');
-			if (this.alreadyClicked) return;
 			this.model.increment("count", 1);
 			this.model.save(); 
 			//create a new plusOne object when someone clicks plusOne
@@ -89,13 +61,10 @@ window.$dino.SymptomListItemView = Backbone.View.extend({
 				user: Parse.User.current()
 			}, {
 			success: function(item){
-				console.log('test');
 				that.added = true;
 				that.setSeverity();
 				that.$(".ui-icon").removeClass("ui-icon-plus");
 				that.$(".ui-icon").addClass("ui-icon-check");
-	//			that.$(".plus-one span .ui-btn").css("background", "purple");
-	//			that.$(".ui-slider-track").css("background", "purple");
 			}
 			});
 		} else {
@@ -122,19 +91,7 @@ window.$dino.SymptomListItemView = Backbone.View.extend({
 					notes: sympNotes,
 					severity: severityLvl,
 				});				
-				this.addBubble(".symptom-title", "Saved");
 			}
-	},
-	
-	destroy: function(){
-		if (this.deleteDialog) this.deleteDialog.destroy();
-		this.unbind();
-		this.remove();
-	},
-	
-	render:function(eventName){
-		$(this.el).html(this.template(this.model.toJSON()));
-        return this;
 	}
 	
 });

@@ -17,7 +17,7 @@ window.$dino.DialogDeleteView = Backbone.View.extend({
 				// fixed problem where sometimes itemview isn't removed
 				// on model destroy
 				if (that.parentView) {
-					console.log('parentview for symptom item still exists');
+					console.log('parentview for item still exists');
 					that.parentView.destroy();
 				}
 				that.destroy();
@@ -31,10 +31,10 @@ window.$dino.DialogDeleteView = Backbone.View.extend({
 	id: 'confirm',
 	
 	open: function(){
-		$(this.el).popup({
+		this.$el.popup({
 			"positionTo" : $(this.el)
 		});
-		$(this.el).popup('open');
+		this.$el.popup('open');
 		this.$("#yes").button();
 		this.$("#cancel").button();
 	},
@@ -45,9 +45,10 @@ window.$dino.DialogDeleteView = Backbone.View.extend({
 		$(this.el).popup("close");
 		this.unbind();
 		this.remove();	
+		this.parentView.$("#myList").listview('refresh');
 	},
 	
 	render: function(){
-		$(this.el).html(this.template());
+		this.$el.html(this.template());
 	}
 });
