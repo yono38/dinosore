@@ -30,7 +30,7 @@ window.$dino.BugModifyView = Backbone.View.extend({
     
     savePriority: function(e){
       this.model.save({
-        "bugPriority": parseInt($("#select-choice-month").val())
+        "bugPriority": BackboneInt($("#select-choice-month").val())
       }, {
         success: function(){
           console.log('priority input saved');

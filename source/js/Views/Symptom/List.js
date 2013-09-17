@@ -71,9 +71,8 @@ window.$dino.SymptomListView = Backbone.View.extend({
     renderList: function() {
     	var that = this;
     	this.$("#myList").empty();
-    	this.collection.query = new Parse.Query($dino.Symptom);
-        this.collection.query.equalTo("user", Parse.User.current());   
         this.collection.fetch({
+          data: {user: Parse.User.current().id },
        
           success: function(collection){
           	if (collection.length ==0){

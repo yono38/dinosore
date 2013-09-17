@@ -17,10 +17,13 @@ window.$dino.AppointmentModifyView = Backbone.View.extend({
 		if (this.$("#select-doc").val() != "none") {
 			this.model.set("doc", this.$("#select-doc").val());
 		}
-		this.model.set("newDate", moment($("#appt-date").val() + " " + $("#appt-time").val()).toDate());
-		this.model.set("date", moment($("#appt-date").val()).format("YYYY-MM-DD"));
-		this.model.set("doc", $("#select-doc").val());
-		this.model.set("bug", $("#select-bug").val());
+		this.model.set({
+			"date" : moment($("#appt-date").val() + " " + $("#appt-time").val()).valueOf(),
+			"doc" : $("#select-doc").val(),
+			"bug" : $("#select-bug").val(),
+			"user" : Parse.User.current().id
+		});
+		this.model.id = $("#apptId").val();
 
 		this.model.save(null, {
 			success : function(appt) {
@@ -41,14 +44,16 @@ window.$dino.AppointmentModifyView = Backbone.View.extend({
 	},
 
 	render : function() {
-		var apptMoment = moment(this.model.get("newDate"));
+		console.log(this.model);
+		var apptMoment = moment(this.model.get("date"));
 		var data = {
 			// title, apptDate, apptTime, apptId
-			"apptId" : this.model.id,
+			"id" : this.model.id,
 			"title" : this.model.get("title"),
 			"apptDate" : apptMoment.format("YYYY-MM-DD"),
 			"apptTime" : apptMoment.format("HH:mm:ss")
 		};
+		console.log(data);
 		$(this.el).html(this.template(data));
 		this.renderMenu("bug");
 		this.renderMenu("doctor");
@@ -56,53 +61,43 @@ window.$dino.AppointmentModifyView = Backbone.View.extend({
 		return this;
 	},
 
+	checkValidType: function(type){
+		return ($.inArray(type, ['doctor', 'bug']) != -1);	
+	},
+	
 	getCollection : function(type) {
-		if (!(type == "doctor" || type == "bug")) {
+		if (this.checkValidType()) {
 			console.log("invalid type: " + type);
 			return;
 		}
 		var coll;
-		//item, query, selector, selected;
 		if (type == "bug") {
-			coll = {
-				"item" : new $dino.BugList(),
-				"query" : $dino.Bug,
-				"selector" : "#select-bug",
-				"selected" : this.model.get("bug")
-			};
-		} else {
-			coll = {
-				"item" : new $dino.DoctorList(),
-				"query" : $dino.Doctor,
-				"selector" : "#select-doc",
-				"selected" : this.model.get("doc")
-			};
-		}
-		coll.item.query = new Parse.Query(coll.query);
-		if (type == "bug") {
-			coll.item.query.equalTo("user", Parse.User.current());
+			coll = new $dino.BugList();
+		} else if (type == "doctor"){
+			coll = new $dino.DoctorList();
 		}
 		return coll;
 	},
 
 	// for bugs or doctors
 	renderMenu : function(type) {
-		var list = this.getCollection(type);
-		if (!list) return;
+		var item = this.getCollection(type);
+		var selector = "#select-"+type;
+		var selected = this.model.get(type);
 
 		var that = this;
-		list.item.fetch({
+		item.fetch({
 			success : function(coll) {
-				that.$(coll.selector).html("<option value='none'>None</option>");
+				that.$(selector).html("<option value='none'>None</option>");
 				var selectThis;
 				_.each(coll['_byId'], function(v, k) {
-					selectThis = (list.selected == k) ? "selected" : "";
-					that.$(list.selector).append("<option " + selectThis + " value='" + k + "'>" + v.get("title") + "</option>");
+					selectThis = (selected == k) ? "selected" : "";
+					that.$(selector).append("<option " + selectThis + " value='" + k + "'>" + v.get("title") + "</option>");
 				});
 				// TODO add new item from menu
 				// that.$(selector).append("<option id='newBug'>New Bug</option>");
-				that.$(list.selector).selectmenu();
-				that.$(list.selector).selectmenu("refresh");
+				that.$(selector).selectmenu();
+				that.$(selector).selectmenu("refresh");
 			},
 			error : function(coll, err) {
 				console.log(err);

@@ -6,7 +6,7 @@ window.$dino.ListItemView = Backbone.View.extend({
 		this.name = opts.name;
 		this.template = _.template(tpl.get('list-item'));
 		this.model.bind('remove', this.destroy);
-		_.bindAll(this, 'destroy');
+		_.bindAll(this, 'remove', 'destroy');
 	}, 
 	
 	events: {
@@ -44,13 +44,18 @@ window.$dino.ListItemView = Backbone.View.extend({
 		if (e) e.preventDefault();
 
 		var that = this;
-		this.model.increment("count", 1);
+		this.model.set("count", (this.model.get("count") + 1));
 		this.model.save(); 
 		//create a new plusOne object when someone clicks plusOne
 		this.plusOne = new $dino.PlusOne();
+		console.log(this.model);
+		console.log(this.model.id);
+		console.log(this.model.constructor.name);
+		console.log(this.model.urlRoot);
 		this.plusOne.save({
-			item: this.model.id,
-			user: Parse.User.current()
+			item: that.model.id,
+			type: that.model.urlRoot.substr(8, that.model.urlRoot.length-9),
+			user: Parse.User.current().id
 		}, {
 		success: function(item){
 			that.addBubble('h3', 'added');
@@ -59,6 +64,7 @@ window.$dino.ListItemView = Backbone.View.extend({
 	},
 	
 	destroy: function(){
+		console.log(this);
 		if (this.deleteDialog) this.deleteDialog.destroy();
 		this.unbind();
 		this.remove();

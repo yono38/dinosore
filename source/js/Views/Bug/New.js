@@ -3,7 +3,7 @@ window.$dino.NewBugView = Backbone.View.extend({
     this.template = _.template(tpl.get('bug-new'));  
     this.first = true;   
     this.priority = 1;
-    this.colors = new $dino.ColorList();
+    this.colors = new $dino.ColorList({user: Parse.User.current().id});
    // this.colors.bind("change", this.makeList);
     this.colors.bind('add', this.makeList);
     _(this).bindAll("addBug", "render", "makeList", "changePriority");
@@ -20,9 +20,9 @@ window.$dino.NewBugView = Backbone.View.extend({
   },
   addBug: function(e){
   	e.preventDefault();
-    var bug = new Bug({
+    var bug = new $dino.Bug({
       bugPriority: parseInt(this.priority),
-      user: Parse.User.current()
+      user: Parse.User.current().id
     });
     if (this.$("#bugtitle").val() != ""){
       bug.set("title", this.$("#bugtitle").val());
@@ -51,6 +51,7 @@ window.$dino.NewBugView = Backbone.View.extend({
   },
   makeList: function(){
     var that = this;
+    console.log(this);
     this.colors.fetch({
     success: function(collection) {
       $("#select-color").empty();

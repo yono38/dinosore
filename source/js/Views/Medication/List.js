@@ -61,21 +61,11 @@ window.$dino.MedicationListView = Backbone.View.extend({
      	this.$("#myList").append(view.render().el);  
     },
     
-    logout: function(){
-      Parse.User.logOut(null, {
-        success: function(){
-          $dino.app.navigate("", {trigger:true});
-        }
-      });
-    },
-    
     renderList: function() {
     	var that = this;
     	this.$("#myList").empty();
-    	this.collection.query = new Parse.Query($dino.Medication);
-        this.collection.query.equalTo("user", Parse.User.current());   
         this.collection.fetch({
-       
+      	  data: { "user" : Parse.User.current().id }, 
           success: function(collection){
           	if (collection.length ==0){
           		that.$("#myList").html('<span class="bobregular"><div>No Medications Added Yet!</div><hr> <div>Click "Add" Above to Get Started</div><hr></span>');

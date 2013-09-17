@@ -4,33 +4,40 @@ window.$dino.AppointmentsView = Backbone.View.extend({
 		this.collection = opts.collection;
 		this.template = _.template(tpl.get('appointment-calendar'));
 		var that = this;
-		this.highDates = [];
 		this.collection.fetch({
+			data: { "user" : Parse.User.current().id },
 			success : function(collection) {
 				// This code block will be triggered only after receiving the data.
-				for (var i = 0; i < collection.length; i++) {
-					var t = moment(collection.models[i].get("newDate")).format('YYYY-MM-DD');
-					that.highDates.push(t);
-				}
-				// remove dupes
-				that.highDates = _.uniq(that.highDates);
+				that.buildHighDates();
 			}
 		});
-		_.bindAll(this, 'changeDate');
+		_.bindAll(this, 'buildHighDates', 'changeDate');
+	},
+	
+	buildHighDates: function(refresh){
+		this.highDates = {};
+		for (var i = 0; i < this.collection.length; i++) {
+			var t = moment(this.collection.models[i].get("date")).format('YYYY-MM-DD');
+			this.highDates[t] = (this.highDates[t]) ? this.highDates[t].push(i) : [i];
+		}
+		if (refresh) this.$("#mydate").datebox({'highDates': _.keys(this.highDates)}).datebox('refresh');
 	},
 
 	loadApptItem : function(appt) {
-		var day = moment(appt.newDate.iso);
+		var day = moment(appt.get("date"));
 		var that = this;
-		if (appt.doc != 'none') {
-			var doc = new Parse.Query($dino.Doctor);
-			doc.get(appt.doc, {
+		var doc = appt.get("doc");
+		if (doc != 'none') {
+			var doctor = new $dino.Doctor();
+			doctor.id = appt.doc;
+			doctor.fetch({
+				data : { _id : doc },
 				success : function(doctor) {
 					var apptData = {
-						"title" : appt.title,
+						"title" : appt.get("title"),
 						"doc" : doctor.get("title"),
 						"time" : day.format('LT'),
-						"apptId" : appt.objectId
+						"apptId" : appt.id
 					};
 					that.$("#fakeAppt").append(_.template(tpl.get("appointment-item"), apptData));
 					that.$("#fakeAppt").show();
@@ -44,10 +51,10 @@ window.$dino.AppointmentsView = Backbone.View.extend({
 			});
 		} else {
 			var apptData = {
-				"title" : appt.title,
+				"title" : appt.get("title"),
 				"doc" : "No Doctor",
 				"time" : day.format('LT'),
-				"apptId" : appt.objectId
+				"apptId" : appt.id
 			};
 			this.$("#fakeAppt").append(_.template(tpl.get("appointment-item"), apptData));
 			this.$("#fakeAppt").show();
@@ -59,26 +66,22 @@ window.$dino.AppointmentsView = Backbone.View.extend({
 	},
 
 	changeDate : function(e, passed) {
+		passed.value = passed.value || $("#currDate").text();
 		var self = this;
-		if (passed.method === 'set') {
+		if (passed.method === 'set' || (passed.method == 'postrefresh' && !this.firstDateAlreadyCalled)) {
 			// TODO modify to use highdates as index instead of whole collection
-			var appts = this.collection.toJSON();
-			var d = _(appts).where({
-				"date" : passed.value
-			});
-			d = _(d).sortBy(function(m) {
-				return moment(m.newDate.iso);
-			});
+			var d = this.highDates[passed.value] || [];
+			this.$("#fakeAppt").empty();
 			if (d.length > 0) {
 				var i;
-				this.$("#fakeAppt").empty().show();
+				this.$("#fakeAppt").show();
 				this.$("#noAppt").hide();
 				for ( i = 0; i < d.length; i++) {
-					this.loadApptItem(d[i]);
+					this.loadApptItem(this.collection.models[d[i]]);
 				}
 			}
 			this.$("#currDate").html(passed.value);
-
+			this.firstDateAlreadyCalled = true;
 		} else {
 			e.stopPropagation();
 		}
@@ -89,10 +92,11 @@ window.$dino.AppointmentsView = Backbone.View.extend({
 			today : moment().format("YYYY-MM-DD")
 		}));
 		var that = this;
+		// TODO figure out another way to do this
 		setTimeout(function() {
 			that.$("#mydate").datebox({
 				"mode" : "calbox",
-				"highDates" : that.highDates,
+				"highDates" : _.keys(that.highDates),
 				"useInline" : true,
 				"useImmediate" : true,
 				hideInput : true,
@@ -136,8 +140,8 @@ window.$dino.AppointmentsView = Backbone.View.extend({
 
 	modifyAppt : function() {
 		var apptId = this.$(".editAppt").attr("data-apptId");
-		var query = new Parse.Query($dino.Appointment);
-		query.get(apptId, {
+		var appt = new $dino.Appointment({id: apptId});
+		appt.fetch({
 			success : function(appt) {
 				$dino.app.navigate("appts/" + apptId + "/modify", {
 					trigger : true
@@ -151,24 +155,16 @@ window.$dino.AppointmentsView = Backbone.View.extend({
 	},
 
 	removeAppt : function() {
-		var apptId = this.$(".removeAppt").attr("data-apptId");
-		var query = new Parse.Query($dino.Appointment);
-		query.get(apptId, {
-			success : function(appt) {
-				appt.destroy({
-					success : function(appt) {
-						console.log("appointment successfully removed");
-					},
-					error : function(appt, err) {
-						console.log("appointment removal failed");
-						console.log(err);
-					}
-				});
-			},
-			error : function(appt, err) {
-				console.log("appointment retrieval failed");
-				console.log(err);
-			}
+		var apptId = this.$(".removeAppt").attr("data-apptId")
+		, day = $("#currDate").text()
+		, appt = this.collection.get(apptId)
+		, dex = _.indexOf(this.collection.models, appt);
+		appt.destroy();
+		// update highdates
+		this.buildHighDates(true);
+		this.changeDate(null, {
+			"method" : "set",
+			"value" : $("#currDate").text()
 		});
 	},
 
