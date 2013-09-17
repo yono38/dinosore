@@ -28,21 +28,17 @@ describe("AppointmentModifyView", function(){
 	
 	it("loads bugs into a select menu", function(){
 		collData = '[{"objectId":1,"title":"Migrane"},{"objectId":2,"title":"Strep Throat"},{"objectId":3,"title":"Tendonitis"}]'
-		, coll = new $dino.MockBugList(JSON.parse(collData));
+		, coll = new $dino.BugList(JSON.parse(collData));
 		spyOn(coll, 'fetch').andCallFake(function(cb, type){
 			if (type == "bug") cb['success'](coll);
 		});
 		spyOn(view.$("#select-bug"), 'selectmenu');
-		spyOn(view, 'getCollection').andReturn({
-			"item" : coll,
-			"selector" : "#select-bug",
-			"selected" : coll.models[1],
-			"query" : null
-		});
+		spyOn(view, 'getCollection').andReturn(coll);
 		view.render();
 		expect(view.getCollection).toHaveBeenCalled();
 		expect(view.getCollection.calls.length).toEqual(2); // one for bug list & one for doctor list
 		expect(view.$("#select-bug")).not.toBeEmpty();
+		console.log(view.$("#select-bug").html());
 		expect(view.$("#select-bug option").length).toEqual(4);
 		expect($(view.$("#select-bug option")[0]).val()).toEqual("none");
 		expect($(view.$("#select-bug option")[1]).text()).toEqual(coll.models[0].get("title"));

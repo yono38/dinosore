@@ -26,17 +26,18 @@
     <script type="text/javascript">
     	// setting namespace
     	window.$dino = window.$dino || {};
+		window.$dino.app = $dino.app || { navigate: function(){}};
     	Backbone.View.prototype.destroy = function(){
     		this.unbind();
     		this.remove();
     	};
 		Parse.initialize("ILMokni7fwKhJSdWh38cGPpEwL2CLsrhcrUgJmG6", "cDQoHLQqGRRj9srzrpG2jv6X5nl2BPdh7hVUBRoc");
     </script>
+    <script src="../js/Models/User.js"></script>
     <script src="../js/Models/Bug.js"></script>
     <script src="../js/Models/Color.js"></script>
     <script src="../js/Models/Appointment.js"></script>
     <script src="../js/Models/Doctor.js"></script>        
-    <script src="../js/Models/Med.js"></script>       
     <script src="../js/Models/Symptom.js"></script>        
     <script src="../js/Models/PlusOne.js"></script>    
     <script src="../js/Models/Medication.js"></script>    

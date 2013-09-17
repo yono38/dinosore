@@ -10,7 +10,9 @@ describe("SymptomListView", function(){
 	});
 	
 	it("renders properly", function(){
+		spyOn(view, 'renderList');
 		view.render();
+		expect(view.renderList).toHaveBeenCalled();
 		expect(view.$el).toBeDefined();
 	});
 
@@ -25,6 +27,7 @@ describe("SymptomListView", function(){
 	
 	it("won't try to create duplicate add symptom bars, will remove on second call", function(){
 		spyOn(view, 'addSymptomToList').andCallThrough();
+		spyOn(view, 'renderList');
 		expect(view.newSymptomListItem).not.toBeDefined();
 		view.newSymptom();
 		expect(view.newSymptomListItem.$("#newItemLi").length).toEqual(1);

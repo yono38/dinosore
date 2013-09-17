@@ -18,7 +18,7 @@ window.$dino.AppointmentsView = Backbone.View.extend({
 		this.highDates = {};
 		for (var i = 0; i < this.collection.length; i++) {
 			var t = moment(this.collection.models[i].get("date")).format('YYYY-MM-DD');
-			this.highDates[t] = (this.highDates[t]) ? this.highDates[t].push(i) : [i];
+			this.highDates[t] = (this.highDates[t]) ? _.union(this.highDates[t], [i] ): [i];
 		}
 		if (refresh) this.$("#mydate").datebox({'highDates': _.keys(this.highDates)}).datebox('refresh');
 	},
@@ -71,7 +71,6 @@ window.$dino.AppointmentsView = Backbone.View.extend({
 		if (passed.method === 'set' || (passed.method == 'postrefresh' && !this.firstDateAlreadyCalled)) {
 			// TODO modify to use highdates as index instead of whole collection
 			var d = this.highDates[passed.value] || [];
-			this.$("#fakeAppt").empty();
 			if (d.length > 0) {
 				var i;
 				this.$("#fakeAppt").show();
@@ -88,9 +87,10 @@ window.$dino.AppointmentsView = Backbone.View.extend({
 	},
 
 	render : function(eventName) {
-		$(this.el).html(this.template({
+		this.$el.html(this.template({
 			today : moment().format("YYYY-MM-DD")
 		}));
+		
 		var that = this;
 		// TODO figure out another way to do this
 		setTimeout(function() {

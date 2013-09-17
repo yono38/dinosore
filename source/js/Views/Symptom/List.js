@@ -1,12 +1,12 @@
 window.$dino.SymptomListView = Backbone.View.extend({
 
-    initialize:function () {
+    initialize:function (opts) {
         this.template = _.template(tpl.get('list-view'));   
         _.bindAll(this, 'render', 'renderList', 'addSymptomToList'); 
         this.collection = new $dino.SymptomList();
         this.collection.bind('destroy', this.renderList);
         this.adding = false;
-    },    
+    },  
     
     sortList: function(bug){
     	return -bug.get("count");

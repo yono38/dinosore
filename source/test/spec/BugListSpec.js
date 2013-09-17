@@ -25,11 +25,17 @@ describe("BugListView", function() {
 	it("renders", function() {
 		spyOn(view, 'addOne');
 		expect(view.$el).toBeEmpty();
+		spyOn(Parse.User, 'current').andReturn({
+			id: 25
+		});
 		view.render();
 		expect(view.$el).not.toBeEmpty();
 	});
 	
 	it("creates a list from the collection", function(){
+		spyOn(Parse.User, 'current').andReturn({
+			"id" : 25
+		});
 		var item;
 		spyOn(view, 'addOne').andCallFake(function(bug) {
 			item = new $dino.BugListItemView({

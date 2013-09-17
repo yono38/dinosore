@@ -1,20 +1,15 @@
 describe("SymptomListItemView", function(){
 
 	var view, model;
-	
-	Parse.Object.prototype.save = function(data, cbObj){
-		this.set(data);
-		if (cbObj) cbObj['success']();
-	};
-	Parse.Object.prototype.destroy = function(cbObj){
-		cbObj['success']();
-	};
+
 		
 	beforeEach(function(){
+		spyOn(Parse.User, 'current').andReturn({
+			id: 25
+		});
 		model = new $dino.Symptom();
 		model.set({
-			"objectId": "123",
-			"id" : "123"
+			"_id" : "123"
 			});
 		view = new $dino.SymptomListItemView({ "model" : model});
 	});	
@@ -51,24 +46,13 @@ describe("SymptomListItemView", function(){
 	});
 	
 	it("can plusOne", function(){
-		view.render();
 		spyOn(view.model, 'save');
-		view.clickPlus();
-		expect(view.model.get("count")).toEqual(1);
-		expect(view.model.save.calls.length).toEqual(1);
-	});
-	
-	it("cannot plusOne twice", function(){
 		view.render();
-		spyOn(view.model, 'save').andCallFake(function(){
-			view.added = true;
-		});
-		view.clickPlus();
 		view.clickPlus();
 		expect(view.model.get("count")).toEqual(1);
 		expect(view.model.save.calls.length).toEqual(1);
 	});
-	
+
 	it("plusOnes with severity", function(){
 		view.render();
 		spyOn(view.model, 'save');
