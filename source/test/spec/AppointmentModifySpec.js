@@ -23,7 +23,6 @@ describe("AppointmentModifyView", function(){
 		expect(view.$("#apptId").val()).toEqual(model.id);
 		expect(view.$("#title").val()).toEqual(model.get("title"));
 		expect(view.$("#appt-date").val()).toEqual(model.get("date"));
-		expect(view.$("#appt-time").val()).toEqual(moment(model.get("newDate")).format("HH:mm:ss"));
 	});
 	
 	it("loads bugs into a select menu", function(){

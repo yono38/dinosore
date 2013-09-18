@@ -10,7 +10,6 @@ describe("AppointmentCalendarView", function() {
 			var mod = collection.models[i - 1], day = mod.get("date"), apptDateTime = moment(day + " " + time).valueOf();
 			collection.models[i - 1].set("date", apptDateTime);
 		}
-		console.log(collection.models);
 		spyOn(collection, 'fetch').andCallFake(function(cb){
 			cb['success'](collection);
 		});
@@ -29,7 +28,6 @@ describe("AppointmentCalendarView", function() {
 
 		runs(function() {
 			view.render();
-			console.log(view.collection);
 			setTimeout(function() {
 				finishedRender = true;
 			}, 250);
@@ -40,8 +38,6 @@ describe("AppointmentCalendarView", function() {
 		}, "datebox to render", 251);
 
 		runs(function() {
-			console.log(view.$el);
-			console.log(view.$("#currDate").html());
 			expect(view.$(".ui-datebox-gridlabel h4").text()).toEqual(moment().format('MMMM YYYY'));
 //			expect(view.$("#currDate").html()).toEqual(moment().format('YYYY-MM-DD'));
 			expect(view.$(".ui-datebox-container")).not.toBeEmpty();

@@ -1,7 +1,7 @@
 describe("BugListView", function() {
 	var view, collection, collData;
 
-	collData = '[{"objectId":"1","bugStatus":"Open","assignedTo":"Dr. Roberts","bugPriority":3,"title":"Flu","symptoms":["Stuffy Nose","Headache"],"doctor":"Dr. Normal","medications":[],"tests":[]},{"objectId":"2","bugStatus":"Assigned","assignedTo":"Dr. Day","bugPriority":4,"title":"Strep Throat","symptoms":["Sore Throat"],"doctor":"Dr. Dangerous","medications":[],"tests":[]},{"objectId":"3","bugStatus":"Assigned","assignedTo":"Dr. Day","bugPriority":2,"title":"Diabetes","symptoms":["Low Blood Sugar"],"doctor":"Dr. Safety","medications":["Insulin 30cc"],"tests":["Glucose Test"]}]';
+	collData = '[{"_id":"1","bugStatus":"Open","assignedTo":"Dr. Roberts","bugPriority":3,"title":"Flu","symptoms":["Stuffy Nose","Headache"],"doctor":"Dr. Normal","medications":[],"tests":[]},{"_id":"2","bugStatus":"Assigned","assignedTo":"Dr. Day","bugPriority":4,"title":"Strep Throat","symptoms":["Sore Throat"],"doctor":"Dr. Dangerous","medications":[],"tests":[]},{"_id":"3","bugStatus":"Assigned","assignedTo":"Dr. Day","bugPriority":2,"title":"Diabetes","symptoms":["Low Blood Sugar"],"doctor":"Dr. Safety","medications":["Insulin 30cc"],"tests":["Glucose Test"]}]';
 	beforeEach(function() {
 		collection = new $dino.BugList(JSON.parse(collData));
 		view = new $dino.BugListView({
@@ -29,6 +29,7 @@ describe("BugListView", function() {
 			id: 25
 		});
 		view.render();
+		expect(collection.fetch).toHaveBeenCalled();
 		expect(view.$el).not.toBeEmpty();
 	});
 	

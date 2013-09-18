@@ -101,11 +101,8 @@ $dino.AppRouter = Backbone.Router.extend({
 
 	loadBug : function(id, callback) {
 		console.log("loading bug " + id);
-		var bug = new $dino.Bug({
-			objectId : id
-		});
-		console.log(bug);
-		//    _.bind(callback, this);
+		var bug = new $dino.Bug({});
+		bug.id = id;
 		bug.fetch({
 			success : function(data) {
 				callback(data);
@@ -151,7 +148,7 @@ $dino.AppRouter = Backbone.Router.extend({
 		}
 		$('body').append($(page.el));
 		if (page.collection)
-			page.collection.fetch();
+			page.collection.fetch({remote: false});
 		var transition = $.mobile.defaultPageTransition;
 		// We don't want to slide the first page
 		if (this.firstPage) {

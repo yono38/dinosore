@@ -1,4 +1,3 @@
-
 window.$dino.BugModifyView = Backbone.View.extend({
 
     initialize:function(){
@@ -55,14 +54,13 @@ window.$dino.BugModifyView = Backbone.View.extend({
           }
         },
          error: function(collection, error) {
-        // The collection could not be retrieved.
-        console.log(error);
+	        // The collection could not be retrieved.
+	        console.log(error);
       }
       });
   },
     
     changeColor: function(e){
-      console.log('new color');
        this.model.save({
           "color": this.colors.get(this.$("#select-color").val())
       });
@@ -157,8 +155,9 @@ window.$dino.BugModifyView = Backbone.View.extend({
           "assignedTo": "Not Assigned"
         });
         $(this.el).html(this.template(model));
-        var color = this.model.get("color");
-        if (color) {
+        if (this.model.get('color')) {
+	      var color = new $dino.Color();
+          color.id = this.model.get("color");
           color.fetch({
             success: function(col){
               that.makeList(col);  

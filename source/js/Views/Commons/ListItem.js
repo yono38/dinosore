@@ -48,10 +48,6 @@ window.$dino.ListItemView = Backbone.View.extend({
 		this.model.save(); 
 		//create a new plusOne object when someone clicks plusOne
 		this.plusOne = new $dino.PlusOne();
-		console.log(this.model);
-		console.log(this.model.id);
-		console.log(this.model.constructor.name);
-		console.log(this.model.urlRoot);
 		this.plusOne.save({
 			item: that.model.id,
 			type: that.model.urlRoot.substr(8, that.model.urlRoot.length-9),
@@ -64,7 +60,6 @@ window.$dino.ListItemView = Backbone.View.extend({
 	},
 	
 	destroy: function(){
-		console.log(this);
 		if (this.deleteDialog) this.deleteDialog.destroy();
 		this.unbind();
 		this.remove();

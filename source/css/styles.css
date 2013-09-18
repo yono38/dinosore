@@ -91,3 +91,8 @@ font-weight: bold;
 		background-position: -282px 50%;
 	}
 }
+.ui-header {
+	text-overflow: ellipsis;
+	overflow: visible;
+	white-space: normal;
+}
