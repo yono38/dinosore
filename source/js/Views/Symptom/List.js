@@ -6,7 +6,7 @@ window.$dino.SymptomListView = Backbone.View.extend({
 		this.collection = new $dino.SymptomList();
 		this.collection.bind('destroy', this.renderList);
 		this.adding = false;
-		this.first = true;
+		this.loading = true;
 	},
 
 	sortList : function(bug) {
@@ -17,8 +17,15 @@ window.$dino.SymptomListView = Backbone.View.extend({
 		'click #logout' : 'logout',
 		'click #newItem' : 'newSymptom',
 		'click #newItemLi' : 'dontClick',
+		// pageinit is a jquery mobile event
+		'pageinit' : 'loadedpage'
 	},
-
+	
+	refreshList: function(){
+		this.$("#myList").listview('refresh');
+		this.loading = false;
+	},
+	
 	dontClick : function(e) {
 		e.preventDefault();
 	},
@@ -37,7 +44,6 @@ window.$dino.SymptomListView = Backbone.View.extend({
 		});
 		this.adding = false;
 		this.renderList();
-		this.$("#myList").listview('refresh');
 	},
 
 	newSymptom : function(e) {
@@ -102,11 +108,8 @@ window.$dino.SymptomListView = Backbone.View.extend({
 				for (var i = 0; i < collection.length; i++) {
 					that.addOne(collection.models[i]);
 				}
-				console.log(collection);
-				if (firstTime) {
-					console.log('render list');
-					that.$("#myList").listview();
-					that.$("#myList").listview('refresh');
+				if (!that.loading){
+					that.refreshList();
 				}
 			},
 			error : function() {

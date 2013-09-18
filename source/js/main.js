@@ -96,7 +96,8 @@ $dino.AppRouter = Backbone.Router.extend({
 
 	symptomList : function() {
 		console.log("in symptomList");
-		this.changePage(new $dino.SymptomListView(), true);
+		var sympView = new $dino.SymptomListView();
+		this.changePage(sympView, true);
 	},
 
 	loadBug : function(id, callback) {
@@ -149,7 +150,7 @@ $dino.AppRouter = Backbone.Router.extend({
 		$('body').append($(page.el));
 		if (page.collection)
 			page.collection.fetch({remote: false});
-		var transition = $.mobile.defaultPageTransition;
+		var transition = 'none'; // $.mobile.defaultPageTransition;
 		// We don't want to slide the first page
 		if (this.firstPage) {
 			transition = 'none';

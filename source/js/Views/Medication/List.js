@@ -6,7 +6,7 @@ window.$dino.MedicationListView = Backbone.View.extend({
         this.collection = new $dino.MedicationList();
         this.collection.bind('destroy', this.renderList);
         this.adding = false;
-        this.first = true;
+        this.loading = true;
     },    
     
     sortList: function(med){
@@ -17,7 +17,12 @@ window.$dino.MedicationListView = Backbone.View.extend({
       'click #logout' : 'logout',
       'click #newItem' : 'newMedication',
       'click #newItemLi' : 'dontClick',
-      'click #medication-detail' : 'dontClick'
+      'click #medication-detail' : 'dontClick',
+      'pageinit' : 'loadedPage'
+    },
+    
+    loadedPage: function(){
+        this.loading = true;
     },
     
     dontClick:function(e){
@@ -35,7 +40,6 @@ window.$dino.MedicationListView = Backbone.View.extend({
    		this.$("#newItem").buttonMarkup({ icon: "plus" });
 		this.adding = false;
 		this.renderList();
-      	this.$("#myList").listview('refresh'); 
     },
     
     newMedication: function(e){
@@ -81,7 +85,7 @@ window.$dino.MedicationListView = Backbone.View.extend({
             for (var i=0; i<collection.length; i++){
               that.addOne(collection.models[i]);
             }
-            if (firstTime){
+            if (!this.loading){
 		      	that.$("#myList").listview();  
 		      	that.$("#myList").listview('refresh'); 
 	        }
