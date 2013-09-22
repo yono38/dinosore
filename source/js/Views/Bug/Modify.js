@@ -61,8 +61,9 @@ window.$dino.BugModifyView = Backbone.View.extend({
   },
     
     changeColor: function(e){
+	   var selectedColorModel = this.colors.get(this.$("#select-color").val());
        this.model.save({
-          "color": this.colors.get(this.$("#select-color").val())
+          "color": selectedColorModel.id
       });
     },
     

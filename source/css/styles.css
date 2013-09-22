@@ -91,8 +91,9 @@ font-weight: bold;
 		background-position: -282px 50%;
 	}
 }
-.ui-header {
-	text-overflow: ellipsis;
-	overflow: visible;
-	white-space: normal;
+/* This turns off the shortening ellipse in page titles */
+h1.ui-title {
+	text-overflow: ellipsis !important;
+	overflow: visible !important;
+	white-space: normal !important;
 }
