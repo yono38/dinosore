@@ -9,5 +9,5 @@ window.$dino.Appointment = Backbone.Model.extend({
 
 window.$dino.AppointmentList = Backbone.Collection.extend({
     model: $dino.Appointment,
-   url: '/appointments'
+   url: $dino.apiRoot + '/appointments'
 });
