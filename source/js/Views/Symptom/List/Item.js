@@ -51,13 +51,14 @@ window.$dino.SymptomListItemView = $dino.ListItemView.extend({
 		if (e) e.preventDefault();
 		if (!this.added){
 			var that = this;
-			this.model.increment("count", 1);
+			this.model.set("count", (this.model.get("count") + 1));
 			this.model.save(); 
 			//create a new plusOne object when someone clicks plusOne
 			this.plusOne = new $dino.PlusOne();
 			this.plusOne.save({
 				item: this.model.id,
-				user: Parse.User.current()
+				type: that.model.urlRoot.substr(8, that.model.urlRoot.length-9),
+				user: Parse.User.current().id
 			}, {
 			success: function(item){
 				that.added = true;

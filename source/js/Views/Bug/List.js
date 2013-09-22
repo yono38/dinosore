@@ -30,6 +30,7 @@ window.$dino.BugListView = Backbone.View.extend({
         $(this.el).html(this.template());  
        // this.$("#myList").listview();
         this.collection.fetch({
+          data: { "user" : Parse.User.current().id },
           success: function(collection){
           	collection.comparator = that.sortList;
           	

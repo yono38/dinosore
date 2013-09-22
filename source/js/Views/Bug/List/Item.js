@@ -8,20 +8,29 @@ window.$dino.BugListItemView = Backbone.View.extend({
         var color = this.model.get("color");
         if (color) this.setColor(color);
         this.model.bind("destroy", this.close, this);
-        _.bindAll(this, "setColor");
+        _.bindAll(this, "setColor", 'destroy');
     },
     
-    setColor: function(color){
+    setColor: function(color_id){
     	var that = this;
-    	color.fetch({
+    	console.log(color_id);
+    	var colorModel = new $dino.Color();
+    	colorModel.id = color_id;	
+    	colorModel.fetch({
     		success: function(c){
-    			that.$el.attr("style", "background:#"+color.get("hex"));
+    			that.$el.attr("style", "background:#"+c.get("hex"));
     		}
     	});
     },
+    
+    destroy: function(){
+    	this.unbind();
+    	this.remove();
+    },
 
     render:function (eventName) {
-        $(this.el).html(this.template(this.model.toJSON()));
+    	var t= this.model.toJSON();
+        this.$el.html(this.template(this.model.toJSON()));
         return this;
     }
 

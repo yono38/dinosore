@@ -1,7 +1,7 @@
-
-window.$dino.PlusOne= Parse.Object.extend({
-    className: "PlusOne",
+window.$dino.PlusOne= Backbone.Model.extend({
    defaults: {
-	date: new Date(),
-   }
+	date: moment().valueOf()
+   },
+   idAttribute: '_id',
+  urlRoot: $dino.apiRoot + '/plusones'
 });

@@ -26,24 +26,26 @@
     <script type="text/javascript">
     	// setting namespace
     	window.$dino = window.$dino || {};
+		window.$dino.app = $dino.app || { navigate: function(){}};
     	Backbone.View.prototype.destroy = function(){
     		this.unbind();
     		this.remove();
     	};
 		Parse.initialize("ILMokni7fwKhJSdWh38cGPpEwL2CLsrhcrUgJmG6", "cDQoHLQqGRRj9srzrpG2jv6X5nl2BPdh7hVUBRoc");
+		$dino.apiRoot = "http://localhost:5555/api/v1";
     </script>
+    <script src="../js/Models/User.js"></script>
     <script src="../js/Models/Bug.js"></script>
     <script src="../js/Models/Color.js"></script>
     <script src="../js/Models/Appointment.js"></script>
     <script src="../js/Models/Doctor.js"></script>        
-    <script src="../js/Models/Med.js"></script>       
     <script src="../js/Models/Symptom.js"></script>        
     <script src="../js/Models/PlusOne.js"></script>    
     <script src="../js/Models/Medication.js"></script>    
     <script src="../js/Views/Commons/Dialog/Delete.js"></script>
     <script src="../js/Views/Commons/ListItem.js"></script>
     <script src="../js/Views/Commons/New.js"></script>
-    <script src="../js/Views/Medication/List.js"></script>      
+    <script src="../js/Views/Commons/PlusList.js"></script>
     <script src="../js/Views/Symptom/List.js"></script>      
     <script src="../js/Views/Symptom/List/Item.js"></script>   
     <script src="../js/Views/Bug/List.js"></script>
@@ -65,7 +67,7 @@
   <script type="text/javascript" src="spec/LoginSpec.js"></script>
   <script type="text/javascript" src="spec/FooterSpec.js"></script>
   <script type="text/javascript" src="spec/ListNewSpec.js"></script>
-  <script type="text/javascript" src="spec/SymptomListSpec.js"></script>
+  <script type="text/javascript" src="spec/PlusListSpec.js"></script>
   <script type="text/javascript" src="spec/SymptomListItemSpec.js"></script>
   <script type="text/javascript" src="spec/BugListSpec.js"></script>
   <script type="text/javascript" src="spec/BugListItemSpec.js"></script>

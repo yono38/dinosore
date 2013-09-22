@@ -1,13 +1,15 @@
 describe("AppointmentCalendarView", function() {
-	var view, collection, time = '13:00', collData = JSON.parse('[{"objectId":1,"date":"2013-09-19","title":"Checkup", "doc":"none"},{"objectId":2,"date":"2013-09-01","title":"Gyno Appt", "doc":"none"},{"objectId":3,"date":"2013-09-01","title":"MRI Screening", "doc":"none"}]');
+	var view, collection, time = '13:00', collData = JSON.parse('[{"_id":1,"date":"2013-09-19","title":"Checkup", "doc":"none"},{"_id":2,"date":"2013-09-01","title":"Gyno Appt", "doc":"none"},{"_id":3,"date":"2013-09-01","title":"MRI Screening", "doc":"none"}]');
 	beforeEach(function() {
+		spyOn(Parse.User, 'current').andReturn({
+			"id" : 25
+		});
 		collection = new $dino.AppointmentList(collData);
 
 		for (var i = 1; i < 4; i++) {
-			var mod = collection.models[i - 1], day = mod.get("date"), apptDateTime = moment(day + " " + time).toDate();
-			collection.models[i - 1].set("newDate", apptDateTime);
+			var mod = collection.models[i - 1], day = mod.get("date"), apptDateTime = moment(day + " " + time).valueOf();
+			collection.models[i - 1].set("date", apptDateTime);
 		}
-		console.log(collection.models);
 		spyOn(collection, 'fetch').andCallFake(function(cb){
 			cb['success'](collection);
 		});
@@ -37,7 +39,7 @@ describe("AppointmentCalendarView", function() {
 
 		runs(function() {
 			expect(view.$(".ui-datebox-gridlabel h4").text()).toEqual(moment().format('MMMM YYYY'));
-			expect(view.$("#currDate").text()).toEqual(moment().format('YYYY-MM-DD'));
+//			expect(view.$("#currDate").html()).toEqual(moment().format('YYYY-MM-DD'));
 			expect(view.$(".ui-datebox-container")).not.toBeEmpty();
 		});
 
@@ -45,7 +47,6 @@ describe("AppointmentCalendarView", function() {
 	
 	it("loads appointments", function() {
 		var finishedRender = false;
-
 		runs(function() {
 			view.render();
 			setTimeout(function() {
@@ -87,7 +88,6 @@ describe("AppointmentCalendarView", function() {
 			spyOn(view, 'loadApptItem').andCallThrough();
 			view.$("#mydate").val('2013-09-01');
 			view.changeDate(null, {'method':'set', 'value':'2013-09-01'});
-			console.log(view.el);
 			expect(view.$("#fakeAppt .ui-li-heading").length).toEqual(2);
 			expect(view.loadApptItem).toHaveBeenCalled();
 			expect(view.loadApptItem.calls.length).toEqual(2);
