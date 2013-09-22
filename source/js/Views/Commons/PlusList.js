@@ -1,39 +1,38 @@
-window.$dino.MedicationListView = Backbone.View.extend({
+window.$dino.PlusListView = Backbone.View.extend({
 
-    initialize:function () {
+    initialize:function (opts) {
+    	_.extend(this, opts);
         this.template = _.template(tpl.get('list-view'));   
-        _.bindAll(this, 'render', 'renderList', 'addMedicationToList'); 
-        this.collection = new $dino.MedicationList();
+        _.bindAll(this, 'render', 'renderList', 'addItemToList'); 
         this.collection.bind('destroy', this.renderList);
         this.adding = false;
         this.loading = true;
     },    
     
-    sortList: function(med){
-    	return -med.get("count");
+    sortList: function(item){
+    	return -item.get("count");
     },
     
     events: {
       'click #logout' : 'logout',
-      'click #newItem' : 'newMedication',
+      'click #newItem' : 'newItem',
       'click #newItemLi' : 'dontClick',
-      'click #medication-detail' : 'dontClick',
       'pageinit' : 'loadedPage'
     },
     
     loadedPage: function(){
-        this.loading = true;
+        this.loading = false;
     },
     
     dontClick:function(e){
     	e.preventDefault();
     },
     
-    addMedicationToList: function(e){
+    addItemToList: function(e){
     	if (e)	e.preventDefault();
-    	if (this.newMedicationListItem){
-			this.newMedicationListItem.remove();    	
-			this.newMedicationListItem = null;
+    	if (this.newListItem){
+			this.newListItem.remove();    	
+			this.newListItem = null;
 		}
    		this.$("#newItem .ui-btn-text").text("Add");
    		this.$("#newItem").removeClass("cancelBtn");
@@ -42,28 +41,29 @@ window.$dino.MedicationListView = Backbone.View.extend({
 		this.renderList();
     },
     
-    newMedication: function(e){
+    newItem: function(e){
     	if (e) e.preventDefault();
     	if (!this.adding){
-	    	this.newMedicationListItem = new $dino.ListNewView({
-	    		modelType: $dino.Medication,
-	    		header: "Medications"
-	    	});
-	      	this.newMedicationListItem.bind('newItem', this.addMedicationToList);
-	    	this.$("#myList").prepend(this.newMedicationListItem.render().el);
+    		var itemData = {
+    			modelType: this.modelType,
+    			header: this.header
+    		};
+	    	this.newListItem = new $dino.ListNewView(itemData);
+	      	this.newListItem.bind('newItem', this.addItemToList);
+	    	this.$("#myList").prepend(this.newListItem.render().el);
 	    	this.$("#myList").listview('refresh');
 	   		this.$("#newItemInput").textinput().focus();
 	   		this.$("#newItem .ui-btn-text").text("Cancel");
 	   		this.$("#newItem").addClass("cancelBtn");
 	   		this.$("#newItem").buttonMarkup({ icon: "delete" });
 	   		this.adding = true;
-   		} else if (this.newMedicationListItem) {
-   			this.addMedicationToList();
+   		} else if (this.newListItem) {
+   			this.addItemToList();
    		}
     },
     
-    addOne: function(Medication){
-      	var view = new $dino.ListItemView({model: Medication, name: "medication"});
+    addOne: function(Item){
+      	var view = new $dino.ListItemView({model: Item, name: this.name});
      	this.$("#myList").append(view.render().el);  
     },
     
@@ -74,8 +74,7 @@ window.$dino.MedicationListView = Backbone.View.extend({
       	  data: { "user" : Parse.User.current().id }, 
           success: function(collection){
           	if (collection.length ==0){
-          		that.$("#myList").html('<span class="bobregular"><div>No Medications Added Yet!</div><hr> <div>Click "Add" Above to Get Started</div><hr></span>');
-          		this.emptyCollection = true;
+          		that.$("#myList").html('<span class="bobregular"><div>No '+that.header+' Added Yet!</div><hr> <div>Click "Add" Above to Get Started</div><hr></span>');
           		return;
           	}
           	
@@ -85,7 +84,7 @@ window.$dino.MedicationListView = Backbone.View.extend({
             for (var i=0; i<collection.length; i++){
               that.addOne(collection.models[i]);
             }
-            if (!this.loading){
+            if (!that.loading){
 		      	that.$("#myList").listview();  
 		      	that.$("#myList").listview('refresh'); 
 	        }
@@ -94,7 +93,7 @@ window.$dino.MedicationListView = Backbone.View.extend({
     },
     
     render: function () {                
-        $(this.el).html(this.template({"header":"Medications"}));  
+        $(this.el).html(this.template({"header":this.header}));  
         this.renderList(this.first);
         this.first = false;
         return this;

@@ -94,12 +94,6 @@ $dino.AppRouter = Backbone.Router.extend({
 		}), true);
 	},
 
-	symptomList : function() {
-		console.log("in symptomList");
-		var sympView = new $dino.SymptomListView();
-		this.changePage(sympView, true);
-	},
-
 	loadBug : function(id, callback) {
 		console.log("loading bug " + id);
 		var bug = new $dino.Bug({});
@@ -131,11 +125,26 @@ $dino.AppRouter = Backbone.Router.extend({
 		});
 	},
 
-	medicationList : function() {
-		var collection = new $dino.MedicationList();
-		var medView = new $dino.MedicationListView({
-			"collection" : collection
+	symptomList : function() {
+        var coll = new $dino.SymptomList();
+		var sympView = new $dino.SymptomListView({
+			modelType: $dino.Symptom,
+			header: "Symptoms",
+			collection: coll,
+			name: "symptom"
 		});
+		this.changePage(sympView, true);
+	},
+
+	medicationList : function() {
+        var coll = new $dino.MedicationList();
+		var medView = new $dino.PlusListView({
+			modelType: $dino.Medication,
+			header: "Medications",
+			collection: coll,
+			name: "medication"
+		});
+	//	var medView = new $dino.MedicationListView({});
 		this.changePage(medView, true);
 	},
 
