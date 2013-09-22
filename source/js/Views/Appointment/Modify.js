@@ -44,7 +44,6 @@ window.$dino.AppointmentModifyView = Backbone.View.extend({
 	},
 
 	render : function() {
-		console.log(this.model);
 		var apptMoment = moment(this.model.get("date"));
 		var data = {
 			// title, apptDate, apptTime, apptId
@@ -53,7 +52,6 @@ window.$dino.AppointmentModifyView = Backbone.View.extend({
 			"apptDate" : apptMoment.format("YYYY-MM-DD"),
 			"apptTime" : apptMoment.format("HH:mm:ss")
 		};
-		console.log(data);
 		$(this.el).html(this.template(data));
 		this.renderMenu("bug");
 		this.renderMenu("doctor");

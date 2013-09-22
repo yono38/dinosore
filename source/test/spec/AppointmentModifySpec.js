@@ -37,7 +37,6 @@ describe("AppointmentModifyView", function(){
 		expect(view.getCollection).toHaveBeenCalled();
 		expect(view.getCollection.calls.length).toEqual(2); // one for bug list & one for doctor list
 		expect(view.$("#select-bug")).not.toBeEmpty();
-		console.log(view.$("#select-bug").html());
 		expect(view.$("#select-bug option").length).toEqual(4);
 		expect($(view.$("#select-bug option")[0]).val()).toEqual("none");
 		expect($(view.$("#select-bug option")[1]).text()).toEqual(coll.models[0].get("title"));
