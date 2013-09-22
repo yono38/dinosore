@@ -3,10 +3,10 @@ window.$dino.Doctor = Backbone.Model.extend({
     title: "New Doctor"
    },
    idAttribute: '_id',
-   urlRoot: '/api/v1/doctors'
+   urlRoot: $dino.apiRoot + '/doctors'
 });
 
 window.$dino.DoctorList = Backbone.Collection.extend({
     model: $dino.Doctor,
-   url: '/api/v1/doctors'
+   url: $dino.apiRoot + '/doctors'
 });

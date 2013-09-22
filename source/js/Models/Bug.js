@@ -1,6 +1,6 @@
 window.$dino.Bug = Backbone.Model.extend({
    idAttribute: '_id',
-    urlRoot: '/api/v1/bugs',
+    urlRoot: $dino.apiRoot + '/bugs',
    defaults: {
     bugStatus: "Open",
     bugPriority: 1,
@@ -14,6 +14,6 @@ window.$dino.Bug = Backbone.Model.extend({
 
 window.$dino.BugList = Backbone.Collection.extend({
     model: $dino.Bug,
-	url: '/api/v1/bugs'
+	url: $dino.apiRoot + '/bugs'
 });
 

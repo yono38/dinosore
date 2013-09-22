@@ -4,12 +4,12 @@ window.$dino.Symptom= Backbone.Model.extend({
    	count: 0,
    },
    idAttribute: '_id',
-   urlRoot: '/api/v1/symptoms'
+   urlRoot: $dino.apiRoot + '/symptoms'
 });
 
 window.$dino.SymptomList = Backbone.Collection.extend({
     model: $dino.Symptom,
-    url: '/api/v1/symptoms'
+    url: $dino.apiRoot + '/symptoms'
 });
 
 // NEXT:

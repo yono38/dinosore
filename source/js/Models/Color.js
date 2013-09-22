@@ -1,11 +1,11 @@
 window.$dino.Color = Backbone.Model.extend({
    idAttribute: '_id',
-    urlRoot: '/api/v1/colors'
+    urlRoot: $dino.apiRoot + '/colors'
 });
 
 window.$dino.ColorList = Backbone.Collection.extend({
 	model: $dino.Color,
-	url: '/api/v1/colors',
+	url: $dino.apiRoot + '/colors',
 	comparator: function (color){
 		return color.get("color");
 	}

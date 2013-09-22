@@ -4,10 +4,10 @@ window.$dino.Appointment = Backbone.Model.extend({
     date: moment().valueOf(),
     title: "New Appointment"
    },
-   urlRoot: '/api/v1/appointments'
+   urlRoot: $dino.apiRoot + '/appointments'
 });
 
 window.$dino.AppointmentList = Backbone.Collection.extend({
     model: $dino.Appointment,
-   url: '/api/v1/appointments'
+   url: '/appointments'
 });

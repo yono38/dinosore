@@ -1,4 +1,3 @@
-Parse.initialize("ILMokni7fwKhJSdWh38cGPpEwL2CLsrhcrUgJmG6", "cDQoHLQqGRRj9srzrpG2jv6X5nl2BPdh7hVUBRoc");
 
 $dino.AppRouter = Backbone.Router.extend({
 

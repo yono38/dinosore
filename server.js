@@ -86,13 +86,14 @@ var AppointmentModel = mongoose.model('Appointment', Appointment);
 // SET UP SERVER
 var app = express();
 var allowCrossDomain = function(req, res, next) {
-    res.header('Access-Control-Allow-Origin', "");
+    res.header('Access-Control-Allow-Origin', "*");
     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
     res.header('Access-Control-Allow-Headers', 'Content-Type');
+    return next();
 };
 
 app.configure(function(){
-//    app.use(allowCrossDomain);
+    app.use(allowCrossDomain);
     app.use(express.bodyParser());
 	app.use(express.logger('dev'));
     app.use(express.methodOverride());

@@ -3,5 +3,5 @@ window.$dino.PlusOne= Backbone.Model.extend({
 	date: moment().valueOf()
    },
    idAttribute: '_id',
-  urlRoot: '/api/v1/plusones'
+  urlRoot: $dino.apiRoot + '/plusones'
 });
