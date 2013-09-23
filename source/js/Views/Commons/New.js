@@ -35,7 +35,7 @@ window.$dino.ListNewView = Backbone.View.extend({
 		if (e) e.preventDefault();
 		if (this.$("#newItemInput").val() != ""){
 			var med = new this.modelType({
-				user: Parse.User.current(),
+				user: Parse.User.current().id,
 				title: this.$("#newItemInput").val()
 			});
 			var that = this;

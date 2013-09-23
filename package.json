@@ -1,0 +1,11 @@
+{
+  "name": "dinosore",
+  "description": "A health tracking app",
+  "contributors": [
+      "Jason Schapiro <yono38@gmail.com>",
+      "Rebecca Hillegass <rebecca.hillegass@gmail.com>"
+   ],
+  "dependencies": {
+    "express-restify-mongoose": "0.3.3"
+  }
+}

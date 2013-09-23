@@ -1,11 +1,13 @@
-window.$dino.Appointment = Parse.Object.extend({
-   className: "Appointment",
+window.$dino.Appointment = Backbone.Model.extend({
+   idAttribute: '_id',
    defaults: {
-    date: new Date(),
+    date: moment().valueOf(),
     title: "New Appointment"
-   }
+   },
+   urlRoot: $dino.apiRoot + '/appointments'
 });
 
-window.$dino.AppointmentList = Parse.Collection.extend({
-    model: $dino.Appointment
+window.$dino.AppointmentList = Backbone.Collection.extend({
+    model: $dino.Appointment,
+   url: $dino.apiRoot + '/appointments'
 });

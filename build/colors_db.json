@@ -1,0 +1,17 @@
+{ "_id" : { "$oid" : "52363a0ec0b741d104ef513b" }, "hex" : "F5A2BD", "color" : "PINK" }
+{ "_id" : { "$oid" : "52363a0ec0b741d104ef513c" }, "hex" : "D4B0C7", "color" : "PURPLEPINK" }
+{ "_id" : { "$oid" : "52363a0ec0b741d104ef513d" }, "hex" : "CE9AE3", "color" : "PURPLE" }
+{ "_id" : { "$oid" : "52363a0ec0b741d104ef513e" }, "hex" : "C2B4BD", "color" : "GREY" }
+{ "_id" : { "$oid" : "52363a0ec0b741d104ef513f" }, "hex" : "E8909F", "color" : "RED" }
+{ "_id" : { "$oid" : "52363a0ec0b741d104ef5140" }, "hex" : "629EE3", "color" : "PERIWINKLE" }
+{ "_id" : { "$oid" : "52363a0ec0b741d104ef5141" }, "hex" : "84EDF5", "color" : "LIGHTBLUE" }
+{ "_id" : { "$oid" : "52363a0ec0b741d104ef5142" }, "hex" : "90F5E4", "color" : "LIGHTTEAL" }
+{ "_id" : { "$oid" : "52363a0ec0b741d104ef5143" }, "hex" : "6FBFB2", "color" : "TEAL" }
+{ "_id" : { "$oid" : "52363a0ec0b741d104ef5144" }, "hex" : "C0FAD3", "color" : "LIGHTGREEN" }
+{ "_id" : { "$oid" : "52363a0ec0b741d104ef5145" }, "hex" : "34FA73", "color" : "GREEN" }
+{ "_id" : { "$oid" : "52363a0ec0b741d104ef5146" }, "hex" : "48FA34", "color" : "LIGHTNEONGREEN" }
+{ "_id" : { "$oid" : "52363a0ec0b741d104ef5147" }, "hex" : "A1FA34", "color" : "NEONGREEN" }
+{ "_id" : { "$oid" : "52363a0ec0b741d104ef5148" }, "hex" : "FAFA2F", "color" : "YELLOW" }
+{ "_id" : { "$oid" : "52363a0ec0b741d104ef5149" }, "hex" : "FAC72F", "color" : "LIGHTORANGE" }
+{ "_id" : { "$oid" : "52363a0ec0b741d104ef514a" }, "hex" : "FA8B2F", "color" : "ORANGE" }
+{ "_id" : { "$oid" : "52363a0ec0b741d104ef514b" }, "hex" : "FAA082", "color" : "PEACH" }
