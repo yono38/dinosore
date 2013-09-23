@@ -97,6 +97,8 @@ window.$dino.AppointmentsView = Backbone.View.extend({
 			that.$("#mydate").datebox({
 				"mode" : "calbox",
 				"highDates" : _.keys(that.highDates),
+				//"themeDateHigh" : "e",
+				"theme" : "a",
 				"useInline" : true,
 				"useImmediate" : true,
 				hideInput : true,
