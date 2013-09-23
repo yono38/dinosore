@@ -3,7 +3,7 @@
 	<h1>
 	<input type="text" id="bugTitleTxtInput" class="bugDetailTxtInput" value="<%= title %>" />
 	</h1>
-	<a href="#bug/<% objectId %>" data-role="button" id="doneModify" data-theme="b" data-mini="true" data-inline="true">Done</a>
+	<a href="#bug/<% _id %>" data-role="button" id="doneModify" data-theme="b" data-mini="true" data-inline="true">Done</a>
 </div>
 <div data-role="content">
 	<div id="savePopup">
@@ -133,4 +133,4 @@
 		</p>
 	</div>
 </div>
-<a href="#" id="deleteBug" data-id="<% objectId %>" data-theme="e" data-role="button">Delete</a>
+<a href="#" id="deleteBug" data-id="<% _id %>" data-theme="e" data-role="button">Delete</a>

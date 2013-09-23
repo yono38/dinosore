@@ -12,8 +12,7 @@ window.$dino.NewApptView = Backbone.View.extend({
     e.preventDefault();
     
     var appt = new $dino.Appointment({
-      user: Parse.User.current(),
-      date: this.$("#appt-date").val()
+      user: Parse.User.current().id,
     });
     if (this.$("#title").val() != ""){
       appt.set("title", this.$("#title").val());
@@ -24,10 +23,10 @@ window.$dino.NewApptView = Backbone.View.extend({
     if (this.$("#select-doc").val() != "none"){
       appt.set("doc", this.$("#select-doc").val());    
     }
-    appt.set("newDate", 
+    appt.set("date", 
       moment(
         $("#appt-date").val()+" "+$("#appt-time").val()
-      ).toDate()
+      ).valueOf()
     );
     
     appt.save(null, {
@@ -77,22 +76,11 @@ window.$dino.NewApptView = Backbone.View.extend({
       console.log("invalid type: "+type);
       return;
     }
-    var item, query, selector;
-    if (type == "bug") {
-      item = new $dino.BugList();
-      query = $dino.Bug;
-      selector = "#select-bug";
-    } else {
-      item = new $dino.DoctorList();
-      query = $dino.Doctor;
-      selector = "#select-doc";
-    }
-    item.query = new Parse.Query(query);
-    if (type == "bug") {
-      item.query.equalTo("user", Parse.User.current());
-    }
+    var item = (type == "bug") ? new $dino.BugList() : new $dino.DoctorList();
+    var selector = "#select-"+type;
     var that = this;
     item.fetch({
+      data: {"user": Parse.User.current().id },
       success: function(coll){
         that.$(selector).html("<option value='none'>None</option>");        
         _.each(coll['_byId'], function(v,k){
