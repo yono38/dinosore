@@ -105,7 +105,7 @@ app.configure(function(){
     restify.serve(app, BugModel);
     restify.serve(app, AppointmentModel);
     restify.serve(app, PlusOneModel);
-	app.use('/', express.static(path.join(__dirname, 'source')));
+	app.use('/', express.static(path.join(__dirname, '../source')));
 	app.get('/', function(req, res){
 		res.redirect('/test/SpecRunner.html');
 	});
