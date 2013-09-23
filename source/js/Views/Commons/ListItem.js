@@ -26,7 +26,7 @@ window.$dino.ListItemView = Backbone.View.extend({
 	},
 	
 	addBubble: function(selector, text){
-		if (this.$(".added-bubble").length < 1) {this.$(selector).append('<span data-count-theme="b" class="ui-li-count ui-btn-up-e ui-btn-corner-all added-bubble">'+ text +'</span>');}
+		if (this.$(".added-bubble").length < 1) {this.$(selector).append('<span data-count-theme="c" class="ui-li-count ui-btn-up-c ui-btn-corner-all added-bubble">'+ text +'</span>');}
 		this.$(".added-bubble").show();
 		this.$(".added-bubble").fadeToggle(3000);
 	},
@@ -54,7 +54,7 @@ window.$dino.ListItemView = Backbone.View.extend({
 			user: Parse.User.current().id
 		}, {
 		success: function(item){
-			that.addBubble('h3', 'added');
+			that.addBubble('h3', '+1');
 		}
 		});
 	},

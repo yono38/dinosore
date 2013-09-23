@@ -36,7 +36,7 @@ window.$dino.SymptomListItemView = $dino.ListItemView.extend({
 			this.$("h3").append('<label for="severity">Ouch Level:</label><input type="range" name="severity" id="severity" value="0" min="0" max="5" /><input type="text" placeholder="Notes" id="symptom-notes" value="" />');
 			this.$("#symptom-notes").textinput();
 			this.$("#severity").slider({
-				trackTheme: 'b',
+				trackTheme: 'a',
 			});
 			this.$("#severity").hide();
 			this.$("#cancel-change-severity").button({

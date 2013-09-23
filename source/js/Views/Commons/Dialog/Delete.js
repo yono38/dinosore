@@ -1,7 +1,7 @@
 window.$dino.DialogDeleteView = Backbone.View.extend({
 	initialize: function(options){
 		this.template = _.template(tpl.get('delete-confirm'));
-		this.$el.attr("data-theme", "none");
+		this.$el.attr("data-theme", "a");
 		this.parentView = options.parentView;
 	},
 	

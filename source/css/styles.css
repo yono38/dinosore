@@ -82,6 +82,7 @@ font-weight: bold;
 }
 
 .added-bubble {
+	padding: 2px;
 	font-size: 12px;
 	margin-left: 10px;
 }
@@ -96,4 +97,8 @@ h1.ui-title {
 	text-overflow: ellipsis !important;
 	overflow: visible !important;
 	white-space: normal !important;
+}
+
+.plus-one {
+	border-left: 2px solid #FCFAD6;
 }

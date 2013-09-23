@@ -149,6 +149,7 @@ $dino.AppRouter = Backbone.Router.extend({
 
 	changePage : function(page, hasFooter) {
 		$(page.el).attr('data-role', 'page');
+		$(page.el).data("theme", "a");
 		page.render();
 		if (hasFooter) {
 			this.footer = this.footer || new $dino.FooterView();
