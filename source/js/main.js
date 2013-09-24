@@ -8,7 +8,7 @@ $dino.AppRouter = Backbone.Router.extend({
 		"symptoms" : "symptomList",
 		"bug/:id" : "bugDetails",
 		"bug/:id/modify" : "bugModify",
-		"bug/:id/modify/dialog" : "bugDialog",
+		"bug/:id/delete" : "bugDialog",
 		"appts" : "appts",
 		"appts/:id/modify" : "apptModify",
 		"appts/add" : "newAppt",
@@ -28,6 +28,7 @@ $dino.AppRouter = Backbone.Router.extend({
 	},
 
 	bugDialog : function(id) {
+		console.log('in bug dialog');
 		var self = this;
 		this.loadBug(id, function(data) {
 			console.log("view bug details");

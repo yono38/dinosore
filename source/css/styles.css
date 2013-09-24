@@ -87,11 +87,7 @@ font-weight: bold;
 	margin-left: 10px;
 }
 
-@media (max-width:600px) {
-	.ui-icon-check {
-		background-position: -282px 50%;
-	}
-}
+
 /* This turns off the shortening ellipse in page titles */
 h1.ui-title {
 	text-overflow: ellipsis !important;
@@ -106,4 +102,12 @@ h1.ui-title {
 .ui-datebox-container {
 	border: none !important;
 	box-shadow: none !important;
+}
+
+.plus-one .ui-btn-inner .ui-btn-icon-notext {
+	border-radius: 15px;
+}
+
+.ui-li-count {
+	border-radius: 10px;
 }

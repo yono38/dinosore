@@ -21,12 +21,6 @@ window.$dino.BugModifyView = Backbone.View.extend({
       "change #select-color": "changeColor"
     },
 	
-	deleteBug: function(e){
-      e.preventDefault();
-      var route = window.location.hash + "/dialog";
-      $dino.app.navigate(route, {trigger: true});     
-    },
-    
     savePriority: function(e){
       this.model.save({
         "bugPriority": BackboneInt($("#select-choice-month").val())
