@@ -13,6 +13,7 @@ window.$dino.SymptomListItemView = $dino.ListItemView.extend({
 		"swiperight" : "confirmDelete",
 		"dblclick #item-detail" : "openDetails",
 		"slidestop" : "changeSeverity",
+		"keypress #symptom-notes" : "addOnEnter",
 		"click #cancel-change-severity" : "resetTitle",
 		"click #symptom-detail" : "goToSymptomDetail"
 	},
@@ -31,6 +32,10 @@ window.$dino.SymptomListItemView = $dino.ListItemView.extend({
 		this.$(".ui-slider div a span .ui-btn-text").html(this.$("#severity").val());		
 	},
 	
+	addOnEnter: function(e){
+	  if (e.keyCode == 13) this.clickPlus();
+	},
+
 	setSeverity: function(){
 		if (!this.settingSeverity){
 			this.$("h3").append('<label for="severity">Ouch Level:</label><input type="range" name="severity" id="severity" value="0" min="0" max="5" /><input type="text" placeholder="Notes" id="symptom-notes" value="" />');
