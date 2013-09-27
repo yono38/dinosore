@@ -6,6 +6,7 @@
       "Rebecca Hillegass <rebecca.hillegass@gmail.com>"
    ],
   "dependencies": {
-    "express-restify-mongoose": "0.3.3"
+    "express-restify-mongoose": ">=0.3.3",
+	  "phonegap" : ">=3.0.0-0.14.3"
   }
 }

@@ -8,4 +8,9 @@ phonegap/www/js
 phonegap/www/lib
 phonegap/www/tpl
 phonegap/www/test
+build/phonegap/www/css/
+build/phonegap/www/img/
+build/phonegap/www/js/
+build/phonegap/www/lib/
+build/phonegap/www/tpl/
 node_modules/
