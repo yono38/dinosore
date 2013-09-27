@@ -108,6 +108,7 @@ window.$dino.BugModifyView = Backbone.View.extend({
     doneModifying: function(e){
       e.preventDefault();
       this.model.save({
+        "title": $("#bugTitleTxtInput").val(),
         "bugDetails": $("#bug_details_input").val(),
         "bugStatus": $("#bug_status_input").val(),
       }, {

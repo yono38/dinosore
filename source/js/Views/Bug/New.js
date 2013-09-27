@@ -38,7 +38,7 @@ window.$dino.NewBugView = Backbone.View.extend({
 		bug.save(null, {
 			success : function(bug) {
 				console.log("New bug saved: " + bug.id);
-				$dino.app.navigate("list", {
+				$dino.app.navigate("bugs", {
 					trigger : true
 				});
 			},
