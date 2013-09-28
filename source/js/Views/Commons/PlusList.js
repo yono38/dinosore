@@ -74,7 +74,7 @@ window.$dino.PlusListView = Backbone.View.extend({
       	  data: { "user" : Parse.User.current().id }, 
           success: function(collection){
           	if (collection.length ==0){
-          		that.$("#myList").html('<span class="bobregular"><div>No '+that.header+' Added Yet!</div><hr> <div>Click "Add" Above to Get Started</div><hr></span>');
+          		that.$("#myList").html('<span class="fancyFont"><div>No '+that.header+' Added Yet!</div><hr> <div>Click "Add" Above to Get Started</div><hr></span>');
           		return;
           	}
           	

@@ -92,19 +92,7 @@ window.$dino.AppointmentsView = Backbone.View.extend({
 		}));
 		
 		var that = this;
-		// TODO figure out another way to do this
-		setTimeout(function() {
-			that.$("#mydate").datebox({
-				"mode" : "calbox",
-				"highDates" : _.keys(that.highDates),
-				//"themeDateHigh" : "e",
-				"theme" : "a",
-				"useInline" : true,
-				"useImmediate" : true,
-				hideInput : true,
-				calHighToday : false
-			});
-		}, 200);
+		this.loadDatebox(1);
 		// get rid of annoying background shadow
 		setTimeout(function() {
 			$(".ui-input-text.ui-shadow-inset").css({
@@ -116,6 +104,35 @@ window.$dino.AppointmentsView = Backbone.View.extend({
 			$(this).bind("click", that.addAppt);
 		});
 		return this;
+	},
+	
+	loadDatebox: function(count){
+		var that = this;
+		var cnt = ($.isNumeric(count)) ? count : 1;
+		setTimeout(function() {
+			if (cnt >= 10) {
+				console.log("failed to load");
+				that.$("#dateBoxLoading").html('<h2 class="fancyFont">Appointments failed to load</h2>');
+				return;
+			}
+			else if (!that.highDates){
+				cnt++;
+				that.loadDatebox(cnt);
+			} else {
+			//	console.log()
+				that.$("#dateBoxLoading").hide();
+				that.$("#mydate").datebox({
+					"mode" : "calbox",
+					"highDates" : _.keys(that.highDates),
+					//"themeDateHigh" : "e",
+					"theme" : "a",
+					"useInline" : true,
+					"useImmediate" : true,
+					hideInput : true,
+					calHighToday : false
+				});
+			}
+		}, 200);
 	},
 
 	events : {

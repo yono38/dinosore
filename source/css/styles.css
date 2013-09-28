@@ -11,8 +11,47 @@
 
 }
 
-.ui-title, #confirm, #yes, #cancel, .bobregular {
-	font-family: 'bobregular' !important
+@font-face {
+    font-family: 'ceviche_oneregular';
+    src: url('cevicheone-regular-webfont.eot');
+    src: url('cevicheone-regular-webfont.eot?#iefix') format('embedded-opentype'),
+         url('cevicheone-regular-webfont.woff') format('woff'),
+         url('cevicheone-regular-webfont.ttf') format('truetype'),
+         url('cevicheone-regular-webfont.svg#ceviche_oneregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+
+@font-face {
+    font-family: 'kavoonregular';
+    src: url('kavoon-regular-webfont.eot');
+    src: url('kavoon-regular-webfont.eot?#iefix') format('embedded-opentype'),
+         url('kavoon-regular-webfont.woff') format('woff'),
+         url('kavoon-regular-webfont.ttf') format('truetype'),
+         url('kavoon-regular-webfont.svg#kavoonregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+.ui-title, #confirm, #yes, #cancel, #getStarted, .fancyFont {
+	font-family: 'kavoonregular' !important
+}
+
+#getStarted {
+	margin-bottom: 0;
+}
+
+.ui-title {
+	font-size: 40px !important;
+	margin-top: 0 !important;
+	margin-left: 1em !important;
+	margin-right: 1em !important;
+}
+.ui-header {
+	height: 50px !important;
 }
 
 #savePopup p {

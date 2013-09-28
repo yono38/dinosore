@@ -24,6 +24,7 @@ $dino.AppRouter = Backbone.Router.extend({
 			return false;
 		});
 		this.firstPage = true;
+		$dino.colors = new $dino.colorList();
 
 	},
 
