@@ -40,7 +40,7 @@ $(window).on("online", function(){
 // Function to ping and see if web server running
 var ping = function(){
 	$.ajax({
-		url: 'http://jasonschapiro.com',
+		url: 'http://google.com',
 		success: function(d){
 			$dino.offline = false;
 		},
@@ -50,4 +50,4 @@ var ping = function(){
 	});
 };	
 // determine initial state
-ping();
+if ($dino.env == 'prod') ping();

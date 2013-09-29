@@ -10,7 +10,7 @@ window.$dino.NewBugView = Backbone.View.extend({
 		"click .ui-radio" : "changePriority",
 		"change #select-color" : "changeColor"
 	},
-	changeColor: function(){
+	changeColor : function() {
 		this.$("#select-color").parent().attr("style", this.$("#select-color option:selected").attr("style"));
 		this.setColor = true;
 	},
@@ -20,7 +20,7 @@ window.$dino.NewBugView = Backbone.View.extend({
 			that.priority = $(".ui-radio-on").prev().val() || 1;
 		}, 200);
 	},
-	addBug : function(e) {	
+	addBug : function(e) {
 		e.preventDefault();
 		var bug = new $dino.Bug({
 			bugPriority : parseInt(this.priority),
@@ -55,17 +55,18 @@ window.$dino.NewBugView = Backbone.View.extend({
 	preventDefault : function(e) {
 		e.preventDefault();
 	},
-	loadColorList: function(cnt){
+	loadColorList : function(cnt) {
 		var that = this;
 		var count = cnt || 1;
-		if (count >= 10){
+		if (count >= 10) {
 			this.$("#select-color").html("Sorry, colors failed to load.");
-		} else if ($dino.colors.length == 0){
+		} else if ($dino.colors.length == 0) {
 			console.log('colors not loaded yet, retrying...');
 			count++;
-			setTimeout(function(){that.loadColorList(count); }, 200);
-		}
-		else {
+			setTimeout(function() {
+				that.loadColorList(count);
+			}, 200);
+		} else {
 			that.$("#select-color").html('<option value="default">DEFAULT</option>');
 			console.log($dino.colors);
 			$dino.colors.forEach(function(color, key, arr) {
@@ -90,7 +91,9 @@ window.$dino.NewBugView = Backbone.View.extend({
 				// The collection could not be retrieved.
 				console.log(error);
 			}
-		}, {remote: false});
+		}, {
+			remote : false
+		});
 	},
 	render : function() {
 		$(this.el).html(this.template());
@@ -104,4 +107,4 @@ window.$dino.NewBugView = Backbone.View.extend({
 		}
 		return this;
 	}
-}); 
+});
