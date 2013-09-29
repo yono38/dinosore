@@ -20,10 +20,10 @@ window.$dino.BugModifyView = Backbone.View.extend({
       "click #deleteBug": "deleteBug",
       "change #select-color": "changeColor"
     },
-	
+    
     savePriority: function(e){
       this.model.save({
-        "bugPriority": BackboneInt($("#select-choice-month").val())
+        "bugPriority": parseInt($("#select-choice-month").val())
       }, {
         success: function(){
           console.log('priority input saved');
@@ -31,7 +31,7 @@ window.$dino.BugModifyView = Backbone.View.extend({
       });
     },
     
-     makeList: function(selectedColor){
+    loadColorList: function(selectedColor){
       var that = this;
       this.colors.fetch({
         success: function(collection) {
@@ -53,6 +53,36 @@ window.$dino.BugModifyView = Backbone.View.extend({
       }
       });
   },
+  
+  loadList: function(type){
+  	var that = this;
+  	if (!this[type]){
+  		var typeColl = (type == "symptom") ? new $dino.SymptomList() : new $dino.MedicationList();
+	  	typeColl.fetch({
+	  		data: { "user" : Parse.User.current().id }, 
+	  		success: function(coll){
+			  	that[type] = coll;
+				that.makeList(type);
+	  		}
+	  	});
+  	} else {
+  		this.makeList(type);
+  	}
+
+  }, 
+  
+  makeList: function(type){
+	console.log(this.$("#select-"+type));
+	var coll = this[type];
+	if (!coll){
+		console.log('makeList called with no collection for type: '+type);
+		return;
+	}
+  	coll.each(function(item){
+		console.log('appending');
+		this.$("#select-"+type).append('<option value="' + item.id + '">'+item.get("title")+'</option>');
+	});
+  },
     
     changeColor: function(e){
 	   var selectedColorModel = this.colors.get(this.$("#select-color").val());
@@ -67,9 +97,17 @@ window.$dino.BugModifyView = Backbone.View.extend({
     
     deleteItem: function(e){
       e.preventDefault();
-      var item = ($(e.currentTarget).parent().children(".itemName"))[0];
-      var type = $(e.currentTarget).attr("data-type");
-      this.model.remove(type, $(item).text());
+      // load typeArr if not loaded
+      // find & remove using data-id
+      // re-render
+      var type = $(e.currentTarget).attr("data-type");      
+      var id = $(e.currentTarget).attr("data-id");
+      console.log(type, id);
+      var typeItemArr = this.model.get(type);
+      typeItemArr = _.filter(typeItemArr, function(item){
+      	return item.id != id;
+      });
+      this.model.set(type, typeItemArr);
       var that = this;
       this.model.save(null, {
         success: function(){
@@ -122,8 +160,10 @@ window.$dino.BugModifyView = Backbone.View.extend({
     },
     
     addItem: function(e){
-      var itemType = $(e.currentTarget).data('type');
-      var itemVal = $("input[data-type='"+itemType+"']").val();
+      var itemType = $(e.currentTarget).data('type'),
+       itemVal = this.$("#select-"+itemType).val(),
+       itemTitle = this.$("#select-"+itemType+" option:selected").text();
+      console.log(itemVal);
       if (itemVal && itemVal != ""){
         var typeItemArr = this.model.get(itemType);
         // defaults to false
@@ -131,15 +171,20 @@ window.$dino.BugModifyView = Backbone.View.extend({
           typeItemArr = [];
         }
         var that = this;
-        this.model.save({
-          type: typeItemArr.push(itemVal)
-        }, {
+        var type = itemType + 's';
+        typeItemArr.push({
+          		"title" : itemTitle,
+          		"id" : itemVal
+          });
+        this.model.set(type, typeItemArr);
+        console.log(this.model.toJSON());
+        this.model.save(null, {
           success: function(){
             console.log(typeItemArr);
             that.render();
           }
         });
-      }
+      }  
     },
     
     render: function() {
@@ -156,12 +201,14 @@ window.$dino.BugModifyView = Backbone.View.extend({
           color.id = this.model.get("color");
           color.fetch({
             success: function(col){
-              that.makeList(col);  
+              that.loadColorList(col);  
             }
           });
         } else {
-          this.makeList();
+          this.loadColorList();
         }
+        this.loadList('symptom');
+        this.loadList('medication');
         this.dialog = this.dialog || new $dino.BugModifyDialogView({model: this.model});
         this.dialog.render();
         this.$("#deleteDialog").html(this.dialog.el);

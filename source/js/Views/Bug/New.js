@@ -55,9 +55,6 @@ window.$dino.NewBugView = Backbone.View.extend({
 	preventDefault : function(e) {
 		e.preventDefault();
 	},
-	// commonalities among list function
-	// need to laod from DB
-	// after loaded, add each item to list
 	loadColorList: function(cnt){
 		var that = this;
 		var count = cnt || 1;

@@ -21,10 +21,10 @@
 			<ul id="symptomList">
 				<%
 				if
-				(symptoms.length > 0){
-				_.each( symptoms, function( Item ){ %>
+				(symptom.length > 0){
+				_.each( symptom, function( Item ){ %>
 				<li>
-					<span class="itemName"><%= Item %></span>
+					<span class="itemName"><%= Item.title %></span>
 				</li>
 				<% });  }
 				else {
@@ -37,19 +37,19 @@
 	</div>
 
 	<div data-role="collapsible">
-		<h3>Relevant Test Results</h3>
+		<h3>Medications</h3>
 		<p>
-			<ul id="testList">
+			<ul id="medicationList">
 				<%
 				if
-				(tests.length > 0){
-				_.each( tests, function( testItem ){ %>
+				(medication.length > 0){
+				_.each( medication, function( Item ){ %>
 				<li>
-					<span class="itemName"><%= testItem %></span>
+					<span class="itemName"><%= Item.title %></span>
 				</li>
 				<% }); }
 				else {
-				print("No Test Results Recorded");
+				print("No Medications Recorded");
 				} %>
 			</ul>
 		</p>
@@ -62,24 +62,5 @@
 		<p>
 			Doctor: <span id="assignedTo"><%= assignedTo %></span>
 		</p>
-	</div>
-
-	<div data-role="collapsible" >
-
-		<h3>Relevant Medications:</h3>
-		<p>
-			<ul id="medicationList">
-				<% if (medications.length > 0) {
-				_.each( medications, function( Item ){ %>
-				<li>
-					<span class="itemName"><%= Item %></span>
-				</li>
-				<% }); }
-				else {
-				print("No Medications Recorded");
-				} %>
-			</ul>
-		</p>
-
 	</div>
 

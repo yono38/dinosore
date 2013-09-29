@@ -48,57 +48,6 @@
 	</fieldset>
 <div data-role="collapsible-set"  data-iconpos="right" data-theme="b">
 
-	<div id="symptoms-collapsible" data-role="collapsible">
-		<h3>Symptoms</h3>
-		<p>
-			<table style='width:100%'>
-				<tbody>
-					<tr>
-						<td>
-						<input type="text" data-type="symptoms" placeholder="New Symptom" />
-						</td>
-						<td style='width:5em; padding-left:1em'><a class="add_detail_item" data-type="symptoms" data-role="button" data-icon="plus" >Add</a></td>
-					</tr>
-				</tbody>
-			</table>
-		</p>
-		<p>
-			<ul>
-				<% _.each( symptoms, function( Item ){ %>
-				<li>
-					<span class="itemName"><span class="itemName"><%= Item %></span></span><a href="#" data-role="button" data-inline="true" data-icon="delete" class="delete_detail_item" data-type="symptoms" data-iconpos="notext">X</a>
-				</li>
-				<% }); %>
-			</ul>
-		</p>
-
-	</div>
-
-	<div id="tests-collapsible" data-role="collapsible">
-		<h3>Relevant Test Results</h3>
-		<p>
-			<table style='width:100%'>
-				<tbody>
-					<tr>
-						<td>
-						<input type="text" data-type="tests" placeholder="New Test" />
-						</td>
-						<td style='width:5em; padding-left:1em'><a class="add_detail_item" data-type="tests" data-role="button" data-icon="plus" >Add</a></td>
-					</tr>
-				</tbody>
-			</table>
-		</p>
-		<p>
-			<ul>
-				<% _.each( tests, function( testItem ){ %>
-				<li>
-					<span class="itemName"><%= testItem %></span><a href="#" data-role="button" data-inline="true" data-type="tests" data-icon="delete" class="delete_detail_item" data-iconpos="notext">X</a>
-				</li>
-				<% }); %>
-			</ul>
-		</p>
-	</div>
-
 	<div id="assigned-collapsible" data-role="collapsible" >
 
 		<h3>Assigned to:</h3>
@@ -106,27 +55,61 @@
 			<span id="assignedTo"><%= assignedTo %></span><a href="#" id="changeAssignedTo" iconpos="notext"  data-inline="true" data-mini="true" data-role="button" data-icon="back" >Change</a>
 		</p>
 	</div>
-
-	<div id="medications-collapsible" data-role="collapsible" >
-
-		<h3>Relevant Medications:</h3>
+	<div id="symptoms-collapsible" data-role="collapsible">
+		<h3>Symptoms</h3>
 		<p>
 			<table style='width:100%'>
 				<tbody>
 					<tr>
 						<td>
-						<input type="text" data-type="medications" placeholder="New Medication" />
+							<fieldset data-role="controlgroup">
+								<label for="select-symptom" class="select-symptom-label">Category</label>
+								<select name="select-symptom" id="select-symptom">
+									<option value="default">Choose Symptom</option>
+								</select>
+							</fieldset>						
 						</td>
-						<td style='width:5em; padding-left:1em'><a class="add_detail_item" data-type="medications" data-role="button" data-icon="plus" >Add</a></td>
+						<td style='width:5em; padding-left:1em'><a class="add_detail_item" data-type="symptom" data-role="button" data-icon="plus" >Add</a></td>
 					</tr>
 				</tbody>
 			</table>
 		</p>
 		<p>
 			<ul>
-				<% _.each( medications, function( Item ){ %>
+				<% _.each( symptom, function( Item ){ %>
 				<li>
-					<span class="itemName"><%= Item %></span><a href="#" data-role="button" data-inline="true" data-icon="delete" data-type="medications" class="delete_detail_item" data-iconpos="notext">X</a>
+					<span class="itemName"><span data-id="<%= Item.id %>" class="itemName"><%= Item.title %></span></span><a href="#" data-role="button" data-inline="true" data-icon="delete" data-id="<%= Item.id %>" class="delete_detail_item" data-type="symptom" data-iconpos="notext">X</a>
+				</li>
+				<% }); %>
+			</ul>
+		</p>
+
+	</div>
+	<div id="medications-collapsible" data-role="collapsible" >
+
+		<h3>Medications:</h3>
+		<p>
+			<table style='width:100%'>
+				<tbody>
+					<tr>
+						<td>
+							<fieldset data-role="controlgroup">
+								<label for="select-medication" class="select-medication-label">Category</label>
+								<select name="select-medication" id="select-medication">
+									<option value="default">Choose Medication</option>
+								</select>
+							</fieldset>	
+						</td>
+						<td style='width:5em; padding-left:1em'><a class="add_detail_item" data-type="medication" data-role="button" data-icon="plus" >Add</a></td>
+					</tr>
+				</tbody>
+			</table>
+		</p>
+		<p>
+			<ul>
+				<% _.each( medication, function( Item ){ %>
+				<li>
+					<span class="itemName"><span data-id="<%= Item.id %>" class="itemName"><%= Item.title %></span></span><a href="#" data-role="button" data-inline="true" data-icon="delete" data-id="<%= Item.id %>" class="delete_detail_item" data-type="medication" data-iconpos="notext">X</a>
 				</li>
 				<% }); %>
 			</ul>
