@@ -6,8 +6,28 @@ window.$dino.ListItemView = Backbone.View.extend({
 		this.name = opts.name;
 		this.template = _.template(tpl.get('list-item'));
 		this.model.bind('remove', this.destroy);
+		if (this.model.get("bug")){
+			var colorId = localStorage.getItem("bugcolor-"+this.model.get("bug"));
+			if (colorId){
+				this.color = $dino.colors.get(colorId);
+			} else {
+				this.fetchBugColor();
+			}
+		}
 		_.bindAll(this, 'remove', 'destroy');
 	}, 
+	
+	fetchBugColor: function(){
+		var bug = new $dino.Bug();
+		bug.id = this.model.get("bug");
+		var that = this;
+		bug.fetch({
+			success: function(bug){
+				that.color = $dino.colors.get(bug.get("color"));
+			}
+		});
+		
+	},
 	
 	events: {
 		"click" : "dontclick",
@@ -66,7 +86,15 @@ window.$dino.ListItemView = Backbone.View.extend({
 	},
 	
 	render:function(eventName){
-		$(this.el).html(this.template(_.extend(this.model.toJSON(), {type: this.name})));
+		this.$el.html(this.template(
+			_.extend(
+				this.model.toJSON(), 
+				{type: this.name}
+			)
+		));
+		if (this.color){
+			this.$el.attr("style", "background:#"+this.color.get("hex"));
+		}
         return this;
 	}
 	

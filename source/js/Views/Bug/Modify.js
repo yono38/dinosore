@@ -98,27 +98,6 @@ window.$dino.BugModifyView = Backbone.View.extend({
 		this.openCollapsible = e.target.id;
 	},
 
-	deleteItem : function(e) {
-		e.preventDefault();
-		// load typeArr if not loaded
-		// find & remove using data-id
-		// re-render
-		var type = $(e.currentTarget).attr("data-type");
-		var id = $(e.currentTarget).attr("data-id");
-		console.log(type, id);
-		var typeItemArr = this.model.get(type);
-		typeItemArr = _.filter(typeItemArr, function(item) {
-			return item.id != id;
-		});
-		this.model.set(type, typeItemArr);
-		var that = this;
-		this.model.save(null, {
-			success : function() {
-				that.render();
-			}
-		});
-	},
-
 	saveTextInput : function(e) {
 		this.model.save({
 			"title" : $("#bugTitleTxtInput").val(),
@@ -163,10 +142,13 @@ window.$dino.BugModifyView = Backbone.View.extend({
 			}
 		});
 	},
-
+	
 	addItem : function(e) {
-		var itemType = $(e.currentTarget).data('type'), itemVal = this.$("#select-" + itemType).val(), itemTitle = this.$("#select-" + itemType + " option:selected").text();
+		var itemType = $(e.currentTarget).data('type'), 
+		  itemVal = this.$("#select-" + itemType).val(), 
+		  itemTitle = this.$("#select-" + itemType + " option:selected").text();
 		console.log(itemVal);
+		console.log(itemType);
 		if (itemVal && itemVal != "") {
 			var typeItemArr = this.model.get(itemType);
 			// defaults to false
@@ -174,20 +156,58 @@ window.$dino.BugModifyView = Backbone.View.extend({
 				typeItemArr = [];
 			}
 			var that = this;
-			var type = itemType + 's';
 			typeItemArr.push({
 				"title" : itemTitle,
 				"id" : itemVal
 			});
-			this.model.set(type, typeItemArr);
-			console.log(this.model.toJSON());
+			this.model.set(itemType, typeItemArr);
 			this.model.save(null, {
 				success : function() {
-					console.log(typeItemArr);
-					that.render();
+					that.linkItemToBug(itemType, itemVal);
 				}
 			});
 		}
+	},
+
+	deleteItem : function(e) {
+		e.preventDefault();
+		var type = $(e.currentTarget).attr("data-type");
+		var id = $(e.currentTarget).attr("data-id");
+		console.log(type, id);
+		var typeItemArr = this.model.get(type);
+		typeItemArr = _.filter(typeItemArr, function(item) {
+			return item.id != id;
+		});
+		this.model.set(type, typeItemArr);
+		var that = this;
+		this.model.save(null, {
+			success : function() {
+				that.linkItemToBug(type, id, true);
+			}
+		});
+	},
+		
+	// link symptom or med to the bug
+	linkItemToBug: function(type, value, unlink){
+		var that = this;
+		// capitalize type name (per model spec)
+		var linkItemType = type[0].toUpperCase() + type.substring(1);
+		var linkItem = new $dino[linkItemType]();
+		linkItem.id = value;
+		// link the other item to this bug and render on save
+		// TODO figure out how to set without fetching (patch)
+		linkItem.fetch({
+			success: function(linkItem) {
+				if (unlink) linkItem.set('bug', null);
+				else linkItem.set('bug', that.model.id);
+				linkItem.save(null, {
+					success: function(){
+						console.log('saved to ' + type, value);
+						that.render();
+					}
+				});
+			}
+		});	
 	},
 
 	render : function() {

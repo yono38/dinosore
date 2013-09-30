@@ -42,7 +42,12 @@ window.$dino.BugListView = Backbone.View.extend({
 
 				collection.sort();
 				for (var i = 0; i < collection.length; i++) {
-					that.addOne(collection.models[i]);
+					var item = collection.models[i];
+					that.addOne(item);
+					if (item.get("color")){
+						console.log("setting color "+item.get("color"));
+						localStorage.setItem("bugcolor-"+item.id, item.get("color"));
+					}
 				}
 				that.$("#myList").listview('refresh');
 			}

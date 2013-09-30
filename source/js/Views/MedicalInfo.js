@@ -11,6 +11,7 @@ window.$dino.MedicalInfoView = Backbone.View.extend({
 	logout : function() {
 		Parse.User.logOut(null, {
 			success : function() {
+				localStorage.clear();
 				$dino.app.navigate("", {
 					trigger : true
 				});

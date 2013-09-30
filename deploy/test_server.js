@@ -27,10 +27,12 @@ var User = new Schema({
 
 var UserModel = mongoose.model('User', User);
 
+
 var Symptom = new Schema({
 	title: { type: String, required: true },
 	user: { type: String, required: true },	
-	count: { type: Number, default: 0 }
+	count: { type: Number, default: 0 },
+	bug: {type: String}
 });
 
 var SymptomModel = mongoose.model('Symptom', Symptom);
@@ -44,10 +46,12 @@ var DoctorModel = mongoose.model('Doctor', Doctor);
 var Medication = new Schema({
 	title: { type: String, required: true },
 	user: { type: String, required: true },	
-	count: { type: Number, default: 0 }
+	count: { type: Number, default: 0 },
+	bug: {type: String }
 });
 
 var MedicationModel= mongoose.model('Medication', Medication);
+
 
 var Bug = new Schema({
 	assignedTo: { type: String, ref: 'Doctor' },	
