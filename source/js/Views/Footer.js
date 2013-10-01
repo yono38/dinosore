@@ -10,6 +10,7 @@ window.$dino.FooterView = Backbone.View.extend({
   
   navBtn: function(e){
   	var hash = $(e.currentTarget).attr("href");
+  	console.log('going to '+hash);
   	if ($.inArray(hash, ['appts', 'medinfo', 'bugs', 'symptoms', 'medications'] )){
   		$dino.app.navigate(hash, true);
   	}

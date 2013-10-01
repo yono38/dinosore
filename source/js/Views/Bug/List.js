@@ -26,7 +26,9 @@ window.$dino.BugListView = Backbone.View.extend({
 			model : bug
 		});
 		this.$("#myList").append(view.render().el);
-		this.$("#myList").listview('refresh');
+		if(this.pageloaded){
+			this.$("#myList").listview('refresh');
+		}
 	},
 
 	render : function() {
@@ -49,7 +51,9 @@ window.$dino.BugListView = Backbone.View.extend({
 						localStorage.setItem("bugcolor-"+item.id, item.get("color"));
 					}
 				}
-				that.$("#myList").listview('refresh');
+				if (that.pageloaded){
+					that.$("#myList").listview('refresh');
+				}
 			}
 		});
 		return this;

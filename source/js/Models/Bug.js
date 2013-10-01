@@ -5,10 +5,9 @@ window.$dino.Bug = Backbone.Model.extend({
     bugStatus: "Open",
     bugPriority: 1,
     title: "New Bug",
-		symptoms: [],
+		symptom: [],
 		doctor: "",
-		medications: [],
-		tests: []
+		medication: []
    },
 });
 

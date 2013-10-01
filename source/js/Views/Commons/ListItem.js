@@ -82,7 +82,9 @@ window.$dino.ListItemView = Backbone.View.extend({
 	destroy: function(){
 		if (this.deleteDialog) this.deleteDialog.destroy();
 		this.unbind();
-		this.remove();
+		if (this.remove){
+			this.remove();
+		}
 	},
 	
 	render:function(eventName){

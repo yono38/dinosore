@@ -163,7 +163,7 @@ $dino.AppRouter = Backbone.Router.extend({
 		}
 		$('body').append($(page.el));
 		if (page.collection)
-			page.collection.fetch({remote: false});
+			page.collection.fetch();
 		var transition = 'none'; // $.mobile.defaultPageTransition;
 		// We don't want to slide the first page
 		if (this.firstPage) {
@@ -174,6 +174,7 @@ $dino.AppRouter = Backbone.Router.extend({
 			changeHash : false,
 			transition : transition
 		});
+		page.pageloaded = true;
 	}
 });
 

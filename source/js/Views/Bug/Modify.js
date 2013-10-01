@@ -2,7 +2,7 @@ window.$dino.BugModifyView = Backbone.View.extend({
 
 	initialize : function() {
 		this.template = _.template(tpl.get('bug-details-modify'));
-		_.bindAll(this, "deleteItem", "doneModifying", "addItem", "render");
+		_.bindAll(this, "deleteItemEvent", "doneModifying", "addItem", "render");
 		this.model.bind('change', this.render);
 		this.colors = new $dino.ColorList();
 		this.debounceSaveTextInput = _.debounce(this.saveTextInput, 2000);
@@ -10,7 +10,7 @@ window.$dino.BugModifyView = Backbone.View.extend({
 
 	events : {
 		"click .add_detail_item" : "addItem",
-		"click .delete_detail_item" : "deleteItem",
+		"click .delete_detail_item" : "deleteItemEvent",
 		"click #doneModify" : "doneModifying",
 		"click #changeAssignedTo" : "changeAssignedTo",
 		"click #doneAssignment" : "doneAssigning",
@@ -83,7 +83,8 @@ window.$dino.BugModifyView = Backbone.View.extend({
 		}
 		coll.each(function(item) {
 			console.log('appending');
-			this.$("#select-" + type).append('<option value="' + item.id + '">' + item.get("title") + '</option>');
+			var assigned = item.get("bug") ? ' [assigned]' : '';
+			this.$("#select-" + type).append('<option value="' + item.id + '">' + item.get("title") + assigned + '</option>');
 		});
 	},
 
@@ -157,10 +158,11 @@ window.$dino.BugModifyView = Backbone.View.extend({
 			}
 			var that = this;
 			typeItemArr.push({
-				"title" : itemTitle,
+				"title" : itemTitle.replace(" [assigned]", ""),
 				"id" : itemVal
 			});
 			this.model.set(itemType, typeItemArr);
+			console.log(this.model.toJSON());
 			this.model.save(null, {
 				success : function() {
 					that.linkItemToBug(itemType, itemVal);
@@ -169,20 +171,26 @@ window.$dino.BugModifyView = Backbone.View.extend({
 		}
 	},
 
-	deleteItem : function(e) {
+	deleteItemEvent : function(e) {
 		e.preventDefault();
 		var type = $(e.currentTarget).attr("data-type");
 		var id = $(e.currentTarget).attr("data-id");
-		console.log(type, id);
-		var typeItemArr = this.model.get(type);
+		this.deleteItem(this.model, type, id, true);
+	},
+	
+	deleteItem: function(model, type, itemId, unlink){
+		console.log(type, itemId);
+		var typeItemArr = model.get(type);
 		typeItemArr = _.filter(typeItemArr, function(item) {
-			return item.id != id;
+			return item.id != itemId;
 		});
-		this.model.set(type, typeItemArr);
+		model.set(type, typeItemArr);
 		var that = this;
-		this.model.save(null, {
+		model.save(null, {
 			success : function() {
-				that.linkItemToBug(type, id, true);
+				if (unlink){
+					that.linkItemToBug(type, itemId, true);
+				}
 			}
 		});
 	},
@@ -198,6 +206,18 @@ window.$dino.BugModifyView = Backbone.View.extend({
 		// TODO figure out how to set without fetching (patch)
 		linkItem.fetch({
 			success: function(linkItem) {
+				var oldBugId = linkItem.get("bug");
+				if (oldBugId && oldBugId != that.model.id){
+					// remove reference in old bug
+					var oldLinkedBug = new $dino.Bug();
+					oldLinkedBug.id =linkItem.get("bug");
+					oldLinkedBug.fetch({
+						success: function(oldLinkedBug){
+							console.log('removing reference to bug in old bug '+oldLinkedBug.id);
+							that.deleteItem(oldLinkedBug, type, value, false);
+						}
+					}); 
+				}
 				if (unlink) linkItem.set('bug', null);
 				else linkItem.set('bug', that.model.id);
 				linkItem.save(null, {
