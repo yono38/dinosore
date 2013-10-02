@@ -203,6 +203,7 @@ window.$dino.AppointmentsView = Backbone.View.extend({
 	},
 
 	preventDefault : function(e) {
+		console.log('preventing default');
 		e.preventDefault();
 	}
 });
