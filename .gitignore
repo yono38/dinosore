@@ -3,10 +3,4 @@
 *~
 .project
 phonegap/
-build/phonegap/www/css/
-build/phonegap/www/img/
-build/phonegap/www/js/Models/
-build/phonegap/www/js/Views/
-build/phonegap/www/lib/
-build/phonegap/www/tpl/
 node_modules/
