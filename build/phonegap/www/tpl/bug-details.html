@@ -1,0 +1,66 @@
+<div data-role="header">
+	<a href="<%= window.location.hash + "/modify" %>" data-role="button" data-theme="e" data-mini="true" data-inline="true">Modify</a>
+	<h1><%= title %> <span class="ui-li-count">P<%= bugPriority %></span></h1>
+	<a href="#delete" id="deleteBug" data-id="<% _id %>"  data-icon="delete" data-theme="b">Delete</a>
+</div>
+
+<div data-role="content">
+	<p>
+		<strong>Status:</strong> <%= bugStatus %>
+	</p>
+	<p>
+		<strong>Details:</strong> <%= bugDetails %>
+	</p>
+</div>
+
+<div data-role="collapsible-set">
+
+	<div data-role="collapsible">
+		<h3>Symptoms</h3>
+		<p>
+			<ul id="symptomList">
+				<%
+				if
+				(symptom.length > 0){
+				_.each( symptom, function( Item ){ %>
+				<li>
+					<span class="itemName"><%= Item.title %></span>
+				</li>
+				<% });  }
+				else {
+				print("No Symptoms Recorded");
+				}
+				%>
+			</ul>
+		</p>
+
+	</div>
+
+	<div data-role="collapsible">
+		<h3>Medications</h3>
+		<p>
+			<ul id="medicationList">
+				<%
+				if
+				(medication.length > 0){
+				_.each( medication, function( Item ){ %>
+				<li>
+					<span class="itemName"><%= Item.title %></span>
+				</li>
+				<% }); }
+				else {
+				print("No Medications Recorded");
+				} %>
+			</ul>
+		</p>
+
+	</div>
+
+	<div data-role="collapsible" >
+
+		<h3>Assigned to:</h3>
+		<p>
+			Doctor: <span id="assignedTo"><%= assignedTo %></span>
+		</p>
+	</div>
+

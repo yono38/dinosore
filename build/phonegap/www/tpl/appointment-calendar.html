@@ -1,0 +1,27 @@
+<div data-role="header">
+	<a href="#" data-theme="c" data-icon="back" class="back ui-btn-left">Back</a>
+	<h1>Appointments</h1>
+	<a href="#" data-icon="grid" class='ui-disabled' data-role="button" data-theme="a" data-mini="true" data-inline="true">List View</a>
+</div>
+
+<div data-role="content">
+	<div id="dateBoxLoading">
+		<h2 class="fancyFont">Loading appointments...</h2>
+		<img src="css/images/ajax-loader.gif" style="margin-left: 50%;" />
+	</div>
+	<input name="mydate" id="mydate" data-datebox="" />
+	<hr>
+</div>
+<ul data-role="listview" data-split-icon="gear" data-theme="a" data-split-theme="a">
+	<li id="add-appt-header" data-theme="a" data-role="list-divider">
+		<div data-role="fieldcontain">
+			<span id="currDate"><%= today %></span>
+			<a href="#" data-role="button" id="addApptBtn" data-inline="true" data-icon="plus">Add</a>
+			</fieldset>
+		</div>
+	</li>
+	<li id="noAppt">
+		No appointments scheduled today
+	</li>
+	<li id="fakeAppt" style="display:none" data-theme="a"></li>
+</ul>
