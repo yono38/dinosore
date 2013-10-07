@@ -24,11 +24,6 @@ $dino.AppRouter = Backbone.Router.extend({
 			return false;
 		});
 		this.firstPage = true;
-		// precache all colors
-		$dino.colors = new $dino.ColorList();
-		$dino.colors.fetch({ success: function(){
-			console.log('colors loaded!');
-		}});
 	},
 
 	bugDialog : function(id) {

@@ -14,15 +14,9 @@ window.$dino.BugListItemView = Backbone.View.extend({
 
 	setColor : function(color_id) {
 		var that = this;
-		if ($dino.colors.length == 0){
-			setTimeout(function(){
-				that.setColor(color_id);
-			}, 200);
-		} else {
-			console.log($dino.colors);
-			var itemColor = $dino.colors.get(color_id);
-			this.$el.attr("style", "background:#" + itemColor.get("hex"));
-		}
+		console.log(color_id);
+		var itemColor = $dino.colors[color_id];
+		this.$el.attr("style", "background:#" + itemColor.hex);
 	},
 
 	destroy : function() {

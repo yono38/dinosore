@@ -1147,17 +1147,12 @@
     // Compile the template source, escaping string literals appropriately.
     var index = 0;
     var source = "__p+='";
-    console.log(text);
     if (typeof text != 'string'){
 	    var e = new Error('dummy');
 		var stack = e.stack.replace(/^[^\(]+?[\n$]/gm, '')
 	      .replace(/^\s+at\s+/gm, '')
 	      .replace(/^Object.<anonymous>\s*\(/gm, '{anonymous}()@')
 	      .split('\n');
-	  	console.log(stack); 
-    	console.log(data);
-    	console.log($(text).html()); 
-    	console.log($(text).prop('outerHTML'));
     }
     text.replace(matcher, function(match, escape, interpolate, evaluate, offset) {
       source += text.slice(index, offset)

@@ -37,7 +37,7 @@ window.$dino.NewBugView = Backbone.View.extend({
 			bug.set("bugStatus", "Assigned");
 		}
 		if (this.setColor) {
-			bug.set("color", $dino.colors.get(this.$("#select-color").val()));
+			bug.set("color", this.$("#select-color").val() );
 		}
 		bug.save(null, {
 			success : function(bug) {
@@ -57,34 +57,20 @@ window.$dino.NewBugView = Backbone.View.extend({
 	},
 	loadColorList : function(cnt) {
 		var that = this;
-		var count = cnt || 1;
-		if (count >= 10) {
-			this.$("#select-color").html("Sorry, colors failed to load.");
-		} else if ($dino.colors.length == 0) {
-			console.log('colors not loaded yet, retrying...');
-			count++;
-			setTimeout(function() {
-				that.loadColorList(count);
-			}, 200);
-		} else {
-			that.$("#select-color").html('<option value="default">DEFAULT</option>');
-			console.log($dino.colors);
-			$dino.colors.forEach(function(color, key, arr) {
-				that.$("#select-color").append('<option value="' + color.id + '" style="background:#' + color.get("hex") + '" class="colorName">' + color.get("color") + '</option>');
-			});
-		}
+		that.$("#select-color").html('<option value="default">DEFAULT</option>');
+		_($dino.colors).each(function(color, key, arr) {
+			console.log()
+			that.$("#select-color").append('<option value="' + key + '" style="background:#' + color.hex + '" class="colorName">' + color.color + '</option>');
+		});
 	},
 	makeList : function(type) {
 		var that = this;
-		console.log(this);
 		var t = (this.length == 17) ? this : this.colors;
 		t.fetch({
 			success : function(collection) {
-				console.log(collection);
 				$("#select-color").empty();
 				collection.forEach(function(color, key, arr) {
-					console.log(color);
-					$("#select-color").append('<option value="' + color.id + '" style="background:#' + color.get("hex") + '" class="colorName">' + color.get("color") + '</option>');
+					$("#select-color").append('<option value="' + key + '" style="background:#' + color.hex + '" class="colorName">' + color.color + '</option>');
 				});
 			},
 			error : function(collection, error) {
@@ -96,7 +82,7 @@ window.$dino.NewBugView = Backbone.View.extend({
 		});
 	},
 	render : function() {
-		$(this.el).html(this.template());
+		this.$el.html(this.template());
 		var that = this;
 		this.loadColorList();
 		if (this.first) {

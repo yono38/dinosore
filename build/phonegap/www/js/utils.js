@@ -16,8 +16,6 @@ tpl = {
             	var $tpl = $(tpls[i]);
             	var id =$tpl.attr('id');
             	var html = $tpl.html();
-            	console.log(id);
-            	console.log(html);
             	that.templates[id] = html;            }
             callback();
         });

@@ -9,7 +9,7 @@ window.$dino.ListItemView = Backbone.View.extend({
 		if (this.model.get("bug")){
 			var colorId = localStorage.getItem("bugcolor-"+this.model.get("bug"));
 			if (colorId){
-				this.color = $dino.colors.get(colorId);
+				this.color = $dino.colors[colorId];
 			} else {
 				this.fetchBugColor();
 			}
@@ -23,7 +23,7 @@ window.$dino.ListItemView = Backbone.View.extend({
 		var that = this;
 		bug.fetch({
 			success: function(bug){
-				that.color = $dino.colors.get(bug.get("color"));
+				that.color = $dino.colors[bug.get("color")];
 			}
 		});
 		
@@ -95,7 +95,9 @@ window.$dino.ListItemView = Backbone.View.extend({
 			)
 		));
 		if (this.color){
-			this.$el.attr("style", "background:#"+this.color.get("hex"));
+			this.$el.attr("style", "background:#"+this.color.hex);
+			tt = this;
+			this.$(".plus-one").attr("style", "background:#"+this.color.hex);
 		}
         return this;
 	}

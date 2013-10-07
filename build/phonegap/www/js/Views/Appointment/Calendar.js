@@ -137,7 +137,7 @@ window.$dino.AppointmentsView = Backbone.View.extend({
 
 	events : {
 		"click .ui-datebox-griddate.ui-corner-all" : "hideEmptyAppt",
-		"click" : "preventDefault",
+		"click .ui-content" : "preventDefault",
 		"click .has-appt" : "showAppts",
 		"click .removeAppt" : "removeAppt",
 		"click .editAppt" : "modifyAppt",
