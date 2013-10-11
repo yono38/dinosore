@@ -64,7 +64,7 @@ describe("AppointmentCalendarView", function() {
 			view.changeDate(null, {'method':'set', 'value':'2013-09-19'});
 			expect(view.loadApptItem).toHaveBeenCalled();
 			expect(view.$("#currDate").text()).toEqual('2013-09-19');
-			expect(view.$("#fakeAppt")).not.toBeEmpty();
+			expect(view.$("#dayAppts")).not.toBeEmpty();
 			expect(view.$(".ui-li-count").text()).toEqual('1:00 PM');
 			expect(view.$('h3:contains("Checkup")')).not.toBeEmpty();
 		});
@@ -88,11 +88,11 @@ describe("AppointmentCalendarView", function() {
 			spyOn(view, 'loadApptItem').andCallThrough();
 			view.$("#mydate").val('2013-09-01');
 			view.changeDate(null, {'method':'set', 'value':'2013-09-01'});
-			expect(view.$("#fakeAppt .ui-li-heading").length).toEqual(2);
+			expect(view.$("#dayAppts .ui-li-heading").length).toEqual(2);
 			expect(view.loadApptItem).toHaveBeenCalled();
 			expect(view.loadApptItem.calls.length).toEqual(2);
 			expect(view.$("#currDate").text()).toEqual('2013-09-01');
-			expect(view.$("#fakeAppt")).not.toBeEmpty();
+			expect(view.$("#dayAppts")).not.toBeEmpty();
 			expect(view.$('h3:contains("Checkup")')).not.toBeEmpty();
 		});		
 	});
