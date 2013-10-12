@@ -15,6 +15,9 @@ $dino.AppRouter = Backbone.Router.extend({
 		"bugs" : "bugList",
 		"medinfo" : "medInfo",
 		"medications" : "medicationList",
+		"login" : "login",
+		"privacy" : "privacySettings",
+		"signup" : "signup",
 		"*path" : "start"
 	},
 
@@ -41,9 +44,21 @@ $dino.AppRouter = Backbone.Router.extend({
 			}));
 		});
 	},
+	
+	privacySettings: function(){
+		this.changePage(new $dino.StartPrivacyView());
+	},
 
 	newAppt : function() {
 		this.changePage(new $dino.NewApptView());
+	},
+
+	login: function() {
+		this.changePage(new $dino.StartLoginView());
+	},
+	
+	signup: function() {
+		this.changePage(new $dino.StartSignupView());
 	},
 
 	newBug : function() {
@@ -87,7 +102,7 @@ $dino.AppRouter = Backbone.Router.extend({
 		if (Parse.User.current()) {
 			this.symptomList();
 		} else {
-			this.changePage(new $dino.LoginView());
+			this.changePage(new $dino.StartSplashView());
 		}
 	},
 
@@ -180,7 +195,7 @@ $dino.AppRouter = Backbone.Router.extend({
 
 $(document).ready(function() {
 	FastClick.attach(document.body);
-	tpl.loadTemplates(['bug-list', 'appointment-calendar', 'bug-delete-dialog', 'bug-list-item', 'bug-details', 'bug-new', 'login', 'medical-info', 'appointment-new', 'bug-details-modify', 'list-view', 'list-item', 'list-new', 'delete-confirm', 'footer', 'appointment-modify', 'appointment-item'], function() {
+	tpl.loadTemplates(['bug-list', 'appointment-calendar', 'bug-delete-dialog', 'bug-list-item', 'privacy', 'bug-details', 'bug-new', 'login', 'medical-info', 'appointment-new', 'signup', 'start-splash', 'bug-details-modify', 'list-view', 'list-item', 'list-new', 'delete-confirm', 'footer', 'appointment-modify', 'appointment-item'], function() {
 		$dino = window.$dino || {};
 		$dino.app = new $dino.AppRouter();
 		Backbone.history.start();

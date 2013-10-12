@@ -1,0 +1,30 @@
+<div data-role="header">
+	<h1>Dinosore</h1>
+</div>
+
+<div data-role="content">
+	<h2 id="getStarted">Get Started!</h2>
+
+	<div id="error">
+	</div>
+		<input placeholder="Name" type="text" name="name" class="fancyFont" id="name" value="" />
+		<input placeholder="Email" type="email" name="email" class="fancyFont" id="email" pattern="[^ @]*@[^ @]*" value="" />
+		<input placeholder="Password" type="password" class="fancyFont" name="password" id="password" value="" />
+		<input placeholder="Confirm Password" type="password" class="fancyFont" name="confirm-password" id="confirm-password" value="" />
+
+		<div class="ui-grid-a">
+		   <fieldset data-role="controlgroup" data-type="horizontal">
+        <div class="ui-block-a"><input type="radio" data-theme="d" name="select-gender" id="select-gendera" value="on" checked="checked">
+        <label for="select-gendera">Male</label></div>
+        <div class="ui-block-b"><input type="radio" data-theme="d"  name="select-gender" id="select-genderb" value="off">
+        <label for="select-genderb">Female</label></div>
+    	</fieldset>
+    	</div>
+    	
+    	<label for="birthday">Birthday</label>
+    	<input name="birthday" id="birthday" type="date" data-role="datebox" data-options='{"mode": "datebox"}' />
+
+	<button id="signupBtn" type="submit" data-theme="b">
+		Signup
+	</button>
+</div>

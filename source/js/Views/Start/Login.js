@@ -1,4 +1,4 @@
-window.$dino.LoginView = Backbone.View.extend({
+window.$dino.StartLoginView = Backbone.View.extend({
   initialize: function() {
         this.template = _.template(tpl.get('login'));    
   },

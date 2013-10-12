@@ -150,3 +150,8 @@ h1.ui-title {
 .ui-li-count {
 	border-radius: 10px;
 }
+
+
+.ui-page {
+	background-image: url('../img/background.png');
+}

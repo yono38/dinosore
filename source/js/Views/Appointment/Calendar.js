@@ -39,8 +39,8 @@ window.$dino.AppointmentsView = Backbone.View.extend({
 						"time" : day.format('LT'),
 						"apptId" : appt.id
 					};
-					that.$("#fakeAppt").append(_.template(tpl.get("appointment-item"), apptData));
-					that.$("#fakeAppt").show();
+					that.$("#dayAppts").append(_.template(tpl.get("appointment-item"), apptData));
+					that.$("#dayAppts").show();
 					that.$("#noAppt").hide();
 					that.$(".removeAppt").button();
 					that.$(".editAppt").button();
@@ -56,8 +56,8 @@ window.$dino.AppointmentsView = Backbone.View.extend({
 				"time" : day.format('LT'),
 				"apptId" : appt.id
 			};
-			this.$("#fakeAppt").append(_.template(tpl.get("appointment-item"), apptData));
-			this.$("#fakeAppt").show();
+			this.$("#dayAppts").append(_.template(tpl.get("appointment-item"), apptData));
+			this.$("#dayAppts").show();
 			this.$("#noAppt").hide();
 			this.$(".removeAppt").button();
 			this.$(".editAppt").button();
@@ -73,7 +73,7 @@ window.$dino.AppointmentsView = Backbone.View.extend({
 			var d = this.highDates[passed.value] || [];
 			if (d.length > 0) {
 				var i;
-				this.$("#fakeAppt").show();
+				this.$("#dayAppts").show();
 				this.$("#noAppt").hide();
 				for ( i = 0; i < d.length; i++) {
 					this.loadApptItem(this.collection.models[d[i]]);
@@ -147,7 +147,7 @@ window.$dino.AppointmentsView = Backbone.View.extend({
 	
 	// handles case where user clicks calendar date with no appt
 	"hideEmptyAppt": function(){
-		$("#fakeAppt").hide();
+		$("#dayAppts").hide();
 		$("#noAppt").show();
 	},
 
@@ -197,7 +197,7 @@ window.$dino.AppointmentsView = Backbone.View.extend({
 
 	showAppts : function() {
 		setTimeout(function() {
-			$("#fakeAppt").show();
+			$("#dayAppts").show();
 			$("#noAppt").hide();
 		}, 2);
 	},

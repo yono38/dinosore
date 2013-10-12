@@ -2,11 +2,16 @@
   "name": "dinosore",
   "description": "A health tracking app",
   "contributors": [
-      "Jason Schapiro <yono38@gmail.com>",
-      "Rebecca Hillegass <rebecca.hillegass@gmail.com>"
-   ],
+    "Jason Schapiro <yono38@gmail.com>",
+    "Rebecca Hillegass <rebecca.hillegass@gmail.com>"
+  ],
   "dependencies": {
     "express-restify-mongoose": ">=0.3.3",
-	  "phonegap" : ">=3.0.0-0.14.3"
+    "phonegap": ">=3.0.0-0.14.3",
+    "nodemailer": ">=0.5.3",
+    "fs-extra": ">= 0.7.0",
+    "phonegap-build-api": ">=0.3.3",
+    "async": ">=0.2.9",
+    "fs-extra": "~0.7.0"
   }
 }

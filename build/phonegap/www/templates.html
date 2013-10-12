@@ -25,7 +25,519 @@
 	<li id="noAppt">
 		No appointments scheduled today
 	</li>
-	<li id="fakeAppt" style="display:none" data-theme="a"></li>
+	<li id="dayAppts" style="display:none" data-theme="a"></li>
+</ul>
+</script>
+
+<!---- ============== appointment-item ============== ---->
+<script type="template" id="appointment-item">
+<h3 class="ui-li-heading"> <<span class="ui-li-count"><%= time %></span>>  <%= title %></h3>
+<p class="ui-li-desc">
+	<%= doc %>
+	<a href="#" class="removeAppt" data-role="button" data-icon="delete" data-inline="true" data-mini="true" data-apptId="<%= apptId %>">Remove</a>
+	<a href="#" class="editAppt" data-role="button" data-icon="gear" data-inline="true" data-mini="true" data-apptId="<%= apptId %>">Edit</a>
+</p></script>
+
+<!---- ============== appointment-modify ============== ---->
+<script type="template" id="appointment-modify">
+<div data-role="header" >
+	<h1>Modify Appointment</h1>
+</div>
+
+<div data-role="content">				
+
+  <div data-role="fieldcontain">
+    <input type="hidden" id="apptId" value="<%= id %>" />
+    
+    <label for="title">Name:</label>
+    <input type="text" name="title" id="title" value="<%= title %>" />   
+  
+    <label for="appt-date">Date:</label>    
+    <input type="date" name="appt-date" id="appt-date" value="<%= apptDate %>" />
+
+    <label for="appt-time">Time:</label>    
+    <input type="time" name="appt-time" id="appt-time" value="<%= apptTime %>" />
+    
+    <label for="select-bug" class="select">Choose bug:</label>
+    <select name="select-bug" id="select-bug">
+      <option value="none">None</option>
+    </select> 
+
+    <label for="select-doctor" class="select">Choose doctor:</label>
+    <select name="select-doctor" id="select-doctor">
+      <option value="none">None</option>
+    </select>
+  </div>
+
+</div>
+
+	<a href="#" id="modBtn" data-role="button" data-icon="plus" data-theme="a">Modify</a> 
+	 <a href="#" id="cancelBtn" class="back" data-role="button" data-icon="delete" data-theme="b">Cancel</a> 
+
+
+</script>
+
+<!---- ============== appointment-new ============== ---->
+<script type="template" id="appointment-new">
+<div data-role="header" >
+	<h1>New Appointment</h1>
+</div>
+
+<div data-role="content">
+
+	<div data-role="fieldcontain">
+
+		<label for="title">Name:</label>
+		<input type="text" name="title" id="title" />
+
+		<label for="appt-date">Date:</label>
+		<input type="date" name="appt-date" id="appt-date" value="<%= today %>" />
+
+		<label for="appt-time">Time:</label>
+		<input type="time" name="appt-time" id="appt-time" value="12:00:00" />
+
+		<label for="select-bug" class="select">Choose bug:</label>
+		<select name="select-bug" id="select-bug">
+			<option value="none">None</option>
+		</select>
+
+		<label for="select-doctor" class="select">Choose doctor:</label>
+		<select name="select-doctor" id="select-doctor">
+			<option value="none">None</option>
+		</select>
+	</div>
+
+</div>
+
+<a href="#" id="addBtn" data-role="button" data-icon="plus" data-theme="a">Add</a>
+<a href="#" id="cancelBtn" class="back" data-role="button" data-icon="delete" data-theme="e">Cancel</a>
+
+</script>
+
+<!---- ============== bug-delete-dialog ============== ---->
+<script type="template" id="bug-delete-dialog">
+<div data-role="header" data-theme="d">
+	<h1>Delete</h1>
+
+</div>
+
+<div data-role="content" data-theme="a">
+	<h1>Removing: <%= title %></h1>
+	<h2>Delete this bug?</h2>
+	<a id="confirmDelete" href="#" data-role="button" data-rel="back" data-theme="b">Remove </a>
+	<a id="cancelDelete" class="back" href="#" data-role="button" data-rel="back" data-theme="a">Cancel</a>
+</div>
+</script>
+
+<!---- ============== bug-details-modify ============== ---->
+<script type="template" id="bug-details-modify">
+<div data-role="header">
+	<a href="#bug/<% _id %>" data-role="button" id="doneModify" data-theme="b" data-mini="true" data-inline="true">Done</a>
+	<h1>
+	<input type="text" id="bugTitleTxtInput" class="bugDetailTxtInput" value="<%= title %>" />
+	</h1>
+</div>
+<div data-role="content">
+	<div id="savePopup">
+		<p>
+			Bug Saved
+		</p>
+	</div>
+	<p>
+		<strong>Status:</strong>
+		<input type="text" class="bugDetailTxtInput" id="bug_status_input" value="<%= bugStatus %>" />
+	</p>
+	<p>
+		<strong>Details:</strong>
+		<input type="text" class="bugDetailTxtInput" id="bug_details_input" value="<%= bugDetails %>" />
+	</p>
+	<div data-role="fieldcontain">
+		<fieldset data-role="controlgroup">
+			<legend>
+				Priority:
+			</legend>
+			<label for="select-choice-month">Select Priority</label>
+			<select name="select-choice-month" id="select-choice-month">
+				<% _.each(_.range(1,6), function(num) {
+				var str;
+				if (num == bugPriority) {
+				str = "<option selected value='"+num+"'>"+num+"</option>";
+				} else {
+				str = "<option value='"+num+"'>"+num+"</option>";
+				}
+				print(str);
+				});   %>
+			</select>
+
+		</fieldset>
+	</div>
+</div>
+	<fieldset data-role="controlgroup">
+		<label for="select-color" class="select-color-label">Category</label>
+		<select name="select-color" id="select-color">
+			<option value="default">COLOR</option>
+		</select>
+	</fieldset>
+<div data-role="collapsible-set"  data-iconpos="right" data-theme="b">
+
+	<div id="assigned-collapsible" data-role="collapsible" >
+
+		<h3>Assigned to:</h3>
+		<p>
+			<span id="assignedTo"><%= assignedTo %></span><a href="#" id="changeAssignedTo" iconpos="notext"  data-inline="true" data-mini="true" data-role="button" data-icon="back" >Change</a>
+		</p>
+	</div>
+	<div id="symptoms-collapsible" data-role="collapsible">
+		<h3>Symptoms</h3>
+		<p>
+			<table style='width:100%'>
+				<tbody>
+					<tr>
+						<td>
+							<fieldset data-role="controlgroup">
+								<label for="select-symptom" class="select-symptom-label">Category</label>
+								<select name="select-symptom" id="select-symptom">
+									<option value="default">Choose Symptom</option>
+								</select>
+							</fieldset>						
+						</td>
+						<td style='width:5em; padding-left:1em'><a class="add_detail_item" data-type="symptom" data-role="button" data-icon="plus" >Add</a></td>
+					</tr>
+				</tbody>
+			</table>
+		</p>
+		<p>
+			<ul>
+				<% _.each( symptom, function( Item ){ %>
+				<li>
+					<span class="itemName"><span data-id="<%= Item.id %>" class="itemName"><%= Item.title %></span></span><a href="#" data-role="button" data-inline="true" data-icon="delete" data-id="<%= Item.id %>" class="delete_detail_item" data-type="symptom" data-iconpos="notext">X</a>
+				</li>
+				<% }); %>
+			</ul>
+		</p>
+
+	</div>
+	<div id="medications-collapsible" data-role="collapsible" >
+
+		<h3>Medications:</h3>
+		<p>
+			<table style='width:100%'>
+				<tbody>
+					<tr>
+						<td>
+							<fieldset data-role="controlgroup">
+								<label for="select-medication" class="select-medication-label">Category</label>
+								<select name="select-medication" id="select-medication">
+									<option value="default">Choose Medication</option>
+								</select>
+							</fieldset>	
+						</td>
+						<td style='width:5em; padding-left:1em'><a class="add_detail_item" data-type="medication" data-role="button" data-icon="plus" >Add</a></td>
+					</tr>
+				</tbody>
+			</table>
+		</p>
+		<p>
+			<ul>
+				<% _.each( medication, function( Item ){ %>
+				<li>
+					<span class="itemName"><span data-id="<%= Item.id %>" class="itemName"><%= Item.title %></span></span><a href="#" data-role="button" data-inline="true" data-icon="delete" data-id="<%= Item.id %>" class="delete_detail_item" data-type="medication" data-iconpos="notext">X</a>
+				</li>
+				<% }); %>
+			</ul>
+		</p>
+	</div>
+</div></script>
+
+<!---- ============== bug-details ============== ---->
+<script type="template" id="bug-details">
+<div data-role="header">
+	<a href="<%= window.location.hash + "/modify" %>" data-role="button" data-theme="e" data-mini="true" data-inline="true">Modify</a>
+	<h1><%= title %> <span class="ui-li-count">P<%= bugPriority %></span></h1>
+	<a href="#delete" id="deleteBug" data-id="<% _id %>"  data-icon="delete" data-theme="b">Delete</a>
+</div>
+
+<div data-role="content">
+	<p>
+		<strong>Status:</strong> <%= bugStatus %>
+	</p>
+	<p>
+		<strong>Details:</strong> <%= bugDetails %>
+	</p>
+</div>
+
+<div data-role="collapsible-set">
+
+	<div data-role="collapsible">
+		<h3>Symptoms</h3>
+		<p>
+			<ul id="symptomList">
+				<%
+				if
+				(symptom.length > 0){
+				_.each( symptom, function( Item ){ %>
+				<li>
+					<span class="itemName"><%= Item.title %></span>
+				</li>
+				<% });  }
+				else {
+				print("No Symptoms Recorded");
+				}
+				%>
+			</ul>
+		</p>
+
+	</div>
+
+	<div data-role="collapsible">
+		<h3>Medications</h3>
+		<p>
+			<ul id="medicationList">
+				<%
+				if
+				(medication.length > 0){
+				_.each( medication, function( Item ){ %>
+				<li>
+					<span class="itemName"><%= Item.title %></span>
+				</li>
+				<% }); }
+				else {
+				print("No Medications Recorded");
+				} %>
+			</ul>
+		</p>
+
+	</div>
+
+	<div data-role="collapsible" >
+
+		<h3>Assigned to:</h3>
+		<p>
+			Doctor: <span id="assignedTo"><%= assignedTo %></span>
+		</p>
+	</div>
+
+</script>
+
+<!---- ============== bug-list-item ============== ---->
+<script type="template" id="bug-list-item">
+<a href="#bug/<%= _id %>">
+	<h3><%= title %></h3>
+	<p><strong><%= bugStatus  %></strong></p>
+	<p class="ui-li-aside"><span class="ui-li-count"><%= bugPriority %></span></p>
+</a></script>
+
+<!---- ============== bug-list ============== ---->
+<script type="template" id="bug-list">
+<div data-role="header">
+	<h1>My Bugs</h1>
+	<a href="#bugs/add" id="newBug" data-icon="plus" data-theme="c">Add</a>
+</div>
+
+<div data-role="content">
+    <ul data-role="listview" id='myList'></ul>
+</div>
+</script>
+
+<!---- ============== bug-new ============== ---->
+<script type="template" id="bug-new">
+<div data-role="header" >
+	<h1>New Bug</h1>
+</div>
+
+<div data-role="content">
+
+	<div style = "border-bottom: 3px solid; padding-bottom: 15px">
+		<label for="basic">Title:</label>
+		<input type="text" name="name" id="bugtitle" value="" data-mini="true" />
+	</div>
+
+	<div style = "border-bottom: 3px solid; padding-bottom: 15px; padding-top: 10px">
+		<label for="textarea-a">Details:</label>
+		<textarea name="textarea" id="bugdetails"></textarea>
+	</div>
+
+	<div style = "border-bottom: 3px solid; padding-bottom: 15px">
+		<p>
+			Priority:
+		</p>
+		<fieldset data-role="controlgroup" data-type="horizontal">
+			<input type="radio" name="radio-view" id="priority-1" value="1"  />
+			<label for="priority-1">1</label>
+			<input type="radio" name="radio-view" id="priority-2" value="2"  />
+			<label for="priority-2">2</label>
+			<input type="radio" name="radio-view" id="priority-3" value="3"  />
+			<label for="priority-3">3</label>
+			<input type="radio" name="radio-view" id="priority-4" value="4"  />
+			<label for="priority-4">4</label>
+			<input type="radio" name="radio-view" id="priority-5" value="5"  />
+			<label for="priority-5">5</label>
+		</fieldset>
+
+	</div>
+
+	<div style = "border-bottom: 3px solid; padding-bottom: 15px;  padding-top: 10px">
+		<label for="select-color" class="select-color-label">Category</label>
+		<select name="select-color" id="select-color">
+			<option value="default">Colors...</option>
+		</select>
+	</div>
+
+</div>
+
+<a href="#" id="addBtn" data-role="button" data-icon="plus" data-theme="a">Add</a>
+<a href="#" id="cancelBtn" class="back" data-role="button" data-icon="delete" data-theme="b">Cancel</a>
+
+</script>
+
+<!---- ============== delete-confirm ============== ---->
+<script type="template" id="delete-confirm">
+    
+    <p id="question">Are you sure you want to delete?</p>
+    
+    <div class="ui-grid-a">
+        <div class="ui-block-a">
+            <a id="yes" data-role="button" data-mini="true" data-shadow="false" data-theme="b" data-rel="back">Yes</a>
+        </div>
+        <div class="ui-block-b">
+            <a id="cancel" data-role="button" data-mini="true" data-shadow="false" data-theme="b" data-rel="back">Cancel</a>                
+        </div>
+    </div>
+    </script>
+
+<!---- ============== footer ============== ---->
+<script type="template" id="footer">
+<div data-role="footer" data-position="fixed">
+	<a href="#symptoms" data-theme="c" class="footerBtn" data-role="button" data-iconpos="top" data-icon="check">Symptoms</a>
+	<a href="#bugs" data-theme="c" class="footerBtn" data-role="button" data-iconpos="top" data-icon="alert">Bugs</a>
+	<a href="#medications" data-theme="c" class="footerBtn" id="medications" data-role="button" data-iconpos="top" data-icon="plus">Medications</a>
+	<a href="#appts" data-theme="c" class="footerBtn" data-role="button" data-iconpos="top" data-icon="grid">Appts</a>
+	<a href="#medinfo" data-theme="c" class="footerBtn" id="medInfo" data-role="button" data-iconpos="top" data-icon="info">MedInfo</a>
+</div>
+</script>
+
+<!---- ============== list-item ============== ---->
+<script type="template" id="list-item">
+<a id="<%= type %>-detail" href="#<%= type %>/<%= _id %>">
+	<h3><span class="<%= type %>-title"><%= title %></span></h3>
+	<a href="#" class="plus-one"></a>
+</a>
+</script>
+
+<!---- ============== list-new ============== ---->
+<script type="template" id="list-new">
+<a href="#" id="newItemLi">
+	<input type="text" id="newItemInput" placeholder="New <%= type %>">
+	<a href="#" data-theme="a" class="add-one"></a>
+</a>
+</script>
+
+<!---- ============== list-view ============== ---->
+<script type="template" id="list-view">
+<style>
+	a.ui-slider-handle .ui-btn-inner {
+		padding-top: 5px;	
+	}
+</style>
+<div data-role="header">
+	<h1><%= header %></h1>
+	<a href="#" id="newItem" data-icon="plus" data-theme="c">Add</a>
+</div>
+
+<div data-role="content">
+	<!--plus separation is here because each item in the list has the same separation-->
+    <ul data-role="listview" id='myList' data-split-theme="b" data-split-icon="plus"></ul>
+</div>
+</script>
+
+<!---- ============== login ============== ---->
+<script type="template" id="login">
+<div data-role="header">
+	<h1>Dinosore</h1>
+</div>
+
+<div data-role="content">
+	<img src="img/LogoWithText.png" alt="Dinosore Logo" />
+	<h2 id="getStarted">Get Started!</h2>
+
+	<div id="error">
+	</div>
+	<div data-role="fieldcontain">
+		<input placeholder="Email" type="email" name="email" class="fancyFont" id="email" pattern="[^ @]*@[^ @]*" value="" />
+	</div>
+	<div data-role="fieldcontain">
+		<input placeholder="Password" type="password" class="fancyFont" name="password" id="password" value="" />
+	</div>
+
+	<div class="ui-body ui-body-b">
+		<fieldset class="ui-grid-a">
+			<div class="ui-block-a">
+				<button id="signupBtn" type="submit" data-theme="d">
+					Signup
+				</button>
+			</div>
+			<div class="ui-block-b">
+				<button id="loginBtn" type="submit" data-theme="a">
+					Login
+				</button>
+			</div>
+		</fieldset>
+	</div>
+</div>
+</script>
+
+<!---- ============== medical-info ============== ---->
+<script type="template" id="medical-info">
+<div data-role="header" >
+	<a href="#" id="logout" data-icon="delete" data-theme="c">Logout</a>
+	<h1>Medical Info</h1>
+	<a href="#" class="edit" data-icon="gear" data-theme="c">Modify</a>
+</div>
+
+<div data-role="content">	
+	
+<ul data-role="listview">
+	<li data-role="list-divider">
+		Blood Type
+		<span style="float:right;"> <strong>A Pos.</strong/> </span>
+	</li>
+</ul>
+	<h2 id="username"><%= username %></h2>
+	<h3 id="age">Age <%= age %></h3>
+	<h3 id="last-checkup">Last Checkup: <%= last_checkup %></h3>
+
+</div>
+</script>
+
+<!---- ============== appointment-calendar ============== ---->
+<script type="template" id="appointment-calendar">
+<div data-role="header">
+	<a href="#" data-theme="c" data-icon="back" class="back ui-btn-left">Back</a>
+	<h3>Appointments</h3>
+	<a href="#" data-icon="grid" class='ui-disabled' data-role="button" data-theme="a" data-mini="true" data-inline="true">List View</a>
+</div>
+
+<div data-role="content">
+	<div id="dateBoxLoading">
+		<h2 class="fancyFont">Loading appointments...</h2>
+		<img src="css/images/ajax-loader.gif" style="margin-left: 50%;" />
+	</div>
+	<input name="mydate" id="mydate" data-datebox="" />
+	<hr>
+</div>
+<a href="#" data-theme="b" data-role="button" id="addApptBtn" data-inline="false" data-icon="plus">Add</a>
+<ul data-role="listview" data-split-icon="gear" data-theme="f" data-split-theme="f">
+	<li id="add-appt-header" data-theme="a" data-role="list-divider">
+		<div data-role="fieldcontain">
+			<span id="currDate"><%= today %></span>
+			</fieldset>
+		</div>
+	</li>
+	<li id="noAppt" data-theme="c">
+		No appointments scheduled today
+	</li>
+
+	<li id="dayAppts" style="display:none" data-theme="f"></li>
 </ul>
 </script>
 
