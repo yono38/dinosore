@@ -57,7 +57,7 @@ var Bug = new Schema({
 	bugDetails: { type: String, default: '' },
 	bugPriority: { type: Number, default: 0 },
 	bugStatus: {type: String, default: 'Open' },
-	color: { type: String, ref: 'Color' },	
+	color: { type: String },	
 	medication: { type: Array },
 	symptom: { type: Array },
 	title: { type: String, default: 'New Bug' },

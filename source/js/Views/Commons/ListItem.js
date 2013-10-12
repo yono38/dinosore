@@ -96,6 +96,7 @@ window.$dino.ListItemView = Backbone.View.extend({
 		));
 		if (this.color){
 			this.$el.attr("style", "background:#"+this.color.get("hex"));
+			this.$(".plus-one").attr("style", "background:#"+this.color.get("hex"));
 		}
         return this;
 	}

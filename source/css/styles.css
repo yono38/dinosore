@@ -105,11 +105,9 @@ font-weight: bold;
 }
 
 .cancelBtn {
-	background: red;
-}
-
-#error {
-	color: red;
+	background: #B84645;
+	color: rgb(255, 255, 255) !important;
+	text-shadow: none !important;
 }
 
 #cancel-change-severity .ui-btn-inner {
@@ -128,7 +126,7 @@ font-weight: bold;
 
 
 /* This turns off the shortening ellipse in page titles */
-h1.ui-title {
+.ui-title {
 	text-overflow: ellipsis !important;
 	overflow: visible !important;
 	white-space: normal !important;
@@ -154,4 +152,18 @@ h1.ui-title {
 
 .ui-page {
 	background-image: url('../img/background.png');
+}
+
+/* Custom icons */
+.ui-icon-symptom {
+	background-image: url("images/SymptomsIcon.png");
+	background-size: 18px; 18px;
+}
+.ui-icon-medication {
+	background-image: url("images/medicationsIcon.png");
+	background-size: 18px; 18px;
+}
+.ui-icon-bug {
+	background-image: url("images/BugsIcon.png");
+	background-size: 18px; 18px;
 }

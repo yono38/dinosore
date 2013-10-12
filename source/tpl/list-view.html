@@ -2,12 +2,16 @@
 	a.ui-slider-handle .ui-btn-inner {
 		padding-top: 5px;	
 	}
+	#newItem {
+		margin-top: 0;
+		margin-bottom: 0;
+	}
 </style>
+
 <div data-role="header">
 	<h1><%= header %></h1>
-	<a href="#" id="newItem" data-icon="plus" data-theme="c">Add</a>
 </div>
-
+<a href="#" data-role="button" id="newItem" class="ui-icon-alt ui-icon-nodisc" data-icon="plus" data-theme="f">Add</a>
 <div data-role="content">
 	<!--plus separation is here because each item in the list has the same separation-->
     <ul data-role="listview" id='myList' data-split-theme="b" data-split-icon="plus"></ul>
