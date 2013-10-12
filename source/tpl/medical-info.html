@@ -1,12 +1,24 @@
+<style>
+	#modify {
+		margin-top: 0px;
+		margin-bottom: 0px;
+		border-top: none;
+	}
+	.darktan {
+		background: #C6C39B;
+	}
+</style>
 <div data-role="header" >
-	<a href="#" id="logout" data-icon="delete" data-theme="c">Logout</a>
-	<h1>Medical Info</h1>
-	<a href="#" class="edit" data-icon="gear" data-theme="c">Modify</a>
+	<a href="#" id="logout" data-icon="delete" data-theme="c"  data-iconpos="notext">Logout</a>
+	<h1>Info</h1>
 </div>
 
 <div data-role="content">	
 	
 <ul data-role="listview">
+	<!--<li class="darktan" data-role="list-divider">-->
+	<a href="#" class="darktan" data-role="button" data-iconpos="left" class="ui-icon-alt ui-icon-nodisc" id="modify" class="edit" data-icon="edit" data-theme="c">Modify</a>
+	<!--</li>-->
 	<li data-role="list-divider">
 		Blood Type
 		<span style="float:right;"> <strong>A Pos.</strong/> </span>

@@ -1,7 +1,17 @@
+<style>
+.footerBtn{
+	padding: 15px;
+}
+#footerBtnGroup {
+	text-align: center;
+}
+</style>
 <div data-role="footer" data-position="fixed">
-	<a href="#symptoms" data-theme="c" class="footerBtn" data-role="button" data-iconpos="top" data-icon="check">Symptoms</a>
-	<a href="#bugs" data-theme="c" class="footerBtn" data-role="button" data-iconpos="top" data-icon="alert">Bugs</a>
-	<a href="#medications" data-theme="c" class="footerBtn" id="medications" data-role="button" data-iconpos="top" data-icon="plus">Medications</a>
-	<a href="#appts" data-theme="c" class="footerBtn" data-role="button" data-iconpos="top" data-icon="grid">Appts</a>
-	<a href="#medinfo" data-theme="c" class="footerBtn" id="medInfo" data-role="button" data-iconpos="top" data-icon="info">MedInfo</a>
+	<div id="footerBtnGroup" data-role="controlgroup" data-type="horizontal">
+	<a href="#symptoms" class="ui-icon-nodisc footerBtn" data-theme="c" data-role="button" data-iconpos="notext" data-icon="symptom">Symptoms</a>
+	<a href="#bugs" class="ui-icon-nodisc footerBtn" data-theme="c" data-role="button" data-iconpos="notext" data-icon="bug">Bugs</a>
+	<a href="#medications" class="ui-icon-nodisc footerBtn" data-theme="c" id="medications" data-role="button" data-iconpos="notext" data-icon="medication">Medications</a>
+	<a href="#appts" data-theme="c" class="ui-icon-nodisc ui-icon-alt footerBtn" data-role="button" data-iconpos="notext" data-icon="grid">Appts</a>
+	<a href="#medinfo" data-theme="c" class="ui-icon-nodisc ui-icon-alt footerBtn" id="medInfo" data-role="button" data-iconpos="notext" data-icon="info">MedInfo</a>
+	</div>
 </div>

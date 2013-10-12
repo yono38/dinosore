@@ -1,28 +1,53 @@
-<div data-role="header">
-	<h1>Dinosore</h1>
-</div>
+<style>
+	.ui-block-a .ui-radio {
+		border-right: 1px solid lightgray;
+	}
+	.input-error {
+		border-top: 1px solid red !important;
+		border-bottom: 1px solid red !important;
+	}
+	.ui-content {
+		padding-top: 160px;
+		background-image: url('img/SignUpDino.png'); 
+		background-repeat:no-repeat;
+
+	}
+	#gender {
+		width: 50%;
+		margin-left: 50%;
+		padding-top: 14px;
+	}
+	#error {
+		color: red;
+		font-size: 12px;
+	}
+	#getStarted {
+		margin-top: -78px;
+		margin-bottom: 107px;
+	}
+	#getStarted, #error {
+		text-align: center;
+	}
+</style>
 
 <div data-role="content">
 	<h2 id="getStarted">Get Started!</h2>
 
-	<div id="error">
-	</div>
-		<input placeholder="Name" type="text" name="name" class="fancyFont" id="name" value="" />
-		<input placeholder="Email" type="email" name="email" class="fancyFont" id="email" pattern="[^ @]*@[^ @]*" value="" />
-		<input placeholder="Password" type="password" class="fancyFont" name="password" id="password" value="" />
-		<input placeholder="Confirm Password" type="password" class="fancyFont" name="confirm-password" id="confirm-password" value="" />
+	<div class="fancyFont" id="error"></div>
+	<input placeholder="Name" type="text" name="name" class="fancyFont" id="name" value="" />
+	<input placeholder="Email" type="email" name="email" class="fancyFont" id="email" pattern="[^ @]*@[^ @]*" value="" />
+	<input placeholder="Password" type="password" class="fancyFont" name="password" id="password" value="" />
+	<input placeholder="Confirm Password" type="password" class="fancyFont" name="confirm-password" id="confirm-password" value="" />
 
-		<div class="ui-grid-a">
-		   <fieldset data-role="controlgroup" data-type="horizontal">
-        <div class="ui-block-a"><input type="radio" data-theme="d" name="select-gender" id="select-gendera" value="on" checked="checked">
-        <label for="select-gendera">Male</label></div>
-        <div class="ui-block-b"><input type="radio" data-theme="d"  name="select-gender" id="select-genderb" value="off">
-        <label for="select-genderb">Female</label></div>
-    	</fieldset>
-    	</div>
-    	
-    	<label for="birthday">Birthday</label>
-    	<input name="birthday" id="birthday" type="date" data-role="datebox" data-options='{"mode": "datebox"}' />
+		<fieldset id="gender" data-role="controlgroup" data-mini="true">
+				<input type="radio" data-theme="d" name="select-gender" id="select-gendera" value="male">
+				<label for="select-gendera">Male</label>
+				<input type="radio" data-theme="d"  name="select-gender" id="select-genderb" value="female">
+				<label for="select-genderb">Female</label>
+		</fieldset>
+
+	<label for="birthday">Birthday</label>
+	<input name="birthday" id="birthday" type="date" />
 
 	<button id="signupBtn" type="submit" data-theme="b">
 		Signup
