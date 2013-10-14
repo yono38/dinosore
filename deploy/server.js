@@ -21,8 +21,8 @@ var ColorModel = mongoose.model('Color', Color);
 var User = new Schema({
 	username: { type: String, required: true },
 	password: { type: String, required: true },
-	birthday: { type: Number },
-	isFemale: { type: Boolean },
+	birthday: { type: Number, required: true },
+	gender: { type: String, required: true },
 	last_checkup: { type: Number }
 });
 

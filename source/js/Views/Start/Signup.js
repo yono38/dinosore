@@ -48,12 +48,12 @@ window.$dino.StartSignupView = Backbone.View.extend({
 		valid = this.validatePasswords(inputs);
 		if (!valid) return;
 		var that = this;
-		Parse.User.signUp(usr, pw, {}, {
+		Parse.User.signUp(inputs.email, inputs.password, {
+		}, {
 			success : function(user) {
-				var User = $dino.User(Parse.User.current().toJSON());
-				User.set("id", Parse.User.current().id);
-				User.save();
-				$dino.app.navigate("symptoms", {
+				var User = Parse.User.current().id;
+				localStorage.setItem("user_info", JSON.stringify(inputs));
+				$dino.app.navigate("privacy", {
 					trigger : true
 				});
 			},

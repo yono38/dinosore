@@ -24,6 +24,17 @@ window.$dino.BugListItemView = Backbone.View.extend({
 			this.$el.attr("style", "background:#" + itemColor.get("hex"));
 		}
 	},
+	
+	events: {
+		"swiperight" : "confirmDelete",
+	},
+	
+	deleteBug : function(e) {
+		var route = window.location.hash + bug.id + "/delete";
+		$dino.app.navigate(route, {
+			trigger : true
+		});
+	},
 
 	destroy : function() {
 		this.unbind();

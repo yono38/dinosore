@@ -13,19 +13,57 @@
 	<h1>Info</h1>
 </div>
 
-<div data-role="content">	
-	
-<ul data-role="listview">
-	<!--<li class="darktan" data-role="list-divider">-->
-	<a href="#" class="darktan" data-role="button" data-iconpos="left" class="ui-icon-alt ui-icon-nodisc" id="modify" class="edit" data-icon="edit" data-theme="c">Modify</a>
-	<!--</li>-->
-	<li data-role="list-divider">
-		Blood Type
-		<span style="float:right;"> <strong>A Pos.</strong/> </span>
-	</li>
-</ul>
-	<h2 id="username"><%= username %></h2>
-	<h3 id="age">Age <%= age %></h3>
-	<h3 id="last-checkup">Last Checkup: <%= last_checkup %></h3>
+<div data-role="content">
 
+	<ul data-role="listview">
+		<a href="#" class="darktan" data-role="button" data-iconpos="left" class="ui-icon-alt ui-icon-nodisc" id="modify" class="edit" data-icon="edit" data-theme="c">Modify</a>
+		<li data-role="list-divider">
+			Blood Type
+			<span style="float:right;"> <strong>A Pos.</strong/> </span>
+		</li>
+	</ul>
+	<!--<h3 id="age">Age <%= age %></h3>
+	<h3 id="last-checkup">Last Checkup: <%= last_checkup %></h3>-->
+</div>
+<div data-role="collapsible-set">
+
+	<div data-role="collapsible">
+		<h3>Allergies</h3>
+		<p>
+			<ul id="symptomList">
+				No Allergies Listed Yet!
+			</ul>
+		</p>
+
+	</div>
+
+	<div data-role="collapsible">
+		<h3>Drug Allergies</h3>
+		<p>
+			<ul id="symptomList">
+				No Allergies Listed Yet!
+			</ul>
+		</p>
+
+	</div>
+
+	<div data-role="collapsible">
+		<h3>Doctors</h3>
+		<p>
+			<ul id="medicationList">
+				No Doctors Added Yet!
+			</ul>
+		</p>
+
+	</div>
+
+	<div data-role="collapsible" >
+
+		<h3>Pharmacy Info</h3>
+		<p>
+			No Pharmacy Listed Yet!
+		</p>
+	</div>
+
+</div>
 </div>

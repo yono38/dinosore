@@ -4,7 +4,13 @@ window.$dino.MedicalInfoView = Backbone.View.extend({
 		this.template = _.template(tpl.get('medical-info'));
 	},
 	events : {
-		'click #logout' : 'logout'
+		'click #logout' : 'logout',
+		'click #modify' : 'modify'
+	},
+	
+	// not implemented yet
+	modify: function(e) {
+		e.preventDefault();
 	},
 
 	logout : function() {
@@ -21,7 +27,7 @@ window.$dino.MedicalInfoView = Backbone.View.extend({
 	render : function(eventName) {
 		var usr = Parse.User.current();
 		var data = {
-			"username" : usr.get("username"),
+			"username" : usr.get("name"),
 			"age" : moment(usr.get("birthday")).fromNow(true),
 			"last_checkup" : moment(usr.get("last_checkup")).format("MM/YYYY")
 		};

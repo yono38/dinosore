@@ -1,8 +1,12 @@
+<style>
+	#bugModify {
+		margin-top: 0;
+	}
+</style>
 <div data-role="header">
-	<a href="<%= window.location.hash + "/modify" %>" data-role="button" data-theme="e" data-mini="true" data-inline="true">Modify</a>
 	<h1><%= title %> <span class="ui-li-count">P<%= bugPriority %></span></h1>
-	<a href="#delete" id="deleteBug" data-id="<% _id %>"  data-icon="delete" data-theme="b">Delete</a>
 </div>
+	<a href="<%= window.location.hash + "/modify" %>" id="bugModify" data-role="button" data-icon="edit" data-theme="f">Modify</a>
 
 <div data-role="content">
 

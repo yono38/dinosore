@@ -5,12 +5,19 @@ window.$dino.StartPrivacyView = Backbone.View.extend({
 	},
 
 	events : {
-		"change input[type='radio']" : "bringOnZeeJargon"
+		"change input[type='radio']" : "bringOnZeeJargon",
+		"click #next" : "nextPage"
+	},
+	
+	nextPage: function(){
+		$dino.app.navigate("symptoms", {
+			trigger : true
+		});
 	},
 
 	bringOnZeeJargon : function(e){
 		if ($(e.target).attr('id') == 'privacy-cloud') {
-			$("#jargon").html("I am here to tell you technical jargon about lots of important things and the drawbacks and other bullshit in hopes you stop reading and let me take all your privacy away muahahahahahahahahahahahahahahahaha. Good day sir.");	
+			$("#jargon").html("By storing your data in the cloud you absolve Dinosore of all fault in case anything terrible happens.");	
 		} else {
 			$("#jargon").empty();
 		}

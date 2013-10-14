@@ -73,6 +73,7 @@ window.$dino.AppointmentsView = Backbone.View.extend({
 			var d = this.highDates[passed.value] || [];
 			if (d.length > 0) {
 				var i;
+				this.$("#dayAppts").empty();
 				this.$("#dayAppts").show();
 				this.$("#noAppt").hide();
 				for ( i = 0; i < d.length; i++) {
@@ -137,7 +138,6 @@ window.$dino.AppointmentsView = Backbone.View.extend({
 
 	events : {
 		"click .ui-datebox-griddate.ui-corner-all" : "hideEmptyAppt",
-		"click" : "preventDefault",
 		"click .has-appt" : "showAppts",
 		"click .removeAppt" : "removeAppt",
 		"click .editAppt" : "modifyAppt",
@@ -151,7 +151,8 @@ window.$dino.AppointmentsView = Backbone.View.extend({
 		$("#noAppt").show();
 	},
 
-	newAppt : function() {
+	newAppt : function(e) {
+		e.preventDefault();
 		$dino.app.navigate("appts/add", {
 			trigger : true
 		});
