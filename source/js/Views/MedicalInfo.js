@@ -27,7 +27,7 @@ window.$dino.MedicalInfoView = Backbone.View.extend({
 	render : function(eventName) {
 		var usr = Parse.User.current();
 		var data = {
-			"username" : usr.get("name"),
+			"name" : usr.get("name"),
 			"age" : moment(usr.get("birthday")).fromNow(true),
 			"last_checkup" : moment(usr.get("last_checkup")).format("MM/YYYY")
 		};
