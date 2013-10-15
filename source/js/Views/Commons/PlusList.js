@@ -14,8 +14,7 @@ window.$dino.PlusListView = Backbone.View.extend({
     },
     
     events: {
-      'click #logout' : 'logout',
-      'click #newItem' : 'newItem',
+      'click #newItemPadding' : 'newItem',
       'click #newItemLi' : 'dontClick',
       'pageinit' : 'loadedPage'
     },
@@ -36,6 +35,7 @@ window.$dino.PlusListView = Backbone.View.extend({
 		}
    		this.$("#newItem .ui-btn-text").text("Add");
    		this.$("#newItem").removeClass("cancelBtn");
+   		this.$("#newItemPadding").removeClass("cancelBtn");
    		this.$("#newItem").buttonMarkup({ icon: "plus" });
 		this.adding = false;
 		this.renderList();
@@ -55,6 +55,8 @@ window.$dino.PlusListView = Backbone.View.extend({
 	   		this.$("#newItemInput").textinput().focus();
 	   		this.$("#newItem .ui-btn-text").text("Cancel");
 	   		this.$("#newItem").addClass("cancelBtn");
+	   		this.$("#newItemPadding").addClass("cancelBtn");
+	   		this.$("#newItem").buttonMarkup({ icon: "delete" });
 	   		this.$("#newItem").buttonMarkup({ icon: "delete" });
 	   		this.adding = true;
    		} else if (this.newListItem) {
@@ -74,7 +76,7 @@ window.$dino.PlusListView = Backbone.View.extend({
       	  data: { "user" : Parse.User.current().id }, 
           success: function(collection){
           	if (collection.length ==0){
-          		that.$("#myList").html('<span class="fancyFont"><div>No '+that.header+' Added Yet!</div><hr> <div>Click "Add" Above to Get Started</div><hr></span>');
+          		that.$("#myList").html('<span id="noItemsYet" class="fancyFont"><div>No '+that.header+' Added Yet!</div><hr> <div>Click "Add" Above to Get Started</div><hr></span>');
           		return;
           	}
           	
@@ -88,7 +90,11 @@ window.$dino.PlusListView = Backbone.View.extend({
 		      	that.$("#myList").listview();  
 		      	that.$("#myList").listview('refresh'); 
 	        }
-          }});
+          },
+          error: function(err, data){
+          	$dino.fail404();
+          }
+          });
         return this;
     },
     

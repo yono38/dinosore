@@ -54,7 +54,10 @@ window.$dino.BugListView = Backbone.View.extend({
 				if (that.pageloaded){
 					that.$("#myList").listview('refresh');
 				}
-			}
+			},
+          error: function(err, data){
+          	$dino.fail404();
+          }
 		});
 		return this;
 	}

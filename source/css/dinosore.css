@@ -47,7 +47,7 @@
 .ui-bar-a select,
 .ui-bar-a textarea,
 .ui-bar-a button {
-	  font-family: "Trebuchet MS", Helvetica, sans-serif /*{global-font-family}*/;
+	 font-family: "Trebuchet MS", Helvetica, sans-serif /*{global-font-family}*/;
 }
 .ui-body-a,
 .ui-overlay-a {
@@ -71,7 +71,7 @@
 .ui-body-a select,
 .ui-body-a textarea,
 .ui-body-a button {
-	  font-family: "Trebuchet MS", Helvetica, sans-serif /*{global-font-family}*/;
+	 font-family: "Trebuchet MS", Helvetica, sans-serif /*{global-font-family}*/;
 }
 .ui-body-a .ui-link-inherit {
 	color: #4A4A4A /*{a-body-color}*/;
@@ -145,7 +145,7 @@
 .ui-btn-up-a,
 .ui-btn-hover-a,
 .ui-btn-down-a {
-	  font-family: "Trebuchet MS", Helvetica, sans-serif /*{global-font-family}*/;
+	 font-family: "Trebuchet MS", Helvetica, sans-serif /*{global-font-family}*/;
 	text-decoration: none;
 }
 /* B
@@ -184,7 +184,7 @@
 .ui-bar-b select,
 .ui-bar-b textarea,
 .ui-bar-b button {
-	  font-family: "Trebuchet MS", Helvetica, sans-serif /*{global-font-family}*/;
+	 font-family: "Trebuchet MS", Helvetica, sans-serif /*{global-font-family}*/;
 }
 .ui-body-b,
 .ui-overlay-b {
@@ -208,7 +208,7 @@
 .ui-body-b select,
 .ui-body-b textarea,
 .ui-body-b button {
-	  font-family: "Trebuchet MS", Helvetica, sans-serif /*{global-font-family}*/;
+	 font-family: "Trebuchet MS", Helvetica, sans-serif /*{global-font-family}*/;
 }
 .ui-body-b .ui-link-inherit {
 	color: #4A4A4A /*{b-body-color}*/;
@@ -282,7 +282,7 @@
 .ui-btn-up-b,
 .ui-btn-hover-b,
 .ui-btn-down-b {
-	  font-family: "Trebuchet MS", Helvetica, sans-serif /*{global-font-family}*/;
+	 font-family: "Trebuchet MS", Helvetica, sans-serif /*{global-font-family}*/;
 	text-decoration: none;
 }
 
@@ -323,7 +323,7 @@
 .ui-bar-c select,
 .ui-bar-c textarea,
 .ui-bar-c button {
-	  font-family: "Trebuchet MS", Helvetica, sans-serif /*{global-font-family}*/;
+	 font-family: "Trebuchet MS", Helvetica, sans-serif /*{global-font-family}*/;
 }
 .ui-body-c,
 .ui-overlay-c {
@@ -347,7 +347,7 @@
 .ui-body-c select,
 .ui-body-c textarea,
 .ui-body-c button {
-	  font-family: "Trebuchet MS", Helvetica, sans-serif /*{global-font-family}*/;
+	 font-family: "Trebuchet MS", Helvetica, sans-serif /*{global-font-family}*/;
 }
 .ui-body-c .ui-link-inherit {
 	color: #4A4A4A /*{c-body-color}*/;
@@ -421,7 +421,7 @@
 .ui-btn-up-c,
 .ui-btn-hover-c,
 .ui-btn-down-c {
-	  font-family: "Trebuchet MS", Helvetica, sans-serif /*{global-font-family}*/;
+	 font-family: "Trebuchet MS", Helvetica, sans-serif /*{global-font-family}*/;
 	text-decoration: none;
 }
 
@@ -462,7 +462,7 @@
 .ui-bar-d select,
 .ui-bar-d textarea,
 .ui-bar-d button {
-	  font-family: "Trebuchet MS", Helvetica, sans-serif /*{global-font-family}*/;
+	 font-family: "Trebuchet MS", Helvetica, sans-serif /*{global-font-family}*/;
 }
 .ui-body-d,
 .ui-overlay-d {
@@ -486,7 +486,7 @@
 .ui-body-d select,
 .ui-body-d textarea,
 .ui-body-d button {
-	  font-family: "Trebuchet MS", Helvetica, sans-serif /*{global-font-family}*/;
+	 font-family: "Trebuchet MS", Helvetica, sans-serif /*{global-font-family}*/;
 }
 .ui-body-d .ui-link-inherit {
 	color: #4A4A4A /*{d-body-color}*/;
@@ -560,7 +560,7 @@
 .ui-btn-up-d,
 .ui-btn-hover-d,
 .ui-btn-down-d {
-	  font-family: "Trebuchet MS", Helvetica, sans-serif /*{global-font-family}*/;
+	 font-family: "Trebuchet MS", Helvetica, sans-serif /*{global-font-family}*/;
 	text-decoration: none;
 }
 
@@ -601,7 +601,7 @@
 .ui-bar-e select,
 .ui-bar-e textarea,
 .ui-bar-e button {
-	  font-family: "Trebuchet MS", Helvetica, sans-serif /*{global-font-family}*/;
+	 font-family: "Trebuchet MS", Helvetica, sans-serif /*{global-font-family}*/;
 }
 .ui-body-e,
 .ui-overlay-e {
@@ -625,7 +625,7 @@
 .ui-body-e select,
 .ui-body-e textarea,
 .ui-body-e button {
-	  font-family: "Trebuchet MS", Helvetica, sans-serif /*{global-font-family}*/;
+	 font-family: "Trebuchet MS", Helvetica, sans-serif /*{global-font-family}*/;
 }
 .ui-body-e .ui-link-inherit {
 	color: #333333 /*{e-body-color}*/;
@@ -699,7 +699,7 @@
 .ui-btn-up-e,
 .ui-btn-hover-e,
 .ui-btn-down-e {
-	  font-family: "Trebuchet MS", Helvetica, sans-serif /*{global-font-family}*/;
+	 font-family: "Trebuchet MS", Helvetica, sans-serif /*{global-font-family}*/;
 	text-decoration: none;
 }
 
@@ -708,19 +708,19 @@
 -----------------------------------------------------------------------------------------------------------*/
 .ui-bar-f {
 	border: 1px solid #b3b3b3 /*{f-bar-border}*/;
-	background: #eeeeee /*{f-bar-background-color}*/;
-	color: #3e3e3e /*{f-bar-color}*/;
+	background: #C6C39B /*{f-bar-background-color}*/;
+	color: #6e6e6e /*{f-bar-color}*/;
 	font-weight: bold;
 	text-shadow: 0 /*{f-bar-shadow-x}*/ 1px /*{f-bar-shadow-y}*/ 0 /*{f-bar-shadow-radius}*/ #ffffff /*{f-bar-shadow-color}*/;
-	background-image: -webkit-gradient(linear, left top, left bottom, from( #f0f0f0 /*{f-bar-background-start}*/), to( #dddddd /*{f-bar-background-end}*/)); /* Saf4+, Chrome */
-	background-image: -webkit-linear-gradient( #f0f0f0 /*{f-bar-background-start}*/, #dddddd /*{f-bar-background-end}*/); /* Chrome 10+, Saf5.1+ */
-	background-image:    -moz-linear-gradient( #f0f0f0 /*{f-bar-background-start}*/, #dddddd /*{f-bar-background-end}*/); /* FF3.6 */
-	background-image:     -ms-linear-gradient( #f0f0f0 /*{f-bar-background-start}*/, #dddddd /*{f-bar-background-end}*/); /* IE10 */
-	background-image:      -o-linear-gradient( #f0f0f0 /*{f-bar-background-start}*/, #dddddd /*{f-bar-background-end}*/); /* Opera 11.10+ */
-	background-image:         linear-gradient( #f0f0f0 /*{f-bar-background-start}*/, #dddddd /*{f-bar-background-end}*/);
+	background-image: -webkit-gradient(linear, left top, left bottom, from( #c6c39b /*{f-bar-background-start}*/), to( #c6c39b /*{f-bar-background-end}*/)); /* Saf4+, Chrome */
+	background-image: -webkit-linear-gradient( #c6c39b /*{f-bar-background-start}*/, #c6c39b /*{f-bar-background-end}*/); /* Chrome 10+, Saf5.1+ */
+	background-image:    -moz-linear-gradient( #c6c39b /*{f-bar-background-start}*/, #c6c39b /*{f-bar-background-end}*/); /* FF3.6 */
+	background-image:     -ms-linear-gradient( #c6c39b /*{f-bar-background-start}*/, #c6c39b /*{f-bar-background-end}*/); /* IE10 */
+	background-image:      -o-linear-gradient( #c6c39b /*{f-bar-background-start}*/, #c6c39b /*{f-bar-background-end}*/); /* Opera 11.10+ */
+	background-image:         linear-gradient( #c6c39b /*{f-bar-background-start}*/, #c6c39b /*{f-bar-background-end}*/);
 }
 .ui-bar-f .ui-link-inherit {
-	color: #3e3e3e /*{f-bar-color}*/;
+	color: #6e6e6e /*{f-bar-color}*/;
 }
 .ui-bar-f a.ui-link {
 	color: #7cc4e7 /*{f-bar-link-color}*/;
@@ -745,7 +745,7 @@
 .ui-body-f,
 .ui-overlay-f {
 	border: 1px solid #aaaaaa /*{f-body-border}*/;
-	color: #4A4A4A /*{f-body-color}*/;
+	color: #6e6e6e /*{f-body-color}*/;
 	text-shadow: 0 /*{f-body-shadow-x}*/ 1px /*{f-body-shadow-y}*/ 0 /*{f-body-shadow-radius}*/ #ffffff /*{f-body-shadow-color}*/;
 	background: #C6C39B /*{f-body-background-color}*/;
 	background-image: -webkit-gradient(linear, left top, left bottom, from( #c6c39b /*{f-body-background-start}*/), to( #c6c39b /*{f-body-background-end}*/)); /* Saf4+, Chrome */
@@ -767,7 +767,7 @@
 	 font-family: "Trebuchet MS", Helvetica, sans-serif /*{global-font-family}*/;
 }
 .ui-body-f .ui-link-inherit {
-	color: #4A4A4A /*{f-body-color}*/;
+	color: #6e6e6e /*{f-body-color}*/;
 }
 .ui-body-f .ui-link {
 	color: #2489ce /*{f-body-link-color}*/;
@@ -786,7 +786,7 @@
 	border: 1px solid #cccccc /*{f-bup-border}*/;
 	background: #C6C39B /*{f-bup-background-color}*/;
 	font-weight: bold;
-	color: #4A4A4A /*{f-bup-color}*/;
+	color: #6e6e6e /*{f-bup-color}*/;
 	text-shadow: 0 /*{f-bup-shadow-x}*/ 1px /*{f-bup-shadow-y}*/ 0 /*{f-bup-shadow-radius}*/ #ffffff /*{f-bup-shadow-color}*/;
 	background-image: -webkit-gradient(linear, left top, left bottom, from( #c6c39b /*{f-bup-background-start}*/), to( #c6c39b /*{f-bup-background-end}*/)); /* Saf4+, Chrome */
 	background-image: -webkit-linear-gradient( #c6c39b /*{f-bup-background-start}*/, #c6c39b /*{f-bup-background-end}*/); /* Chrome 10+, Saf5.1+ */
@@ -797,13 +797,13 @@
 }
 .ui-btn-up-f:visited,
 .ui-btn-up-f a.ui-link-inherit {
-	color: #4A4A4A /*{f-bup-color}*/;
+	color: #6e6e6e /*{f-bup-color}*/;
 }
 .ui-btn-hover-f {
 	border: 1px solid #bbbbbb /*{f-bhover-border}*/;
 	background: #C6C39B /*{f-bhover-background-color}*/;
 	font-weight: bold;
-	color: #4A4A4A /*{f-bhover-color}*/;
+	color: #6e6e6e /*{f-bhover-color}*/;
 	text-shadow: 0 /*{f-bhover-shadow-x}*/ 1px /*{f-bhover-shadow-y}*/ 0 /*{f-bhover-shadow-radius}*/ #ffffff /*{f-bhover-shadow-color}*/;
 	background-image: -webkit-gradient(linear, left top, left bottom, from( #c6c39b /*{f-bhover-background-start}*/), to( #c6c39b /*{f-bhover-background-end}*/)); /* Saf4+, Chrome */
 	background-image: -webkit-linear-gradient( #c6c39b /*{f-bhover-background-start}*/, #c6c39b /*{f-bhover-background-end}*/); /* Chrome 10+, Saf5.1+ */
@@ -815,13 +815,13 @@
 .ui-btn-hover-f:visited,
 .ui-btn-hover-f:hover,
 .ui-btn-hover-f a.ui-link-inherit {
-	color: #4A4A4A /*{f-bhover-color}*/;
+	color: #6e6e6e /*{f-bhover-color}*/;
 }
 .ui-btn-down-f {
 	border: 1px solid #bbbbbb /*{f-bdown-border}*/;
 	background: #a29f7c /*{f-bdown-background-color}*/;
 	font-weight: bold;
-	color: #4A4A4A /*{f-bdown-color}*/;
+	color: #6e6e6e /*{f-bdown-color}*/;
 	text-shadow: 0 /*{f-bdown-shadow-x}*/ 1px /*{f-bdown-shadow-y}*/ 0 /*{f-bdown-shadow-radius}*/ #ffffff /*{f-bdown-shadow-color}*/;
 	background-image: -webkit-gradient(linear, left top, left bottom, from( #a29f7c /*{f-bdown-background-start}*/), to( #a29f7c /*{f-bdown-background-end}*/)); /* Saf4+, Chrome */
 	background-image: -webkit-linear-gradient( #a29f7c /*{f-bdown-background-start}*/, #a29f7c /*{f-bdown-background-end}*/); /* Chrome 10+, Saf5.1+ */
@@ -833,7 +833,7 @@
 .ui-btn-down-f:visited,
 .ui-btn-down-f:hover,
 .ui-btn-down-f a.ui-link-inherit {
-	color: #4A4A4A /*{f-bdown-color}*/;
+	color: #6e6e6e /*{f-bdown-color}*/;
 }
 .ui-btn-up-f,
 .ui-btn-hover-f,
@@ -865,7 +865,7 @@ a.ui-link-inherit {
 	background-image:     -ms-linear-gradient( #3fccbe /*{global-active-background-start}*/, #3fccbe /*{global-active-background-end}*/); /* IE10 */
 	background-image:      -o-linear-gradient( #3fccbe /*{global-active-background-start}*/, #3fccbe /*{global-active-background-end}*/); /* Opera 11.10+ */
 	background-image:         linear-gradient( #3fccbe /*{global-active-background-start}*/, #3fccbe /*{global-active-background-end}*/);
-	  font-family: "Trebuchet MS", Helvetica, sans-serif /*{global-font-family}*/;
+	 font-family: "Trebuchet MS", Helvetica, sans-serif /*{global-font-family}*/;
 }
 .ui-btn-active:visited,
 .ui-btn-active:hover,

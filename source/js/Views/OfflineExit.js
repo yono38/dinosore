@@ -6,7 +6,13 @@ window.$dino.OfflineExitView = Backbone.View.extend({
 	},
 
 	events : {
+		"click #retry" : "retry",
 		"click #exit" : "exit"
+	},
+	
+	retry: function(e){
+		e.preventDefault();
+		window.history.back();
 	},
 
 	exit : function(e) {

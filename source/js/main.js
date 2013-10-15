@@ -1,4 +1,3 @@
-
 $dino.AppRouter = Backbone.Router.extend({
 
 	routes : {
@@ -125,7 +124,10 @@ $dino.AppRouter = Backbone.Router.extend({
 		bug.fetch({
 			success : function(data) {
 				callback(data);
-			}
+			},
+            error: function(err, data){
+             	$dino.fail404();
+            }
 		});
 	},
 
@@ -204,6 +206,14 @@ $(document).ready(function() {
 		$dino = window.$dino || {};
 		$dino.app = new $dino.AppRouter();
 		Backbone.history.start();
+		$dino.fail404 = function(override){
+			if ($dino.env == 'prod' && !override){;
+				console.log('offline');
+				$dino.app.navigate('offline', {
+					trigger: true
+				});
+			}
+		};
 	});
 });
 /*   $(document).on("pageshow", ".ui-page", function () {
