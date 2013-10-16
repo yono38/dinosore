@@ -1,0 +1,5 @@
+<label for="severity"><%= title %></label>
+<input type="range" name="severity" id="severity" data-id="<%= elId %>" class="symptom-severity" value="0" min="0" max="5" />
+<% if (end) { %>
+	<input type="text" placeholder="Notes" id="item-notes" value="" />
+<% } %>

@@ -6,17 +6,9 @@ window.$dino.ListItemView = Backbone.View.extend({
 		this.name = opts.name;
 		this.template = _.template(tpl.get('list-item'));
 		this.model.bind('remove', this.destroy);
-		if (this.model.get("bug")){
-			var colorId = localStorage.getItem("bugcolor-"+this.model.get("bug"));
-			if (colorId){
-				this.color = $dino.colors.get(colorId);
-			} else {
-				this.fetchBugColor();
-			}
-		}
 		_.bindAll(this, 'remove', 'destroy');
 	}, 
-	
+/*	 Currently unused
 	fetchBugColor: function(){
 		var bug = new $dino.Bug();
 		bug.id = this.model.get("bug");
@@ -28,7 +20,7 @@ window.$dino.ListItemView = Backbone.View.extend({
 		});
 		
 	},
-	
+*/	
 	events: {
 		"click" : "dontclick",
 		"click .plus-one" : "clickPlus",
@@ -62,6 +54,7 @@ window.$dino.ListItemView = Backbone.View.extend({
 
 	clickPlus: function(e){
 		if (e) e.preventDefault();
+		console.log('licked clickplus');
 
 		var that = this;
 		this.model.set("count", (this.model.get("count") + 1));

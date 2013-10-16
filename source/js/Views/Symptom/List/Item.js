@@ -54,6 +54,7 @@ window.$dino.SymptomListItemView = $dino.ListItemView.extend({
 	
 	clickPlus: function(e){
 		if (e) e.preventDefault();
+		console.log('clicking plus');
 		if (!this.added){
 			var that = this;
 			this.model.set("count", (this.model.get("count") + 1));

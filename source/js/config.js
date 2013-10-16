@@ -7,8 +7,8 @@ Parse.initialize("ILMokni7fwKhJSdWh38cGPpEwL2CLsrhcrUgJmG6", "cDQoHLQqGRRj9srzrp
 // ==========================
 // ENVIRONMENT
 // ==========================
-//$dino.env = 'dev';
-$dino.env = 'prod';
+$dino.env = 'dev';
+//$dino.env = 'prod';
 //$dino.env = 'cache';
 
 // ==========================

@@ -1,3 +1,8 @@
+<style>
+	h1 .ui-input-text {
+		margin-top: 5px;
+	}
+</style>
 <div data-role="header">
 	<h1>
 	<input type="text" id="bugTitleTxtInput" class="bugDetailTxtInput" value="<%= title %>" />
@@ -10,8 +15,33 @@
 		</p>
 	</div>
 	<p>
-		<strong>Status:</strong>
-		<input type="text" class="bugDetailTxtInput" id="bug_status_input" value="<%= bugStatus %>" />
+	<p>
+		<table style='width:100%'>
+			<tbody>
+				<tr>
+					<td>
+					<fieldset data-role="controlgroup">
+						<label for="select-symptom" class="select-symptom-label">Category</label>
+						<select name="select-symptom" id="select-symptom">
+							<option value="default">Choose Symptom</option>
+						</select>
+					</fieldset></td>
+					<td style='width:5em; padding-left:1em'><a class="add_detail_item" data-type="symptom" data-role="button" data-icon="plus" >Add</a></td>
+				</tr>
+			</tbody>
+		</table>
+	</p>
+	<p>
+		<ul>
+			<% _.each( symptom, function( Item ){ %>
+			<li>
+				<span class="itemName"><span data-id="<%= Item.id %>" class="itemName"><%= Item.title %></span></span><a href="#" data-role="button" data-inline="true" data-icon="delete" data-id="<%= Item.id %>" class="delete_detail_item" data-type="symptom" data-iconpos="notext">X</a>
+			</li>
+			<% }); %>
+		</ul>
+	</p>
+	<strong>Status:</strong>
+	<input type="text" class="bugDetailTxtInput" id="bug_status_input" value="<%= bugStatus %>" />
 	</p>
 	<p>
 		<strong>Details:</strong>
@@ -38,12 +68,6 @@
 		</fieldset>
 	</div>
 </div>
-	<fieldset data-role="controlgroup">
-		<label for="select-color" class="select-color-label">Category</label>
-		<select name="select-color" id="select-color">
-			<option value="default">COLOR</option>
-		</select>
-	</fieldset>
 <div data-role="collapsible-set"  data-iconpos="right" data-theme="b">
 
 	<div id="assigned-collapsible" data-role="collapsible" >
@@ -54,33 +78,6 @@
 		</p>
 	</div>
 	<div id="symptoms-collapsible" data-role="collapsible">
-		<h3>Symptoms</h3>
-		<p>
-			<table style='width:100%'>
-				<tbody>
-					<tr>
-						<td>
-							<fieldset data-role="controlgroup">
-								<label for="select-symptom" class="select-symptom-label">Category</label>
-								<select name="select-symptom" id="select-symptom">
-									<option value="default">Choose Symptom</option>
-								</select>
-							</fieldset>						
-						</td>
-						<td style='width:5em; padding-left:1em'><a class="add_detail_item" data-type="symptom" data-role="button" data-icon="plus" >Add</a></td>
-					</tr>
-				</tbody>
-			</table>
-		</p>
-		<p>
-			<ul>
-				<% _.each( symptom, function( Item ){ %>
-				<li>
-					<span class="itemName"><span data-id="<%= Item.id %>" class="itemName"><%= Item.title %></span></span><a href="#" data-role="button" data-inline="true" data-icon="delete" data-id="<%= Item.id %>" class="delete_detail_item" data-type="symptom" data-iconpos="notext">X</a>
-				</li>
-				<% }); %>
-			</ul>
-		</p>
 
 	</div>
 	<div id="medications-collapsible" data-role="collapsible" >
@@ -91,13 +88,12 @@
 				<tbody>
 					<tr>
 						<td>
-							<fieldset data-role="controlgroup">
-								<label for="select-medication" class="select-medication-label">Category</label>
-								<select name="select-medication" id="select-medication">
-									<option value="default">Choose Medication</option>
-								</select>
-							</fieldset>	
-						</td>
+						<fieldset data-role="controlgroup">
+							<label for="select-medication" class="select-medication-label">Category</label>
+							<select name="select-medication" id="select-medication">
+								<option value="default">Choose Medication</option>
+							</select>
+						</fieldset></td>
 						<td style='width:5em; padding-left:1em'><a class="add_detail_item" data-type="medication" data-role="button" data-icon="plus" >Add</a></td>
 					</tr>
 				</tbody>
