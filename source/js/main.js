@@ -154,8 +154,9 @@ $dino.AppRouter = Backbone.Router.extend({
 	symptomList : function() {
         var coll = new $dino.SymptomList();
 		var sympView = new $dino.SymptomListView({
+			template: _.template(tpl.get('bug-list-view')),
 			modelType: $dino.Symptom,
-			header: "Symptoms",
+			header: "Bugs",
 			collection: coll,
 			name: "symptom"
 		});
@@ -202,7 +203,7 @@ $dino.AppRouter = Backbone.Router.extend({
 
 $(document).ready(function() {
 	FastClick.attach(document.body);
-	tpl.loadTemplates(['bug-list', 'offline-exit', 'appointment-calendar', 'bug-delete-dialog', 'bug-list-item', 'privacy', 'bug-details', 'bug-new', 'login', 'medical-info', 'appointment-new', 'signup', 'start-splash', 'bug-details-modify', 'list-view', 'list-item', 'list-new', 'delete-confirm', 'footer', 'appointment-modify', 'appointment-item'], function() {
+	tpl.loadTemplates(['bug-list', 'offline-exit', 'appointment-calendar', 'bug-list-view', 'bug-delete-dialog', 'bug-list-item', 'privacy', 'bug-details', 'bug-new', 'login', 'medical-info', 'appointment-new', 'signup', 'start-splash', 'bug-details-modify', 'list-view', 'list-item', 'list-new', 'delete-confirm', 'footer', 'appointment-modify', 'appointment-item'], function() {
 		$dino = window.$dino || {};
 		$dino.app = new $dino.AppRouter();
 		Backbone.history.start();

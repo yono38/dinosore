@@ -6,6 +6,15 @@ window.$dino.ListNewView = Backbone.View.extend({
 		this.template = _.template(tpl.get('list-new'));
 		this.modelType = opts.modelType; // ex $dino.Medication
 		this.header = opts.header; // "Medication"
+		// This stores the information needed for the pluslist view to 
+		// deal with view info on creation
+		var options = opts.options || {};
+		this.options = _.defaults(options, {
+    		item: "#new-item",
+    		padding: "#new-item-padding",
+			adder: this.adding,
+			text: "Item"
+		});
 	},
 	
 	events: {
@@ -42,7 +51,7 @@ window.$dino.ListNewView = Backbone.View.extend({
 			med.save(null, {
 				success: function(item){
 					console.log('item saved! great job!');
-					that.trigger('newItem');
+					that.trigger('newItem', null, this.options);
 					that.remove();
 				},
 				error: function(err, item){

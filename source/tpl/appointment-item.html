@@ -1,6 +1,8 @@
 <h3 class="ui-li-heading"> <<span class="ui-li-count"><%= time %></span>>  <%= title %></h3>
 <p class="ui-li-desc">
-	<%= doc %>
+	<% if (doc != "New Doctor") { %>
+		<%= doc %>
+	<% } %>
 	<a href="#" class="removeAppt" data-role="button" data-theme="c" data-icon="delete" data-iconpos="notext" data-inline="true" data-mini="true" data-apptId="<%= apptId %>">Remove</a>
 	<a href="#" class="editAppt" data-role="button" data-theme="c" data-icon="gear" data-iconpos="notext" data-inline="true" data-mini="true" data-apptId="<%= apptId %>">Edit</a>
 </p>

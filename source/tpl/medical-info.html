@@ -7,6 +7,10 @@
 	.darktan {
 		background: #C6C39B;
 	}
+	.user-data {
+		border-bottom: rgb(198, 195, 155) 2px solid;
+	}
+	
 </style>
 <div data-role="header" >
 	<a href="#" id="logout" data-icon="delete" data-theme="c"  data-iconpos="notext">Logout</a>
@@ -17,15 +21,15 @@
 
 	<ul data-role="listview">
 		<a href="#" class="darktan" data-role="button" data-iconpos="left" class="ui-icon-alt ui-icon-nodisc" id="modify" class="edit" data-icon="edit" data-theme="c">Modify</a>
-		<li data-theme="c" data-role="list-divider">
+		<li data-theme="a" class="user-data" data-role="list-divider">
 			Name
 			<span style="float:right;"> <strong><%= name %></strong> </span>
 		</li>
-		<li data-theme="a" data-role="list-divider">
+		<li data-theme="a" class="user-data" data-role="list-divider">
 			Age	
 			<span style="float:right;"> <strong><%= age %></strong> </span>
 		</li>
-		<li data-theme="c" data-role="list-divider">
+		<li data-theme="a" class="user-data" data-role="list-divider">
 			Blood Type
 			<span style="float:right;"> <strong>A Pos.</strong> </span>
 		</li>
