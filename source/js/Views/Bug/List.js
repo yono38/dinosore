@@ -1,41 +1,42 @@
-window.$dino.BugListView = Backbone.View.extend({
+window.$dino.BugListView = $dino.PlusListView.extend({
 
-	initialize : function(opts) {
-		this.template = _.template(tpl.get('bug-list'));
-		_.bindAll(this, 'render');
-		this.collection = opts.collection;
-	},
-
-	sortList : function(bug) {
-		return -bug.get("bugPriority");
+	afterInitialize : function() {
+		this.bugCollection = new $dino.BugList();
 	},
 
 	events : {
-		'click #logout' : 'logout',
-		'click #newBug' : 'newBug'
+		'click .new-item' : 'dontClick',
+		'click #new-symptom-padding' : 'newSymptom',
+		'click #new-condition-padding' : 'newCondition',
+		'pageinit' : 'loadedPage'
 	},
 
-	newBug : function() {
+	createAddButton : function() {
+		this.placeholder = "Symptom";
+		this.addingBtn = new $dino.PlusListAddButtonView({
+			addText : "Symptom",
+			elId : "new-symptom-padding"
+		});
+		this.$(".ui-block-a").html(this.addingBtn.render().el);
+		this.addingBtn.bind('toggle', this.newItem, this);
+	},
+
+	newSymptom : function(e) {
+		this.adding.symptom = !this.adding.symptom;
+		console.log('clicked new sypmtom');
+	},
+
+	newCondition : function(e) {
 		$dino.app.navigate("bugs/add", {
 			trigger : true
 		});
+		console.log('clicked new condition');
 	},
 
-	addOne : function(bug) {
-		var view = new $dino.BugListItemView({
-			model : bug
-		});
-		this.$("#myList").append(view.render().el);
-		if(this.pageloaded){
-			this.$("#myList").listview('refresh');
-		}
-	},
-
-	render : function() {
+	renderList : function(firstTime) {
 		var that = this;
-		$(this.el).html(this.template());
-		// this.$("#myList").listview();
-		this.collection.fetch({
+		this.$("#myList").empty();
+		this.bugCollection.fetch({
 			data : {
 				"user" : Parse.User.current().id
 			},
@@ -45,20 +46,57 @@ window.$dino.BugListView = Backbone.View.extend({
 				collection.sort();
 				for (var i = 0; i < collection.length; i++) {
 					var item = collection.models[i];
-					that.addOne(item);
-					if (item.get("color")){
-						console.log("setting color "+item.get("color"));
-						localStorage.setItem("bugcolor-"+item.id, item.get("color"));
-					}
+					that.addOne(item, "bug");
 				}
-				if (that.pageloaded){
+				if (that.pageloaded) {
 					that.$("#myList").listview('refresh');
 				}
 			},
-          error: function(err, data){
-          	$dino.fail404();
-          }
+			error : function(err, data) {
+				$dino.fail404();
+			}
+		});		
+		this.collection.fetch({
+			data : {
+				"user" : Parse.User.current().id
+			},
+			success : function(collection) {
+				if (collection.length == 0) {
+					that.$("#myList").html('<span id="no-items-yet" class="fancyFont"><div>No ' + that.header + ' Added Yet!</div><hr> <div>Click "Add" Above to Get Started</div><hr></span>');
+					return;
+				}
+
+				collection.comparator = that.sortList;
+
+				collection.sort();
+				for (var i = 0; i < collection.length; i++) {
+					that.addOne(collection.models[i], "symptom");
+				}
+				if (!that.loading) {
+					that.$("#myList").listview();
+					that.$("#myList").listview('refresh');
+				}
+			},
+			error : function(err, data) {
+				$dino.fail404();
+			}
 		});
+
 		return this;
+	},
+
+	addOne : function(item, type) {
+		if (type == "symptom") {
+			var view = new $dino.SymptomListItemView({
+				model : item
+			});
+		} else if (type == "bug") {
+			var view = new $dino.PlusListBugItemView({
+				model : item
+			});
+		} else {
+			console.log("Invalid type: " + type);
+		}
+		this.$("#myList").append(view.render().el);
 	}
-}); 
+});

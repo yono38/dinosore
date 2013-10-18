@@ -5,6 +5,7 @@ window.$dino.PlusListBugItemView = $dino.ListItemView.extend({
 		$dino.PlusListBugItemView.__super__.initialize.call(this, {
 			name : "condition"
 		});
+		this.template = _.template(tpl.get('condition-list-item'));
 		this.debounceSaveSeverity = _.debounce(this.saveSeverity, 2000);
 		_.bindAll(this, 'saveSeverity', 'debounceSaveSeverity');
 		this.$el.data('theme', 'b');
@@ -65,16 +66,15 @@ window.$dino.PlusListBugItemView = $dino.ListItemView.extend({
 				var endVal = false;
 				if (idx == arr.length - 1)
 					endVal = true;
-				that.$("h3").append(that.severityTpl({
+				that.$("#symptomSliders").append(that.severityTpl({
 					elId : el.id,
 					title : el.title,
 					end : endVal
 				}));
 			});
-			//this
 			this.$("#item-notes").textinput();
 			this.$("#severity").slider({
-				trackTheme : 'a',
+				trackTheme : 'b',
 			});
 			this.$("#severity").hide();
 			this.$("#cancel-change-severity").button({
@@ -119,7 +119,10 @@ window.$dino.PlusListBugItemView = $dino.ListItemView.extend({
 		this.added = false;
 		this.$(".ui-icon").removeClass("ui-icon-check");
 		this.$(".ui-icon").addClass("ui-icon-plus");
-		this.resetTitle();
+		this.$("#symptomSliders").empty();
+		// TODO change this to use render
+		// currently loses formatting on refresh
+		// this.render();
 		this.addBubble('h3', 'Saved');
 	},
 	
