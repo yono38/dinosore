@@ -5,7 +5,7 @@ window.$dino.ListItemView = Backbone.View.extend({
 	initialize: function(opts) {
 		this.name = opts.name;
 		this.template = _.template(tpl.get('list-item'));
-		this.model.bind('remove', this.destroy);
+		this.model.bind('remove', this.destroy, this);
 		_.bindAll(this, 'remove', 'destroy');
 	}, 
 /*	 Currently unused
@@ -47,7 +47,7 @@ window.$dino.ListItemView = Backbone.View.extend({
 		if (!this.settingSeverity){		
 			this.deleteDialog = new $dino.DialogDeleteView({model: this.model, parentView: this});
 			this.deleteDialog.render();
-			$(this.el).append(this.deleteDialog);
+			this.$el.append(this.deleteDialog);
 			this.deleteDialog.open();
 		}
 	},
@@ -73,11 +73,14 @@ window.$dino.ListItemView = Backbone.View.extend({
 	},
 	
 	destroy: function(){
-		if (this.deleteDialog) this.deleteDialog.destroy();
+		console.log('calling destroy on listitem');
 		this.unbind();
 		if (this.remove){
+			console.log('removing');
 			this.remove();
+			this.model.trigger('refreshList');
 		}
+//		if (this.deleteDialog) this.deleteDialog.destroy();
 	},
 	
 	render:function(eventName){

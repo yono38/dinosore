@@ -4,11 +4,17 @@ window.$dino.PlusListView = Backbone.View.extend({
     	_.extend(this, opts);
         this.template = opts.template || _.template(tpl.get('list-view'));   
         _.bindAll(this, 'render', 'renderList', 'addItemToList'); 
-        this.collection.bind('destroy', this.renderList);
+        this.collection.bind('refreshList', this.refreshList, this);
         this.adding = false;
         this.loading = true;
         if (this.afterInitialize) this.afterInitialize();
     },    
+    
+    refreshList: function(){
+    	if (!this.loading){
+	    	this.$("#myList").listview('refresh');
+    	}
+    },
     
     sortList: function(item){
     	return -item.get("count");
