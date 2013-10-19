@@ -47,6 +47,13 @@ window.$dino.ConditionNewView = Backbone.View.extend({
 			item.save(null, {
 				success : function(item) {
 					console.log(item.id);
+					// adds newly created doctor to the menu and selects them
+					// TODO this is a hack and I should change it to autorender
+					if (type == "doctor"){
+						that.$("#select-doctor").prepend('<option val="'+item.id+'">'+item.get("title")+"</option>");
+						that.resetMenu("#select-doctor", item.id);
+						
+					}
 					var opts = {
 						"id" : item.id,
 						"title" : item.get("title"),
@@ -237,9 +244,6 @@ window.$dino.ConditionNewView = Backbone.View.extend({
 	},
 	checkForAddNew : function(e) {
 		var $sel = $("option:selected", e.currentTarget);
-		console.log($sel.val());
-		console.log($sel.data("type"));
-		console.log($sel.data("new"));
 		if ($sel.val() == "add-new-item" && $sel.data("type") != "" && $sel.data("new") == true) {
 			this.showNewItemInput($sel.data("type"));
 		}
@@ -279,13 +283,9 @@ window.$dino.ConditionNewView = Backbone.View.extend({
 			var selected;
 			var modelDoctor = that.model.get("doctor").id;
 			collection.each(function(item, idx, models) {
-				selected = "";
-				if ( modelDoctor && item.id == modelDoctor){
-					selected = 'selected="selected"';
-				}
 				that.$(selector).append('<option '+selected+' value="' + item.id + '">' + item.get("title") + '</li>');
-				that.resetMenu(selector, modelDoctor);
 			});
+			this.resetMenu("#select-doctor", modelDoctor);
 		} else {
 			collection.each(function(item, idx, models) {
 				that.$(selector).append('<option value="' + item.id + '">' + item.get("title") + '</li>');

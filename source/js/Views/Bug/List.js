@@ -56,6 +56,7 @@ window.$dino.BugListView = $dino.PlusListView.extend({
 				$dino.fail404();
 			}
 		});		
+		// currently refers to symptomList
 		this.collection.fetch({
 			data : {
 				"user" : Parse.User.current().id
