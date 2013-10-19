@@ -4,7 +4,6 @@ window.$dino.Bug = Backbone.Model.extend({
 	defaults : {
 		status : "Active",
 		details: "",
-		priority : "1",
 		title : "",
 		symptom : [],
 		doctor: {title: ""},

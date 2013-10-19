@@ -50,21 +50,13 @@
 
 	<div style = "border-bottom: 3px solid; padding-bottom: 15px">
 		<p>
-			Priority:
+			Status:
 		</p>
-		<fieldset data-role="controlgroup" data-type="horizontal">
-			<input type="radio" name="radio-view" id="priority-1" value="1"  />
-			<label for="priority-1">1</label>
-			<input type="radio" name="radio-view" id="priority-2" value="2"  />
-			<label for="priority-2">2</label>
-			<input type="radio" name="radio-view" id="priority-3" value="3"  />
-			<label for="priority-3">3</label>
-			<input type="radio" name="radio-view" id="priority-4" value="4"  />
-			<label for="priority-4">4</label>
-			<input type="radio" name="radio-view" id="priority-5" value="5"  />
-			<label for="priority-5">5</label>
-		</fieldset>
-
+		<select id="select-status">
+			<option value="Active">Active</option>
+			<option value="In Remission">In Remission</option>
+			<option value="Retired">Retired</option>
+		</select>
 	</div>
 	<div style = "border-bottom: 3px solid; padding-bottom: 15px;  padding-top: 10px">
 		<table id="symptom-list-bar" style='width:100%'>

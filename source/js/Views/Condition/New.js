@@ -5,7 +5,7 @@ window.$dino.ConditionNewView = Backbone.View.extend({
 		this.header = opts.header || "Condition";
 		this.model = this.model || new $dino.Bug();
 		this.debounceSaveTextInput = _.debounce(this.saveTextInput, 2000);
-		_(this).bindAll("addCondition", "deleteItem", 'makeList', "render", "changePriority");
+		_(this).bindAll("addCondition", "deleteItem", 'makeList', "render");
 	},
 	events : {
 		"click .add_detail_item" : "addItem",
@@ -16,8 +16,16 @@ window.$dino.ConditionNewView = Backbone.View.extend({
 		"keyup .text-input" : "debounceSaveTextInput",
 		"change select" : "checkForAddNew",
 		"change #select-doctor" : "setDoctor",
+		"change #select-status" : "setStatus",
 		"click .add-btn-padding" : "addNewItem",
 		"click .cancel-btn-padding" : "cancelNewItem",
+		"pageinit" : "setMenu"
+	},
+	
+	setMenu: function(){
+		console.log('setting status menu to proper item');
+		var val = this.model.get("status");
+		this.resetMenu("#select-status", val);
 	},
 
 	setDoctor: function() {
@@ -29,6 +37,11 @@ window.$dino.ConditionNewView = Backbone.View.extend({
 			};
 			this.model.set("doctor", docItem);
 		}
+	},
+	
+	setStatus: function() {
+		var $stat = this.$("#select-status option:selected");
+		this.model.set("status", $stat.val());
 	},
 		
 	addNewItem : function(e, type) {
@@ -50,9 +63,7 @@ window.$dino.ConditionNewView = Backbone.View.extend({
 					// adds newly created doctor to the menu and selects them
 					// TODO this is a hack and I should change it to autorender
 					if (type == "doctor"){
-						that.$("#select-doctor").prepend('<option val="'+item.id+'">'+item.get("title")+"</option>");
-						that.resetMenu("#select-doctor", item.id);
-						
+						that.loadList(that.doctorList, "#select-doctor", "doctor");
 					}
 					var opts = {
 						"id" : item.id,
@@ -93,15 +104,6 @@ window.$dino.ConditionNewView = Backbone.View.extend({
 
 	preventDefault : function(e) {
 		e.preventDefault();
-	},
-	changePriority : function() {
-		var that = this;
-		// TODO figure out how to not do thmodel is
-		console.log('test');
-		setTimeout(function() {
-			that.model.set("priority", that.$('input[name=radio-view]:checked').val());
-			console.log(that.model.get("priority"));
-		}, 50);
 	},
 
 	// save the text input and add a Saved bubble to the item
@@ -174,7 +176,9 @@ window.$dino.ConditionNewView = Backbone.View.extend({
 			});
 			this.model.set(itemType, typeItemArr);
 			console.log(this.model.toJSON());
-			that.render(true);
+			// TODO this is a hack should understand and change it
+			that.first = true;
+			that.render();
 		}
 	},
 	
@@ -321,8 +325,6 @@ window.$dino.ConditionNewView = Backbone.View.extend({
 		}
 		// TODO figure out how to not need this
 		$(".ui-page").trigger("pagecreate");
-		console.log(this.model.get("priority"));
-		this.$("#priority-" + this.model.get("priority")).attr("checked", true).checkboxradio("refresh");
 		return this;
 	}
 });
