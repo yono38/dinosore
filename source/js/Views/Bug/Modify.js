@@ -31,30 +31,6 @@ window.$dino.BugModifyView = Backbone.View.extend({
 		});
 	},
 
-	loadColorList : function(selectedColor) {
-		var that = this;
-		this.colors.fetch({
-			success : function(collection) {
-				$("#select-color").empty();
-				collection.each(function(color) {
-					var selected = "";
-					if (selectedColor && selectedColor.id == color.id)
-						selected = "selected";
-					$("#select-color").append('<option ' + selected + ' value="' + color.id + '" style="background:#' + color.get("hex") + '" class="colorName">' + color.get("color") + '</option>');
-				});
-				$("#select-color").selectmenu("refresh", true);
-				if (selectedColor) {
-					var background = $("#select-color option:selected").attr("style");
-					$("#select-color").parent().attr("style", background);
-				}
-			},
-			error : function(collection, error) {
-				// The collection could not be retrieved.
-				console.log(error);
-			}
-		});
-	},
-
 	loadList : function(type) {
 		var that = this;
 		if (!this[type]) {
@@ -85,13 +61,6 @@ window.$dino.BugModifyView = Backbone.View.extend({
 			console.log('appending');
 			var assigned = item.get("bug") ? ' [assigned]' : '';
 			this.$("#select-" + type).append('<option value="' + item.id + '">' + item.get("title") + assigned + '</option>');
-		});
-	},
-
-	changeColor : function(e) {
-		var selectedColorModel = this.colors.get(this.$("#select-color").val());
-		this.model.save({
-			"color" : selectedColorModel.id
 		});
 	},
 
@@ -239,17 +208,6 @@ window.$dino.BugModifyView = Backbone.View.extend({
 			"assignedTo" : "Not Assigned"
 		});
 		$(this.el).html(this.template(model));
-		if (this.model.get('color')) {
-			var color = new $dino.Color();
-			color.id = this.model.get("color");
-			color.fetch({
-				success : function(col) {
-					that.loadColorList(col);
-				}
-			});
-		} else {
-			this.loadColorList();
-		}
 		this.loadList('symptom');
 		this.loadList('medication');
 		this.dialog = this.dialog || new $dino.BugModifyDialogView({

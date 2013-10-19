@@ -2,9 +2,10 @@ window.$dino.Bug = Backbone.Model.extend({
 	idAttribute : '_id',
 	urlRoot : $dino.apiRoot + '/bugs',
 	defaults : {
-		bugStatus : "Active",
-		bugPriority : 1,
-		title : "New Bug",
+		status : "Active",
+		details: "",
+		priority : "1",
+		title : "",
 		symptom : [],
 		assignedTo : "",
 		medication : []

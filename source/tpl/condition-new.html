@@ -1,0 +1,92 @@
+<div data-role="header" >
+	<h1><%= header %> Condition</h1>
+</div>
+
+<div data-role="content">
+
+	<div style = "border-bottom: 3px solid; padding-bottom: 15px">
+		<label for="title">Title:</label>
+		<input type="text" class="text-input" placeholder="New Condition" name="title" id="condition-title" value="<%= title %>" data-mini="true" />
+	</div>
+
+	<div class="text-input" style="border-bottom: 3px solid; padding-bottom: 15px; padding-top: 10px">
+		<label for="textarea-a">Details:</label>
+		<textarea name="textarea" id="condition-details"><%= details %></textarea>
+	</div>
+
+	<div style = "border-bottom: 3px solid; padding-bottom: 15px">
+		<p>
+			Priority:
+		</p>
+		<fieldset data-role="controlgroup" data-type="horizontal">
+			<input type="radio" name="radio-view" id="priority-1" value="1"  />
+			<label for="priority-1">1</label>
+			<input type="radio" name="radio-view" id="priority-2" value="2"  />
+			<label for="priority-2">2</label>
+			<input type="radio" name="radio-view" id="priority-3" value="3"  />
+			<label for="priority-3">3</label>
+			<input type="radio" name="radio-view" id="priority-4" value="4"  />
+			<label for="priority-4">4</label>
+			<input type="radio" name="radio-view" id="priority-5" value="5"  />
+			<label for="priority-5">5</label>
+		</fieldset>
+
+	</div>
+	<div style = "border-bottom: 3px solid; padding-bottom: 15px;  padding-top: 10px">
+		<table style='width:100%'>
+			<tbody>
+				<tr>
+					<td>
+					<fieldset data-role="controlgroup">
+						<label for="select-symptom" class="select-symptom-label">Category</label>
+						<select name="select-symptom" id="select-symptom">
+							<option value="default">Symptoms</option>
+						</select>
+					</fieldset></td>
+					<td style='width:5em; padding-left:1em'><a id="add-symptom-btn" class="add_detail_item" data-type="symptom" data-role="button" data-icon="plus" >Add</a></td>
+				</tr>
+			</tbody>
+		</table>
+		<ul id="symptom-list">
+			<% _.each( symptom, function( Item ){ %>
+			<li>
+				<span class="itemName"><span data-id="<%= Item.id %>" class="itemName"><%= Item.title %></span></span><a href="#" data-role="button" data-inline="true" data-icon="delete" data-id="<%= Item.id %>" class="delete_detail_item" data-type="medication" data-iconpos="notext">X</a>
+			</li>
+			<% }); %>
+		</ul>
+	</div>
+	<div style = "border-bottom: 3px solid; padding-bottom: 15px;  padding-top: 10px">
+		<table style='width:100%'>
+			<tbody>
+				<tr>
+					<td>
+					<fieldset data-role="controlgroup">
+						<label for="select-medication" class="select-medication-label">Category</label>
+						<select name="select-medication" id="select-medication">
+							<option value="default">Medications</option>
+						</select>
+					</fieldset></td>
+					<td style='width:5em; padding-left:1em'><a class="add_detail_item" data-type="medication" data-role="button" data-icon="plus" >Add</a></td>
+				</tr>
+			</tbody>
+		</table>
+		<ul id="medication-list">
+				<% _.each( medication, function( Item ){ %>
+				<li>
+					<span class="itemName"><span data-id="<%= Item.id %>" class="itemName"><%= Item.title %></span></span><a href="#" data-role="button" data-inline="true" data-icon="delete" data-id="<%= Item.id %>" class="delete_detail_item" data-type="medication" data-iconpos="notext">X</a>
+				</li>
+				<% }); %>
+		</ul>
+	</div>
+	<div style = "border-bottom: 3px solid; padding-bottom: 15px;  padding-top: 10px">
+		<label for="select-doctor" class="select-doctor-label">Doctor</label>
+		<select name="select-doctor" id="select-doctor">
+			<option value="No Doctor">None</option>
+		</select>
+	</div>
+
+</div>
+
+<a href="#" id="addBtn" data-role="button" data-icon="plus" data-theme="a">Save</a>
+<a href="#" id="cancelBtn" class="back" data-role="button" data-icon="delete" data-theme="b">Cancel</a>
+

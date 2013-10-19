@@ -4,7 +4,7 @@
 	}
 </style>
 <div data-role="header">
-	<h1><%= title %> <span class="ui-li-count">P<%= bugPriority %></span></h1>
+	<h1><%= title %> <span class="ui-li-count">P<%= priority %></span></h1>
 </div>
 	<a href="<%= window.location.hash + "/modify" %>" id="bugModify" data-role="button" data-icon="edit" data-theme="f">Modify</a>
 
@@ -14,14 +14,14 @@
 
 		<h3>Status:</h3>
 		<p>
-			 <%= bugStatus %>
+			 <%= status %>
 		</p>
 	</div>	
 	<div data-role="collapsible" >
 
 		<h3>Details:</h3>
 		<p>
-			<%= bugDetails %>
+			<%= details %>
 		</p>
 	</div>
 <div data-role="collapsible-set">
@@ -71,7 +71,7 @@
 
 		<h3>Assigned to:</h3>
 		<p>
-			Doctor: <span id="assignedTo"><%= assignedTo %></span>
+			<span id="assignedTo"><%= assignedTo %></span>
 		</p>
 	</div>
 

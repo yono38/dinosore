@@ -54,10 +54,9 @@ var MedicationModel= mongoose.model('Medication', Medication);
 
 var Bug = new Schema({
 	assignedTo: { type: String, ref: 'Doctor' },	
-	bugDetails: { type: String, default: '' },
-	bugPriority: { type: Number, default: 0 },
-	bugStatus: {type: String, default: 'Open' },
-	color: { type: String },	
+	details: { type: String, default: '' },
+	priority: { type: Number, default: 0 },
+	status: {type: String, default: 'Active' },
 	count: { type: Number, default: 0 },
 	medication: { type: Array },
 	symptom: { type: Array },

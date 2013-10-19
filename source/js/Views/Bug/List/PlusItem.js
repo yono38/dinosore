@@ -17,21 +17,9 @@ window.$dino.PlusListBugItemView = $dino.ListItemView.extend({
 		"swiperight" : "confirmDelete",
 		"dblclick #item-detail" : "openDetails",
 		"slidestop" : "changeSeverity",
-		"keypress #symptom-notes" : "addOnEnter",
-		"click #cancel-change-severity" : "resetTitle",
+		"keypress #item-notes" : "addOnEnter",
 		"click #symptom-detail" : "goToSymptomDetail",
 		"click #condition-detail" : "goToConditionDetail"
-	},
-
-	// resets the title (removes severity slider)
-	// can place added bubble on plusOne
-	resetTitle : function(e) {
-		if (e)
-			e.preventDefault();
-		var title = this.model.get("title");
-		var itemHtml = '<span class="symptom-title">' + title + '</span>';
-		this.$("h3").html(itemHtml);
-		this.settingSeverity = false;
 	},
 
 	goToConditionDetail: function(e){
@@ -148,6 +136,7 @@ window.$dino.PlusListBugItemView = $dino.ListItemView.extend({
 			var symp_severity = $(el).val();
 			that.saveSymptomSeverity(symp_id, symp_severity);
 		});
+		this.settingSeverity = false;
 		var sympNotes = this.$("#item-notes").val();
 		if (this.added) {
 			this.plusOne.save({

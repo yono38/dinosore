@@ -27,11 +27,6 @@ $dino.AppRouter = Backbone.Router.extend({
 			return false;
 		});
 		this.firstPage = true;
-		// precache all colors
-		$dino.colors = new $dino.ColorList();
-		$dino.colors.fetch({ success: function(){
-			console.log('colors loaded!');
-		}});
 	},
 
 	bugDialog : function(id) {
@@ -62,7 +57,9 @@ $dino.AppRouter = Backbone.Router.extend({
 	},
 
 	newBug : function() {
-		this.changePage(new $dino.NewBugView());
+		this.changePage(new $dino.ConditionNewView({
+			header: "New"
+		}));
 	},
 
 	medInfo : function() {
@@ -150,8 +147,9 @@ $dino.AppRouter = Backbone.Router.extend({
 		var self = this;
 		this.loadBug(id, function(data) {
 			console.log("modify bug details");
-			self.changePage(new $dino.BugModifyView({
-				model : data
+			self.changePage(new $dino.ConditionNewView({
+				model : data,
+				header: "Modify"
 			}));
 		});
 	},
@@ -208,7 +206,7 @@ $dino.AppRouter = Backbone.Router.extend({
 
 $(document).ready(function() {
 	FastClick.attach(document.body);
-	tpl.loadTemplates(['bug-list', 'offline-exit', 'severity-slider', 'appointment-calendar', 'condition-list-item', 'bug-list-view', 'bug-delete-dialog', 'bug-list-item', 'privacy', 'bug-details', 'bug-new', 'login', 'medical-info', 'appointment-new', 'signup', 'start-splash', 'bug-details-modify', 'list-view', 'list-item', 'list-new', 'delete-confirm', 'footer', 'appointment-modify', 'appointment-item'], function() {
+	tpl.loadTemplates(['offline-exit', 'severity-slider', 'appointment-calendar', 'condition-list-item', 'bug-list-view', 'bug-delete-dialog', 'privacy', 'bug-details', 'condition-new', 'login', 'medical-info', 'appointment-new', 'signup', 'start-splash', 'bug-details-modify', 'list-view', 'list-item', 'list-new', 'delete-confirm', 'footer', 'appointment-modify', 'appointment-item'], function() {
 		$dino = window.$dino || {};
 		$dino.app = new $dino.AppRouter();
 		Backbone.history.start();
