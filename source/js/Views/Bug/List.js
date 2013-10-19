@@ -13,7 +13,7 @@ window.$dino.BugListView = $dino.PlusListView.extend({
 
 	createAddButton : function() {
 		this.placeholder = "Symptom";
-		this.addingBtn = new $dino.PlusListAddButtonView({
+		this.addingBtn = new $dino.ConditionListItemView({
 			addText : "Symptom",
 			elId : "new-symptom-padding"
 		});
@@ -91,7 +91,7 @@ window.$dino.BugListView = $dino.PlusListView.extend({
 				model : item
 			});
 		} else if (type == "bug") {
-			var view = new $dino.PlusListBugItemView({
+			var view = new $dino.ConditionListItemView({
 				model : item
 			});
 		} else {

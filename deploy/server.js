@@ -71,6 +71,8 @@ var PlusOne = new Schema({
     user: { type: String, ref: 'User', required: true },	
     item: { type: String, required: true },	
 	type: { type: String, required: true },
+	parent: {type: String },
+	parentType: {type: String }
 });
 
 var PlusOneModel = mongoose.model('PlusOne', PlusOne);

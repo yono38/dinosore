@@ -17,7 +17,7 @@ window.$dino.ConditionNewView = Backbone.View.extend({
 
 	changePriority : function() {
 		var that = this;
-		// TODO figure out how to not do this
+		// TODO figure out how to not do thmodel is
 		console.log('test');
 		setTimeout(function() {
 			that.model.set("priority", that.$('input[name=radio-view]:checked').val());
@@ -25,6 +25,7 @@ window.$dino.ConditionNewView = Backbone.View.extend({
 		}, 50);
 	},
 
+	// save the text input and add a Saved bubble to the item
 	saveTextInput : function(e) {
 		this.model.set({
 			"title" : $("#condition-title").val(),
@@ -43,6 +44,7 @@ window.$dino.ConditionNewView = Backbone.View.extend({
 		}
 	},
 
+	// reads the type and id off data attributes in the add button tag
 	deleteItemEvent : function(e) {
 		e.preventDefault();
 		console.log(this);
@@ -51,6 +53,7 @@ window.$dino.ConditionNewView = Backbone.View.extend({
 		this.deleteItem(this.model, type, id, true);
 	},
 
+	// uses id to find and remove item from the array of its type in the model
 	deleteItem : function(model, type, itemId, unlink) {
 		console.log(type, itemId);
 		var typeItemArr = model.get(type);
@@ -61,6 +64,7 @@ window.$dino.ConditionNewView = Backbone.View.extend({
 		this.render(true);
 	},
 
+	// adds title and id to array of the item's type in the model'
 	addItem : function(e) {
 		var itemType = $(e.currentTarget).data('type'), itemVal = this.$("#select-" + itemType).val(), itemTitle = this.$("#select-" + itemType + " option:selected").text();
 		console.log(itemVal);
@@ -84,6 +88,8 @@ window.$dino.ConditionNewView = Backbone.View.extend({
 
 	addCondition : function(e) {
 		e.preventDefault();
+		//this.$("#error-msg").hide();
+		if (!this.validateCondition()) return;
 		console.log(this.model.toJSON());
 		this.model.set("user", Parse.User.current().id);
 		this.model.save(null, {
@@ -99,10 +105,23 @@ window.$dino.ConditionNewView = Backbone.View.extend({
 			}
 		});
 	},
-	preventDefault : function(e) {
-		e.preventDefault();
+	
+	// condition must have a title and at least one symptom
+	validateCondition: function(){
+		if (this.$("#condition-title").val() == ""){
+			this.$("#error-msg").html("Don't forgot to make a title!");
+			this.$("#error-msg").show();
+			return false;
+		} else if (this.model.get("symptom").length == 0){
+			this.$("#error-msg").html("Add a symptom to start tracking this condition");
+			this.$("#error-msg").show();
+			return false;
+		} else {
+			return true;
+		}
 	},
 
+	// fetches passed in item collection and appends to selector 
 	loadList : function(coll, selector, modelType) {
 		var that = this;
 		coll.fetch({
@@ -119,6 +138,8 @@ window.$dino.ConditionNewView = Backbone.View.extend({
 		});
 	},
 
+	// builds list from fetched collection filtering from an
+	// optional modelType that removes item already attached to the model from the modelType list
 	makeList : function(collection, selector, modelType) {
 		var that = this;
 		console.log('running makelist on ' + selector);
@@ -147,6 +168,7 @@ window.$dino.ConditionNewView = Backbone.View.extend({
 		});
 	},
 
+	// loads model info into form and creates item lists
 	render : function(reload) {
 		console.log(this.header);
 		$(this.el).html(this.template(_.extend(this.model.toJSON(), {

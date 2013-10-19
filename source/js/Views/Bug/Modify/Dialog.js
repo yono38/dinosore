@@ -1,3 +1,4 @@
+// unused currently
 window.$dino.BugModifyDialogView = Backbone.View.extend({
   id: "deleteDialog",
   initialize: function(options){

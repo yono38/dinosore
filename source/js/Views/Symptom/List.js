@@ -91,7 +91,7 @@ window.$dino.SymptomListView = $dino.PlusListView.extend({
 				model : item
 			});
 		} else if (type == "bug") {
-			var view = new $dino.PlusListBugItemView({
+			var view = new $dino.ConditionListItemView({
 				model : item
 			});
 		} else {

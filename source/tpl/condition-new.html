@@ -1,9 +1,21 @@
+<style>
+	.ui-header {
+		height: auto !important;
+	}
+	.ui-header .ui-title {
+		margin-bottom: 0;
+	}
+	#error-msg {
+		color: red;
+		text-align: center;
+	}
+</style>
 <div data-role="header" >
 	<h1><%= header %> Condition</h1>
 </div>
 
 <div data-role="content">
-
+	<div id="error-msg" class="fancyFont error"></div>
 	<div style = "border-bottom: 3px solid; padding-bottom: 15px">
 		<label for="title">Title:</label>
 		<input type="text" class="text-input" placeholder="New Condition" name="title" id="condition-title" value="<%= title %>" data-mini="true" />
@@ -50,7 +62,7 @@
 		<ul id="symptom-list">
 			<% _.each( symptom, function( Item ){ %>
 			<li>
-				<span class="itemName"><span data-id="<%= Item.id %>" class="itemName"><%= Item.title %></span></span><a href="#" data-role="button" data-inline="true" data-icon="delete" data-id="<%= Item.id %>" class="delete_detail_item" data-type="medication" data-iconpos="notext">X</a>
+				<span class="fancyFont itemName"><span data-id="<%= Item.id %>" class="itemName"><%= Item.title %></span></span><a href="#" data-role="button" data-inline="true" data-icon="delete" data-id="<%= Item.id %>" class="delete_detail_item" data-type="symptom" data-iconpos="notext">X</a>
 			</li>
 			<% }); %>
 		</ul>
@@ -73,7 +85,7 @@
 		<ul id="medication-list">
 				<% _.each( medication, function( Item ){ %>
 				<li>
-					<span class="itemName"><span data-id="<%= Item.id %>" class="itemName"><%= Item.title %></span></span><a href="#" data-role="button" data-inline="true" data-icon="delete" data-id="<%= Item.id %>" class="delete_detail_item" data-type="medication" data-iconpos="notext">X</a>
+					<span class="itemName fancyFont"><span data-id="<%= Item.id %>" class="itemName"><%= Item.title %></span></span><a href="#" data-role="button" data-inline="true" data-icon="delete" data-id="<%= Item.id %>" class="delete_detail_item" data-type="medication" data-iconpos="notext">X</a>
 				</li>
 				<% }); %>
 		</ul>

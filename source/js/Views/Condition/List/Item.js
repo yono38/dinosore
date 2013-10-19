@@ -1,8 +1,8 @@
-window.$dino.PlusListBugItemView = $dino.ListItemView.extend({
+window.$dino.ConditionListItemView = $dino.ListItemView.extend({
 
 	initialize : function() {
 		// calling super.constructor
-		$dino.PlusListBugItemView.__super__.initialize.call(this, {
+		$dino.ConditionListItemView.__super__.initialize.call(this, {
 			name : "condition"
 		});
 		this.template = _.template(tpl.get('condition-list-item'));
