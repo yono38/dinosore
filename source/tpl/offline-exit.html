@@ -1,0 +1,36 @@
+<style>
+	#offlineHeader {
+		padding-top: 0;
+		background-image: url('img/privacyDino.png');
+		background-repeat: no-repeat;
+		background-position: right;
+		-moz-transform: scaleY(-1);
+		-o-transform: scaleY(-1);
+		-webkit-transform: scaleY(-1);
+		transform: scaleY(-1);
+		filter: FlipV;
+		-ms-filter: "FlipV";
+	}
+	#insideStuff {
+		-moz-transform: scaleY(-1);
+		-o-transform: scaleY(-1);
+		-webkit-transform: scaleY(-1);
+		transform: scaleY(-1);
+		filter: FlipV;
+		-ms-filter: "FlipV";
+	}
+	#retry {
+		margin-top: 40px;
+	}
+	#exitTitle {
+		padding-right: 80px;
+	}
+</style>
+<div data-role="content" id="offlineHeader" data-theme="a">
+	<div id="insideStuff">
+		<h1 id="exitTitle" class="fancyFont">Sorry! Dinosore can't connect to the server</h1>
+		<h2>Please again in a few minutes or when your phone has service. We apologize for the inconvienence, offline access is a top priority for us!</h2>
+		<a id="retry" href="#" data-role="button" data-theme="b">Try again</a>
+		<a id="exit" href="#" data-role="button" data-theme="b">Exit</a>
+	</div>
+</div>

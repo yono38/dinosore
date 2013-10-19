@@ -1,6 +1,8 @@
 <style>
 	#addApptBtn {
+		margin-top: 0;
 		margin-bottom: 0;
+		border-bottom-color: #FCFAD6;
 	}
 </style>
 <div data-role="header">
@@ -15,7 +17,6 @@
 	<input name="mydate" id="mydate" data-datebox="" />
 	<hr>
 </div>
-<a href="#" data-theme="f" data-role="button" class="ui-icon-alt ui-icon-nodisc" id="addApptBtn" data-inline="false" data-icon="plus">Add</a>
 <ul data-role="listview" data-split-icon="gear" data-theme="f" data-split-theme="f">
 	<li id="add-appt-header" data-theme="a" data-role="list-divider">
 		<div data-role="fieldcontain">
@@ -23,6 +24,7 @@
 			</fieldset>
 		</div>
 	</li>
+	<a href="#" data-theme="f" data-role="button" class="ui-icon-alt ui-icon-nodisc" id="addApptBtn" data-inline="false" data-icon="plus">Add</a>
 	<li id="noAppt" data-theme="c">
 		No appointments scheduled today
 	</li>

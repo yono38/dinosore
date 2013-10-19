@@ -40,7 +40,7 @@ window.$dino.StartSignupView = Backbone.View.extend({
 			"email" : this.$("#email").val(),
 			"password" : this.$("#password").val(),
 			"confirm-password" : this.$("#confirm-password").val(),
-			"birthday" : moment(this.$("#birthday").val()),
+			"birthday" : moment(this.$("#birthday").val()).valueOf(),
 			"gender" : this.$('input[name="select-gender"]:checked').val(),
 		};
 		var valid = this.validateFieldsExist(inputs);
@@ -48,17 +48,27 @@ window.$dino.StartSignupView = Backbone.View.extend({
 		valid = this.validatePasswords(inputs);
 		if (!valid) return;
 		var that = this;
-		Parse.User.signUp(inputs.email, inputs.password, {
-		}, {
+		Parse.User.signUp(inputs.email, inputs.password, {}, {
 			success : function(user) {
-				var User = Parse.User.current().id;
-				localStorage.setItem("user_info", JSON.stringify(inputs));
-				$dino.app.navigate("privacy", {
-					trigger : true
+				var User = Parse.User.current();
+				User.set({
+					birthday: inputs.birthday,
+					name: inputs.name,
+					gender: inputs.gender
 				});
-			},
-			error : function(err) {
-				that.$("#error").html(err.message.toTitleCase());
+				User.save(null,{ 
+					success: function(){
+						$dino.app.navigate("symptoms", {
+							trigger : true
+						});
+					},
+					error : function(err) {
+						that.$("#error").html(err.error.toTitleCase());
+					}
+				});
+			}, 
+			error: function(err){
+				that.$("#error").html(err.error.toTitleCase());
 			}
 		});
 	},

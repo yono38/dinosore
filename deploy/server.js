@@ -54,10 +54,11 @@ var MedicationModel= mongoose.model('Medication', Medication);
 
 var Bug = new Schema({
 	assignedTo: { type: String, ref: 'Doctor' },	
-	bugDetails: { type: String, default: '' },
-	bugPriority: { type: Number, default: 0 },
-	bugStatus: {type: String, default: 'Open' },
-	color: { type: String },	
+	details: { type: String, default: '' },
+	priority: { type: Number, default: 0 },
+	status: {type: String, default: 'Active' },
+	count: { type: Number, default: 0 },
+	doctor: { type: Schema.Types.Mixed },
 	medication: { type: Array },
 	symptom: { type: Array },
 	title: { type: String, default: 'New Bug' },
@@ -71,6 +72,8 @@ var PlusOne = new Schema({
     user: { type: String, ref: 'User', required: true },	
     item: { type: String, required: true },	
 	type: { type: String, required: true },
+	parent: {type: String },
+	parentType: {type: String }
 });
 
 var PlusOneModel = mongoose.model('PlusOne', PlusOne);

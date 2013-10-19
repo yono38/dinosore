@@ -5,18 +5,10 @@ window.$dino.ListItemView = Backbone.View.extend({
 	initialize: function(opts) {
 		this.name = opts.name;
 		this.template = _.template(tpl.get('list-item'));
-		this.model.bind('remove', this.destroy);
-		if (this.model.get("bug")){
-			var colorId = localStorage.getItem("bugcolor-"+this.model.get("bug"));
-			if (colorId){
-				this.color = $dino.colors.get(colorId);
-			} else {
-				this.fetchBugColor();
-			}
-		}
+		this.model.bind('remove', this.destroy, this);
 		_.bindAll(this, 'remove', 'destroy');
 	}, 
-	
+/*	 Currently unused
 	fetchBugColor: function(){
 		var bug = new $dino.Bug();
 		bug.id = this.model.get("bug");
@@ -28,7 +20,7 @@ window.$dino.ListItemView = Backbone.View.extend({
 		});
 		
 	},
-	
+*/	
 	events: {
 		"click" : "dontclick",
 		"click .plus-one" : "clickPlus",
@@ -55,13 +47,14 @@ window.$dino.ListItemView = Backbone.View.extend({
 		if (!this.settingSeverity){		
 			this.deleteDialog = new $dino.DialogDeleteView({model: this.model, parentView: this});
 			this.deleteDialog.render();
-			$(this.el).append(this.deleteDialog);
+			this.$el.append(this.deleteDialog);
 			this.deleteDialog.open();
 		}
 	},
 
 	clickPlus: function(e){
 		if (e) e.preventDefault();
+		console.log('licked clickplus');
 
 		var that = this;
 		this.model.set("count", (this.model.get("count") + 1));
@@ -80,11 +73,14 @@ window.$dino.ListItemView = Backbone.View.extend({
 	},
 	
 	destroy: function(){
-		if (this.deleteDialog) this.deleteDialog.destroy();
+		console.log('calling destroy on listitem');
 		this.unbind();
 		if (this.remove){
+			console.log('removing');
 			this.remove();
+			this.model.trigger('refreshList');
 		}
+//		if (this.deleteDialog) this.deleteDialog.destroy();
 	},
 	
 	render:function(eventName){
@@ -94,10 +90,6 @@ window.$dino.ListItemView = Backbone.View.extend({
 				{type: this.name}
 			)
 		));
-		if (this.color){
-			this.$el.attr("style", "background:#"+this.color.get("hex"));
-			this.$(".plus-one").attr("style", "background:#"+this.color.get("hex"));
-		}
         return this;
 	}
 	

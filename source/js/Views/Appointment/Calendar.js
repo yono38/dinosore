@@ -66,6 +66,8 @@ window.$dino.AppointmentsView = Backbone.View.extend({
 	},
 
 	changeDate : function(e, passed) {
+		var noChange = false;
+		if (!passed.value) noChange = true;
 		passed.value = passed.value || $("#currDate").text();
 		var self = this;
 		if (passed.method === 'set' || (passed.method == 'postrefresh' && !this.firstDateAlreadyCalled)) {
@@ -80,7 +82,8 @@ window.$dino.AppointmentsView = Backbone.View.extend({
 					this.loadApptItem(this.collection.models[d[i]]);
 				}
 			}
-			this.$("#currDate").html(passed.value);
+			console.log(passed.value);
+			if (!noChange)	this.$("#currDate").html(moment(passed.value).format("dddd, MMMM Do YYYY"));
 			this.firstDateAlreadyCalled = true;
 		} else {
 			e.stopPropagation();
@@ -89,7 +92,7 @@ window.$dino.AppointmentsView = Backbone.View.extend({
 
 	render : function(eventName) {
 		this.$el.html(this.template({
-			today : moment().format("YYYY-MM-DD")
+			today : moment().format("dddd, MMMM Do YYYY")
 		}));
 		
 		var that = this;

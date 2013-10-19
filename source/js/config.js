@@ -32,13 +32,14 @@ $dino.offline = false;
 // TODO need to see if this works in phonegap
 $(window).on("offline", function(){
 	$dino.offline = true;
+	if (apiEnv == 'prod') popupExit();
 });
 $(window).on("online", function(){
 	$dino.offline = false;
 });
 
 // Function to ping and see if web server running
-var ping = function(){
+$dino.ping = function(){
 	$.ajax({
 		url: 'http://google.com',
 		success: function(d){
@@ -46,8 +47,9 @@ var ping = function(){
 		},
 		error: function(){
 			$dino.offline = true;
+			$dino.app.navigate("offline", {
+				trigger : true
+			});
 		}
 	});
 };	
-// determine initial state
-if ($dino.env == 'prod') ping();

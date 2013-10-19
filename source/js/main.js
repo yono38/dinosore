@@ -1,4 +1,3 @@
-
 $dino.AppRouter = Backbone.Router.extend({
 
 	routes : {
@@ -10,6 +9,7 @@ $dino.AppRouter = Backbone.Router.extend({
 		"bug/:id/modify" : "bugModify",
 		"bug/:id/delete" : "bugDialog",
 		"appts" : "appts",
+		"offline" : "offlineExit",
 		"appts/:id/modify" : "apptModify",
 		"appts/add" : "newAppt",
 		"bugs" : "bugList",
@@ -27,11 +27,6 @@ $dino.AppRouter = Backbone.Router.extend({
 			return false;
 		});
 		this.firstPage = true;
-		// precache all colors
-		$dino.colors = new $dino.ColorList();
-		$dino.colors.fetch({ success: function(){
-			console.log('colors loaded!');
-		}});
 	},
 
 	bugDialog : function(id) {
@@ -62,11 +57,17 @@ $dino.AppRouter = Backbone.Router.extend({
 	},
 
 	newBug : function() {
-		this.changePage(new $dino.NewBugView());
+		this.changePage(new $dino.ConditionNewView({
+			header: "New"
+		}));
 	},
 
 	medInfo : function() {
 		this.changePage(new $dino.MedicalInfoView(), true);
+	},
+	
+	offlineExit: function() {
+		this.changePage(new $dino.OfflineExitView());
 	},
 
 	appts : function() {
@@ -100,17 +101,22 @@ $dino.AppRouter = Backbone.Router.extend({
 
 	start : function() {
 		if (Parse.User.current()) {
-			this.symptomList();
+			this.bugList();
 		} else {
 			this.changePage(new $dino.StartSplashView());
 		}
 	},
 
 	bugList : function() {
-		var collection = new $dino.BugList();
-		this.changePage(new $dino.BugListView({
-			"collection" : collection
-		}), true);
+        var coll = new $dino.SymptomList();
+		var sympView = new $dino.SymptomListView({
+			template: _.template(tpl.get('bug-list-view')),
+			modelType: $dino.Symptom,
+			header: "Bugs",
+			collection: coll,
+			name: "symptom"
+		});
+		this.changePage(sympView, true);
 	},
 
 	loadBug : function(id, callback) {
@@ -120,7 +126,10 @@ $dino.AppRouter = Backbone.Router.extend({
 		bug.fetch({
 			success : function(data) {
 				callback(data);
-			}
+			},
+            error: function(err, data){
+             	$dino.fail404();
+            }
 		});
 	},
 
@@ -138,8 +147,9 @@ $dino.AppRouter = Backbone.Router.extend({
 		var self = this;
 		this.loadBug(id, function(data) {
 			console.log("modify bug details");
-			self.changePage(new $dino.BugModifyView({
-				model : data
+			self.changePage(new $dino.ConditionNewView({
+				model : data,
+				header: "Modify"
 			}));
 		});
 	},
@@ -147,8 +157,9 @@ $dino.AppRouter = Backbone.Router.extend({
 	symptomList : function() {
         var coll = new $dino.SymptomList();
 		var sympView = new $dino.SymptomListView({
+			template: _.template(tpl.get('bug-list-view')),
 			modelType: $dino.Symptom,
-			header: "Symptoms",
+			header: "Bugs",
 			collection: coll,
 			name: "symptom"
 		});
@@ -195,10 +206,18 @@ $dino.AppRouter = Backbone.Router.extend({
 
 $(document).ready(function() {
 	FastClick.attach(document.body);
-	tpl.loadTemplates(['bug-list', 'appointment-calendar', 'bug-delete-dialog', 'bug-list-item', 'privacy', 'bug-details', 'bug-new', 'login', 'medical-info', 'appointment-new', 'signup', 'start-splash', 'bug-details-modify', 'list-view', 'list-item', 'list-new', 'delete-confirm', 'footer', 'appointment-modify', 'appointment-item'], function() {
+	tpl.loadTemplates(['offline-exit', 'severity-slider', 'appointment-calendar', 'condition-list-item', 'bug-list-view', 'bug-delete-dialog', 'privacy', 'bug-details', 'condition-new', 'login', 'medical-info', 'appointment-new', 'signup', 'start-splash', 'list-view', 'list-item', 'list-new', 'delete-confirm', 'footer', 'appointment-modify', 'appointment-item'], function() {
 		$dino = window.$dino || {};
 		$dino.app = new $dino.AppRouter();
 		Backbone.history.start();
+		$dino.fail404 = function(override){
+			if ($dino.env == 'prod' && !override){;
+				console.log('offline');
+				$dino.app.navigate('offline', {
+					trigger: true
+				});
+			}
+		};
 	});
 });
 /*   $(document).on("pageshow", ".ui-page", function () {
