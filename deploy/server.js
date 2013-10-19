@@ -58,6 +58,7 @@ var Bug = new Schema({
 	priority: { type: Number, default: 0 },
 	status: {type: String, default: 'Active' },
 	count: { type: Number, default: 0 },
+	doctor: { type: Schema.Types.Mixed },
 	medication: { type: Array },
 	symptom: { type: Array },
 	title: { type: String, default: 'New Bug' },

@@ -7,7 +7,7 @@ window.$dino.Bug = Backbone.Model.extend({
 		priority : "1",
 		title : "",
 		symptom : [],
-		assignedTo : "",
+		doctor: {title: ""},
 		medication : []
 	},
 });

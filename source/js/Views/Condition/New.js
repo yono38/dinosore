@@ -12,9 +12,81 @@ window.$dino.ConditionNewView = Backbone.View.extend({
 		"click .delete_detail_item" : "deleteItemEvent",
 		"click #addBtn" : "addCondition",
 		"click .ui-radio" : "changePriority",
+		"click .new-item" : "preventDefault",
 		"keyup .text-input" : "debounceSaveTextInput",
+		"change select" : "checkForAddNew",
+		"change #select-doctor" : "setDoctor",
+		"click .add-btn-padding" : "addNewItem",
+		"click .cancel-btn-padding" : "cancelNewItem",
 	},
 
+	setDoctor: function() {
+		var $doc = this.$("#select-doctor option:selected");
+		if ($doc.val() != "add-new-item"){
+			var docItem = {
+				id: $doc.val(),
+				title: $doc.text()
+			};
+			this.model.set("doctor", docItem);
+		}
+	},
+		
+	addNewItem : function(e, type) {
+		if (e) e.preventDefault();
+		var that = this;
+		var type = type || $(e.currentTarget).data('type');
+		var val = this.$("#new-" + type + "-input").val();
+		console.log(type, val);
+		if (val != "" & _.contains(['symptom', 'doctor', 'medication'], type)) {
+			console.log("Add to collection: ", type, val);
+			var item = new $dino[type.toTitleCase()]();
+			item.set({
+				title : val,
+				user : Parse.User.current().id
+			});
+			item.save(null, {
+				success : function(item) {
+					console.log(item.id);
+					var opts = {
+						"id" : item.id,
+						"title" : item.get("title"),
+						"type" : type
+					};
+					console.log(opts);
+					that.addItem(null, opts);
+				}
+			});
+
+		}
+
+	},
+
+	cancelNewItem : function(e, type) {
+		if (e) e.preventDefault();
+		var type = type || $(e.currentTarget).data('type');
+		if (_.contains(['symptom', 'doctor', 'medication'], type)) {
+			this.resetMenu("#select-"+type);
+			this.$('#' + type + '-new-group').hide();
+			this.$('#' + type + '-list-bar').show();
+		}
+	},
+
+	resetMenu : function(selector, valToSelect) {
+		valToSelect = valToSelect || 'default';
+		console.log('reset',selector);
+		// Grab a select field
+		var el = this.$(selector);
+
+		// Select the relevant option, de-select any others
+		el.val(valToSelect).attr('selected', true).siblings('option').removeAttr('selected');
+
+		// jQM refresh
+		el.selectmenu("refresh", true);
+	},
+
+	preventDefault : function(e) {
+		e.preventDefault();
+	},
 	changePriority : function() {
 		var that = this;
 		// TODO figure out how to not do thmodel is
@@ -65,10 +137,23 @@ window.$dino.ConditionNewView = Backbone.View.extend({
 	},
 
 	// adds title and id to array of the item's type in the model'
-	addItem : function(e) {
-		var itemType = $(e.currentTarget).data('type'), itemVal = this.$("#select-" + itemType).val(), itemTitle = this.$("#select-" + itemType + " option:selected").text();
+	addItem : function(e, opts) {
+		var itemType, itemVal, itemTitle;
+		if (e) {
+			itemType = $(e.currentTarget).data('type'), itemVal = this.$("#select-" + itemType).val(), itemTitle = this.$("#select-" + itemType + " option:selected").text();
+		} else if (opts) {
+			itemType = opts.type, itemVal = opts.id, itemTitle = opts.title;
+		} else {
+			console.log("Error: invalid addItem call");
+			return;
+		}
 		console.log(itemVal);
 		console.log(itemType);
+		// doctors are handled differently
+		if (itemType =="doctor") {
+			this.addNewDoctor(itemVal, itemTitle);
+			return;
+		}
 		if (itemVal && itemVal != "") {
 			var typeItemArr = this.model.get(itemType);
 			// defaults to false
@@ -77,7 +162,7 @@ window.$dino.ConditionNewView = Backbone.View.extend({
 			}
 			var that = this;
 			typeItemArr.push({
-				"title" : itemTitle.replace(" [assigned]", ""),
+				"title" : itemTitle,
 				"id" : itemVal
 			});
 			this.model.set(itemType, typeItemArr);
@@ -85,11 +170,23 @@ window.$dino.ConditionNewView = Backbone.View.extend({
 			that.render(true);
 		}
 	},
+	
+	addNewDoctor: function(id, title){
+		var doctorItem = {
+			"title" : title,
+			"id" :  id
+		};
+		this.model.set("doctor", doctorItem);
+		this.cancelNewItem(null, "doctor");
+		console.log(id);
+		this.resetMenu("#select-doctor", id);
+	},
 
 	addCondition : function(e) {
 		e.preventDefault();
 		//this.$("#error-msg").hide();
-		if (!this.validateCondition()) return;
+		if (!this.validateCondition())
+			return;
 		console.log(this.model.toJSON());
 		this.model.set("user", Parse.User.current().id);
 		this.model.save(null, {
@@ -105,14 +202,14 @@ window.$dino.ConditionNewView = Backbone.View.extend({
 			}
 		});
 	},
-	
+
 	// condition must have a title and at least one symptom
-	validateCondition: function(){
-		if (this.$("#condition-title").val() == ""){
+	validateCondition : function() {
+		if (this.$("#condition-title").val() == "") {
 			this.$("#error-msg").html("Don't forgot to make a title!");
 			this.$("#error-msg").show();
 			return false;
-		} else if (this.model.get("symptom").length == 0){
+		} else if (this.model.get("symptom").length == 0) {
 			this.$("#error-msg").html("Add a symptom to start tracking this condition");
 			this.$("#error-msg").show();
 			return false;
@@ -121,7 +218,7 @@ window.$dino.ConditionNewView = Backbone.View.extend({
 		}
 	},
 
-	// fetches passed in item collection and appends to selector 
+	// fetches passed in item collection and appends to selector
 	loadList : function(coll, selector, modelType) {
 		var that = this;
 		coll.fetch({
@@ -129,6 +226,7 @@ window.$dino.ConditionNewView = Backbone.View.extend({
 				user : Parse.User.current().id
 			},
 			success : function(collection) {
+				if (modelType == "doctor") console.log(collection);
 				that.makeList(collection, selector, modelType);
 			},
 			error : function(collection, error) {
@@ -137,13 +235,30 @@ window.$dino.ConditionNewView = Backbone.View.extend({
 			}
 		});
 	},
+	checkForAddNew : function(e) {
+		var $sel = $("option:selected", e.currentTarget);
+		console.log($sel.val());
+		console.log($sel.data("type"));
+		console.log($sel.data("new"));
+		if ($sel.val() == "add-new-item" && $sel.data("type") != "" && $sel.data("new") == true) {
+			this.showNewItemInput($sel.data("type"));
+		}
+	},
+	showNewItemInput : function(type) {
+		if (_.contains(['symptom', 'doctor', 'medication'], type)) {
+			$('#new-' + type + '-input').val("");
+			$('#' + type + '-new-group').show();
+			$('#' + type + '-list-bar').hide();
+		}
+	},
 
 	// builds list from fetched collection filtering from an
 	// optional modelType that removes item already attached to the model from the modelType list
 	makeList : function(collection, selector, modelType) {
+		modelType = modelType || "";
 		var that = this;
 		console.log('running makelist on ' + selector);
-		if (modelType && this.model.get(modelType) && this.model.get(modelType).length != 0) {
+		if (modelType && modelType != "doctor" && this.model.get(modelType) && this.model.get(modelType).length != 0) {
 			console.log(this.model.toJSON());
 			console.log(modelType);
 			try {
@@ -155,17 +270,29 @@ window.$dino.ConditionNewView = Backbone.View.extend({
 					return !_.contains(type_ids, item.id);
 				});
 				_(filteredColl).each(function(item, idx, models) {
-					console.log(item);
 					that.$(selector).append('<option value="' + item.id + '">' + item.get("title") + '</li>');
 				});
-				return;
 			} catch (err) {
 				console.log(err);
 			}
+		} else if (modelType == "doctor"){
+			var selected;
+			var modelDoctor = that.model.get("doctor").id;
+			collection.each(function(item, idx, models) {
+				selected = "";
+				if ( modelDoctor && item.id == modelDoctor){
+					selected = 'selected="selected"';
+				}
+				that.$(selector).append('<option '+selected+' value="' + item.id + '">' + item.get("title") + '</li>');
+				that.resetMenu(selector, modelDoctor);
+			});
+		} else {
+			collection.each(function(item, idx, models) {
+				that.$(selector).append('<option value="' + item.id + '">' + item.get("title") + '</li>');
+			});
 		}
-		collection.each(function(item, idx, models) {
-			that.$(selector).append('<option value="' + item.id + '">' + item.get("title") + '</li>');
-		});
+		// special li at end for adding new items to db
+		this.$(selector).append('<option data-new="true" data-type="'+modelType+'" value="add-new-item">Add New</li>');
 	},
 
 	// loads model info into form and creates item lists
@@ -186,11 +313,11 @@ window.$dino.ConditionNewView = Backbone.View.extend({
 			this.medicationList = new $dino.MedicationList();
 			this.loadList(this.medicationList, "#select-medication", "medication");
 			this.doctorList = new $dino.DoctorList();
-			this.loadList(this.doctorList, "#select-doctor");
+			this.loadList(this.doctorList, "#select-doctor", "doctor");
 		} else if (reload) {
 			this.makeList(this.medicationList, "#select-medication", "medication");
 			this.makeList(this.symptomList, "#select-symptom", "symptom");
-			this.makeList(this.doctorList, "#select-doctor");
+			this.makeList(this.doctorList, "#select-doctor", "doctor");
 		}
 		// TODO figure out how to not need this
 		$(".ui-page").trigger("pagecreate");
