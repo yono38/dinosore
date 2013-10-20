@@ -1,6 +1,11 @@
+<style>
+	.removeAppt, .addAppt {
+		border: rgb(204, 204, 204) solid 1px;
+	}
+</style>
 <h3 class="ui-li-heading"> <<span class="ui-li-count"><%= time %></span>>  <%= title %>
-	<a href="#" class="removeAppt" data-role="button" data-theme="c" data-icon="delete" data-iconpos="notext" data-inline="true" data-mini="true" data-apptId="<%= _id %>">Remove</a>
-	<a href="#" class="editAppt" data-role="button" data-theme="c" data-icon="gear" data-iconpos="notext" data-inline="true" data-mini="true" data-apptId="<%= _id %>">Edit</a>
+	<a href="#" class="removeAppt ui-icon-alt ui-icon-nodisc" data-role="button" data-theme="f" data-icon="delete" data-iconpos="notext" data-inline="true" data-mini="true" data-apptId="<%= _id %>">Remove</a>
+	<a href="#" class="editAppt ui-icon-alt ui-icon-nodisc" data-role="button" data-theme="f" data-icon="gear" data-iconpos="notext" data-inline="true" data-mini="true" data-apptId="<%= _id %>">Edit</a>
 </h3>
 <p class="ui-li-desc">
 	<div id="appt-desc">

@@ -15,7 +15,7 @@
 	<h3>
 		<span class="<%= type %>-title"><%= title %></span>
 		<p id="condition-status"><strong><%= status  %></strong></p>
-		<p><strong><%= doctor.title %></strong></p>
+		<% if (doctor.title && doctor.title != "None") { %> <p><strong><%= doctor.title %></strong></p> <% } %>
 		<div id="symptomSliders"></div>
 	</h3>
 	<a class="plus-one ui-icon-nodisc" href="#"></a>

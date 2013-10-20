@@ -73,7 +73,7 @@ $dino.AppRouter = Backbone.Router.extend({
 
 	appts : function() {
 		var collection = new $dino.AppointmentList();
-		var apptView = new $dino.AppointmentsView({
+		var apptView = new $dino.AppointmentCalendarView({
 			"collection" : collection
 		});
 		this.changePage(apptView, true);

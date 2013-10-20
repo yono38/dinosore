@@ -1,4 +1,4 @@
-window.$dino.AppointmentsView = Backbone.View.extend({
+window.$dino.AppointmentCalendarView = Backbone.View.extend({
 
 	initialize : function(opts) {
 		this.collection = opts.collection;
@@ -9,6 +9,7 @@ window.$dino.AppointmentsView = Backbone.View.extend({
 			success : function(collection) {
 				// This code block will be triggered only after receiving the data.
 				that.buildHighDates();
+				that.loadTodayAppt();
 			}
 		});
 		_.bindAll(this, 'buildHighDates', 'changeDate');
@@ -23,6 +24,22 @@ window.$dino.AppointmentsView = Backbone.View.extend({
 			this.highDates[t] = (this.highDates[t]) ? _.union(this.highDates[t], [i] ): [i];
 		}
 		if (refresh) this.$("#mydate").datebox({'highDates': _.keys(this.highDates)}).datebox('refresh');
+	},
+
+	events : {
+		"click .ui-datebox-griddate.ui-corner-all" : "hideEmptyAppt",
+		"click .has-appt" : "showAppts",
+		"click .removeAppt" : "removeAppt",
+		"click .editAppt" : "modifyAppt",
+		"datebox" : "changeDate",
+		"click #addApptBtn" : "newAppt",
+	},	
+	
+	loadTodayAppt: function() {
+		this.changeDate(null, {
+			"method" : "set",
+			"value" : moment().format("YYYY-MM-DD")
+		}); 
 	},
 
 	loadApptItem : function(appt) {
@@ -87,26 +104,6 @@ window.$dino.AppointmentsView = Backbone.View.extend({
 		}
 	},
 
-	render : function(eventName) {
-		this.$el.html(this.template({
-			today : moment().format("dddd, MMMM Do YYYY")
-		}));
-		
-		var that = this;
-		this.loadDatebox(1);
-		// get rid of annoying background shadow
-		setTimeout(function() {
-			$(".ui-input-text.ui-shadow-inset").css({
-				"border" : "none",
-				"box-shadow" : "none"
-			});
-		}, 100);
-		this.$("#checkbox-6").on("checkboxradiocreate", function(event, ui) {
-			$(this).bind("click", that.addAppt);
-		});
-		return this;
-	},
-	
 	loadDatebox: function(count){
 		var that = this;
 		var cnt = ($.isNumeric(count)) ? count : 1;
@@ -136,15 +133,6 @@ window.$dino.AppointmentsView = Backbone.View.extend({
 		}, 200);
 	},
 
-	events : {
-		"click .ui-datebox-griddate.ui-corner-all" : "hideEmptyAppt",
-		"click .has-appt" : "showAppts",
-		"click .removeAppt" : "removeAppt",
-		"click .editAppt" : "modifyAppt",
-		"datebox" : "changeDate",
-		"click #addApptBtn" : "newAppt"
-	},
-	
 	// handles case where user clicks calendar date with no appt
 	"hideEmptyAppt": function(){
 		$("#dayAppts").hide();
@@ -175,7 +163,8 @@ window.$dino.AppointmentsView = Backbone.View.extend({
 		});
 	},
 
-	removeAppt : function() {
+	removeAppt : function(e) {
+		if (e) e.preventDefault();
 		var apptId = this.$(".removeAppt").attr("data-apptId")
 		, day = $("#currDate").text()
 		, appt = this.collection.get(apptId)
@@ -185,7 +174,7 @@ window.$dino.AppointmentsView = Backbone.View.extend({
 		this.buildHighDates(true);
 		this.changeDate(null, {
 			"method" : "set",
-			"value" : $("#currDate").text()
+			"value" : this.$("#mydate").val()
 		});
 	},
 
@@ -204,8 +193,24 @@ window.$dino.AppointmentsView = Backbone.View.extend({
 		}, 2);
 	},
 
-	preventDefault : function(e) {
-		console.log('preventing default');
-		e.preventDefault();
+	render : function(eventName) {
+		this.$el.html(this.template({
+			today : moment().format("dddd, MMMM Do YYYY")
+		}));
+		
+		var that = this;
+		this.loadDatebox(1);
+		// get rid of annoying background shadow
+		setTimeout(function() {
+			$(".ui-input-text.ui-shadow-inset").css({
+				"border" : "none",
+				"box-shadow" : "none"
+			});
+		}, 100);
+		this.$("#checkbox-6").on("checkboxradiocreate", function(event, ui) {
+			$(this).bind("click", that.addAppt);
+		});
+		return this;
 	}
+		
 });

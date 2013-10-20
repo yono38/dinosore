@@ -35,6 +35,15 @@ window.$dino.AppointmentNewView = $dino.NewFormView.extend({
 	},
 	
 	validateAppt: function() {
+		this.$("#error-msg").empty();
+		var val = this.$("#appt-title").val();
+		var $parent = this.$("#appt-title").parent();
+		if (val == ""){
+			this.$("#error-msg").html("Don't forget to make a title!");
+	// TODO highlight title
+	//		$parent.css("background-color", "rgba(255,0,0,0.2)");
+			return false;
+		}
 		return true;
 	},
 
@@ -73,7 +82,7 @@ window.$dino.AppointmentNewView = $dino.NewFormView.extend({
 		this.$el.html(this.template(_.extend(this.model.toJSON(), {
 			"header" : this.header,
 			"day" : moment.unix(date).format('YYYY-MM-DD'), 
-			"time" : moment.unix(date).format('hh:mm:ss'), 
+			"time" : moment.unix(date).format('HH:mm:ss'), 
 		})));
 		if (this.first) {
 			this.first = false;
