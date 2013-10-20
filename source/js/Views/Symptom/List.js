@@ -37,6 +37,7 @@ window.$dino.SymptomListView = $dino.PlusListView.extend({
 		var that = this;
 		this.$("#myList").empty();
 		this.$("#retiredList").empty();
+		this.$("#activeConditionList").empty();
 		this.bugCollection.fetch({
 			data : {
 				"user" : Parse.User.current().id
@@ -50,6 +51,7 @@ window.$dino.SymptomListView = $dino.PlusListView.extend({
 					that.addOne(item, "bug");
 				}
 				if (that.pageloaded) {
+					that.$("#activeConditionList").listview('refresh');
 					that.$("#myList").listview('refresh');
 					that.$("#retiredList").listview('refresh');
 				}
@@ -75,9 +77,11 @@ window.$dino.SymptomListView = $dino.PlusListView.extend({
 					that.addOne(collection.models[i], "symptom");
 				}
 				if (!that.loading) {
+					that.$("#activeConditionList").listview();
+					that.$("#activeConditionList").listview('refresh');
 					that.$("#myList").listview();
 					that.$("#myList").listview('refresh');
-					that.$("#retiredList").listview({"theme": "d"});
+					that.$("#retiredList").listview();
 					that.$("#retiredList").listview('refresh');
 				}
 			},
@@ -90,6 +94,7 @@ window.$dino.SymptomListView = $dino.PlusListView.extend({
 	},
 
 	addOne : function(item, type) {
+		var selector = "#myList";
 		if (type == "symptom") {
 			var view = new $dino.SymptomListItemView({
 				model : item
@@ -98,10 +103,10 @@ window.$dino.SymptomListView = $dino.PlusListView.extend({
 			var view = new $dino.ConditionListItemView({
 				model : item
 			});
+	      	selector = (item.get("status") == "In Remission" || item.get("status") == "Retired") ? "#retiredList" : "#activeConditionList";  
 		} else {
 			console.log("Invalid type: " + type);
 		}
-      	var selector = (item.get("status") == "In Remission" || item.get("status") == "Retired") ? "#retiredList" : "#myList";  
       	console.log(selector);
      	this.$(selector).append(view.render().el);  
 	}
