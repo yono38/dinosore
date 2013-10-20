@@ -7,7 +7,6 @@ window.$dino.ListItemView = Backbone.View.extend({
 		this.template = _.template(tpl.get('list-item'));
 		this.model.bind('remove', this.destroy, this);
 		var status = this.model.get("status");
-		console.log(status);
 		if (status == "In Remission" || status == "Retired"){
 			console.log('changing theme');
 			this.$el.attr("data-theme", "d");

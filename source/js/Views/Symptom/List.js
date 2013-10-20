@@ -107,7 +107,6 @@ window.$dino.SymptomListView = $dino.PlusListView.extend({
 		} else {
 			console.log("Invalid type: " + type);
 		}
-      	console.log(selector);
      	this.$(selector).append(view.render().el);  
 	}
 });

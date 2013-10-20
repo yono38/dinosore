@@ -36,6 +36,9 @@
 		 padding-bottom: 15px;  
 		 padding-top: 10px
 	}
+  #medication-list, #symptom-list {
+    list-style: none;
+  }
 </style>
 <div data-role="header" >
 	<h1><%= header %> Condition</h1>
@@ -96,7 +99,8 @@
 		<ul id="symptom-list">
 			<% _.each( symptom, function( Item ){ %>
 			<li>
-				<span class="fancyFont itemName"><span data-id="<%= Item.id %>" class="itemName"><%= Item.title %></span></span><a href="#" data-role="button" data-inline="true" data-icon="delete" data-id="<%= Item.id %>" class="delete_detail_item" data-type="symptom" data-iconpos="notext">X</a>
+      <a href="#" data-role="button" data-inline="true" data-icon="delete" data-id="<%= Item.id %>" class="delete_detail_item" data-type="symptom" data-iconpos="notext">X</a>
+				<span class="fancyFont itemName"><span data-id="<%= Item.id %>" class="itemName"><%= Item.title %></span></span>
 			</li>
 			<% }); %>
 		</ul>
@@ -134,7 +138,8 @@
 		<ul id="medication-list">
 			<% _.each( medication, function( Item ){ %>
 			<li>
-				<span class="itemName fancyFont"><span data-id="<%= Item.id %>" class="itemName"><%= Item.title %></span></span><a href="#" data-role="button" data-inline="true" data-icon="delete" data-id="<%= Item.id %>" class="delete_detail_item" data-type="medication" data-iconpos="notext">X</a>
+      <a href="#" data-role="button" data-inline="true" data-icon="delete" data-id="<%= Item.id %>" class="delete_detail_item" data-type="medication" data-iconpos="notext">X</a>
+				<span class="itemName fancyFont"><span data-id="<%= Item.id %>" class="itemName"><%= Item.title %></span></span>
 			</li>
 			<% }); %>
 		</ul>

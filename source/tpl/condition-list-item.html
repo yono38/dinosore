@@ -7,11 +7,14 @@
 	.ui-icon-shadow {
 		box-shadow: none;
 	}
+	#condition-status {
+		padding-top: 5px;
+	}
 </style>
 <a id="<%= type %>-detail" href="#<%= type %>/<%= _id %>">
 	<h3>
 		<span class="<%= type %>-title"><%= title %></span>
-		<p><strong><%= status  %></strong></p>
+		<p id="condition-status"><strong><%= status  %></strong></p>
 		<p><strong><%= doctor.title %></strong></p>
 		<div id="symptomSliders"></div>
 	</h3>
