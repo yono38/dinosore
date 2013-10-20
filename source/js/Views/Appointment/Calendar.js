@@ -17,14 +17,16 @@ window.$dino.AppointmentsView = Backbone.View.extend({
 	buildHighDates: function(refresh){
 		this.highDates = {};
 		for (var i = 0; i < this.collection.length; i++) {
-			var t = moment(this.collection.models[i].get("date")).format('YYYY-MM-DD');
+			console.log(moment.unix(this.collection.models[i].get("date")));
+			var t = moment.unix(this.collection.models[i].get("date")).format('YYYY-MM-DD');
+			console.log(t);
 			this.highDates[t] = (this.highDates[t]) ? _.union(this.highDates[t], [i] ): [i];
 		}
 		if (refresh) this.$("#mydate").datebox({'highDates': _.keys(this.highDates)}).datebox('refresh');
 	},
 
 	loadApptItem : function(appt) {
-		var day = moment(appt.get("date"));
+		var day = moment.unix(appt.get("date"));
 		var that = this;
 		var doc = appt.get("doc");
 		if (doc != 'none') {
@@ -33,12 +35,9 @@ window.$dino.AppointmentsView = Backbone.View.extend({
 			doctor.fetch({
 				data : { _id : doc },
 				success : function(doctor) {
-					var apptData = {
-						"title" : appt.get("title"),
-						"doc" : doctor.get("title"),
+					var apptData = _.extend(appt.toJSON(), {
 						"time" : day.format('LT'),
-						"apptId" : appt.id
-					};
+					});
 					that.$("#dayAppts").append(_.template(tpl.get("appointment-item"), apptData));
 					that.$("#dayAppts").show();
 					that.$("#noAppt").hide();
@@ -50,12 +49,10 @@ window.$dino.AppointmentsView = Backbone.View.extend({
 				}
 			});
 		} else {
-			var apptData = {
-				"title" : appt.get("title"),
-				"doc" : "No Doctor",
+			var apptData = _.extend(appt.toJSON(), {
 				"time" : day.format('LT'),
-				"apptId" : appt.id
-			};
+			});
+			console.log(apptData);
 			this.$("#dayAppts").append(_.template(tpl.get("appointment-item"), apptData));
 			this.$("#dayAppts").show();
 			this.$("#noAppt").hide();
@@ -155,13 +152,14 @@ window.$dino.AppointmentsView = Backbone.View.extend({
 	},
 
 	newAppt : function(e) {
-		e.preventDefault();
+		if (e) e.preventDefault();
 		$dino.app.navigate("appts/add", {
 			trigger : true
 		});
 	},
 
-	modifyAppt : function() {
+	modifyAppt : function(e) {
+		if (e) e.preventDefault();
 		var apptId = this.$(".editAppt").attr("data-apptId");
 		var appt = new $dino.Appointment({id: apptId});
 		appt.fetch({

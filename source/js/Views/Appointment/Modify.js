@@ -1,4 +1,4 @@
-window.$dino.AppointmentModifyView = Backbone.View.extend({
+window.$dino.AppointmentModifyOldView = Backbone.View.extend({
 	initialize : function() {
 		this.template = _.template(tpl.get('appointment-modify'));
 	},
@@ -18,7 +18,7 @@ window.$dino.AppointmentModifyView = Backbone.View.extend({
 			this.model.set("doc", this.$("#select-doc").val());
 		}
 		this.model.set({
-			"date" : moment($("#appt-date").val() + " " + $("#appt-time").val()).valueOf(),
+			"date" : moment($("#appt-date").val() + " " + $("#appt-time").val()).unix(),
 			"doc" : $("#select-doc").val(),
 			"bug" : $("#select-bug").val(),
 			"user" : Parse.User.current().id

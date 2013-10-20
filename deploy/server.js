@@ -8,15 +8,6 @@ var restify = require('express-restify-mongoose');
 mongoose.connect('mongodb://localhost/dinosore');
 
 // MODELS
-// TODO put in sep directories?
-var Color = new Schema({
-    color: { type: String, required: true },
-    hex: { type: String, required: true },
-		createdAt: { type: Number },
-		upNumberdAt: { type: Number }
-});
-
-var ColorModel = mongoose.model('Color', Color);
 
 var User = new Schema({
 	username: { type: String, required: true },
@@ -70,6 +61,7 @@ var BugModel = mongoose.model('Bug', Bug);
 var PlusOne = new Schema({
 	date: { type: Number },
     user: { type: String, ref: 'User', required: true },	
+    severityLvl: { type: Number },
     item: { type: String, required: true },	
 	type: { type: String, required: true },
 	parent: {type: String },
@@ -80,7 +72,9 @@ var PlusOneModel = mongoose.model('PlusOne', PlusOne);
 
 var Appointment = new Schema({
 	bug : { type: String, ref: 'Bug' },
-    doctor: { type: String, ref: 'Doctor' },	
+	doctor: { type: Schema.Types.Mixed },
+	type: { type: String },
+	condition: { type: Schema.Types.Mixed },
 	user: { type: String, required: true },
 	date: { type: Number, required: true },
 	title: { type: String, required: true},
@@ -102,7 +96,6 @@ app.configure(function(){
     app.use(express.bodyParser());
 	app.use(express.logger('dev'));
     app.use(express.methodOverride());
-    restify.serve(app, ColorModel);
     restify.serve(app, UserModel);
     restify.serve(app, DoctorModel);
     restify.serve(app, SymptomModel);

@@ -1,6 +1,6 @@
 window.$dino.PlusOne= Backbone.Model.extend({
    defaults: {
-	date: moment().valueOf()
+	date: moment().unix()
    },
    idAttribute: '_id',
   urlRoot: $dino.apiRoot + '/plusones'

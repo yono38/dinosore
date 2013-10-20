@@ -40,7 +40,7 @@ window.$dino.StartSignupView = Backbone.View.extend({
 			"email" : this.$("#email").val(),
 			"password" : this.$("#password").val(),
 			"confirm-password" : this.$("#confirm-password").val(),
-			"birthday" : moment(this.$("#birthday").val()).valueOf(),
+			"birthday" : moment(this.$("#birthday").val()).unix(),
 			"gender" : this.$('input[name="select-gender"]:checked').val(),
 		};
 		var valid = this.validateFieldsExist(inputs);

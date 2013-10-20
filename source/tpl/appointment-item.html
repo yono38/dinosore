@@ -1,8 +1,18 @@
-<h3 class="ui-li-heading"> <<span class="ui-li-count"><%= time %></span>>  <%= title %></h3>
+<h3 class="ui-li-heading"> <<span class="ui-li-count"><%= time %></span>>  <%= title %>
+	<a href="#" class="removeAppt" data-role="button" data-theme="c" data-icon="delete" data-iconpos="notext" data-inline="true" data-mini="true" data-apptId="<%= _id %>">Remove</a>
+	<a href="#" class="editAppt" data-role="button" data-theme="c" data-icon="gear" data-iconpos="notext" data-inline="true" data-mini="true" data-apptId="<%= _id %>">Edit</a>
+</h3>
 <p class="ui-li-desc">
-	<% if (doc != "New Doctor") { %>
-		<%= doc %>
-	<% } %>
-	<a href="#" class="removeAppt" data-role="button" data-theme="c" data-icon="delete" data-iconpos="notext" data-inline="true" data-mini="true" data-apptId="<%= apptId %>">Remove</a>
-	<a href="#" class="editAppt" data-role="button" data-theme="c" data-icon="gear" data-iconpos="notext" data-inline="true" data-mini="true" data-apptId="<%= apptId %>">Edit</a>
+	<div id="appt-desc">
+		<% if (type == "Test") { %>
+			<div>Type: Test</div>
+		<% } %>
+		<% if (doctor.title && doctor.title != "None") { %>
+		<div id="doctor-title">Doctor: <%= doctor.title %></div>
+		<% } %>
+		<% if (condition.title && condition.title != "None") { %>
+		<div id="condition-title">Condition: <%= condition.title %></div>
+		<% } %>
+	</div>
+
 </p>

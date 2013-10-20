@@ -28,8 +28,8 @@ window.$dino.MedicalInfoView = Backbone.View.extend({
 		var usr = Parse.User.current();
 		var data = {
 			"name" : usr.get("name"),
-			"age" : moment(usr.get("birthday")).fromNow(true),
-			"last_checkup" : moment(usr.get("last_checkup")).format("MM/YYYY")
+			"age" : moment.unix(usr.get("birthday")).fromNow(true),
+			"last_checkup" : moment.unix(usr.get("last_checkup")).format("MM/YYYY")
 		};
 		this.$el.html(this.template(data));
 		return this;

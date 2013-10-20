@@ -31,6 +31,11 @@
 	.new-group {
 		display: none;
 	}
+	.list-border {
+		 border-bottom: 3px solid; 
+		 padding-bottom: 15px;  
+		 padding-top: 10px
+	}
 </style>
 <div data-role="header" >
 	<h1><%= header %> Condition</h1>
@@ -38,7 +43,7 @@
 
 <div data-role="content">
 	<div id="error-msg" class="fancyFont error"></div>
-	<div style = "border-bottom: 3px solid; padding-bottom: 15px">
+	<div class="list-border">
 		<label for="title">Title:</label>
 		<input type="text" class="text-input" placeholder="New Condition" name="title" id="condition-title" value="<%= title %>" data-mini="true" />
 	</div>
@@ -48,7 +53,7 @@
 		<textarea name="textarea" id="condition-details"><%= details %></textarea>
 	</div>
 
-	<div style = "border-bottom: 3px solid; padding-bottom: 15px">
+	<div class="list-border">
 		<p>
 			Status:
 		</p>
@@ -58,7 +63,7 @@
 			<option value="Retired">Retired</option>
 		</select>
 	</div>
-	<div style = "border-bottom: 3px solid; padding-bottom: 15px;  padding-top: 10px">
+	<div class="list-border">
 		<table id="symptom-list-bar" style='width:100%'>
 			<tbody>
 				<tr>
@@ -96,7 +101,7 @@
 			<% }); %>
 		</ul>
 	</div>
-	<div style = "border-bottom: 3px solid; padding-bottom: 15px;  padding-top: 10px">
+	<div class="list-border">
 		<table id="medication-list-bar" style='width:100%'>
 			<tbody>
 				<tr>
@@ -135,7 +140,7 @@
 		</ul>
 	</div>
 	
-	<div style = "border-bottom: 3px solid; padding-bottom: 15px;  padding-top: 10px">
+	<div class="list-border">
 		<div id="doctor-list-bar">
 			<label for="select-doctor" class="select-doctor-label">Doctor</label>
 			<select name="select-doctor" id="select-doctor">
