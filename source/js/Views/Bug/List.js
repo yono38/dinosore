@@ -10,6 +10,11 @@ window.$dino.BugListView = $dino.PlusListView.extend({
 		'click #new-condition-padding' : 'newCondition',
 		'pageinit' : 'loadedPage'
 	},
+	
+	loadedPage: function(){
+		console.log('teeest');
+		this.$("#retiredList").listview('refresh');
+	},
 
 	createAddButton : function() {
 		this.placeholder = "Symptom";
@@ -36,6 +41,7 @@ window.$dino.BugListView = $dino.PlusListView.extend({
 	renderList : function(firstTime) {
 		var that = this;
 		this.$("#myList").empty();
+		this.$("#retiredList").empty();
 		this.bugCollection.fetch({
 			data : {
 				"user" : Parse.User.current().id
@@ -50,6 +56,7 @@ window.$dino.BugListView = $dino.PlusListView.extend({
 				}
 				if (that.pageloaded) {
 					that.$("#myList").listview('refresh');
+					that.$("#retiredList").listview('refresh');
 				}
 			},
 			error : function(err, data) {
@@ -76,6 +83,8 @@ window.$dino.BugListView = $dino.PlusListView.extend({
 				if (!that.loading) {
 					that.$("#myList").listview();
 					that.$("#myList").listview('refresh');
+					that.$("#retiredList").listview();
+					that.$("#retiredList").listview('refresh');
 				}
 			},
 			error : function(err, data) {
@@ -87,6 +96,7 @@ window.$dino.BugListView = $dino.PlusListView.extend({
 	},
 
 	addOne : function(item, type) {
+		console.log('test');
 		if (type == "symptom") {
 			var view = new $dino.SymptomListItemView({
 				model : item
@@ -98,6 +108,8 @@ window.$dino.BugListView = $dino.PlusListView.extend({
 		} else {
 			console.log("Invalid type: " + type);
 		}
-		this.$("#myList").append(view.render().el);
+      	var selector = (Item.get("status") == "In Remission" || Item.get("status") == "Retired") ? "#retiredList" : "#myList";  
+      	console.log(selector);
+     	this.$(selector).append(view.render().el);  
 	}
 });

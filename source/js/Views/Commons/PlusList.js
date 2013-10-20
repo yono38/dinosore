@@ -13,6 +13,7 @@ window.$dino.PlusListView = Backbone.View.extend({
     refreshList: function(){
     	if (!this.loading){
 	    	this.$("#myList").listview('refresh');
+	    	this.$("#retiredList").listview('refresh');
     	}
     },
     
@@ -63,7 +64,9 @@ window.$dino.PlusListView = Backbone.View.extend({
     
     addOne: function(Item){
       	var view = new $dino.ListItemView({model: Item, name: this.name});
-     	this.$("#myList").append(view.render().el);  
+      //	var selector = (Item.get("status") == "In Remission" || Item.get("status") == "Retired") ? "#retiredList" : "#myList";  
+      	var selector = "#myList";
+     	this.$(selector).append(view.render().el);  
     },
     
     renderList: function(firstTime) {
@@ -86,6 +89,8 @@ window.$dino.PlusListView = Backbone.View.extend({
             if (!that.loading){
 		      	that.$("#myList").listview();  
 		      	that.$("#myList").listview('refresh'); 
+		      	that.$("#retiredList").listview();  
+		      	that.$("#retiredList").listview('refresh'); 
 	        }
           },
           error: function(err, data){

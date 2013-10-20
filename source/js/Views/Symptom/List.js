@@ -36,6 +36,7 @@ window.$dino.SymptomListView = $dino.PlusListView.extend({
 	renderList : function(firstTime) {
 		var that = this;
 		this.$("#myList").empty();
+		this.$("#retiredList").empty();
 		this.bugCollection.fetch({
 			data : {
 				"user" : Parse.User.current().id
@@ -50,6 +51,7 @@ window.$dino.SymptomListView = $dino.PlusListView.extend({
 				}
 				if (that.pageloaded) {
 					that.$("#myList").listview('refresh');
+					that.$("#retiredList").listview('refresh');
 				}
 			},
 			error : function(err, data) {
@@ -75,6 +77,8 @@ window.$dino.SymptomListView = $dino.PlusListView.extend({
 				if (!that.loading) {
 					that.$("#myList").listview();
 					that.$("#myList").listview('refresh');
+					that.$("#retiredList").listview({"theme": "d"});
+					that.$("#retiredList").listview('refresh');
 				}
 			},
 			error : function(err, data) {
@@ -97,6 +101,8 @@ window.$dino.SymptomListView = $dino.PlusListView.extend({
 		} else {
 			console.log("Invalid type: " + type);
 		}
-		this.$("#myList").append(view.render().el);
+      	var selector = (item.get("status") == "In Remission" || item.get("status") == "Retired") ? "#retiredList" : "#myList";  
+      	console.log(selector);
+     	this.$(selector).append(view.render().el);  
 	}
 });

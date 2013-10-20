@@ -8,7 +8,8 @@ window.$dino.ConditionListItemView = $dino.ListItemView.extend({
 		this.template = _.template(tpl.get('condition-list-item'));
 		this.debounceSaveSeverity = _.debounce(this.saveSeverity, 2000);
 		_.bindAll(this, 'saveSeverity', 'debounceSaveSeverity');
-		this.$el.data('theme', 'b');
+		var theme = (this.model.get("status") == "Retired" || this.model.get("status") == "In Remission") ? "d" : "b";
+		this.$el.data('theme', theme);
 	},
 
 	events : {
