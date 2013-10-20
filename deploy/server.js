@@ -61,7 +61,8 @@ var BugModel = mongoose.model('Bug', Bug);
 var PlusOne = new Schema({
 	date: { type: Number },
     user: { type: String, ref: 'User', required: true },	
-    severityLvl: { type: Number },
+    severity: { type: Number },
+    notes: { type: String },	
     item: { type: String, required: true },	
 	type: { type: String, required: true },
 	parent: {type: String },

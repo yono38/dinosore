@@ -63,7 +63,7 @@ window.$dino.SymptomListItemView = $dino.ListItemView.extend({
 			this.plusOne = new $dino.PlusOne();
 			this.plusOne.save({
 				item: this.model.id,
-				type: that.model.urlRoot.substr(8, that.model.urlRoot.length-9),
+				type: this.name,
 				user: Parse.User.current().id
 			}, {
 			success: function(item){

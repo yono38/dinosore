@@ -86,8 +86,8 @@ window.$dino.ConditionListItemView = $dino.ListItemView.extend({
 			this.plusOne = new $dino.PlusOne();
 			this.plusOne.save({
 				item : this.model.id,
-				type : that.model.urlRoot.substr(8, that.model.urlRoot.length - 9),
-				user : Parse.User.current().id
+				type : that.name,
+				user : Parse.User.current().id,
 			}, {
 				success : function(item) {
 					that.added = true;
@@ -121,6 +121,8 @@ window.$dino.ConditionListItemView = $dino.ListItemView.extend({
 				item : id,
 				type : 'symptom',
 				user : Parse.User.current().id,
+				parent: this.model.id,
+				parentType: "bug",
 				severity: severityLvl
 			}, {
 				success : function(item) {
@@ -133,7 +135,8 @@ window.$dino.ConditionListItemView = $dino.ListItemView.extend({
 		var that = this;
 		_(this.$(".symptom-severity")).each(function(el, idx, arr) {
 			var symp_id = $(el).data('id');
-			var symp_severity = $(el).val();
+			var symp_severity = parseInt($(el).val());
+			console.log(symp_severity);
 			that.saveSymptomSeverity(symp_id, symp_severity);
 		});
 		this.settingSeverity = false;

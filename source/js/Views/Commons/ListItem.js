@@ -54,7 +54,7 @@ window.$dino.ListItemView = Backbone.View.extend({
 
 	clickPlus: function(e){
 		if (e) e.preventDefault();
-		console.log('licked clickplus');
+		console.log('clicked clickplus');
 
 		var that = this;
 		this.model.set("count", (this.model.get("count") + 1));
@@ -63,7 +63,7 @@ window.$dino.ListItemView = Backbone.View.extend({
 		this.plusOne = new $dino.PlusOne();
 		this.plusOne.save({
 			item: that.model.id,
-			type: that.model.urlRoot.substr(8, that.model.urlRoot.length-9),
+			type: that.name,
 			user: Parse.User.current().id
 		}, {
 		success: function(item){
