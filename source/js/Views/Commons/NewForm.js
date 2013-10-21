@@ -1,12 +1,13 @@
 window.$dino.NewFormView = Backbone.View.extend({
 	initialize : function(opts) {
-		opts = opts ||{};
+		opts = opts || {};
 		this.template = (opts.tpl) ? _.template(tpl.get(opts.tpl)) : _.template(tpl.get('condition-new'));
 		this.header = opts.header || "New";
 		this.model = this.model;
 		this.debounceSaveTextInput = _.debounce(this.saveTextInput, 2000);
 		_(this).bindAll("deleteItem", 'makeList');
-		if (this.afterInitialize) this.afterInitialize(opts);
+		if (this.afterInitialize)
+			this.afterInitialize(opts);
 	},
 	events : {
 		"click .add_detail_item" : "addItem",
@@ -17,11 +18,12 @@ window.$dino.NewFormView = Backbone.View.extend({
 		"click .add-btn-padding" : "addNewItem",
 		"click .cancel-btn-padding" : "cancelNewItem",
 	},
-	
-	validTypes: ['condition', 'symptom', 'doctor', 'medication'],
-	
+
+	validTypes : ['condition', 'symptom', 'doctor', 'medication'],
+
 	addNewItem : function(e, type) {
-		if (e) e.preventDefault();
+		if (e)
+			e.preventDefault();
 		var that = this;
 		var type = type || $(e.currentTarget).data('type');
 		var val = this.$("#new-" + type + "-input").val();
@@ -38,7 +40,7 @@ window.$dino.NewFormView = Backbone.View.extend({
 					console.log(item.id);
 					// adds newly created doctor to the menu and selects them
 					// TODO this is a hack and I should change it to autorender
-					if (type == "doctor"){
+					if (type == "doctor") {
 						that.loadList(that.doctorList, "#select-doctor", "doctor");
 					}
 					var opts = {
@@ -56,10 +58,11 @@ window.$dino.NewFormView = Backbone.View.extend({
 	},
 
 	cancelNewItem : function(e, type) {
-		if (e) e.preventDefault();
+		if (e)
+			e.preventDefault();
 		var type = type || $(e.currentTarget).data('type');
 		if (_.contains(this.validTypes, type)) {
-			this.resetMenu("#select-"+type);
+			this.resetMenu("#select-" + type);
 			this.$('#' + type + '-new-group').hide();
 			this.$('#' + type + '-list-bar').show();
 		}
@@ -67,7 +70,7 @@ window.$dino.NewFormView = Backbone.View.extend({
 
 	resetMenu : function(selector, valToSelect) {
 		valToSelect = valToSelect || 'default';
-		console.log('reset',selector);
+		console.log('reset', selector);
 		// Grab a select field
 		var el = this.$(selector);
 
@@ -77,7 +80,7 @@ window.$dino.NewFormView = Backbone.View.extend({
 		// jQM refresh
 		try {
 			el.selectmenu("refresh", true);
-		} catch (err){
+		} catch (err) {
 			console.log(err);
 		}
 	},
@@ -139,7 +142,7 @@ window.$dino.NewFormView = Backbone.View.extend({
 		console.log(itemVal);
 		console.log(itemType);
 		// doctors are handled differently
-		if (itemType =="doctor") {
+		if (itemType == "doctor") {
 			this.addNewDoctor(itemVal, itemTitle);
 			return;
 		}
@@ -161,11 +164,11 @@ window.$dino.NewFormView = Backbone.View.extend({
 			that.render();
 		}
 	},
-	
-	addNewDoctor: function(id, title){
+
+	addNewDoctor : function(id, title) {
 		var doctorItem = {
 			"title" : title,
-			"id" :  id
+			"id" : id
 		};
 		this.model.set("doctor", doctorItem);
 		this.cancelNewItem(null, "doctor");
@@ -181,7 +184,8 @@ window.$dino.NewFormView = Backbone.View.extend({
 				user : Parse.User.current().id
 			},
 			success : function(collection) {
-				if (modelType == "doctor") console.log(collection);
+				if (modelType == "doctor")
+					console.log(collection);
 				that.makeList(collection, selector, modelType, noAddNew);
 			},
 			error : function(collection, error) {
@@ -206,6 +210,23 @@ window.$dino.NewFormView = Backbone.View.extend({
 		}
 	},
 
+	filterCollection : function(collection, selector, modelType) {
+		try {
+			var type_ids = _.map(this.model.get(modelType), function(item) {
+				return item.id;
+			});
+			console.log(type_ids);
+			var filteredColl = collection.filter(function(item) {
+				return !_.contains(type_ids, item.id);
+			});
+			_(filteredColl).each(function(item, idx, models) {
+				that.$(selector).append('<option value="' + item.id + '">' + item.get("title") + '</li>');
+			});
+		} catch (err) {
+			console.log(err);
+		}
+	},
+
 	// builds list from fetched collection filtering from an
 	// optional modelType that removes item already attached to the model from the modelType list
 	makeList : function(collection, selector, modelType, noAddNew) {
@@ -215,25 +236,13 @@ window.$dino.NewFormView = Backbone.View.extend({
 		if (modelType && modelType != "doctor" && modelType != "condition" && this.model.get(modelType) && this.model.get(modelType).length != 0) {
 			console.log(this.model.toJSON());
 			console.log(modelType);
-			try {
-				var type_ids = _.map(this.model.get(modelType), function(item) {
-					return item.id;
-				});
-				console.log(type_ids);
-				var filteredColl = collection.filter(function(item) {
-					return !_.contains(type_ids, item.id);
-				});
-				_(filteredColl).each(function(item, idx, models) {
-					that.$(selector).append('<option value="' + item.id + '">' + item.get("title") + '</li>');
-				});
-			} catch (err) {
-				console.log(err);
-			}
-		} else if (modelType == "doctor"){
+			this.filterCollection(collection, selector, modelType);
+
+		} else if (modelType == "doctor") {
 			var selected;
 			var modelDoctor = that.model.get("doctor").id;
 			collection.each(function(item, idx, models) {
-				that.$(selector).append('<option '+selected+' value="' + item.id + '">' + item.get("title") + '</li>');
+				that.$(selector).append('<option ' + selected + ' value="' + item.id + '">' + item.get("title") + '</li>');
 			});
 			this.resetMenu("#select-doctor", modelDoctor);
 		} else {
@@ -245,9 +254,8 @@ window.$dino.NewFormView = Backbone.View.extend({
 			this.resetMenu("#select-condition", this.model.get("condition").id);
 		}
 		// special li at end for adding new items to db
-		if (!noAddNew){
-			this.$(selector).append('<option data-new="true" data-type="'+modelType+'" value="add-new-item">Add New</li>');
+		if (!noAddNew) {
+			this.$(selector).append('<option data-new="true" data-type="' + modelType + '" value="add-new-item">Add New</li>');
 		}
 	}
-
 });

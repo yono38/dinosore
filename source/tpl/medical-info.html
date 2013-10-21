@@ -1,28 +1,62 @@
 <style>
-	#modify {
-		margin-top: 0px;
-		margin-bottom: 0px;
-		border-top: none;
-	}
 	.darktan {
 		background: #C6C39B;
 		margin: 0;
 	}
-	.user-data {
-		border-top: rgb(198, 195, 155) 2px solid;
+	td {
+		padding-left: 0 !important;
 	}
-	#modify {
-		margin-top: 8px;
+	#select-items-header {
+		text-align: center;
 	}
-	
+
+	#medication-list, #symptom-list, #condition-list {
+		list-style: none;
+	}
 </style>
 <div data-role="header" >
-    <a href="#" id="logout" data-icon="delete" data-theme="c"  data-iconpos="left">Logout</a>
+	<a href="#" id="logout" data-icon="delete" data-theme="c"  data-iconpos="left">Logout</a>
 	<h1>Info</h1>
 </div>
+<h2 id="select-items-header">Select Items to Visualize:</h2>
+<table id="symptom-list-bar" style='width:100%'>
+	<tbody>
+		<tr>
+			<td>
+			<fieldset data-role="controlgroup">
+				<label for="select-symptom" class="select-symptom-label">Category</label>
+				<select class="ui-icon-alt ui-icon-nodisc" name="select-symptom" id="select-symptom">
+					<option value="default">Symptoms</option>
+				</select>
+			</fieldset></td>
+			<td style='width:5em; padding-left:1em'><a id="add-symptom-btn" class="add_detail_item ui-icon-alt ui-icon-nodisc" data-type="symptom" data-role="button" data-icon="plus" >Add</a></td>
+		</tr>
+	</tbody>
+</table>
+<ul id="symptom-list"></ul>
 
+<table id="medication-list-bar" style='width:100%'>
+	<tbody>
+		<tr>
+			<td>
+			<fieldset data-role="controlgroup">
+				<label for="select-medication" class="select-medication-label">Category</label>
+				<select class="ui-icon-alt ui-icon-nodisc" name="select-medication" id="select-medication">
+					<option value="default">Medications</option>
+				</select>
+			</fieldset></td>
+			<td style='width:5em; padding-left:1em'><a id="add-medication-btn" class="add_detail_item ui-icon-alt ui-icon-nodisc" data-type="medication" data-role="button" data-icon="plus" >Add</a></td>
+		</tr>
+	</tbody>
+</table>
+<ul id="medication-list"></ul>
 
+<a href="#" id="visualize-items" data-role="button" data-iconpos="left" class="darktan ui-icon-alt ui-icon-nodisc" data-icon="info" data-theme="c">Visualize Items</a>
 
-		<a href="#" data-role="button" data-iconpos="left" class="darktan ui-icon-alt ui-icon-nodisc" data-icon="edit" data-theme="c">Visualize</a>
-</div>
-</div>
+<h2 id="select-items-header">Or Select Condition to Visualize:</h2>
+
+<select class="ui-icon-alt ui-icon-nodisc" name="select-condition" id="select-condition">
+	<option value="default">Conditions</option>
+</select>
+
+<a href="#" id="visualize-condition" data-role="button" data-iconpos="left" class="darktan ui-icon-alt ui-icon-nodisc" data-icon="info" data-theme="c">Visualize Condition</a>
