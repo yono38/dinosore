@@ -6,58 +6,23 @@
 	}
 	.darktan {
 		background: #C6C39B;
+		margin: 0;
 	}
 	.user-data {
-		border-bottom: rgb(198, 195, 155) 2px solid;
+		border-top: rgb(198, 195, 155) 2px solid;
+	}
+	#modify {
+		margin-top: 8px;
 	}
 	
 </style>
 <div data-role="header" >
-	<a href="#" id="logout" data-icon="delete" data-theme="c"  data-iconpos="notext">Logout</a>
+    <a href="#" id="logout" data-icon="delete" data-theme="c"  data-iconpos="left">Logout</a>
 	<h1>Info</h1>
 </div>
 
-<div data-role="content">
 
-	<ul data-role="listview">
-		<a href="#" class="darktan" data-role="button" data-iconpos="left" class="ui-icon-alt ui-icon-nodisc" id="modify" class="edit" data-icon="edit" data-theme="c">Modify</a>
-		<li data-theme="a" class="user-data" data-role="list-divider">
-			Name
-			<span style="float:right;"> <strong><%= name %></strong> </span>
-		</li>
-		<li data-theme="a" class="user-data" data-role="list-divider">
-			Age	
-			<span style="float:right;"> <strong><%= age %></strong> </span>
-		</li>
-		<li data-theme="a" class="user-data" data-role="list-divider">
-			Blood Type
-			<span style="float:right;"> <strong>A Pos.</strong> </span>
-		</li>
-	</ul>
-	<!--<h3 id="age">Age <%= age %></h3>
-	<h3 id="last-checkup">Last Checkup: <%= last_checkup %></h3>-->
-</div>
-<div data-role="collapsible-set">
 
-	<div data-role="collapsible">
-		<h3>Allergies</h3>
-		<p>
-			<ul id="symptomList">
-				No Allergies Listed Yet!
-			</ul>
-		</p>
-
-	</div>
-
-	<div data-role="collapsible">
-		<h3>Doctors</h3>
-		<p>
-			<ul id="medicationList">
-				No Doctors Added Yet!
-			</ul>
-		</p>
-
-	</div>
-
+		<a href="#" data-role="button" data-iconpos="left" class="darktan ui-icon-alt ui-icon-nodisc" data-icon="edit" data-theme="c">Visualize</a>
 </div>
 </div>

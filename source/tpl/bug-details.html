@@ -2,11 +2,15 @@
 	#bugModify {
 		margin-top: 0;
 	}
+	.ui-icon {
+		background-color: rgba(0,0,0,0.0)/*{global-icon-disc}*/;
+		background-image: url(css/images/icons-18-black.png)/*{global-icon-set}*/;
+	}
 </style>
 <div data-role="header">
 	<h1><%= title %></h1>
 </div>
-	<a href="<%= window.location.hash + "/modify" %>" id="bugModify" data-role="button" data-icon="edit" data-theme="f">Modify</a>
+<a href="<%= window.location.hash + "/modify" %>" id="bugModify" data-role="button" data-icon="edit" data-theme="f">Modify</a>
 
 <div data-role="content">
 
@@ -14,9 +18,9 @@
 
 		<h3>Status:</h3>
 		<p>
-			 <%= status %>
+			<%= status %>
 		</p>
-	</div>	
+	</div>
 	<div data-role="collapsible" >
 
 		<h3>Details:</h3>
@@ -24,54 +28,54 @@
 			<%= details %>
 		</p>
 	</div>
-<div data-role="collapsible-set">
+	<div data-role="collapsible-set">
 
-	<div data-role="collapsible">
-		<h3>Symptoms</h3>
-		<p>
-			<ul id="symptomList">
-				<%
-				if
-				(symptom.length > 0){
-				_.each( symptom, function( Item ){ %>
-				<li>
-					<span class="itemName"><%= Item.title %></span>
-				</li>
-				<% });  }
-				else {
-				print("No Symptoms Recorded");
-				}
-				%>
-			</ul>
-		</p>
+		<div data-role="collapsible">
+			<h3>Symptoms</h3>
+			<p>
+				<ul id="symptomList">
+					<%
+					if
+					(symptom.length > 0){
+					_.each( symptom, function( Item ){ %>
+					<li>
+						<span class="itemName"><%= Item.title %></span>
+					</li>
+					<% });  }
+					else {
+					print("No Symptoms Recorded");
+					}
+					%>
+				</ul>
+			</p>
 
-	</div>
+		</div>
 
-	<div data-role="collapsible">
-		<h3>Medications</h3>
-		<p>
-			<ul id="medicationList">
-				<%
-				if
-				(medication.length > 0){
-				_.each( medication, function( Item ){ %>
-				<li>
-					<span class="itemName"><%= Item.title %></span>
-				</li>
-				<% }); }
-				else {
-				print("No Medications Recorded");
-				} %>
-			</ul>
-		</p>
+		<div data-role="collapsible">
+			<h3>Medications</h3>
+			<p>
+				<ul id="medicationList">
+					<%
+					if
+					(medication.length > 0){
+					_.each( medication, function( Item ){ %>
+					<li>
+						<span class="itemName"><%= Item.title %></span>
+					</li>
+					<% }); }
+					else {
+					print("No Medications Recorded");
+					} %>
+				</ul>
+			</p>
 
-	</div>
+		</div>
 
-	<div data-role="collapsible" >
+		<div data-role="collapsible" >
 
-		<h3>Assigned to:</h3>
-		<p>
-			<span id="assignedTo"><%= assignedTo %></span>
-		</p>
-	</div>
+			<h3>Assigned to:</h3>
+			<p>
+				<span id="assignedTo"><%= assignedTo %></span>
+			</p>
+		</div>
 

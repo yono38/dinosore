@@ -24,7 +24,6 @@ window.$dino.SymptomGraphView = Backbone.View.extend({
 	
 	loadChart: function(data){
 		var that = this;
-		console.log(data.toJSON());
 		if (data.length == 0){
 			this.$("#graphContainer").html('<h4 class="fancyFont">Sorry! No plusones recorded for this symptom yet, come back when you\'ve tracked more data :)');
 			return;
@@ -38,9 +37,6 @@ window.$dino.SymptomGraphView = Backbone.View.extend({
 		var appendTimeSevToAxis = _.each(jsoon, function(elem) {
 			var time = moment.unix(elem.date);
 			date = (time.format("MMM Do - HH:mm:ss a"));
-		//	console.log(elem);
-		//	console.log(elem.date);
-		//	console.log(date);
 			timeAxis.push(date);
 			var sev = elem.severity;
 			sevAxis.push(sev);
@@ -99,6 +95,7 @@ window.$dino.SymptomGraphView = Backbone.View.extend({
                     },
 
             yAxis: {
+            	min: 0,
                 max: 5,
                 title: {
                     text: 'Severity',

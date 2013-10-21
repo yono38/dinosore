@@ -1,7 +1,11 @@
 <style>
-  #medication-list, #symptom-list {
-    list-style: none;
-  }
+	#medication-list, #symptom-list {
+		list-style: none;
+	}
+	.ui-icon {
+		background-color: rgba(0,0,0,0.0) /*{global-icon-disc}*/;
+		background-image: url(css/images/icons-18-black.png) /*{global-icon-set}*/;
+	}
 </style>
 <div data-role="header" >
 	<h1><%= header %> Condition</h1>
@@ -23,7 +27,7 @@
 		<p>
 			Status:
 		</p>
-		<select id="select-status">
+		<select class="ui-icon-alt ui-icon-nodisc" id="select-status">
 			<option value="Active">Active</option>
 			<option value="In Remission">In Remission</option>
 			<option value="Retired">Retired</option>
@@ -36,11 +40,11 @@
 					<td>
 					<fieldset data-role="controlgroup">
 						<label for="select-symptom" class="select-symptom-label">Category</label>
-						<select name="select-symptom" id="select-symptom">
+						<select class="ui-icon-alt ui-icon-nodisc" name="select-symptom" id="select-symptom">
 							<option value="default">Symptoms</option>
 						</select>
 					</fieldset></td>
-					<td style='width:5em; padding-left:1em'><a id="add-symptom-btn" class="add_detail_item" data-type="symptom" data-role="button" data-icon="plus" >Add</a></td>
+					<td style='width:5em; padding-left:1em'><a id="add-symptom-btn" class="add_detail_item ui-icon-alt ui-icon-nodisc" data-type="symptom" data-role="button" data-icon="plus" >Add</a></td>
 				</tr>
 			</tbody>
 		</table>
@@ -49,7 +53,7 @@
 			<div data-theme="a" class="ui-grid-a">
 				<div class="ui-block-a">
 					<div id="add-new-symptom-padding" data-type="symptom" class="add-btn-padding new-item-padding ui-bar ui-bar-a">
-						<a href="#" data-role="button" data-iconshadow="false" data-inline="true" id="add-new-symptom" class="new-item ui-icon-alt ui-icon-nodisc" data-icon="plus" data-theme="a">Add</a>
+						<a href="#" data-role="button" data-iconshadow="false" data-corners="true" data-inline="true" id="add-new-symptom" class="new-item ui-icon-alt ui-icon-nodisc" data-icon="plus" data-theme="a">Add</a>
 					</div>
 				</div>
 				<div class="ui-block-b">
@@ -62,7 +66,7 @@
 		<ul id="symptom-list">
 			<% _.each( symptom, function( Item ){ %>
 			<li>
-      <a href="#" data-role="button" data-inline="true" data-icon="delete" data-id="<%= Item.id %>" class="delete_detail_item" data-type="symptom" data-iconpos="notext">X</a>
+				<a href="#" data-role="button" data-inline="true" data-corners="true" data-icon="delete" data-id="<%= Item.id %>" class="ui-icon-alt ui-icon-nodisc delete_detail_item" data-type="symptom" data-iconpos="notext">X</a>
 				<span class="fancyFont itemName"><span data-id="<%= Item.id %>" class="itemName"><%= Item.title %></span></span>
 			</li>
 			<% }); %>
@@ -75,11 +79,11 @@
 					<td>
 					<fieldset data-role="controlgroup">
 						<label for="select-medication" class="select-medication-label">Category</label>
-						<select name="select-medication" id="select-medication">
+						<select name="select-medication" class="ui-icon-alt ui-icon-nodisc" id="select-medication">
 							<option value="default">Medications</option>
 						</select>
 					</fieldset></td>
-					<td style='width:5em; padding-left:1em'><a class="add_detail_item" data-type="medication" data-role="button" data-icon="plus" >Add</a></td>
+					<td style='width:5em; padding-left:1em'><a class="add_detail_item ui-icon-alt ui-icon-nodisc" data-type="medication" data-role="button" data-icon="plus" >Add</a></td>
 				</tr>
 			</tbody>
 		</table>
@@ -101,17 +105,17 @@
 		<ul id="medication-list">
 			<% _.each( medication, function( Item ){ %>
 			<li>
-      <a href="#" data-role="button" data-inline="true" data-icon="delete" data-id="<%= Item.id %>" class="delete_detail_item" data-type="medication" data-iconpos="notext">X</a>
+				<a href="#" data-role="button" data-inline="true" data-icon="delete" data-id="<%= Item.id %>" class="delete_detail_item" data-type="medication" data-iconpos="notext">X</a>
 				<span class="itemName fancyFont"><span data-id="<%= Item.id %>" class="itemName"><%= Item.title %></span></span>
 			</li>
 			<% }); %>
 		</ul>
 	</div>
-	
+
 	<div class="list-border">
 		<div id="doctor-list-bar">
 			<label for="select-doctor" class="select-doctor-label">Doctor</label>
-			<select name="select-doctor" id="select-doctor">
+			<select name="select-doctor" id="select-doctor" class="ui-icon-nodisc" >
 				<option value="No Doctor">None</option>
 			</select>
 		</div>
@@ -134,6 +138,6 @@
 
 </div>
 
-<a href="#" id="addBtn" data-role="button" data-icon="plus" data-theme="a">Save</a>
-<a href="#" id="cancelBtn" class="back" data-role="button" data-icon="delete" data-theme="b">Cancel</a>
+<a href="#" id="addBtn" class="ui-icon-alt ui-icon-nodisc" data-role="button" data-icon="plus" data-theme="a">Save</a>
+<a href="#" id="cancelBtn" class="back ui-icon-alt ui-icon-nodisc" data-role="button" data-icon="delete" data-theme="b">Cancel</a>
 

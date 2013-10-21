@@ -140,15 +140,15 @@
 
 /* Custom icons */
 .ui-icon-symptom {
-	background-image: url("images/SymptomsIcon.png");
+	background-image: url("images/SymptomsIcon.png") !important;
 	background-size: 18px;18px;
 }
 .ui-icon-medication {
-	background-image: url("images/medicationsIcon.png");
+	background-image: url("images/medicationsIcon.png") !important;
 	background-size: 18px;18px;
 }
 .ui-icon-bug {
-	background-image: url("images/BugsIcon.png");
+	background-image: url("images/BugsIcon.png") !important;
 	background-size: 18px;18px;
 }
 
