@@ -28,6 +28,15 @@ window.$dino.SymptomListItemView = $dino.ListItemView.extend({
 		this.settingSeverity = false;
 	},
 	
+	goToSymptomDetail: function(e){
+		if (e) e.preventDefault();
+		if (!this.settingSeverity){
+			$dino.app.navigate("symptoms/"+this.model.id+"/graph", {
+				trigger: true
+			});
+		}
+	},
+	
 	changeSeverity: function(){
 		this.$(".ui-slider div a span .ui-btn-text").html(this.$("#severity").val());		
 	},

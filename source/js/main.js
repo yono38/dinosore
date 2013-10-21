@@ -5,6 +5,7 @@ $dino.AppRouter = Backbone.Router.extend({
 		"bugs/add" : "newBug",
 		"symptoms/add" : "newSymptom",
 		"symptoms" : "symptomList",
+		"symptoms/:id/graph" : "graphSymptom",
 		"bug/:id" : "bugDetails",
 		"bug/:id/modify" : "bugModify",
 		"bug/:id/delete" : "bugDialog",
@@ -165,7 +166,6 @@ $dino.AppRouter = Backbone.Router.extend({
 	bugDetails : function(id) {
 		var self = this;
 		this.loadBug(id, function(data) {
-			console.log("view bug details");
 			self.changePage(new $dino.BugDetailView({
 				model : data
 			}), true);
@@ -193,6 +193,24 @@ $dino.AppRouter = Backbone.Router.extend({
 			name : "symptom"
 		});
 		this.changePage(sympView, true);
+	},
+	
+	graphSymptom: function(id){
+		console.log('graphing '+id);
+		var that = this;
+		var symp = new $dino.Symptom();
+		symp.id = id;
+		symp.fetch({
+			success : function(data) {
+				console.log(data.toJSON());
+				that.changePage(new $dino.SymptomGraphView({
+					model: data
+				}));
+			},
+			error : function(err, data) {
+				$dino.fail404();
+			}
+		});
 	},
 
 	medicationList : function() {
@@ -236,7 +254,7 @@ $dino.AppRouter = Backbone.Router.extend({
 
 $(document).ready(function() {
 	FastClick.attach(document.body);
-	tpl.loadTemplates(['info-modify', 'offline-exit', 'severity-slider', 'appointment-calendar', 'condition-list-item', 'bug-list-view', 'bug-delete-dialog', 'privacy', 'bug-details', 'condition-new', 'login', 'medical-info', 'appointment-new', 'signup', 'start-splash', 'list-view', 'list-item', 'list-new', 'delete-confirm', 'footer', 'appointment-modify', 'appointment-item'], function() {
+	tpl.loadTemplates(['symptom-graph', 'info-modify', 'offline-exit', 'severity-slider', 'appointment-calendar', 'condition-list-item', 'bug-list-view', 'bug-delete-dialog', 'privacy', 'bug-details', 'condition-new', 'login', 'medical-info', 'appointment-new', 'signup', 'start-splash', 'list-view', 'list-item', 'list-new', 'delete-confirm', 'footer', 'appointment-modify', 'appointment-item'], function() {
 		$dino = window.$dino || {};
 		$dino.app = new $dino.AppRouter();
 		Backbone.history.start();
