@@ -32,6 +32,7 @@ window.$dino.MedicalInfoView = Backbone.View.extend({
 			"last_checkup" : moment.unix(usr.get("last_checkup")).format("MM/YYYY")
 		};
 		this.$el.html(this.template(data));
+		this.$(".new-group").show();
 		return this;
 	}
 }); 

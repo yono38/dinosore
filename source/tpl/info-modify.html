@@ -1,0 +1,38 @@
+<style>
+	#doctor-list, #allergy-list {
+		list-style: none;
+	}
+</style>
+<div data-role="header" >
+	<h1>Modify Info</h1>
+</div>
+
+<div data-role="content">
+	<div id="error-msg" class="fancyFont error"></div>
+	<div class="list-border">
+		<label for="title">Name:</label>
+		<input type="text" class="text-input" placeholder="Your Name" name="title" id="user-fullname" value="<%= name %>" data-mini="true" />
+	</div>
+
+	<div class="list-border">
+		<label for="birthday">Birthday:</label>
+		<input type="date" class="text-input" name="birthday" id="user-fullname" value="<%= birthday %>" data-mini="true" />
+	</div>
+
+	<div class="list-border">
+		<input id="new-allergy-input" class="fancyFont new-item-input" placeholder="New Allergy" />
+		<a href="#" data-role="button" data-iconshadow="false" data-mini="true" id="add-new-allergy" class="new-item ui-icon-alt ui-icon-nodisc" data-icon="plus" data-theme="a">Add</a>
+		<ul id="allergy-list"></ul>
+	</div>
+
+	<div class="list-border">
+		<input id="new-doctor-input" class="fancyFont new-item-input" placeholder="New Doctor" />
+		<a href="#" data-role="button" data-iconshadow="false" data-mini="true" id="add-new-doctor" class="new-item ui-icon-alt ui-icon-nodisc" data-icon="plus" data-theme="a">Add</a>
+		<ul id="doctor-list"></ul>
+	</div>
+
+</div>
+
+<a href="#" id="save-info" data-role="button" data-icon="plus" data-theme="a">Save</a>
+<a href="#" id="cancelBtn" class="back" data-role="button" data-icon="delete" data-theme="b">Cancel</a>
+

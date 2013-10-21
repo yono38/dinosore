@@ -1,7 +1,7 @@
 window.$dino.NewFormView = Backbone.View.extend({
 	initialize : function(opts) {
 		opts = opts ||{};
-		this.template = _.template(tpl.get('condition-new'));
+		this.template = (opts.tpl) ? _.template(tpl.get(opts.tpl)) : _.template(tpl.get('condition-new'));
 		this.header = opts.header || "New";
 		this.model = this.model;
 		this.debounceSaveTextInput = _.debounce(this.saveTextInput, 2000);
@@ -18,13 +18,15 @@ window.$dino.NewFormView = Backbone.View.extend({
 		"click .cancel-btn-padding" : "cancelNewItem",
 	},
 	
+	validTypes: ['condition', 'symptom', 'doctor', 'medication'],
+	
 	addNewItem : function(e, type) {
 		if (e) e.preventDefault();
 		var that = this;
 		var type = type || $(e.currentTarget).data('type');
 		var val = this.$("#new-" + type + "-input").val();
 		console.log(type, val);
-		if (val != "" & _.contains(['condition', 'symptom', 'doctor', 'medication'], type)) {
+		if (val != "" & _.contains(this.validTypes, type)) {
 			console.log("Add to collection: ", type, val);
 			var item = new $dino[type.toTitleCase()]();
 			item.set({
@@ -56,7 +58,7 @@ window.$dino.NewFormView = Backbone.View.extend({
 	cancelNewItem : function(e, type) {
 		if (e) e.preventDefault();
 		var type = type || $(e.currentTarget).data('type');
-		if (_.contains(['condition', 'symptom', 'doctor', 'medication'], type)) {
+		if (_.contains(this.validTypes, type)) {
 			this.resetMenu("#select-"+type);
 			this.$('#' + type + '-new-group').hide();
 			this.$('#' + type + '-list-bar').show();

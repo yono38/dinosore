@@ -145,7 +145,7 @@ window.$dino.ConditionNewView = $dino.NewFormView.extend({
 			this.addNewDoctor(itemVal, itemTitle);
 			return;
 		}
-		if (itemVal && itemVal != "") {
+		if (itemVal && itemVal != "" && itemVal != "default") {
 			var typeItemArr = this.model.get(itemType);
 			// defaults to false
 			if (!typeItemArr) {

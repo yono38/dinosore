@@ -1,39 +1,25 @@
-
 @font-face {
-    font-family: 'bobregular';
-    src: url('bob-webfont.eot');
-    src: url('bob-webfont.eot?#iefix') format('embedded-opentype'),
-         url('bob-webfont.woff') format('woff'),
-         url('bob-webfont.ttf') format('truetype'),
-         url('bob-webfont.svg#bobregular') format('svg');
-    font-weight: normal;
-    font-style: normal;
-
+	font-family: 'bobregular';
+	src: url('bob-webfont.eot');
+	src: url('bob-webfont.eot?#iefix') format('embedded-opentype'), url('bob-webfont.woff') format('woff'), url('bob-webfont.ttf') format('truetype'), url('bob-webfont.svg#bobregular') format('svg');
+	font-weight: normal;
+	font-style: normal;
 }
 
 @font-face {
-    font-family: 'ceviche_oneregular';
-    src: url('cevicheone-regular-webfont.eot');
-    src: url('cevicheone-regular-webfont.eot?#iefix') format('embedded-opentype'),
-         url('cevicheone-regular-webfont.woff') format('woff'),
-         url('cevicheone-regular-webfont.ttf') format('truetype'),
-         url('cevicheone-regular-webfont.svg#ceviche_oneregular') format('svg');
-    font-weight: normal;
-    font-style: normal;
-
+	font-family: 'ceviche_oneregular';
+	src: url('cevicheone-regular-webfont.eot');
+	src: url('cevicheone-regular-webfont.eot?#iefix') format('embedded-opentype'), url('cevicheone-regular-webfont.woff') format('woff'), url('cevicheone-regular-webfont.ttf') format('truetype'), url('cevicheone-regular-webfont.svg#ceviche_oneregular') format('svg');
+	font-weight: normal;
+	font-style: normal;
 }
 
-
 @font-face {
-    font-family: 'kavoonregular';
-    src: url('kavoon-regular-webfont.eot');
-    src: url('kavoon-regular-webfont.eot?#iefix') format('embedded-opentype'),
-         url('kavoon-regular-webfont.woff') format('woff'),
-         url('kavoon-regular-webfont.ttf') format('truetype'),
-         url('kavoon-regular-webfont.svg#kavoonregular') format('svg');
-    font-weight: normal;
-    font-style: normal;
-
+	font-family: 'kavoonregular';
+	src: url('kavoon-regular-webfont.eot');
+	src: url('kavoon-regular-webfont.eot?#iefix') format('embedded-opentype'), url('kavoon-regular-webfont.woff') format('woff'), url('kavoon-regular-webfont.ttf') format('truetype'), url('kavoon-regular-webfont.svg#kavoonregular') format('svg');
+	font-weight: normal;
+	font-style: normal;
 }
 
 .ui-title, #confirm, #yes, #cancel, #getStarted, .fancyFont {
@@ -55,20 +41,20 @@
 }
 
 #savePopup p {
-background: darkgray;
-padding: 10px;
-border-radius: 15px;
-text-align: center;
-font-weight: bold;
+	background: darkgray;
+	padding: 10px;
+	border-radius: 15px;
+	text-align: center;
+	font-weight: bold;
 }
 .ui-datebox-container {
-  width: 346px;
+	width: 346px;
 }
 #add-appt-header, #add-appt-header div {
-  margin-top: 0;
-  margin-bottom: 0;
-  padding-top: 0;
-  padding-bottom: 0;
+	margin-top: 0;
+	margin-bottom: 0;
+	padding-top: 0;
+	padding-bottom: 0;
 }
 .ui-datebox-container {
 	margin: auto;
@@ -124,7 +110,6 @@ font-weight: bold;
 	margin-left: 10px;
 }
 
-
 /* This turns off the shortening ellipse in page titles */
 .ui-title {
 	text-overflow: ellipsis !important;
@@ -149,7 +134,6 @@ font-weight: bold;
 	border-radius: 10px;
 }
 
-
 .ui-page {
 	background-image: url('../img/background.png');
 }
@@ -157,13 +141,51 @@ font-weight: bold;
 /* Custom icons */
 .ui-icon-symptom {
 	background-image: url("images/SymptomsIcon.png");
-	background-size: 18px; 18px;
+	background-size: 18px;18px;
 }
 .ui-icon-medication {
 	background-image: url("images/medicationsIcon.png");
-	background-size: 18px; 18px;
+	background-size: 18px;18px;
 }
 .ui-icon-bug {
 	background-image: url("images/BugsIcon.png");
-	background-size: 18px; 18px;
+	background-size: 18px;18px;
+}
+
+.ui-header {
+	height: auto !important;
+}
+.ui-header .ui-title {
+	margin-bottom: 0;
+}
+#error-msg {
+	color: red;
+	text-align: center;
+}
+.add-btn-padding {
+	background: #FF9B3E;
+}
+.new-item {
+	margin: 0 auto;
+	border: none;
+	border-top: none;
+	box-shadow: none !important;
+}
+.new-item .ui-btn-inner {
+	border-top: none;
+}
+.new-item-padding {
+	text-align: center;
+	border: none;
+}
+.new-item-input {
+	display: none;
+}
+.new-group {
+	display: none;
+}
+.list-border {
+	border-bottom: 3px solid;
+	padding-bottom: 15px;
+	padding-top: 10px
 }

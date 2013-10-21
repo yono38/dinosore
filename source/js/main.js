@@ -14,7 +14,8 @@ $dino.AppRouter = Backbone.Router.extend({
 		"appts/:id/modify" : "apptModifyNew",
 		"appts/add" : "newAppt",
 		"bugs" : "bugList",
-		"medinfo" : "medInfo",
+		"info" : "info",
+		"info/modify" : "infoModify",
 		"medications" : "medicationList",
 		"login" : "login",
 		"privacy" : "privacySettings",
@@ -63,8 +64,15 @@ $dino.AppRouter = Backbone.Router.extend({
 		}));
 	},
 
-	medInfo : function() {
+	info : function() {
 		this.changePage(new $dino.MedicalInfoView(), true);
+	},
+	
+	infoModify: function() {
+		this.changePage(new $dino.InfoModifyView({
+			model: Parse.User.current(),
+			tpl: 'info-modify'
+		}));
 	},
 
 	offlineExit : function() {
@@ -228,7 +236,7 @@ $dino.AppRouter = Backbone.Router.extend({
 
 $(document).ready(function() {
 	FastClick.attach(document.body);
-	tpl.loadTemplates(['offline-exit', 'severity-slider', 'appointment-calendar', 'condition-list-item', 'bug-list-view', 'bug-delete-dialog', 'privacy', 'bug-details', 'condition-new', 'login', 'medical-info', 'appointment-new', 'signup', 'start-splash', 'list-view', 'list-item', 'list-new', 'delete-confirm', 'footer', 'appointment-modify', 'appointment-item'], function() {
+	tpl.loadTemplates(['info-modify', 'offline-exit', 'severity-slider', 'appointment-calendar', 'condition-list-item', 'bug-list-view', 'bug-delete-dialog', 'privacy', 'bug-details', 'condition-new', 'login', 'medical-info', 'appointment-new', 'signup', 'start-splash', 'list-view', 'list-item', 'list-new', 'delete-confirm', 'footer', 'appointment-modify', 'appointment-item'], function() {
 		$dino = window.$dino || {};
 		$dino.app = new $dino.AppRouter();
 		Backbone.history.start();
