@@ -1,8 +1,8 @@
 window.$dino.SymptomGraphView = Backbone.View.extend({
 	initialize : function(opts) {
 		var title = 'Test Graph';
-		this.template = _.template(tpl.get('symptom-graph'));
-		_.bindAll(this, 'render', 'loadChart');
+		this.template = _.template(tpl.get('graph'));
+		_.bindAll(this, 'render', 'loadSingleChart');
 	},
 
 	events: {
@@ -22,7 +22,7 @@ window.$dino.SymptomGraphView = Backbone.View.extend({
 		});
 	},
 	
-	loadChart: function(data){
+	loadSingleChart: function(data){
 		var that = this;
 		if (data.length == 0){
 			this.$("#graphContainer").html('<h4 class="fancyFont">Sorry! No plusones recorded for this symptom yet, come back when you\'ve tracked more data :)');
@@ -142,7 +142,7 @@ window.$dino.SymptomGraphView = Backbone.View.extend({
 			},
 			success : function(data) {
 				that.plusOnes = data;
-				that.loadChart(data);
+				that.loadSingleChart(data);
 			},
 			error : function(err, data) {
 				$dino.fail404();

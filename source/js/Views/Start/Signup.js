@@ -72,6 +72,13 @@ window.$dino.StartSignupView = Backbone.View.extend({
 			}
 		});
 	},
+	
+	createMenstrationSymptoms: function() {
+		var isReadySymptoms = [false, false, false];
+		var readyState = [true, true, true];
+		
+		// save the symptoms (flow, cramps, mood) & check for readyState in callback, if ready, call createMenstrationCondition
+	},
 
 	render : function(eventName) {
 		this.$el.html(this.template());

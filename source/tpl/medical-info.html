@@ -13,50 +13,48 @@
 	#medication-list, #symptom-list, #condition-list {
 		list-style: none;
 	}
+	.ui-icon {
+		background-color: rgba(0,0,0,0.0) /*{global-icon-disc}*/;
+	}
+	#medication-list-bar {
+		margin-top: -10px;
+	}
+	#error {
+		color: red;
+		text-align: center;
+	}
 </style>
 <div data-role="header" >
-	<a href="#" id="logout" data-icon="delete" data-theme="c"  data-iconpos="left">Logout</a>
-	<h1>Info</h1>
+	<a href="#" id="logout" data-icon="delete" data-theme="c" class="ui-icon-alt" data-iconpos="left">Logout</a>
+	<h1>Graph</h1>
 </div>
-<h2 id="select-items-header">Select Items to Visualize:</h2>
-<table id="symptom-list-bar" style='width:100%'>
-	<tbody>
-		<tr>
-			<td>
-			<fieldset data-role="controlgroup">
-				<label for="select-symptom" class="select-symptom-label">Category</label>
+<h2 id="select-items-header">Select Symptom and Medications to Graph:</h2>
+<h3 id="error"></h3>
 				<select class="ui-icon-alt ui-icon-nodisc" name="select-symptom" id="select-symptom">
 					<option value="default">Symptoms</option>
 				</select>
-			</fieldset></td>
-			<td style='width:5em; padding-left:1em'><a id="add-symptom-btn" class="add_detail_item ui-icon-alt ui-icon-nodisc" data-type="symptom" data-role="button" data-icon="plus" >Add</a></td>
-		</tr>
-	</tbody>
-</table>
-<ul id="symptom-list"></ul>
 
 <table id="medication-list-bar" style='width:100%'>
 	<tbody>
 		<tr>
 			<td>
 			<fieldset data-role="controlgroup">
-				<label for="select-medication" class="select-medication-label">Category</label>
 				<select class="ui-icon-alt ui-icon-nodisc" name="select-medication" id="select-medication">
 					<option value="default">Medications</option>
 				</select>
 			</fieldset></td>
-			<td style='width:5em; padding-left:1em'><a id="add-medication-btn" class="add_detail_item ui-icon-alt ui-icon-nodisc" data-type="medication" data-role="button" data-icon="plus" >Add</a></td>
+			<td style='width:5em; padding-left:1em'><a id="add-medication-btn" class="add_detail_item ui-icon-nodisc" data-type="medication" data-role="button" data-icon="plus" >Add</a></td>
 		</tr>
 	</tbody>
 </table>
 <ul id="medication-list"></ul>
 
-<a href="#" id="visualize-items" data-role="button" data-iconpos="left" class="darktan ui-icon-alt ui-icon-nodisc" data-icon="info" data-theme="c">Visualize Items</a>
+<a href="#" id="visualize-items" data-role="button" data-iconpos="left" class="darktan ui-icon-alt ui-icon-nodisc" data-icon="info" data-theme="c">Graph Items</a>
 
-<h2 id="select-items-header">Or Select Condition to Visualize:</h2>
+<h2 id="select-items-header">OR <br><br> Select Condition to Graph:</h2>
 
 <select class="ui-icon-alt ui-icon-nodisc" name="select-condition" id="select-condition">
 	<option value="default">Conditions</option>
 </select>
 
-<a href="#" id="visualize-condition" data-role="button" data-iconpos="left" class="darktan ui-icon-alt ui-icon-nodisc" data-icon="info" data-theme="c">Visualize Condition</a>
+<a href="#" id="visualize-condition" data-role="button" data-iconpos="left" class="darktan ui-icon-alt ui-icon-nodisc" data-icon="info" data-theme="c">Graph Condition</a>

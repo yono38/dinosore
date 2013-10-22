@@ -6,8 +6,8 @@ window.$dino.MedicalInfoView = $dino.NewFormView.extend({
 		this.events = _.extend({}, $dino.NewFormView.prototype.events, this.events);
 		this.model = Parse.User.current();
 		this.visualize = {
-			"medication" : [],
-			"symptom" : [],
+			"medication" : {},
+			"symptom" : {},
 		};
 	},
 
@@ -20,13 +20,28 @@ window.$dino.MedicalInfoView = $dino.NewFormView.extend({
 	// not implemented yet
 	visualizeItems : function(e) {
 		e.preventDefault();
+		var symp = this.$("#select-symptom option:selected");
+		if (symp.val() == "default") {
+			this.$("#error").html("Woops, you forgot to select a symptom to graph!");
+			return;
+		}
+		this.visualize.medication[symp.val()] = symp.text();
 		console.log(this.visualize);
+		var visualize = new $dino.GraphView({
+			items: this.visualize,
+			parent: this
+		});
+		$dino.app.changePage(visualize);
 	},
 
 	// not implemented yet
 	visualizeCondition: function(e) {
 		e.preventDefault();
-		console.log(this.$("#select-condition").val());
+		var visualize = new $dino.GraphView({
+			condition: this.$("#select-condition").val(),
+			parent: this
+		});
+		$dino.app.changePage(visualize);
 	},
 
 	logout : function() {
@@ -53,12 +68,10 @@ window.$dino.MedicalInfoView = $dino.NewFormView.extend({
 		console.log(itemVal);
 		console.log(itemType);
 		console.log(_.contains(this.visualize[itemType], itemVal));
-		if (itemVal != "default" && !_.contains(this.visualize[itemType], itemVal)) {
-			
-			console.log('test');
-			this.visualize[itemType].push(itemVal);
+		if (itemVal != "default" && !_.contains(_.keys(this.visualize[itemType]), itemVal)) {
+			this.visualize[itemType][itemVal] = itemTitle;
 			this.$("#"+itemType+"-list").append('<li>'
-			+ '<a href="#" data-role="button" data-inline="true" data-corners="true" data-icon="delete" data-id="'+itemVal+'" class="ui-icon-alt ui-icon-nodisc delete_detail_item" data-type="'+itemType+'" data-iconpos="notext">X</a>'
+			+ '<a href="#" data-role="button" data-inline="true" data-corners="true" data-icon="delete" data-id="'+itemVal+'" class="ui-icon-nodisc delete_detail_item" data-type="'+itemType+'" data-iconpos="notext">X</a>'
 			+ '<span class="fancyFont itemName"><span data-id="'+itemVal+'" class="itemName">'+itemTitle+'</span></span></li>');
 			this.$(".delete_detail_item").button();
 		}
@@ -66,7 +79,7 @@ window.$dino.MedicalInfoView = $dino.NewFormView.extend({
 
 	// uses id to find and remove item from the array of its type in the model
 	deleteItem : function(model, type, itemId, unlink) {
-		this.visualize[type] = _.without(this.visualize[type], itemId);
+		delete this.visualize[type][itemId];
 		this.$("a[data-id='"+itemId+"']").parent().remove();
 	},
 

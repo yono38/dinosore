@@ -1,29 +1,17 @@
 @font-face {
-	font-family: 'bobregular';
-	src: url('bob-webfont.eot');
-	src: url('bob-webfont.eot?#iefix') format('embedded-opentype'), url('bob-webfont.woff') format('woff'), url('bob-webfont.ttf') format('truetype'), url('bob-webfont.svg#bobregular') format('svg');
-	font-weight: normal;
-	font-style: normal;
+    font-family: 'playtime_with_hot_toddiesRg';
+    src: url('playtime-webfont.eot');
+    src: url('playtime-webfont.eot?#iefix') format('embedded-opentype'),
+         url('playtime-webfont.woff') format('woff'),
+         url('playtime-webfont.ttf') format('truetype'),
+         url('playtime-webfont.svg#playtime_with_hot_toddiesRg') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
 }
 
-@font-face {
-	font-family: 'ceviche_oneregular';
-	src: url('cevicheone-regular-webfont.eot');
-	src: url('cevicheone-regular-webfont.eot?#iefix') format('embedded-opentype'), url('cevicheone-regular-webfont.woff') format('woff'), url('cevicheone-regular-webfont.ttf') format('truetype'), url('cevicheone-regular-webfont.svg#ceviche_oneregular') format('svg');
-	font-weight: normal;
-	font-style: normal;
-}
-
-@font-face {
-	font-family: 'kavoonregular';
-	src: url('kavoon-regular-webfont.eot');
-	src: url('kavoon-regular-webfont.eot?#iefix') format('embedded-opentype'), url('kavoon-regular-webfont.woff') format('woff'), url('kavoon-regular-webfont.ttf') format('truetype'), url('kavoon-regular-webfont.svg#kavoonregular') format('svg');
-	font-weight: normal;
-	font-style: normal;
-}
-
-.ui-title, #confirm, #yes, #cancel, #getStarted, .fancyFont {
-	font-family: 'kavoonregular' !important
+.ui-title, .fancyFont {
+	font-family: 'playtime_with_hot_toddiesRg' !important
 }
 
 #getStarted {
