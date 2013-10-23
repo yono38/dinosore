@@ -189,7 +189,6 @@ $dino.AppRouter = Backbone.Router.extend({
 	tutorial : function(){
 		var tutView = new $dino.StartTutorialView();
 		this.changePage(tutView);
-		
 	},
 
 	symptomList : function() {

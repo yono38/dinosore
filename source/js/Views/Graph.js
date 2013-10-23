@@ -162,8 +162,13 @@ window.$dino.GraphView = Backbone.View.extend({
             _.each(medTime, function(elem){             
                 var index = _.indexOf(timeAxis, elem);
                 //medName = name of medicine taken at this specific time
+                medName = medNameAndTime[elem];
+                //console.log(medName);
+                //console.log(medNameColors[medName]);
+                //console.log(medNameColors);
                 
                 if (!_.contains(_.keys(medNameColors), medName)){
+                    console.log("in if");
                     medNameColors[medName] = colors[i]
                     if (i != 11){
                         i++;
@@ -188,6 +193,7 @@ window.$dino.GraphView = Backbone.View.extend({
             },
         };
         gSeries.push(medSerie);
+		console.log(gSeries);
          chart = new Highcharts.Chart({
 
             chart: {
@@ -354,6 +360,7 @@ window.$dino.GraphView = Backbone.View.extend({
                 plotLines.push(plsJson);
 
             });
+            console.log(plotLines);
                 return plotLines;
 
         };

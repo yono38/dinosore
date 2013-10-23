@@ -51,8 +51,8 @@ window.$dino.SymptomGraphView = Backbone.View.extend({
                 renderTo: 'graphContainer',
                 type: 'line',
                 marginRight: 20,
-                marginBottom: 50,
-                marginTop: 50,
+                marginBottom: 75,
+                marginTop: 75,
                 events: {
                 	load: function() {
                 		console.log('graph load complete');

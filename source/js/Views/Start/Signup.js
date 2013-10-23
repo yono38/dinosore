@@ -58,7 +58,7 @@ window.$dino.StartSignupView = Backbone.View.extend({
 				});
 				User.save(null,{ 
 					success: function(){
-						$dino.app.navigate("symptoms", {
+						$dino.app.navigate("tutorial", {
 							trigger : true
 						});
 					},
