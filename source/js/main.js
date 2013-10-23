@@ -66,7 +66,9 @@ $dino.AppRouter = Backbone.Router.extend({
 	},
 
 	info : function() {
-		this.changePage(new $dino.MedicalInfoView(), true);
+		var medInfo = new $dino.MedicalInfoView(); 
+		this.changePage(medInfo, true);
+		medInfo.loadLists();
 	},
 	
 	infoModify: function() {

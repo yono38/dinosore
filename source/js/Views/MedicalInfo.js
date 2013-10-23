@@ -4,6 +4,7 @@ window.$dino.MedicalInfoView = $dino.NewFormView.extend({
 		this.template = _.template(tpl.get('medical-info'));
 		// extend child events on to parent's - inheritance ftw
 		this.events = _.extend({}, $dino.NewFormView.prototype.events, this.events);
+		_.bindAll(this, 'loadList', 'render');
 		this.model = Parse.User.current();
 		this.visualize = {
 			"medication" : {},
@@ -86,9 +87,8 @@ window.$dino.MedicalInfoView = $dino.NewFormView.extend({
 	filterCollection : function(coll, selector, modelType) {
 
 	},
-
-	render : function(eventName) {
-		this.$el.html(this.template());
+	
+	loadLists: function(){
 		this.symptomList = new $dino.SymptomList();
 		this.loadList(this.symptomList, "#select-symptom", "symptom", true);
 		this.medicationList = new $dino.MedicationList();
@@ -100,8 +100,11 @@ window.$dino.MedicalInfoView = $dino.NewFormView.extend({
 			console.log("fix this later:");
 			console.log(err);
 		}
-		//	makeList : function(collection, selector, modelType, noAddNew, noFilter) {
+		//	makeList : function(collection, selector, modelType, noAddNew, noFilter) {		
+	},
 
+	render : function(eventName) {
+		this.$el.html(this.template());
 		return this;
 	}
 });

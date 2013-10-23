@@ -10,8 +10,6 @@ window.$dino.GraphView = Backbone.View.extend({
 			this.condition = opts.condition;
 			this.type = 'condition';
 		}
-		console.log(this.condition);
-		console.log(this.items);
 		this.template = _.template(tpl.get('graph'));
 		_.bindAll(this, 'render', 'goBack', 'makeSeries', 'loadMultiChart');
 	},
@@ -39,16 +37,251 @@ window.$dino.GraphView = Backbone.View.extend({
 			url : apiCall,
 			dataType : 'json',
 			success : function(data) {
-				console.log(data);
-				that.loadMultiChart(data);
+				if (that.type == "condition") {
+					that.loadConditionChart(data);
+				} else {
+					that.loadMultiChart(data);
+				}
 			}
 		});
 	},
 	
+	loadConditionChart: function(itemData) {
+		
+		// holds plusones for single symptom
+        var sympJson = _.where(itemData, {"type": "symptom"});
+
+		// holds plusones for multiple medications
+        var medJson = _.where(itemData, {"type": "medication"});   
+        
+        
+        if (sympJson.length == 0 && medJson.length == 0){
+			this.$("#graphContainer").html("<h1>Can't find any data for these :( Try a different set!</h1>");
+			return;
+        }
+        
+        // colors array - accessed from end to from for symp and front to back for med
+        var colors = ['#7CE555', '#B84645',  '#F16A28', '#FF9B3E', '#3FCCBE', '#241F61', '#51C4E1', '#60205A', '#F94610', '#7C10F9', '#9E5751', '#48B660'];
+
+        //holds dates of meds taken and symptom logged as formatted strings:             
+        var timeAxis = [] ;
+        //holds all timestamps for symptoms and meds for sorting
+        var timeStamps = [];
+        // holds y values for one symptom
+        var sevAxis = [];
+        // holds notes for one symptom
+        var noteSeries = [];
+        //keep medtime with timestamps in so can look up times meds taken
+        var medTime = [];
+        var medNameAndTime = {};
+        // holds all series (symptom and medication)
+        var gSeries = [];
+        
+        // set up timestamps
+        timeStamps = _.chain(itemData)
+        			.pluck('date')
+        			.uniq()
+        			.compact()
+        			.value();
+        timeStamps = timeStamps.sort();
+
+		// create timeAxis
+        _.each(timeStamps, function(elem){
+            var time = moment.unix(elem);
+            var date = (time.format("MMM Do - h:mm a"));
+            timeAxis.push(date);
+        });
+
+        // make the series for symptoms
+        // create arrays with symp id as key
+        var sympGroup = _.groupBy(sympJson, 'item');
+        _.each(this.conditionItem.get('symptom'), function(sympInfo, idx){
+        	var sympSerie = {
+        		name: sympInfo.title,
+        		color: colors[colors.length - idx -1],
+        		data: []
+        	};
+        	// go through plusones for the symptom and add to data array
+        	var sortedJson = _.groupBy(sympGroup[sympInfo.id], 'date');
+        	// loop through timestamps
+        	// if data exists for timestamp, use it
+        	// otherwise set to most recent severity (default 0)
+        	var prev = 0, sympNotes;
+        	_.each(timeStamps, function(ts, idx){
+        		var elem = sortedJson[ts];
+        		sympNotes = "";
+        		if (elem) {
+        			prev = elem[0].severity;
+        			sympNotes = elem[0].notes;
+        		}
+    			sympSerie.data.push({
+    				y: prev,
+    				date: timeAxis[idx],
+    				notes: sympNotes
+    			});
+                // TODO this doesn't work
+                //var notes = elem.notes;
+                //noteSeries[date] = notes;
+        	});
+        	gSeries.push(sympSerie);
+        });
+        
+
+        
+        var appendTimeSevToAxis =  
+            _.each(sympJson, function(elem){
+                var time = moment.unix(elem.date);
+                date = (time.format("MMM Do - h:mm a"));
+                //timeStamps.push(elem.date);
+                //timeAxis.push(date);
+                var sev = elem.severity;
+                sevAxis.push(sev);
+                var notes = elem.notes;
+                noteSeries[date] = notes;
+        });
+
+		var that = this;
+        var appendMedTimeToArr = _.each(medJson, function(el){
+            var time = moment.unix(el.date);
+            var date = (time.format("MMM Do - h:mm a")); 
+            var medicationItem = _.where(that.conditionItem.get("medication"), {'id' : el.item});
+            // key-val obj of date to title
+            medNameAndTime[date] = medicationItem[0].title;
+            //will need for medication date lookup:
+            medTime.push(date);
+            //timeStamps.push(el.date);
+        });
+
+        var makePlotLines = function(timeAxis, medTime){
+            var i = 0;
+            var plotLines =[];
+            var medNameColors = [];
+          
+            var colors = ['#7CE555', '#B84645',  '#F16A28', '#FF9B3E', '#3FCCBE', '#241F61', '#51C4E1', '#60205A', '#F94610', '#7C10F9', '#9E5751', '#48B660'];
+          
+            _.each(medTime, function(elem){             
+                var index = _.indexOf(timeAxis, elem);
+                //medName = name of medicine taken at this specific time
+                
+                if (!_.contains(_.keys(medNameColors), medName)){
+                    medNameColors[medName] = colors[i]
+                    if (i != 11){
+                        i++;
+                    }
+                    else{ i = 0; }
+                }
+
+                var plsJson = {'color': medNameColors[medName], width: 3, zIndex:4, label:{text: medName}, value: index};
+                plotLines.push(plsJson);
+
+            });
+                return plotLines;
+
+        };
+        // required for medication plotlines
+        var medSerie = {
+            name: 'Placebo',
+            data: timeAxis,
+            type: 'scatter',
+            marker: {
+                enabled: false
+            },
+        };
+        gSeries.push(medSerie);
+         chart = new Highcharts.Chart({
+
+            chart: {
+                backgroundColor: '#FCFAD6',
+                renderTo: 'graphContainer',
+                type: 'line',
+                marginRight: 20,
+                marginBottom: 75,
+                marginTop: 20
+            },
+
+            credits: {
+                enabled: false
+        },
+      
+            title: {
+                text: ' ',
+                style: { color: '#4A4A4A' }
+            },
+            
+            legend: {
+                enabled: false
+                },
+
+            xAxis: {
+                categories: timeAxis,
+                tickLength: 10,
+                plotLines: makePlotLines(timeAxis, medTime)
+            },
+
+
+
+            yAxis: {
+                max: 5,
+                min: 0,
+                title: {
+                    text: 'Severity',
+                    style: { color: '#4A4A4A' }
+                },
+                plotLines: [{
+                    value: 0,
+                    width: 1,
+                    color: '#4A4A4A'
+                }]
+            },
+
+            series: gSeries, 
+            /* [
+                {
+                    name: 'Symp1',
+                    data: sevAxis,
+                    color: '#60205A'
+                },
+
+
+                {
+                    name: 'Placebo',
+                    data: timeAxis,
+                    type: 'scatter',
+                    marker: {
+                        enabled: false
+                    },
+                } 
+            ], */
+
+			tooltip : {
+                followTouchMove: true,
+				headerFormat : '<b>{series.name}</b><br>',
+				pointFormat : 'Date: {point.date} <br>Severity: {point.y}<br>Notes: {point.notes}',
+				shared: false //true
+			}     
+			
+/*        tooltip: {
+                followTouchMove: true,
+                formatter: function() {
+                    var s = this.points[0].key+ ":<br>";
+                    s += "Severity: " +  this.points[0].y;
+                    if (noteSeries[this.points[0].key]){
+                        s += "<br> Notes: " + noteSeries[this.points[0].key];
+                    }
+                    return s;
+                },
+                shared: true
+            },
+*/
+        });
+	},
+	
 	loadMultiChart: function(itemData) {
 		
+		// holds plusones for single symptom
         var jsoon = _.where(itemData, {"type": "symptom"});
 
+		// holds plusones for multiple medications
         var medJson = _.where(itemData, {"type": "medication"});   
         
         if (jsoon.length == 0 && medJson.length == 0){
@@ -81,24 +314,15 @@ window.$dino.GraphView = Backbone.View.extend({
 
 		var that = this;
         var appendMedTimeToArr = 
-            console.log("infunct");
             _.each(medJson, function(el){
-                console.log("for lop")
                 var time = moment.unix(el.date);
-                //console.log(time);
                 var date = (time.format("MMM Do - h:mm a")); 
                 medNameAndTime[date] = that.items.medication[el["item"]];
-                //console.log(date);
                 //will need for medication date lookup:
                 medTime.push(date);
                 timeStamps.push(el.date);
-                //console.log(timeAxis)
             });
 
-
-        var sortAndConvertTimes = 
-            timeStamps.sort();
-            console.log(timeStamps);
             _.each(timeStamps, function(elem){
                 var time = moment.unix(elem);
                 var date = (time.format("MMM Do - h:mm a"));
@@ -106,9 +330,6 @@ window.$dino.GraphView = Backbone.View.extend({
 
             });
             
-
-         //json array = info from database
-
         var makePlotLines = function(timeAxis, medTime){
             var i = 0;
             var plotLines =[];
@@ -118,15 +339,10 @@ window.$dino.GraphView = Backbone.View.extend({
           
             _.each(medTime, function(elem){             
                 var index = _.indexOf(timeAxis, elem);
-                console.log(index);
                 //medName = name of medicine taken at this specific time
                 medName = medNameAndTime[elem];
-                console.log(medName);
-                console.log(medNameColors[medName]);
-                console.log(medNameColors);
                 
                 if (!_.contains(_.keys(medNameColors), medName)){
-                    console.log("in if");
                     medNameColors[medName] = colors[i]
                     if (i != 11){
                         i++;
@@ -138,15 +354,9 @@ window.$dino.GraphView = Backbone.View.extend({
                 plotLines.push(plsJson);
 
             });
-            console.log('plotLines');
-            console.log(plotLines);
                 return plotLines;
 
         };
-
-        console.log(makePlotLines(timeAxis, medTime));
-        console.log(sevAxis);
-
 
          chart = new Highcharts.Chart({
 
@@ -182,6 +392,7 @@ window.$dino.GraphView = Backbone.View.extend({
 
             yAxis: {
                 max: 5,
+                min: 0,
                 title: {
                     text: 'Severity',
                     style: { color: '#4A4A4A' }
@@ -210,17 +421,15 @@ window.$dino.GraphView = Backbone.View.extend({
                     },
                 } 
             ],
+       
 
             tooltip: {
-                followTouchMove: true,
                 formatter: function() {
                     var s = this.points[0].key+ ":<br>";
                     s += "Severity: " +  this.points[0].y;
                     if (noteSeries[this.points[0].key]){
                         s += "<br> Notes: " + noteSeries[this.points[0].key];
                     }
-                    //console.log(noteSeries[this.points[0].key]);
-                    //console.log(this.points);
                     return s;
                 },
                 shared: true
@@ -230,7 +439,6 @@ window.$dino.GraphView = Backbone.View.extend({
 	},
 
 	/*loadMultiChart : function(itemData) {
-		console.log(itemData);
 		$dino.data = itemData;
 		var that = this;
 		//this.makeSeries(itemData);
@@ -248,7 +456,6 @@ window.$dino.GraphView = Backbone.View.extend({
 			},
 			xAxis : {
 				formatter : function() {
-					console.log(this.value);
 				},
 				labels : {
 					enabled : false
@@ -329,7 +536,6 @@ window.$dino.GraphView = Backbone.View.extend({
 			};
 			plotlines.push(line);
 		});
-		console.log(plotlines);
 		return plotlines;
 	},
 
@@ -339,7 +545,6 @@ window.$dino.GraphView = Backbone.View.extend({
 		var series = [];
 		var colors = ['#7CE555', '#B84645', '#F16A28', '#FF9B3E', '#3FCCBE', '#241F61', '#51C4E1', '#60205A', '#F94610', '#7C10F9', '#9E5751', '#48B660'];
 		var colorIdx = 0;
-		console.log(this.items);
 		var s = _.where($dino.data, {
 			type : "symptom"
 		});
@@ -365,14 +570,13 @@ window.$dino.GraphView = Backbone.View.extend({
 			series.push(serie);
 		});
 		series.push({
-                    name: 'Placebo',
-                    data: that.makeTimeAxis(itemData),
-                    type: 'scatter',
-                    marker: {
-                        enabled: false
-                    },
-              } );
-		console.log(series);
+	            name: 'Placebo',
+	            data: that.makeTimeAxis(itemData),
+	            type: 'scatter',
+	            marker: {
+	                enabled: false
+	            },
+	      } );
 		return series;
 	},
 
@@ -380,7 +584,6 @@ window.$dino.GraphView = Backbone.View.extend({
 	makeTimeAxis : function(itemData) {
 		var m = _.where(itemData, {type: "medication"});
 		var dates = _.pluck(m, 'date');
-		console.log(dates);
 		return dates;
 	},
 
@@ -396,7 +599,7 @@ window.$dino.GraphView = Backbone.View.extend({
 			this.conditionItem.id = this.condition;
 			this.conditionItem.fetch({
 				success : function(data) {
-					console.log(data.toJSON());
+					that.$(".ui-title").prepend(data.get("title"));
 					var itemIds = _.union(_.pluck(data.get('medication'), 'id'), _.pluck(data.get('symptom'), 'id'));
 					that.loadItemPlusOnes(itemIds);
 				},
