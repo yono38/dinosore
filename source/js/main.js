@@ -189,7 +189,11 @@ $dino.AppRouter = Backbone.Router.extend({
 	tutorial : function(){
 		var tutView = new $dino.StartTutorialView();
 		this.changePage(tutView);
-	},
+		tutView.mySwiper = tutView.$('.swiper-container').swiper({
+			onSlideChangeEnd: function(swiper) {
+				tutView.checkEnd(swiper);
+			}
+		});	},
 
 	symptomList : function() {
 		var coll = new $dino.SymptomList();

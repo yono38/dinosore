@@ -66,7 +66,7 @@ window.$dino.SymptomListView = $dino.PlusListView.extend({
 			},
 			success : function(collection) {
 				if (collection.length == 0) {
-					that.$("#myList").html('<span id="no-items-yet" class="fancyFont"><div>No ' + that.header + ' Added Yet!</div><hr> <div>Click "Add" Above to Get Started</div><hr></span>');
+				//	that.$("#myList").html('<span id="no-items-yet" class="fancyFont"><div>No ' + that.header + ' Added Yet!</div><hr> <div>Click "Add" Above to Get Started</div><hr></span>');
 					return;
 				}
 

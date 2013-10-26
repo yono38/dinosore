@@ -6,44 +6,34 @@ window.$dino.StartTutorialView = Backbone.View.extend({
 
 	events : {
 		"click .new-item" : "noClick",
-		"click #skip" : "skip",
-		"click #next" : "next"
+		"click #skip" : "goToStart",
+		"click #next" : "goToStart",
+		"pageinit" : "Test"
 	},
 	
 	noClick: function(e) {
 		e.preventDefault();
 	},
 	
-	skip: function(e){
-		e.preventDefault();
-		$dino.app.navigate("symptom", {
-			trigger: true 
-				
-		});
-		
-	},
-	
-	finish: function(e){
-		e.preventDefault();
-	},
-	
-	next: function(e){
-		e.preventDefault();
-
-		this.$("#tut"+this.currId).hide();
-		this.currId++;
-		this.$("#tut"+this.currId).show();
-		if (this.currId == 19){
+	checkEnd: function(swiper) {
+		console.log('swipe changed complete');
+		console.log(swiper);
+		if (swiper.realIndex == 18){
 			this.$("#finish").show();
-			this.$(".ui-grid-a").hide();
-			return;
+			this.$("#skip").hide();
 		}
 	},
 	
+	goToStart: function(e){
+		e.preventDefault();
+		$dino.app.navigate("symptom", {
+			trigger: true 
+		});
+	},
 	
 	render: function() {
 		this.$el.html(this.template());
-		this.$("#finish").hide();
+	//	this.mySwiper = this.$('.swiper-container').swiper();		this.$("#finish").hide();
 		return this;
 	}
 });

@@ -233,6 +233,7 @@ window.$dino.NewFormView = Backbone.View.extend({
 		modelType = modelType || "";
 		var that = this;
 		console.log('running makelist on ' + selector);
+		that.$(selector).empty();
 		if (modelType && modelType != "doctor" && modelType != "condition" && this.model.get(modelType) && this.model.get(modelType).length != 0) {
 			console.log(this.model.toJSON());
 			console.log(modelType);

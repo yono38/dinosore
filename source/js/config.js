@@ -17,7 +17,7 @@ $dino.env = 'dev';
 var setApiPath = function() {
 	var apiEnv = $dino.env
 	, apiPath = '/api/v1';
-	if (apiEnv == 'dev') $dino.apiRoot = 'http://localhost:3000' + apiPath;
+	if (apiEnv == 'dev') $dino.apiRoot = 'https://localhost' + apiPath;
 	else if (apiEnv == 'prod') $dino.apiRoot = 'http://jasonschapiro.com:3000' + apiPath;
 	else $dino.apiRoot = '';
 	console.log('Set up API root "'+$dino.apiRoot+'" for environment '+apiEnv);

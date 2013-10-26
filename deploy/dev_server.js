@@ -10,8 +10,8 @@ var restify = require('express-restify-mongoose');
 mongoose.connect('mongodb://localhost/dinosore');
 
 // HTTPS Key/Cert
-var key = fs.readFileSync('/etc/ssl/self-signed/server.key'),
- certificate = fs.readFileSync('/etc/ssl/self-signed/server.crt'),
+var key = fs.readFileSync('server.key'),
+ certificate = fs.readFileSync('server.crt'),
 credentials = {key: key, cert: certificate};
 
 // MODELS

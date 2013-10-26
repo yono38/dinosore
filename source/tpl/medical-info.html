@@ -6,8 +6,13 @@
 	td {
 		padding-left: 0 !important;
 	}
-	#select-items-header {
+	.select-header {
 		text-align: center;
+	}
+	
+	#select-or-header {
+		padding-top: 10px;
+		padding-bottom: 10px;
 	}
 
 	#medication-list, #symptom-list, #condition-list {
@@ -23,12 +28,17 @@
 		color: red;
 		text-align: center;
 	}
+	#visualize-condition, #visualize-items {
+		border-radius: 25px;
+		margin-left: 10px;
+		margin-right: 10px;
+	}
 </style>
 <div data-role="header" >
 	<a href="#" id="logout" data-icon="delete" data-theme="c" class="ui-icon-alt" data-iconpos="left">Logout</a>
 	<h1>Graph</h1>
 </div>
-<h2 id="select-items-header">Select Symptom and Medications to Graph:</h2>
+<h2 class="select-header" id="select-items-header">Select Symptom and Medications to Graph:</h2>
 <h3 id="error"></h3>
 				<select class="ui-icon-alt ui-icon-nodisc" name="select-symptom" id="select-symptom">
 					<option value="default">Symptoms</option>
@@ -49,12 +59,14 @@
 </table>
 <ul id="medication-list"></ul>
 
-<a href="#" id="visualize-items" data-role="button" data-iconpos="left" class="darktan ui-icon-alt ui-icon-nodisc" data-icon="info" data-theme="c">Graph Items</a>
+<a href="#" id="visualize-items" data-role="button" class="darktan" data-theme="c">Graph Items</a>
 
-<h2 id="select-items-header">OR <br><br> Select Condition to Graph:</h2>
+<h2 id="select-or-header" class="select-header">OR</h2>
+
+<h2 id="select-condition-header" class="select-header"> Select Condition to Graph:</h2>
 
 <select class="ui-icon-alt ui-icon-nodisc" name="select-condition" id="select-condition">
 	<option value="default">Conditions</option>
 </select>
 
-<a href="#" id="visualize-condition" data-role="button" data-iconpos="left" class="darktan ui-icon-alt ui-icon-nodisc" data-icon="info" data-theme="c">Graph Condition</a>
+<a href="#" id="visualize-condition" data-role="button" class="darktan" data-theme="c">Graph Condition</a>
