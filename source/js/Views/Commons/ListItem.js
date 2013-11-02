@@ -29,8 +29,15 @@ window.$dino.ListItemView = Backbone.View.extend({
 	events: {
 		"click" : "dontclick",
 		"click .plus-one" : "clickPlus",
-		"swiperight" : "confirmDelete",
+	//	"swiperight" : "confirmDelete",
 		"dblclick #item-detail" : "openDetails",
+		"indom" : "makeSwiper",
+		"click .removeItem" : "confirmDelete"
+	},
+	
+	makeSwiper: function(e){
+		console.log("test indom on list item");
+		this.mySwiper = this.$('.swiper-container').swiper();
 	},
 	
 	dontclick: function(e){
@@ -89,6 +96,7 @@ window.$dino.ListItemView = Backbone.View.extend({
 	},
 	
 	render:function(eventName){
+		var that = this;
 		this.$el.html(this.template(
 			_.extend(
 				this.model.toJSON(), 

@@ -15,7 +15,7 @@ window.$dino.ConditionListItemView = $dino.ListItemView.extend({
 	events : {
 		"click" : "dontclick",
 		"click .plus-one" : "clickPlus",
-		"swiperight" : "confirmDelete",
+		//"swiperight" : "confirmDelete",
 		"dblclick #item-detail" : "openDetails",
 		"slidestop" : "changeSeverity",
 		"keypress #item-notes" : "addOnEnter",

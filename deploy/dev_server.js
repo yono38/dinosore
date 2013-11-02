@@ -1,17 +1,25 @@
+// main web server
 var https = require('https');
 var http = require('http');
-var path = require('path');
 var express = require('express');
-var mongoose = require('mongoose');
+var path = require('path');
+// used for authentication
+/*var MongoStore = require('connect-mongo')(express);
+var passport = require('passport')
+  , LocalStrategy = require('passport-local').Strategy;*/
 var fs = require('fs');
+// database driver
+var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
+// bootstrapped RESTful API
 var restify = require('express-restify-mongoose');
 
+// Initialize database
 mongoose.connect('mongodb://localhost/dinosore');
 
 // HTTPS Key/Cert
-var key = fs.readFileSync('server.key'),
- certificate = fs.readFileSync('server.crt'),
+var key = fs.readFileSync(path.join(__dirname, 'server.key'));
+ certificate = fs.readFileSync(path.join(__dirname, 'server.crt'));
 credentials = {key: key, cert: certificate};
 
 // MODELS

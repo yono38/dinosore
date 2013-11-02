@@ -67,6 +67,7 @@ window.$dino.PlusListView = Backbone.View.extend({
       //	var selector = (Item.get("status") == "In Remission" || Item.get("status") == "Retired") ? "#retiredList" : "#myList";  
       	var selector = "#myList";
      	this.$(selector).append(view.render().el);  
+     	view.$el.trigger("indom");
     },
     
     renderList: function(firstTime) {
