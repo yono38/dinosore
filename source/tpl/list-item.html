@@ -29,8 +29,15 @@
 	</div>
 	<div class="ui-grid-a swiper-slide">
 		<div data-theme="d" class="ui-block-a">
+
+		<% if (retired && retired === true) { %>
+ 			<div class="ui-bar retireItem ui-bar-d" data-retired="true">
+			Reactivate
+		<% } else { %>
 			<div class="ui-bar retireItem ui-bar-d">
-				Retire
+			Retire 
+		<% } %>
+
 			</div>
 		</div>
 		<div class="removeItem ui-block-b">

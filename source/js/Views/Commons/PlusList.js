@@ -74,6 +74,7 @@ window.$dino.PlusListView = Backbone.View.extend({
 	     	this.$(selector).prepend(view.render().el);  
       	}
      	view.$el.trigger("indom");
+     	view.bind('renderlist', this.renderList);
     },
     
     renderList: function(firstTime) {

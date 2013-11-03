@@ -112,5 +112,6 @@ window.$dino.SymptomListView = $dino.PlusListView.extend({
 			return;
 		}
      	view.$el.trigger('indom');
+     	view.bind('renderlist', this.renderList);
 	}
 });

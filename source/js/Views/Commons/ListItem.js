@@ -37,10 +37,21 @@ window.$dino.ListItemView = Backbone.View.extend({
 	
 	retireItem: function(e){
 		e.preventDefault();
-		console.log('retire this item');
-		this.model.set("retired", true);
-		this.model.save();
-		this.render();
+		var that = this;
+		if (this.$(".retireItem").data("retired") == true){
+			console.log('reactivate this item')	;
+			this.model.set("retired", false);
+			this.model.save();
+		} else {
+			console.log('retire this item');
+			this.model.set("retired", true);
+		}
+		this.model.save(null, {
+			success: function(data) {
+				console.log('model saved')
+				that.trigger('renderlist');
+			}
+		});
 	},
 	
 	makeSwiper: function(e){
@@ -52,7 +63,6 @@ window.$dino.ListItemView = Backbone.View.extend({
 	},
 	
 	hidePlus: function(swiper){
-		console.log(swiper);
 		if (swiper.activeIndex == 1){
 			this.$(".plus-one").hide();
 		} else {
@@ -86,7 +96,6 @@ window.$dino.ListItemView = Backbone.View.extend({
 
 	clickPlus: function(e){
 		if (e) e.preventDefault();
-		console.log('clicked clickplus');
 
 		var that = this;
 		this.model.set("count", (this.model.get("count") + 1));
