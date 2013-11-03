@@ -11,20 +11,28 @@ window.$dino.SymptomListItemView = $dino.ListItemView.extend({
 		"click" : "dontclick",
 		"click .plus-one" : "clickPlus",
 		"swiperight" : "confirmDelete",
-		"dblclick #item-detail" : "openDetails",
 		"slidestop" : "changeSeverity",
 		"keypress #symptom-notes" : "addOnEnter",
+		"indom" : "makeSwiper",
 		"click #cancel-change-severity" : "resetTitle",
-		"click #symptom-detail" : "goToSymptomDetail"
+		"click #item-title-slide" : "goToSymptomDetail",
+		"click .removeItem" : "confirmDelete",
+		"click .retireItem" : "retireItem"
 	},
 
 	// resets the title (removes severity slider)
 	// can place added bubble on plusOne
 	resetTitle: function(e){
 		if (e) e.preventDefault();
-		var title = this.model.get("title");
-		var itemHtml = '<span class="symptom-title">'+title+'</span>';
-		this.$("h3").html(itemHtml);
+		this.$(".set-severity").hide();
+		this.$(".swiper-slide").removeClass('swiper-no-swiping');
+		this.$("#symptom-notes").val("");
+		this.$("#severity").val("0");
+		this.$("#severity").slider("refresh");
+		this.changeSeverity();
+		//var title = this.model.get("title");
+		//var itemHtml = '<span class="symptom-title">'+title+'</span>';
+		//this.$("h3").html(itemHtml);
 		this.settingSeverity = false;
 	},
 	
@@ -47,7 +55,8 @@ window.$dino.SymptomListItemView = $dino.ListItemView.extend({
 
 	setSeverity: function(){
 		if (!this.settingSeverity){
-			this.$("h3").append('<label for="severity">Severity:</label><input type="range" name="severity" id="severity" value="0" min="0" max="5" /><input type="text" placeholder="Notes" id="symptom-notes" value="" />');
+			this.$(".set-severity").show();
+			this.$(".swiper-slide").addClass('swiper-no-swiping');
 			this.$("#symptom-notes").textinput();
 			this.$("#severity").slider({
 				trackTheme: 'a',
@@ -94,7 +103,7 @@ window.$dino.SymptomListItemView = $dino.ListItemView.extend({
 		this.$(".ui-icon").removeClass("ui-icon-check");
 		this.$(".ui-icon").addClass("ui-icon-plus");
 		this.resetTitle();
-		this.addBubble('h3', 'Saved');		
+		this.addBubble('.item-title', 'Saved');		
 	},
 	
 	saveSeverity: function(){

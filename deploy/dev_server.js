@@ -38,7 +38,8 @@ var Symptom = new Schema({
 	title: { type: String, required: true },
 	user: { type: String, required: true },	
 	count: { type: Number, default: 0 },
-	bug: {type: String}
+	bug: { type: String},
+	retired: { type: Boolean, default: false }
 });
 
 var SymptomModel = mongoose.model('Symptom', Symptom);
@@ -53,7 +54,8 @@ var Medication = new Schema({
 	title: { type: String, required: true },
 	user: { type: String, required: true },	
 	count: { type: Number, default: 0 },
-	bug: {type: String }
+	bug: { type: String },
+	retired: { type: Boolean, default: false }
 });
 
 var MedicationModel= mongoose.model('Medication', Medication);

@@ -1,67 +1,42 @@
 <style>
-	span.ui-btn-icon-notext {
-		border: none;
-		box-shadow: none;
-		background: none;
+	.set-severity {
+		display: none;
 	}
-	.ui-icon-shadow {
-		box-shadow: none;
-	}
-	.removeItem {
-		background: #B84645;
-		padding-right: 10px;
-		padding-top: 8px;
-		padding-bottom: 7px;
-		border: 1px solid #b3b3b3 /*{d-bar-border}*/;
-	}
-	.retireItem {
-		padding-top: 14px;
-		padding-bottom: 15px;
-	}
-	.removeItem, .retireItem {
-		text-align: center;	
-	}
-	#medication-detail {
-		padding: 0;
-	}
-	.swiper-slide {
-		padding-top: 0px;
-		padding-bottom: 0px;
-	}
-	.item-title {
-		padding-top: 11px;
+	#severity-label {
 		padding-left: 15px;
 	}
-	.plus-one .ui-btn-inner {
-		border-top: 0;
-		border-bottom: 0;
+	.set-severity .ui-slider {
+		margin-right: 50px;
 	}
-	#myList .ui-li.ui-btn {
-		border-top: 0;
-		border-bottom: 0;
+	#item-title-slide.swiper-no-swiping {
+		padding-bottom: 100px;
 	}
-	#myList li .ui-btn-inner {
-		border-top: 0;
-	}
-	.delete-text {
-		padding-right: 20px;
+	.set-severity .ui-input-text {
+		margin-left: 25px;
+		margin-right: 50px;
 	}
 </style>
-<a id="<%= type %>-detail" href="#<%= type %>/<%= _id %>">
-	
-	<h3 class="swiper-container">
-		<div class="swiper-wrapper">
-			<div class="swiper-slide">
-				<div class="item-title <%= type %>-title"><%= title %></div>
-			</div>
-			<div class="ui-grid-a swiper-slide">
-				<div data-theme="d" class="ui-block-a">
-					<div class="ui-bar retireItem ui-bar-d">Retire</div>
-				</div>
-				<div class="removeItem ui-block-b">
-					<div class="ui-bar"><span class="delete-text">Delete</span></div>
+<a id="<%= type %>-detail" href="#<%= type %>/<%= _id %>"> <h3 class="swiper-container">
+<div class="swiper-wrapper">
+	<div id="item-title-slide" class="swiper-slide">
+		<div class="item-title <%= type %>-title">
+			<%= title %>
+		</div>
+		<div class="set-severity">
+			<label for="severity">Severity:</label>
+			<input type="range" name="severity" id="severity" value="0" min="0" max="5" /><input type="text" placeholder="Notes" id="symptom-notes" value="" />	
+		</div>
+	</div>
+	<div class="ui-grid-a swiper-slide">
+		<div data-theme="d" class="ui-block-a">
+			<div class="ui-bar retireItem ui-bar-d">
+				Retire
 			</div>
 		</div>
-	</h3>
-	<a class="plus-one ui-icon-nodisc" href="#"></a>
-</a>
+		<div class="removeItem ui-block-b">
+			<div class="ui-bar">
+				<span class="delete-text">Delete</span>
+			</div>
+		</div>
+	</div>
+</h3> <a class="plus-one ui-icon-nodisc" href="#"></a> </a>

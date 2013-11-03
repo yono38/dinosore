@@ -1,179 +1,207 @@
 @font-face {
-    font-family: 'playtime_with_hot_toddiesRg';
-    src: url('playtime-webfont.eot');
-    src: url('playtime-webfont.eot?#iefix') format('embedded-opentype'),
-         url('playtime-webfont.woff') format('woff'),
-         url('playtime-webfont.ttf') format('truetype'),
-         url('playtime-webfont.svg#playtime_with_hot_toddiesRg') format('svg');
-    font-weight: normal;
-    font-style: normal;
-
+	font-family:'playtime_with_hot_toddiesRg';
+	src:url('playtime-webfont.eot');
+	src:url('playtime-webfont.eot?#iefix') format('embedded-opentype'),url('playtime-webfont.woff') format('woff'),url('playtime-webfont.ttf') format('truetype'),url('playtime-webfont.svg#playtime_with_hot_toddiesRg') format('svg');
+	font-weight:normal;
+	font-style:normal;
 }
-
 .ui-title, .fancyFont {
-	font-family: 'playtime_with_hot_toddiesRg' !important
+	font-family:'playtime_with_hot_toddiesRg' !important
 }
-
 #getStarted {
-	margin-bottom: 0;
+	margin-bottom:0;
 }
-
 .ui-title {
-	font-size: 40px !important;
-	margin-top: 0 !important;
-	margin-left: 1em !important;
-	margin-right: 1em !important;
+	font-size:40px !important;
+	margin-top:0 !important;
+	margin-left:1em !important;
+	margin-right:1em !important;
 }
 .ui-header {
-	height: 50px !important;
+	height:50px !important;
 }
-
 #savePopup p {
-	background: darkgray;
-	padding: 10px;
-	border-radius: 15px;
-	text-align: center;
-	font-weight: bold;
+	background:darkgray;
+	padding:10px;
+	border-radius:15px;
+	text-align:center;
+	font-weight:bold;
 }
 .ui-datebox-container {
-	width: 346px;
+	width:346px;
 }
 #add-appt-header, #add-appt-header div {
-	margin-top: 0;
-	margin-bottom: 0;
-	padding-top: 0;
-	padding-bottom: 0;
+	margin-top:0;
+	margin-bottom:0;
+	padding-top:0;
+	padding-bottom:0;
 }
 .ui-datebox-container {
-	margin: auto;
-	width: 285px;
+	margin:auto;
+	width:285px;
 }
 /* Custom styling for the popup */
 #confirm {
-	border: 1px solid;
-	border-color: #044062; /* Fallback for older browsers */
-	border-color: rgba(4,64,98,.4);
-	background: #456f9a; /* Fallback for older browsers */
-	background: rgba(69,111,154,.8);
-	-moz-box-shadow: 0 2px 6px rgba(69,111,154,.5), inset 0 1px rgba(255,255,255,.3), inset 0 6px rgba(255,255,255,.1), inset 0 10px 20px rgba(255,255,255,.25), inset 0 -15px 30px rgba(69,111,154,.3);
-	-webkit-box-shadow: 0 2px 6px rgba(69,111,154,.5), inset 0 1px rgba(255,255,255,.3), inset 0 6px rgba(255,255,255,.1), inset 0 10px 20px rgba(255,255,255,.25), inset 0 -15px 30px rgba(69,111,154,.3);
-	box-shadow: 0 2px 6px rgba(69,111,154,.5), inset 0 1px rgba(255,255,255,.3), inset 0 6px rgba(255,255,255,.1), inset 0 10px 20px rgba(255,255,255,.25), inset 0 -15px 30px rgba(69,111,154,.3);
-	max-width: 250px;
+	border:1px solid;
+	border-color:#044062; /* Fallback for older browsers */
+	border-color:rgba(4,64,98,.4);
+	background:#456f9a; /* Fallback for older browsers */
+	background:rgba(69,111,154,.8);
+	-moz-box-shadow:0 2px 6px rgba(69,111,154,.5),inset 0 1px rgba(255,255,255,.3),inset 0 6px rgba(255,255,255,.1),inset 0 10px 20px rgba(255,255,255,.25),inset 0 -15px 30px rgba(69,111,154,.3);
+	-webkit-box-shadow:0 2px 6px rgba(69,111,154,.5),inset 0 1px rgba(255,255,255,.3),inset 0 6px rgba(255,255,255,.1),inset 0 10px 20px rgba(255,255,255,.25),inset 0 -15px 30px rgba(69,111,154,.3);
+	box-shadow:0 2px 6px rgba(69,111,154,.5),inset 0 1px rgba(255,255,255,.3),inset 0 6px rgba(255,255,255,.1),inset 0 10px 20px rgba(255,255,255,.25),inset 0 -15px 30px rgba(69,111,154,.3);
+	max-width:250px;
 }
 #confirm p {
-	color: #fff;
-	text-shadow: 0 1px 1px rgba(0,0,0,.6);
-	margin-bottom: .75em;
+	color:#fff;
+	text-shadow:0 1px 1px rgba(0,0,0,.6);
+	margin-bottom:.75em;
 }
 /* Make the buttons inherit the popup border-radius (.ui-corner-all) */
 #confirm div, #confirm .ui-btn-corner-all {
-	-webkit-border-radius: inherit;
-	border-radius: inherit;
+	-webkit-border-radius:inherit;
+	border-radius:inherit;
 }
 #confirm #cancel {
-	background-image: none;
+	background-image:none;
 }
 #confirm .topic.ui-li-desc {
-	font-size: inherit; /* The cloned topic will have class ui-li-desc so we negate the font-size settings of this class */
-	text-align: center;
+	font-size:inherit; /* The cloned topic will have class ui-li-desc so we negate the font-size settings of this class */
+	text-align:center;
 }
-
 .cancelBtn {
-	background: #B84645;
-	color: rgb(255, 255, 255) !important;
-	text-shadow: none !important;
+	background:#B84645;
+	color:rgb(255, 255, 255) !important;
+	text-shadow:none !important;
 }
-
 #cancel-change-severity .ui-btn-inner {
-	padding-right: 15px;
+	padding-right:15px;
 }
-
 .symptom-added {
-	opacity: 0.3
+	opacity:0.3
 }
-
 .added-bubble {
-	padding: 2px;
-	font-size: 12px;
-	margin-left: 10px;
+	padding:2px;
+	font-size:12px;
+	margin-left:10px;
 }
-
 /* This turns off the shortening ellipse in page titles */
 .ui-title {
-	text-overflow: ellipsis !important;
-	overflow: visible !important;
-	white-space: normal !important;
+	text-overflow:ellipsis !important;
+	overflow:visible !important;
+	white-space:normal !important;
 }
-
 .plus-one {
-	border-left: 2px solid #FCFAD6;
+	border-left:2px solid #FCFAD6;
 }
-
 .ui-datebox-container {
-	border: none !important;
-	box-shadow: none !important;
+	border:none !important;
+	box-shadow:none !important;
 }
-
 .plus-one .ui-btn-inner .ui-btn-icon-notext {
-	border-radius: 15px;
+	border-radius:15px;
 }
-
 .ui-li-count {
-	border-radius: 10px;
+	border-radius:10px;
 }
-
 .ui-page {
-	background-image: url('../img/background.png');
+	background-image:url('../img/background.png');
 }
-
 /* Custom icons */
 .ui-icon-symptom {
-	background-image: url("images/SymptomsIcon.png") !important;
-	background-size: 18px;18px;
+	background-image:url("images/SymptomsIcon.png") !important;
+	background-size:18px;18px;
 }
 .ui-icon-medication {
-	background-image: url("images/medicationsIcon.png") !important;
-	background-size: 18px;18px;
+	background-image:url("images/medicationsIcon.png") !important;
+	background-size:18px;18px;
 }
 .ui-icon-bug {
-	background-image: url("images/BugsIcon.png") !important;
-	background-size: 18px;18px;
+	background-image:url("images/BugsIcon.png") !important;
+	background-size:18px;18px;
 }
-
 .ui-header {
-	height: auto !important;
+	height:auto !important;
 }
 .ui-header .ui-title {
-	margin-bottom: 0;
+	margin-bottom:0;
 }
 #error-msg {
-	color: red;
-	text-align: center;
+	color:red;
+	text-align:center;
 }
 .add-btn-padding {
-	background: #FF9B3E;
+	background:#FF9B3E;
 }
 .new-item {
-	margin: 0 auto;
-	border: none;
-	border-top: none;
-	box-shadow: none !important;
+	margin:0 auto;
+	border:none;
+	border-top:none;
+	box-shadow:none !important;
 }
 .new-item .ui-btn-inner {
-	border-top: none;
+	border-top:none;
 }
 .new-item-padding {
-	text-align: center;
-	border: none;
+	text-align:center;
+	border:none;
 }
 .new-item-input {
-	display: none;
+	display:none;
 }
 .new-group {
-	display: none;
+	display:none;
 }
 .list-border {
-	border-bottom: 3px solid;
-	padding-bottom: 15px;
-	padding-top: 10px
+	border-bottom:3px solid;
+	padding-bottom:15px;
+	padding-top:10px
+}
+.ui-icon-shadow {
+	box-shadow:none;
+}
+.removeItem {
+	background:#B84645;
+	padding-right:10px;
+	padding-top:8px;
+	padding-bottom:7px;
+	border:1px solid #b3b3b3/*{d-bar-border}*/;
+}
+.retireItem {
+	padding-top:14px;
+	padding-bottom:15px;
+}
+.removeItem, .retireItem {
+	text-align:center;
+}
+#medication-detail, #symptom-detail, #myList > .ui-link-inherit {
+	padding:0;
+}
+.item-title {
+	padding-top:11px;
+	padding-left:15px;
+}
+.plus-one .ui-btn-inner {
+	border-top:0;
+	border-bottom:0;
+}
+#myList .ui-li.ui-btn {
+	border-top:0;
+	border-bottom:0;
+}
+#myList li .ui-btn-inner {
+	border-top:0;
+}
+
+.new-item {
+	margin:0 auto;
+	border:none;
+	border-top:none;
+	box-shadow:none;
+}
+.new-item .ui-btn-inner {
+	border-top:none;
+}
+.new-item-padding {
+	text-align:center;
 }

@@ -11,7 +11,7 @@ window.$dino.ListItemView = Backbone.View.extend({
 			console.log('changing theme');
 			this.$el.attr("data-theme", "d");
 		}
-		_.bindAll(this, 'remove', 'destroy');
+		_.bindAll(this, 'remove', 'destroy', 'hidePlus');
 	}, 
 /*	 Currently unused
 	fetchBugColor: function(){
@@ -29,15 +29,33 @@ window.$dino.ListItemView = Backbone.View.extend({
 	events: {
 		"click" : "dontclick",
 		"click .plus-one" : "clickPlus",
-	//	"swiperight" : "confirmDelete",
 		"dblclick #item-detail" : "openDetails",
 		"indom" : "makeSwiper",
-		"click .removeItem" : "confirmDelete"
+		"click .removeItem" : "confirmDelete",
+		"click .retireItem" : "retireItem"
+	},
+	
+	retireItem: function(e){
+		e.preventDefault();
+		console.log('retire this item');
+		this.model.set("retired", true);
 	},
 	
 	makeSwiper: function(e){
 		console.log("test indom on list item");
-		this.mySwiper = this.$('.swiper-container').swiper();
+		this.mySwiper = this.$('.swiper-container').swiper({
+			'noSwiping' : true,
+			'onSlideChangeEnd': this.hidePlus
+		});
+	},
+	
+	hidePlus: function(swiper){
+		console.log(swiper);
+		if (swiper.activeIndex == 1){
+			this.$(".plus-one").hide();
+		} else {
+			this.$(".plus-one").show();
+		}
 	},
 	
 	dontclick: function(e){

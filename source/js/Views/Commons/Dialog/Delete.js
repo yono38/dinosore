@@ -34,9 +34,7 @@ window.$dino.DialogDeleteView = Backbone.View.extend({
 	id : 'confirm',
 
 	open : function() {
-		this.$el.popup({
-			"positionTo" : $(this.el)
-		});
+		this.$el.popup();
 		this.$el.popup('open');
 		this.$("#yes").button();
 		this.$("#cancel").button();
