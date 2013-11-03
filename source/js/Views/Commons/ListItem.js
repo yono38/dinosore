@@ -39,6 +39,8 @@ window.$dino.ListItemView = Backbone.View.extend({
 		e.preventDefault();
 		console.log('retire this item');
 		this.model.set("retired", true);
+		this.model.save();
+		this.render();
 	},
 	
 	makeSwiper: function(e){
@@ -121,6 +123,10 @@ window.$dino.ListItemView = Backbone.View.extend({
 				{type: this.name}
 			)
 		));
+		console.log(this.model);
+		if (this.model.get("retired") === true){
+			this.$el.attr("data-theme", "d");
+		}
         return this;
 	}
 	

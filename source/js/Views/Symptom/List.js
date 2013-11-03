@@ -99,15 +99,18 @@ window.$dino.SymptomListView = $dino.PlusListView.extend({
 			var view = new $dino.SymptomListItemView({
 				model : item
 			});
+	      	selector = (item.get("retired") === true) ? "#retiredList" : "#myList";  
+	     	this.$(selector).append(view.render().el);  
 		} else if (type == "bug") {
 			var view = new $dino.ConditionListItemView({
 				model : item
 			});
-	      	selector = (item.get("status") == "In Remission" || item.get("status") == "Retired") ? "#retiredList" : "#activeConditionList";  
+	      	selector = (item.get("status") == "In Remission" || item.get("status") == "Retired") ? "#retiredList" : "#myList";  
+	     	this.$(selector).prepend(view.render().el);  
 		} else {
 			console.log("Invalid type: " + type);
+			return;
 		}
-     	this.$(selector).append(view.render().el);  
      	view.$el.trigger('indom');
 	}
 });
