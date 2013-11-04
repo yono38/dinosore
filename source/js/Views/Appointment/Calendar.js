@@ -98,6 +98,7 @@ window.$dino.AppointmentCalendarView = Backbone.View.extend({
 			}
 			console.log(passed.value);
 			if (!noChange)	this.$("#currDate").html(moment(passed.value).format("dddd, MMMM Do YYYY"));
+			this.currDate = passed.value;
 			this.firstDateAlreadyCalled = true;
 		} else {
 			e.stopPropagation();
@@ -141,7 +142,12 @@ window.$dino.AppointmentCalendarView = Backbone.View.extend({
 
 	newAppt : function(e) {
 		if (e) e.preventDefault();
-		$dino.app.navigate("appts/add", {
+		var passDefault = "";
+		if (this.currDate) {
+			passDefault = "?"+this.currDate;
+			console.log(this.currDate);
+		}
+		$dino.app.navigate("appts/add"+passDefault, {
 			trigger : true
 		});
 	},
@@ -178,8 +184,14 @@ window.$dino.AppointmentCalendarView = Backbone.View.extend({
 		});
 	},
 
-	addAppt : function() {
-		$dino.app.navigate("#appts/add", {
+	addAppt : function(e) {
+		e.preventDefault();
+		var passDefault = "";
+		if (this.currDate) {
+			passDefault = "?date="+this.currDate;
+			console.log(this.currDate);
+		}
+		$dino.app.navigate("#appts/add"+passDefault, {
 			trigger : true
 		});
 		// bad practice!

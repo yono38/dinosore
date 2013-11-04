@@ -1,6 +1,9 @@
 window.$dino.AppointmentNewView = $dino.NewFormView.extend({
 	afterInitialize : function(opts) {
 		this.model = this.model || new $dino.Appointment();
+		if (opts.defaultDate) {
+			this.defaultDate = opts.defaultDate;
+		}
 		this.template = _.template(tpl.get('appointment-new'));
 		this.first = true;
 		// extend child events on to parent's - inheritance ftw
@@ -81,7 +84,7 @@ window.$dino.AppointmentNewView = $dino.NewFormView.extend({
 		var date = this.model.get("date");
 		this.$el.html(this.template(_.extend(this.model.toJSON(), {
 			"header" : this.header,
-			"day" : moment.unix(date).format('YYYY-MM-DD'), 
+			"day" : this.defaultDate || moment.unix(date).format('YYYY-MM-DD'), 
 			"time" : moment.unix(date).format('HH:mm:ss'), 
 		})));
 		if (this.first) {

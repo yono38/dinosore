@@ -13,7 +13,7 @@ $dino.AppRouter = Backbone.Router.extend({
 		"offline" : "offlineExit",
 		"appts/:id/modifyOld" : "apptModify",
 		"appts/:id/modify" : "apptModifyNew",
-		"appts/add" : "newAppt",
+		"appts/add(?*path)" : "newAppt",
 		"bugs" : "bugList",
 		"info" : "info",
 		"info/modify" : "infoModify",
@@ -22,7 +22,6 @@ $dino.AppRouter = Backbone.Router.extend({
 		"privacy" : "privacySettings",
 		"signup" : "signup",
 		"tutorial" : "tutorial",
-		"*listbox" : "letAlone",
 		"*path" : "start"
 	},
 
@@ -32,10 +31,6 @@ $dino.AppRouter = Backbone.Router.extend({
 			return false;
 		});
 		this.firstPage = true;
-	},
-	
-	letAlone: function(e) {
-		console.log('let it alone');
 	},
 
 	bugDialog : function(id) {
@@ -53,8 +48,11 @@ $dino.AppRouter = Backbone.Router.extend({
 		this.changePage(new $dino.StartPrivacyView());
 	},
 
-	newAppt : function() {
-		this.changePage(new $dino.AppointmentNewView());
+	newAppt : function(path) {
+		if (path) console.log(path);
+		this.changePage(new $dino.AppointmentNewView({
+			defaultDate : path
+		}));
 	},
 
 	login : function() {
