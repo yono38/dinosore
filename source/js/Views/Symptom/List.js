@@ -35,7 +35,8 @@ window.$dino.SymptomListView = $dino.PlusListView.extend({
 
 	renderList : function(firstTime) {
 		var that = this;
-		this.$("#myList").empty();
+		this.$(".loading").show();
+    	this.$("#myList").html('<img class="loading" src="css/images/ajax-loader.gif" style="margin-left:50%;padding-top:15px;" alt="loading..." />');
 		this.$("#retiredList").empty();
 		this.$("#activeConditionList").empty();
 		this.bugCollection.fetch({
@@ -43,6 +44,7 @@ window.$dino.SymptomListView = $dino.PlusListView.extend({
 				"user" : Parse.User.current().id
 			},
 			success : function(collection) {
+				this.$(".loading").hide();
 				collection.comparator = that.sortList;
 
 				collection.sort();
@@ -65,6 +67,7 @@ window.$dino.SymptomListView = $dino.PlusListView.extend({
 				"user" : Parse.User.current().id
 			},
 			success : function(collection) {
+				this.$(".loading").hide();
 				if (collection.length == 0) {
 				//	that.$("#myList").html('<span id="no-items-yet" class="fancyFont"><div>No ' + that.header + ' Added Yet!</div><hr> <div>Click "Add" Above to Get Started</div><hr></span>');
 					return;

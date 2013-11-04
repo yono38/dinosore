@@ -79,12 +79,12 @@ window.$dino.PlusListView = Backbone.View.extend({
     
     renderList: function(firstTime) {
     	var that = this;
-    	this.$("#myList").empty();
+    	this.$("#myList").html('<img src="css/images/ajax-loader.gif" style="margin-left:50%;padding-top:15px;" alt="loading..." />');
         this.collection.fetch({
       	  data: { "user" : Parse.User.current().id }, 
           success: function(collection){
+	    	this.$("#myList").empty();
           	if (collection.length ==0){
-          		that.$("#myList").empty();
           	//	that.$("#myList").html('<span id="no-items-yet" class="fancyFont"><div>No '+that.header+' Added Yet!</div><hr> <div>Click "Add" Above to Get Started</div><hr></span>');
           		return;
           	}

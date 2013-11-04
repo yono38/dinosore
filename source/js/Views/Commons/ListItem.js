@@ -108,7 +108,7 @@ window.$dino.ListItemView = Backbone.View.extend({
 			user: Parse.User.current().id
 		}, {
 		success: function(item){
-			that.addBubble('h3', '+1');
+			that.addBubble('.item-title', '+1');
 		}
 		});
 	},
@@ -129,7 +129,10 @@ window.$dino.ListItemView = Backbone.View.extend({
 		this.$el.html(this.template(
 			_.extend(
 				this.model.toJSON(), 
-				{type: this.name}
+				{
+					type: this.name,
+					retired: this.model.get("retired") || false
+				}
 			)
 		));
 		console.log(this.model);

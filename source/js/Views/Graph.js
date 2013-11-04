@@ -20,7 +20,9 @@ window.$dino.GraphView = Backbone.View.extend({
 	
 	goBack: function(e){
 		if (e) e.preventDefault();
-		$dino.app.changePage(new $dino.MedicalInfoView(), true);
+		var medInfo = new $dino.MedicalInfoView();
+		$dino.app.changePage(medInfo, true);
+		medInfo.loadLists();
 	},
 
 	// expects itemIds to be array of mongoIds

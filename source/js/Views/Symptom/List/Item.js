@@ -10,7 +10,6 @@ window.$dino.SymptomListItemView = $dino.ListItemView.extend({
 	events: {
 		"click" : "dontclick",
 		"click .plus-one" : "clickPlus",
-		"swiperight" : "confirmDelete",
 		"slidestop" : "changeSeverity",
 		"keypress #symptom-notes" : "addOnEnter",
 		"indom" : "makeSwiper",
