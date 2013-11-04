@@ -22,6 +22,7 @@ $dino.AppRouter = Backbone.Router.extend({
 		"privacy" : "privacySettings",
 		"signup" : "signup",
 		"tutorial" : "tutorial",
+		"*listbox" : "letAlone",
 		"*path" : "start"
 	},
 
@@ -31,6 +32,10 @@ $dino.AppRouter = Backbone.Router.extend({
 			return false;
 		});
 		this.firstPage = true;
+	},
+	
+	letAlone: function(e) {
+		console.log('let it alone');
 	},
 
 	bugDialog : function(id) {

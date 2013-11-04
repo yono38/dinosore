@@ -15,18 +15,44 @@ window.$dino.MedicalInfoView = $dino.NewFormView.extend({
 	events : {
 		'click #logout' : 'logout',
 		'click #visualize-items' : 'visualizeItems',
-		'click #visualize-condition' : 'visualizeCondition'
+		'click #visualize-condition' : 'visualizeCondition',
+		'click #select-medication-button' : 'openListbox',
+		'click #select-medication-listbox .ui-header a.ui-btn-left' : 'closeBox',
+		'change #select-condition' : 'refreshSelect'
+	},
+	
+	refreshSelect: function(e){
+		console.log('test');
+	},
+	
+	closeBox: function(e) {
+		e.preventDefault();
+		this.$("#select-medication-listbox").popup("close");
+	},
+	
+	openListbox: function(e) {
+		e.preventDefault();
+		console.log(e);
+		this.$("#select-medication").selectmenu("refresh");
+		this.$("#select-medication-listbox").popup("open");
 	},
 
 	// not implemented yet
 	visualizeItems : function(e) {
 		e.preventDefault();
+		var that = this;
 		var symp = this.$("#select-symptom option:selected");
 		if (symp.val() == "default") {
 			this.$("#error").html("Woops, you forgot to select a symptom to graph!");
 			return;
 		}
-		this.visualize.medication[symp.val()] = symp.text();
+		this.visualize.symptom[symp.val()] = symp.text();
+
+		var meds = this.$("#select-medication option:selected");
+		_(meds).each(function(med, idx){
+			var $med = $(med);
+			that.visualize.medication[$med.val()] = $med.text();
+		});
 		console.log(this.visualize);
 		var visualize = new $dino.GraphView({
 			items: this.visualize,

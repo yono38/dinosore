@@ -40,23 +40,17 @@
 </div>
 <h2 class="select-header" id="select-items-header">Select Symptom and Medications to Graph:</h2>
 <h3 id="error"></h3>
-				<select class="ui-icon-alt ui-icon-nodisc" name="select-symptom" id="select-symptom">
+				<select class="ui-icon-alt ui-icon-nodisc" name="select-symptom" id="select-symptom"> 
 					<option value="default">Symptoms</option>
 				</select>
 
-<table id="medication-list-bar" style='width:100%'>
-	<tbody>
-		<tr>
-			<td>
-			<fieldset data-role="controlgroup">
-				<select class="ui-icon-alt ui-icon-nodisc" name="select-medication" id="select-medication">
-					<option value="default">Medications</option>
+		<form action="#" method="get">
+			<div data-role="fieldcontain">
+				<select class="ui-icon-alt ui-icon-nodisc" name="select-medication" id="select-medication" multiple="multiple" data-native-menu="false">
+					<option>Choose Medications</option>
 				</select>
-			</fieldset></td>
-			<td style='width:5em; padding-left:1em'><a id="add-medication-btn" class="add_detail_item ui-icon-nodisc" data-type="medication" data-role="button" data-icon="plus" >Add</a></td>
-		</tr>
-	</tbody>
-</table>
+			</div>
+		</form>
 <ul id="medication-list"></ul>
 
 <a href="#" id="visualize-items" data-role="button" class="darktan" data-theme="c">Graph Items</a>
