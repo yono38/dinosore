@@ -163,13 +163,17 @@
 .removeItem {
 	background:#B84645;
 	padding-right:10px;
+	height: 100%;
 	padding-top:8px;
-	padding-bottom:7px;
 	border:1px solid #b3b3b3/*{d-bar-border}*/;
+}
+.delete-text {
+	color: #ffffff /*{a-bup-color}*/;
+	text-shadow: none;
 }
 .retireItem {
 	padding-top:14px;
-	padding-bottom:15px;
+	height: 100%;
 }
 .removeItem, .retireItem {
 	text-align:center;

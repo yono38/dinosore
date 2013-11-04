@@ -20,7 +20,7 @@ var fs = require('fs-extra')
 var copySrcFiles = function(cb){
 	console.log('copying newest source files over to phonegap/www folder..');
 	console.log('Note: Doesn\'t copy over main.js or config.js by default');
-	var copyDirs = [/*'main.js', 'index.html',*/ 'css', 'img', 'lib', 'js/Models', 'js/Views'];
+	var copyDirs = ['js/main.js', 'index.html', 'css', 'img', 'lib', 'js/Models', 'js/Views'];
 	var targetDir = './build/phonegap/www/';
 	var sourceDir = './source/';
 	copyDirs.forEach(function(dir, idx, arr){
@@ -74,13 +74,14 @@ var concatTpl = function(callback){
 // ================== BUILD WITH PHONEGAP ============ //
 function buildPhonegap(callback){
 	console.log('building phonegap app for android');
-	console.log('Changing directory to ' + process.cwd() + 'build/phonegap');
-	process.chdir(path.normalize('build/phonegap'));
+	var normDir = path.normalize('build/phonegap');
+	console.log('Changing directory to ' + process.cwd() + normDir);
+	process.chdir(normDir);
 	var spawn = require('child_process').spawn,
-    pg = spawn('phonegap', ['run', 'android']);
+     pg = spawn('cmd', ['/c', 'phonegap run android']);
 
 	pg.stdout.on('data', function (data) {
-	  console.log('stdout: ' + data);
+	  console.log(data);
 	});
 	
 	pg.stderr.on('data', function (data) {
@@ -91,9 +92,9 @@ function buildPhonegap(callback){
 	    console.log('phonegap build process exited with code ' + code);
 		process.chdir(path.normalize('../..'));	
 		console.log('Script now running from '+process.cwd());
+		if (callback) callback(null);
 	});
 
-	if (callback) callback(null);
 };
 
 // =================== SEND APK EMAIL ================= //

@@ -15,6 +15,9 @@
 		margin-left: 25px;
 		margin-right: 50px;
 	}
+	.ui-block-d {
+		height: 100%;
+	}
 </style>
 <a id="<%= type %>-detail" href="#<%= type %>/<%= _id %>"> <h3 class="swiper-container">
 <div class="swiper-wrapper">
@@ -28,18 +31,19 @@
 		</div>
 	</div>
 	<div class="ui-grid-a swiper-slide">
-		<div data-theme="d" class="ui-block-a">
-
+		<div data-theme="d" class="ui-block-d"
+		
 		<% if (retired && retired === true) { %>
- 			<div class="ui-bar retireItem ui-bar-d" data-retired="true">
+		data-retired="true">
+ 			<div class="retireItem ui-bar ui-bar-d" data-retired="true">
 			Reactivate
 		<% } else { %>
-			<div class="ui-bar retireItem ui-bar-d">
+			>
+			<div class="retireItem ui-bar ui-bar-d">
 			Retire 
 		<% } %>
-
+	</div>	
 			</div>
-		</div>
 		<div class="removeItem ui-block-b">
 			<div class="ui-bar">
 				<span class="delete-text">Delete</span>
