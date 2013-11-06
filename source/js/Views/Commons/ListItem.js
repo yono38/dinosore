@@ -58,8 +58,15 @@ window.$dino.ListItemView = Backbone.View.extend({
 		console.log("test indom on list item");
 		this.mySwiper = this.$('.swiper-container').swiper({
 			'noSwiping' : true,
-			'onSlideChangeEnd': this.hidePlus
+			'onSlideChangeEnd': this.hidePlus,
+			'calculateHeight': false
 		});
+		// TODO this is a dumb hack caused because swiper
+		// is auto-formatting height on list items based on 
+		// length of content text inside, should just be able
+		// to turn off with calculateHeight false :P
+		this.$(".swiper-slide").css("height", "45px");
+		this.$(".swiper-wrapper").css("height", "45px");
 	},
 	
 	hidePlus: function(swiper){
@@ -126,10 +133,12 @@ window.$dino.ListItemView = Backbone.View.extend({
 	
 	render:function(eventName){
 		var that = this;
+		var title = this.model.get("title");
 		this.$el.html(this.template(
 			_.extend(
 				this.model.toJSON(), 
 				{
+					title: (title.length > 30) ? title.substr(0,27) + '...' : title,
 					type: this.name,
 					retired: this.model.get("retired") || false
 				}
