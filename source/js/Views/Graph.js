@@ -265,6 +265,7 @@ window.$dino.GraphView = Backbone.View.extend({
 	},
 
 	loadMultiChart : function(itemData) {
+		var that = this;
 
 		// holds plusones for single symptom
 		var jsoon = _.where(itemData, {
@@ -281,36 +282,25 @@ window.$dino.GraphView = Backbone.View.extend({
 			return;
 		}
 
-		//holds dates of meds taken and symptom logged:
+		//holds dates of meds taken and symptom logged
 		var timeAxis = []
 		//holds all timestamps for symptoms and meds for sorting
+		// this array is converted into timeAxis, which forms the x axis
+		// of formatted dates
 		, timeStamps = []
+		// this holds the severity Y values for the symptom
 		, sevAxis = []
 		, noteSeries = []
 		//keep medtime with timestamps in so can look up times meds taken
 		, medTime = []
 		, medNameAndTime = {};
-
-		// used as filler if no severity set on date
-		var prev = 0;
-		var appendTimeSevToAxis = _.each(jsoon, function(elem) {
+		
+		var appendSympTimeToArr = _.each(jsoon, function(elem) {
 			var time = moment.unix(elem.date);
 			date = (time.format("MMM Do - h:mm a"));
 			timeStamps.push(elem.date);
-			//timeAxis.push(date);
-			if (elem.severity) {
-				var sev = elem.severity;
-				sevAxis.push(sev);
-				prev = sev;
-			} else {
-				//        	console.log('prev push');
-				sevAxis.push(prev);
-			}
-			var notes = elem.notes;
-			noteSeries[date] = notes;
 		});
-
-		var that = this;
+		
 		var appendMedTimeToArr = _.each(medJson, function(el) {
 			var time = moment.unix(el.date);
 			var date = (time.format("MMM Do - h:mm a"));
@@ -326,6 +316,27 @@ window.$dino.GraphView = Backbone.View.extend({
 			timeAxis.push(date);
 		});
 		timeAxis.sort();
+
+		// used as filler if no severity set on date
+		var prev = 0;
+		console.log(jsoon);
+		dattes = jsoon;
+		var appendTimeSevToAxis = _.each(timeStamps, function(time) {
+			console.log(time);
+			var elem = _.first(_.where(jsoon, {"date": time}));
+			if (elem && elem.severity) {
+				var sev = elem.severity;
+				sevAxis.push(sev);
+				prev = sev;
+			} else {
+				sevAxis.push(prev);
+			}
+			var notes = "";
+			if (elem && elem.notes) {
+				notes = elem.notes;
+			}
+			noteSeries[date] = notes;
+		});
 
 		var makePlotLines = function(timeAxis, medTime) {
 			var i = 0;

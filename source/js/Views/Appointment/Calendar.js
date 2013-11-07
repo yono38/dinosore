@@ -123,7 +123,7 @@ window.$dino.AppointmentCalendarView = Backbone.View.extend({
 				that.$("#mydate").datebox({
 					"mode" : "calbox",
 					"highDates" : _.keys(that.highDates),
-					//"themeDateHigh" : "e",
+					"themeDateHigh" : "b",
 					"theme" : "a",
 					"useInline" : true,
 					"useImmediate" : true,

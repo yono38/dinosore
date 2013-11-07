@@ -3,9 +3,16 @@
 		border: rgb(204, 204, 204) solid 1px;
 	}
 </style>
+	<div class="apptIcons">
+		<% if (doctor.title && doctor.title != "None" && condition.title && condition.title != "None") { %>
+		<div><a href="#" class="removeAppt ui-icon-alt ui-icon-nodisc" data-role="button" data-theme="f" data-icon="delete" data-iconpos="notext" data-inline="true" data-mini="true" data-apptId="<%= _id %>">Remove</a></div>
+		<div><a href="#" class="editAppt ui-icon-alt ui-icon-nodisc" data-role="button" data-theme="f" data-icon="edit" data-iconpos="notext" data-inline="true" data-mini="true" data-apptId="<%= _id %>">Edit</a></div>
+		<% } else { %>
+		<a href="#" class="removeAppt ui-icon-alt ui-icon-nodisc" data-role="button" data-theme="f" data-icon="delete" data-iconpos="notext" data-inline="true" data-mini="true" data-apptId="<%= _id %>">Remove</a>
+		<a href="#" class="editAppt ui-icon-alt ui-icon-nodisc" data-role="button" data-theme="f" data-icon="edit" data-iconpos="notext" data-inline="true" data-mini="true" data-apptId="<%= _id %>">Edit</a>
+		<% } %>
+	</div>
 <h3 class="ui-li-heading"> <<span class="ui-li-count"><%= time %></span>>  <%= title %>
-	<a href="#" class="removeAppt ui-icon-alt ui-icon-nodisc" data-role="button" data-theme="f" data-icon="delete" data-iconpos="notext" data-inline="true" data-mini="true" data-apptId="<%= _id %>">Remove</a>
-	<a href="#" class="editAppt ui-icon-alt ui-icon-nodisc" data-role="button" data-theme="f" data-icon="gear" data-iconpos="notext" data-inline="true" data-mini="true" data-apptId="<%= _id %>">Edit</a>
 </h3>
 <p class="ui-li-desc">
 	<div id="appt-desc">

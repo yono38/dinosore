@@ -34,7 +34,11 @@ window.$dino.MedicalInfoView = $dino.NewFormView.extend({
 		e.preventDefault();
 		console.log(e);
 		this.$("#select-medication").selectmenu("refresh");
+		this.$("#select-medication-listbox").popup({
+			overlayTheme: 'a'
+		});
 		this.$("#select-medication-listbox").popup("open");
+		this.$("#select-medication-listbox li:first-child").removeClass("ui-btn-down-a ui-focus");
 	},
 
 	// not implemented yet
