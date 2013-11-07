@@ -55,7 +55,6 @@ window.$dino.ListItemView = Backbone.View.extend({
 	},
 	
 	makeSwiper: function(e){
-		console.log("test indom on list item");
 		this.mySwiper = this.$('.swiper-container').swiper({
 			'noSwiping' : true,
 			'onSlideChangeEnd': this.hidePlus,
@@ -144,7 +143,6 @@ window.$dino.ListItemView = Backbone.View.extend({
 				}
 			)
 		));
-		console.log(this.model);
 		if (this.model.get("retired") === true){
 			this.$el.attr("data-theme", "d");
 		}

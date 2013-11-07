@@ -190,13 +190,15 @@
 	border-bottom:0;
 }
 #myList .ui-li.ui-btn {
-	border-top:0;
+	border-top: 1px solid #FCFAD6;
 	border-bottom:0;
+}
+#myList .ui-li.ui-btn:last-child {
+	border-bottom: 1px solid #FCFAD6;
 }
 #myList li .ui-btn-inner {
 	border-top:0;
 }
-
 .new-item {
 	margin:0 auto;
 	border:none;

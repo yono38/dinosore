@@ -48,7 +48,7 @@ window.$dino.SymptomListView = $dino.PlusListView.extend({
 				collection.comparator = that.sortList;
 
 				collection.sort();
-				for (var i = 0; i < collection.length; i++) {
+				for (var i = collection.length-1; i >= 0; i--) {
 					var item = collection.models[i];
 					that.addOne(item, "bug");
 				}
@@ -76,7 +76,8 @@ window.$dino.SymptomListView = $dino.PlusListView.extend({
 				collection.comparator = that.sortList;
 
 				collection.sort();
-				for (var i = 0; i < collection.length; i++) {
+				// TODO should probably just sort better
+				for (var i = collection.length-1; i >= 0; i--) {
 					that.addOne(collection.models[i], "symptom");
 				}
 				if (!that.loading) {
