@@ -96,6 +96,7 @@ var Appointment = new Schema({
 	user: { type: String, required: true },
 	date: { type: Number, required: true },
 	title: { type: String, required: true},
+	notes: {type: String }
 });
 
 var AppointmentModel = mongoose.model('Appointment', Appointment);

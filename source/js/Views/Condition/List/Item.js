@@ -10,6 +10,7 @@ window.$dino.ConditionListItemView = $dino.ListItemView.extend({
 		_.bindAll(this, 'saveSeverity', 'debounceSaveSeverity');
 		var theme = (this.model.get("status") == "Retired" || this.model.get("status") == "In Remission") ? "d" : "b";
 		this.$el.data('theme', theme);
+		this.swiperHeight = "75px";
 	},
 
 	events : {
@@ -19,8 +20,18 @@ window.$dino.ConditionListItemView = $dino.ListItemView.extend({
 		"dblclick #item-detail" : "openDetails",
 		"slidestop" : "changeSeverity",
 		"keypress #item-notes" : "addOnEnter",
-		"click #symptom-detail" : "goToSymptomDetail",
-		"click #condition-detail" : "goToConditionDetail"
+		"indom" : "makeSwiper",
+		// TODO PUT THIS BACK!
+		//"click #condition-detail" : "goToConditionDetail",
+		"click .removeItem" : "confirmDelete",
+		"click .modifyItem" : "modifyCondition"
+	},
+	
+	modifyCondition: function(e) {
+		e.preventDefault();
+			$dino.app.navigate("bug/"+this.model.id+"/modify", {
+				trigger: true
+			});
 	},
 
 	goToConditionDetail: function(e){
@@ -95,6 +106,8 @@ window.$dino.ConditionListItemView = $dino.ListItemView.extend({
 					that.setSeverity();
 					that.$(".ui-icon").removeClass("ui-icon-plus");
 					that.$(".ui-icon").addClass("ui-icon-check");
+					// this allows resizing of item for multiple symptom sliders
+					that.$(".swiper-slide").css("height", "auto");
 				}
 			});
 		} else {
@@ -109,6 +122,8 @@ window.$dino.ConditionListItemView = $dino.ListItemView.extend({
 		this.$(".ui-icon").removeClass("ui-icon-check");
 		this.$(".ui-icon").addClass("ui-icon-plus");
 		this.$("#symptomSliders").empty();
+		// this resets slide size for modify/remove buttons
+		this.$(".swiper-slide").css("height", "100%");
 		// TODO change this to use render
 		// currently loses formatting on refresh
 		// this.render();

@@ -171,14 +171,26 @@
 	color: #ffffff /*{a-bup-color}*/;
 	text-shadow: none;
 }
-.retireItem {
+.modifyItem {
+	height: 100%;
+}
+.condition-item-btn {
+	padding-top: 24px !important;
+}
+.condition-item-btn .ui-bar {
+	padding-top: 0;
+}
+.retireItem, .modifyItem .ui-bar {
 	padding-top:14px;
 	height: 100%;
 }
-.removeItem, .retireItem {
+.modifyItem, .removeItem, .retireItem {
 	text-align:center;
 }
-#medication-detail, #symptom-detail, #myList > .ui-link-inherit {
+#item-title-slide.swiper-no-swiping {
+	padding-bottom: 0 !important
+}
+#condition-detail, #medication-detail, #symptom-detail, #myList > .ui-link-inherit {
 	padding:0;
 }
 .item-title {

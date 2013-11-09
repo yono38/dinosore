@@ -58,6 +58,7 @@ window.$dino.AppointmentNewView = $dino.NewFormView.extend({
 		this.model.set("title", this.$("#appt-title").val());
 		this.model.set("user", Parse.User.current().id);
 		this.model.set("type", this.$("#select-type").val());
+		this.model.set("notes", this.$("#appt-notes").val());
 
 		this.model.set("date", moment($("#appt-date").val() + " " + $("#appt-time").val()).unix());
 		console.log(this.model.toJSON());

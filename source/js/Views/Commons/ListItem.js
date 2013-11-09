@@ -4,6 +4,7 @@ window.$dino.ListItemView = Backbone.View.extend({
 	
 	initialize: function(opts) {
 		this.name = opts.name;
+		this.swiperHeight = opts.swiperHeight || "45px";
 		this.template = _.template(tpl.get('list-item'));
 		this.model.bind('remove', this.destroy, this);
 		var status = this.model.get("status");
@@ -64,8 +65,8 @@ window.$dino.ListItemView = Backbone.View.extend({
 		// is auto-formatting height on list items based on 
 		// length of content text inside, should just be able
 		// to turn off with calculateHeight false :P
-		this.$(".swiper-slide").css("height", "45px");
-		this.$(".swiper-wrapper").css("height", "45px");
+		this.$(".swiper-slide").css("height", "100%");
+		this.$(".swiper-wrapper").css("height", this.swiperHeight);
 	},
 	
 	hidePlus: function(swiper){

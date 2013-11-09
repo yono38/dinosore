@@ -6,6 +6,12 @@
 		background-color: rgba(0,0,0,0.0)/*{global-icon-disc}*/;
 		background-image: url(css/images/icons-18-black.png)/*{global-icon-set}*/;
 	}
+	.ui-collapsible-content {
+		background: rgba(255,155,62,0.5);
+	}
+	.appt-item {
+		border-bottom: rgba(255,155,62,1.0) 1px solidS;
+	}
 </style>
 <div data-role="header">
 	<h1><%= title %></h1>
@@ -66,6 +72,15 @@
 					else {
 					print("No Medications Recorded");
 					} %>
+				</ul>
+			</p>
+
+		</div>
+
+		<div data-role="collapsible">
+			<h3>Appointments</h3>
+			<p>
+				<ul id="appointment-list">
 				</ul>
 			</p>
 

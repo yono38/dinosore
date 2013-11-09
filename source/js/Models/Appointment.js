@@ -4,6 +4,7 @@ window.$dino.Appointment = Backbone.Model.extend({
     date: moment().unix(),
     type: "Appointment",
     title: "",
+    notes: "",
     doctor: {id: "No Doctor"},
     condition: {id: 'None'}
    },

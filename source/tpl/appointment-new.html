@@ -64,6 +64,11 @@
 	</div>
 
 	<div class="list-border">
+		<label for="textarea-a">Notes:</label>
+		<textarea name="textarea" id="appt-notes"><% if (notes) { print(notes) } %></textarea>
+	</div>
+
+	<div class="list-border">
 		<label for="select-type" class="select">Choose Type:</label>
 		<select name="select-type" id="select-type">
 			<option value="Appointment">Appointment</option>
