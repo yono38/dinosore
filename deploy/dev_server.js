@@ -101,6 +101,14 @@ var Appointment = new Schema({
 
 var AppointmentModel = mongoose.model('Appointment', Appointment);
 
+var BetaUser = new Schema({
+	name: { type: String },
+	email: {type: String },
+	device: {type: String }
+});
+
+var BetaModel = mongoose.model('BetaUser', BetaUser);
+
 // SET UP SERVER
 var app = express();
 var allowCrossDomain = function(req, res, next) {
@@ -115,6 +123,7 @@ app.configure(function(){
     app.use(express.bodyParser());
 	app.use(express.logger('dev'));
     app.use(express.methodOverride());
+    app.user(express.vhost('www.dinoso.re', app));
     restify.serve(app, UserModel);
     restify.serve(app, DoctorModel);
     restify.serve(app, SymptomModel);
@@ -126,6 +135,19 @@ app.configure(function(){
 //	app.use(function(req, res) {
 	//	res.sendfile(path.join(__dirname, 'source/index.html'));
 //	});
+});
+
+app.post('/beta', function(req, res){
+	console.log(req.body);
+	var betausr = new BetaModel({
+		name: req.body.name,
+		email: req.body.email,
+		device: req.body.email
+	});
+	betausr.save(function(err){
+		if (err) console.log(err);
+		res.end('Success!');
+	});
 });
 
 var httpServer = http.createServer(app).listen(3000, function() {
