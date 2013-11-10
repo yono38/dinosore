@@ -12,7 +12,8 @@ window.$dino.AppointmentCalendarView = Backbone.View.extend({
 				that.loadTodayAppt();
 			}
 		});
-		_.bindAll(this, 'buildHighDates', 'changeDate');
+		this.collection.bind('destroy', this.refreshAppts, this);
+		_.bindAll(this, 'buildHighDates', 'refreshAppts', 'changeDate');
 	},
 	
 	buildHighDates: function(refresh){
@@ -27,8 +28,6 @@ window.$dino.AppointmentCalendarView = Backbone.View.extend({
 	events : {
 		"click .ui-datebox-griddate.ui-corner-all" : "hideEmptyAppt",
 		"click .has-appt" : "showAppts",
-		"click .removeAppt" : "removeAppt",
-		"click .editAppt" : "modifyAppt",
 		"datebox" : "changeDate",
 		"click #addApptBtn" : "newAppt",
 	},	
@@ -53,11 +52,16 @@ window.$dino.AppointmentCalendarView = Backbone.View.extend({
 					var apptData = _.extend(appt.toJSON(), {
 						"time" : day.format('LT'),
 					});
-					that.$("#dayAppts").append(_.template(tpl.get("appointment-item"), apptData));
+					var apptItem = new $dino.AppointmentListItemView({
+						model: appt,
+						template: "appointment-item"
+					});
+					that.$("#dayAppts").append(apptItem.render().el);
 					that.$("#dayAppts").show();
 					that.$("#noAppt").hide();
-					that.$(".removeAppt").button();
-					that.$(".editAppt").button();
+			 		apptItem.$el.trigger('indom');
+			 		that.$("#dayAppts").listview();
+			 		that.$("#dayAppts").listview('refresh');
 				},
 				error : function(obj, err) {
 					console.log("failed to retrieve doctor");
@@ -68,13 +72,16 @@ window.$dino.AppointmentCalendarView = Backbone.View.extend({
 				"time" : day.format('LT'),
 			});
 			console.log(apptData);
-			this.$("#dayAppts").append(_.template(tpl.get("appointment-item"), apptData));
+			var apptItem = new $dino.AppointmentListItemView({
+				model: appt,
+				template: "appointment-item"
+			});
+			that.$("#dayAppts").append(apptItem.render().el);
 			this.$("#dayAppts").show();
-			this.$("#noAppt").hide();
-			this.$(".removeAppt").button();
-			this.$(".editAppt").button();
+	 		apptItem.$el.trigger('indom');
+	 		that.$("#dayAppts").listview();
+	 		that.$("#dayAppts").listview('refresh');
 		}
-
 	},
 
 	changeDate : function(e, passed) {
@@ -149,31 +156,9 @@ window.$dino.AppointmentCalendarView = Backbone.View.extend({
 		});
 	},
 
-	modifyAppt : function(e) {
-		if (e) e.preventDefault();
-		var apptId = this.$(".editAppt").attr("data-apptId");
-		var appt = new $dino.Appointment({id: apptId});
-		appt.fetch({
-			success : function(appt) {
-				$dino.app.navigate("appts/" + apptId + "/modify", {
-					trigger : true
-				});
-			},
-			error : function(appt, err) {
-				console.log("appointment retrieval failed");
-				console.log(err);
-			}
-		});
-	},
-
-	removeAppt : function(e) {
-		if (e) e.preventDefault();
-		var apptId = this.$(".removeAppt").attr("data-apptId")
-		, day = $("#currDate").text()
-		, appt = this.collection.get(apptId)
-		, dex = _.indexOf(this.collection.models, appt);
-		appt.destroy();
+	refreshAppts : function() {
 		// update highdates
+		console.log(this);
 		this.buildHighDates(true);
 		this.changeDate(null, {
 			"method" : "set",

@@ -2,29 +2,48 @@
 	.removeAppt, .addAppt {
 		border: rgb(204, 204, 204) solid 1px;
 	}
+	span.ui-btn-icon-notext {
+		border: none;
+		box-shadow: none;
+		background: none;
+	}
+	.ui-icon-shadow {
+		box-shadow: none;
+	}
+	#condition-status {
+		padding-top: 5px;
+	}
 </style>
-	<div class="apptIcons">
-		<% if (doctor.title && doctor.title != "None" && condition.title && condition.title != "None") { %>
-		<div><a href="#" class="removeAppt ui-icon-alt ui-icon-nodisc" data-role="button" data-theme="f" data-icon="delete" data-iconpos="notext" data-inline="true" data-mini="true" data-apptId="<%= _id %>">Remove</a></div>
-		<div><a href="#" class="editAppt ui-icon-alt ui-icon-nodisc" data-role="button" data-theme="f" data-icon="edit" data-iconpos="notext" data-inline="true" data-mini="true" data-apptId="<%= _id %>">Edit</a></div>
-		<% } else { %>
-		<a href="#" class="removeAppt ui-icon-alt ui-icon-nodisc" data-role="button" data-theme="f" data-icon="delete" data-iconpos="notext" data-inline="true" data-mini="true" data-apptId="<%= _id %>">Remove</a>
-		<a href="#" class="editAppt ui-icon-alt ui-icon-nodisc" data-role="button" data-theme="f" data-icon="edit" data-iconpos="notext" data-inline="true" data-mini="true" data-apptId="<%= _id %>">Edit</a>
-		<% } %>
-	</div>
-<h3 class="ui-li-heading"> <<span class="ui-li-count"><%= time %></span>>  <%= title %>
-</h3>
-<p class="ui-li-desc">
-	<div id="appt-desc">
-		<% if (type == "Test") { %>
-			<div>Type: Test</div>
-		<% } %>
-		<% if (doctor.title && doctor.title != "None") { %>
-		<div id="doctor-title">Doctor: <%= doctor.title %></div>
-		<% } %>
-		<% if (condition.title && condition.title != "None") { %>
-		<div id="condition-title">Condition: <%= condition.title %></div>
-		<% } %>
-	</div>
+<a id="<%= type %>-detail" href="#<%= type %>/<%= _id %>"> <h3 class="swiper-container">
+<div class="swiper-wrapper">
+	<div class="swiper-slide">
+		<div class="item-title">
+			<h3 class="ui-li-heading"><%= time %>  <%= title %> </h3>
+			<div id="appt-desc">
+				<% if (doctor.title && doctor.title != "None") { %>
+				<div id="doctor-title">
+					Doctor: <%= doctor.title %>
+				</div>
+				<% } %>
+				<% if (condition.title && condition.title != "None") { %>
+				<div id="condition-title">
+					Condition: <%= condition.title %>
+				</div>
+				<% } %>
+			</div>
 
-</p>
+		</div>
+	</div>
+	<div class="swiper-slide ui-grid-a">
+		<div class="modifyItem ui-block-b">
+			<div class="appt-item-btn ui-bar ui-bar-f">
+				<span class="modify-text">Modify</span>
+			</div>
+		</div>
+		<div class="appt-item-btn removeItem ui-block-b">
+			<div class="ui-bar">
+				<span class="delete-text">Delete</span>
+			</div>
+		</div>
+	</div>
+</div></h3>

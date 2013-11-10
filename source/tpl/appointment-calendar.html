@@ -19,8 +19,9 @@
 		font-weight: normal;
 		text-shadow: none;
 	}
-	#addApptBtn {
-		color: black;
+	#dayAppts {
+		list-style-type: none;
+		padding-left: 0;
 	}
 </style>
 <div data-role="header">
@@ -39,13 +40,8 @@
 	<li id="add-appt-header" data-theme="a" data-role="list-divider">
 		<div data-role="fieldcontain">
 			<span id="currDate"><%= today %></span>
-			</fieldset>
 		</div>
 	</li>
 	<a href="#" data-theme="f" data-role="button" class="ui-icon-alt ui-icon-nodisc" id="addApptBtn" data-inline="false" data-icon="plus">Add</a>
-	<li id="noAppt" data-theme="c">
-		No appointments scheduled today
-	</li>
-
-	<li id="dayAppts" style="display:none" data-theme="f"></li>
+	<ul data-theme="f" data-role="listview" id="dayAppts"></ul>
 </ul>

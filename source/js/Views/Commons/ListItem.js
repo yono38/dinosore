@@ -4,29 +4,15 @@ window.$dino.ListItemView = Backbone.View.extend({
 	
 	initialize: function(opts) {
 		this.name = opts.name;
+		// Always be sure to set if overriding, this is the 
+		// size for the symptom/medication listitems (one line)
 		this.swiperHeight = opts.swiperHeight || "45px";
-		this.template = _.template(tpl.get('list-item'));
+		var templateName = opts.template || 'list-item';
+		this.template = _.template(tpl.get(templateName));
 		this.model.bind('remove', this.destroy, this);
-		var status = this.model.get("status");
-		if (status == "In Remission" || status == "Retired"){
-			console.log('changing theme');
-			this.$el.attr("data-theme", "d");
-		}
-		_.bindAll(this, 'remove', 'destroy', 'hidePlus');
+		_.bindAll(this, 'remove', 'destroy', 'hidePlus', 'retireItem');
 	}, 
-/*	 Currently unused
-	fetchBugColor: function(){
-		var bug = new $dino.Bug();
-		bug.id = this.model.get("bug");
-		var that = this;
-		bug.fetch({
-			success: function(bug){
-				that.color = $dino.colors.get(bug.get("color"));
-			}
-		});
-		
-	},
-*/	
+
 	events: {
 		"click" : "dontclick",
 		"click .plus-one" : "clickPlus",
@@ -35,7 +21,15 @@ window.$dino.ListItemView = Backbone.View.extend({
 		"click .removeItem" : "confirmDelete",
 		"click .retireItem" : "retireItem"
 	},
-	
+
+	setRetiredTheme: function(){
+		var status = this.model.get("status");
+		if (status == "In Remission" || status == "Retired"){
+			console.log('changing theme');
+			this.$el.attr("data-theme", "d");
+		}
+	},
+
 	retireItem: function(e){
 		e.preventDefault();
 		var that = this;
@@ -70,6 +64,8 @@ window.$dino.ListItemView = Backbone.View.extend({
 	},
 	
 	hidePlus: function(swiper){
+		console.log(swiper);
+		console.log(this);
 		if (swiper.activeIndex == 1){
 			this.$(".plus-one").hide();
 		} else {

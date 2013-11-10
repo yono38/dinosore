@@ -190,7 +190,7 @@
 #item-title-slide.swiper-no-swiping {
 	padding-bottom: 0 !important
 }
-#condition-detail, #medication-detail, #symptom-detail, #myList > .ui-link-inherit {
+#appointment-detail, #condition-detail, #medication-detail, #symptom-detail, #myList > .ui-link-inherit {
 	padding:0;
 }
 .item-title {
