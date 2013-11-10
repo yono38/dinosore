@@ -122,7 +122,7 @@ app.configure(function(){
     restify.serve(app, BugModel);
     restify.serve(app, AppointmentModel);
     restify.serve(app, PlusOneModel);
-	app.use('/', express.static(path.join(__dirname, '../source')));
+	app.use('/', express.static(path.join(__dirname, '../launch')));
 //	app.use(function(req, res) {
 	//	res.sendfile(path.join(__dirname, 'source/index.html'));
 //	});
