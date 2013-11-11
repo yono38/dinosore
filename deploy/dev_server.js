@@ -123,7 +123,7 @@ app.configure(function(){
     app.use(express.bodyParser());
 	app.use(express.logger('dev'));
     app.use(express.methodOverride());
-    app.user(express.vhost('www.dinoso.re', app));
+    app.use(express.vhost('www.dinoso.re', app));
     restify.serve(app, UserModel);
     restify.serve(app, DoctorModel);
     restify.serve(app, SymptomModel);
