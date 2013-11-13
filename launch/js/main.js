@@ -6,7 +6,7 @@ $(document).ready(function(){
 			device: $("#device").val()
 		};
 		$.post('/beta', data, function (data) {
-			$("#alpha").html("<h2>Thanks!</h2>You should be hearing from us early next month");
+			$("#alpha").html("<h2>Thanks!</h2>You should be hearing from us early next month.");
 			$(".form-group").hide();
 		});
 	});

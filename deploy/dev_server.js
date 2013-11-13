@@ -142,7 +142,7 @@ app.post('/beta', function(req, res){
 	var betausr = new BetaModel({
 		name: req.body.name,
 		email: req.body.email,
-		device: req.body.email
+		device: req.body.device
 	});
 	betausr.save(function(err){
 		if (err) console.log(err);
