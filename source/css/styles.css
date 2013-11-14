@@ -8,6 +8,10 @@
 .ui-title, .fancyFont {
 	font-family:'playtime_with_hot_toddiesRg' !important
 }
+.ui-li-link-alt span.ui-btn-corner-all {
+  border-style: hidden;
+  -webkit-box-shadow: none;
+  }
 #getStarted {
 	margin-bottom:0;
 }

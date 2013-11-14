@@ -18,6 +18,7 @@ $dino.AppRouter = Backbone.Router.extend({
 		"info" : "info",
 		"info/modify" : "infoModify",
 		"medications" : "medicationList",
+		"medication/:id" : "medicationDetails",
 		"login" : "login",
 		"privacy" : "privacySettings",
 		"signup" : "signup",
@@ -145,14 +146,14 @@ $dino.AppRouter = Backbone.Router.extend({
 
 	bugList : function() {
 		var coll = new $dino.SymptomList();
-		var sympView = new $dino.SymptomListView({
+		var bugListView = new $dino.BugListView({
 			template : _.template(tpl.get('bug-list-view')),
 			modelType : $dino.Symptom,
 			header : "Bugs",
 			collection : coll,
 			name : "symptom"
 		});
-		this.changePage(sympView, true);
+		this.changePage(bugListView, true);
 	},
 
 	loadBug : function(id, callback) {
@@ -234,10 +235,23 @@ $dino.AppRouter = Backbone.Router.extend({
 			modelType : $dino.Medication,
 			header : "Medications",
 			collection : coll,
+			clickItems: true,
 			name : "medication"
 		});
-		//	var medView = new $dino.MedicationListView({});
 		this.changePage(medView, true);
+	},
+
+	medicationDetails : function(id) {
+		var coll = new $dino.PlusOneList();
+		var medView = new $dino.PlusOneListView({
+			modelType : $dino.Medication,
+			item: id,
+			type: "medication", 
+			header : "Medication Details",
+			collection : coll,
+			name : "medication-plusone"
+		});
+		this.changePage(medView, true);		
 	},
 
 	changePage : function(page, hasFooter) {
@@ -264,12 +278,13 @@ $dino.AppRouter = Backbone.Router.extend({
 			transition : transition
 		});
 		page.pageloaded = true;
+		$dino.currView = page;
 	}
 });
 
 $(document).ready(function() {
 	FastClick.attach(document.body);
-	tpl.loadTemplates(['appointment-list-item', 'start-tutorial', 'graph', 'info-modify', 'offline-exit', 'severity-slider', 'appointment-calendar', 'condition-list-item', 'bug-list-view', 'bug-delete-dialog', 'privacy', 'condition-details', 'condition-new', 'login', 'medical-info', 'appointment-new', 'signup', 'start-splash', 'list-view', 'list-item', 'list-new', 'delete-confirm', 'footer', 'appointment-item'], function() {
+	tpl.loadTemplates(['plusone-list-item', 'appointment-list-item', 'start-tutorial', 'graph', 'info-modify', 'offline-exit', 'severity-slider', 'appointment-calendar', 'condition-list-item', 'bug-list-view', 'bug-delete-dialog', 'privacy', 'condition-details', 'condition-new', 'login', 'medical-info', 'appointment-new', 'signup', 'start-splash', 'list-view', 'list-item', 'list-new', 'delete-confirm', 'footer', 'appointment-item'], function() {
 		$dino = window.$dino || {};
 		$dino.app = new $dino.AppRouter();
 		Backbone.history.start();

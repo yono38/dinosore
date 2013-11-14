@@ -5,9 +5,10 @@ window.$dino.PlusListView = Backbone.View.extend({
         this.template = opts.template || _.template(tpl.get('list-view'));   
         _.bindAll(this, 'render', 'renderList', 'addItemToList'); 
         this.collection.bind('refreshList', this.refreshList, this);
+        this.clickItems = opts.clickItems;
         this.adding = false;
         this.loading = true;
-        if (this.afterInitialize) this.afterInitialize();
+        if (this.afterInitialize) this.afterInitialize(opts);
     },    
     
     refreshList: function(){
@@ -63,7 +64,7 @@ window.$dino.PlusListView = Backbone.View.extend({
     },
     
     addOne: function(Item){
-      	var view = new $dino.ListItemView({model: Item, name: this.name});
+      	var view = new $dino.ListItemView({model: Item, name: this.name, click: this.clickItems });
       //	var selector = (Item.get("status") == "In Remission" || Item.get("status") == "Retired") ? "#retiredList" : "#myList";  
       	var selector = "#myList";
       	if (Item.get("retired") == true){
@@ -80,8 +81,9 @@ window.$dino.PlusListView = Backbone.View.extend({
     renderList: function(firstTime) {
     	var that = this;
     	this.$("#myList").html('<img src="css/images/ajax-loader.gif" style="margin-left:50%;padding-top:15px;" alt="loading..." />');
+    	var fetchData = this.fetchData || { "user" : Parse.User.current().id } ;
         this.collection.fetch({
-      	  data: { "user" : Parse.User.current().id }, 
+      	  data: fetchData, 
           success: function(collection){
 	    	this.$("#myList").empty();
           	if (collection.length ==0){

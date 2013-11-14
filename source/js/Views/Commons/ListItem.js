@@ -9,12 +9,14 @@ window.$dino.ListItemView = Backbone.View.extend({
 		this.swiperHeight = opts.swiperHeight || "45px";
 		var templateName = opts.template || 'list-item';
 		this.template = _.template(tpl.get(templateName));
+		if (!opts.click) {
+			this.$el.on('click', this.dontclick);
+		}
 		this.model.bind('remove', this.destroy, this);
 		_.bindAll(this, 'remove', 'destroy', 'hidePlus', 'retireItem');
 	}, 
 
 	events: {
-		"click" : "dontclick",
 		"click .plus-one" : "clickPlus",
 		"dblclick #item-detail" : "openDetails",
 		"indom" : "makeSwiper",

@@ -25,6 +25,7 @@ window.$dino.SymptomListItemView = $dino.ListItemView.extend({
 		if (e) e.preventDefault();
 		this.$(".set-severity").hide();
 		this.$(".swiper-slide").removeClass('swiper-no-swiping');
+		this.$(".swiper-slide").css("height", "100%");
 		this.$("#symptom-notes").val("");
 		this.$("#severity").val("0");
 		this.$("#severity").slider("refresh");
@@ -88,6 +89,7 @@ window.$dino.SymptomListItemView = $dino.ListItemView.extend({
 				that.setSeverity();
 				that.$(".ui-icon").removeClass("ui-icon-plus");
 				that.$(".ui-icon").addClass("ui-icon-check");
+				that.$(".swiper-slide").css("height", "auto");
 			}
 			});
 		} else {

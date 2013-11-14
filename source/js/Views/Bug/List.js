@@ -10,15 +10,10 @@ window.$dino.BugListView = $dino.PlusListView.extend({
 		'click #new-condition-padding' : 'newCondition',
 		'pageinit' : 'loadedPage'
 	},
-	
-	loadedPage: function(){
-		console.log('teeest');
-		this.$("#retiredList").listview('refresh');
-	},
 
 	createAddButton : function() {
 		this.placeholder = "Symptom";
-		this.addingBtn = new $dino.ConditionListItemView({
+		this.addingBtn = new $dino.PlusListAddButtonView({
 			addText : "Symptom",
 			elId : "new-symptom-padding"
 		});
@@ -28,33 +23,35 @@ window.$dino.BugListView = $dino.PlusListView.extend({
 
 	newSymptom : function(e) {
 		this.adding.symptom = !this.adding.symptom;
-		console.log('clicked new sypmtom');
 	},
 
 	newCondition : function(e) {
 		$dino.app.navigate("bugs/add", {
 			trigger : true
 		});
-		console.log('clicked new condition');
 	},
 
 	renderList : function(firstTime) {
 		var that = this;
-		this.$("#myList").empty();
+		this.$(".loading").show();
+    	this.$("#myList").html('<img class="loading" src="css/images/ajax-loader.gif" style="margin-left:50%;padding-top:15px;" alt="loading..." />');
 		this.$("#retiredList").empty();
+		this.$("#activeConditionList").empty();
 		this.bugCollection.fetch({
 			data : {
 				"user" : Parse.User.current().id
 			},
 			success : function(collection) {
+				this.$(".loading").hide();
 				collection.comparator = that.sortList;
 
 				collection.sort();
-				for (var i = 0; i < collection.length; i++) {
+				for (var i = collection.length-1; i >= 0; i--) {
 					var item = collection.models[i];
 					that.addOne(item, "bug");
 				}
 				if (that.pageloaded) {
+					that.$("#activeConditionList").listview('refresh');
 					that.$("#myList").listview('refresh');
 					that.$("#retiredList").listview('refresh');
 				}
@@ -63,24 +60,27 @@ window.$dino.BugListView = $dino.PlusListView.extend({
 				$dino.fail404();
 			}
 		});		
-		// currently refers to symptomList
 		this.collection.fetch({
 			data : {
 				"user" : Parse.User.current().id
 			},
 			success : function(collection) {
+				this.$(".loading").hide();
 				if (collection.length == 0) {
-					that.$("#myList").empty();
+				//	that.$("#myList").html('<span id="no-items-yet" class="fancyFont"><div>No ' + that.header + ' Added Yet!</div><hr> <div>Click "Add" Above to Get Started</div><hr></span>');
 					return;
 				}
 
 				collection.comparator = that.sortList;
 
 				collection.sort();
-				for (var i = 0; i < collection.length; i++) {
+				// TODO should probably just sort better
+				for (var i = collection.length-1; i >= 0; i--) {
 					that.addOne(collection.models[i], "symptom");
 				}
 				if (!that.loading) {
+					that.$("#activeConditionList").listview();
+					that.$("#activeConditionList").listview('refresh');
 					that.$("#myList").listview();
 					that.$("#myList").listview('refresh');
 					that.$("#retiredList").listview();
@@ -96,20 +96,24 @@ window.$dino.BugListView = $dino.PlusListView.extend({
 	},
 
 	addOne : function(item, type) {
-		console.log('test');
+		var selector = "#myList";
 		if (type == "symptom") {
 			var view = new $dino.SymptomListItemView({
 				model : item
 			});
+	      	selector = (item.get("retired") === true) ? "#retiredList" : "#myList";  
+	     	this.$(selector).append(view.render().el);  
 		} else if (type == "bug") {
 			var view = new $dino.ConditionListItemView({
 				model : item
 			});
+	      	selector = (item.get("status") == "In Remission" || item.get("status") == "Retired") ? "#retiredList" : "#myList";  
+	     	this.$(selector).prepend(view.render().el);  
 		} else {
 			console.log("Invalid type: " + type);
+			return;
 		}
-      	var selector = (Item.get("status") == "In Remission" || Item.get("status") == "Retired") ? "#retiredList" : "#myList";  
-      	console.log(selector);
-     	this.$(selector).append(view.render().el);  
+     	view.$el.trigger('indom');
+     	view.bind('renderlist', this.renderList);
 	}
 });
