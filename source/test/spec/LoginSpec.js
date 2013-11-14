@@ -2,7 +2,7 @@ describe("LoginView", function(){
 	var view;
 	
 	beforeEach(function(){
-		view = new $dino.LoginView();
+		view = new $dino.StartLoginView();
 	});
 	
 	afterEach(function(){
@@ -29,15 +29,9 @@ describe("LoginView", function(){
 	it("throws login errors on empty password/email", function(){
 		view.render();
 		view.login();
-		expect(view.$("#error").html()).toEqual("Email &amp; Password Cannot Be Blank");
+		expect(view.$("#error").html()).toEqual('Don\'t forget to fill out all the fields!');
 	});
 
-	it("throws signup errors on empty password/email", function(){
-		view.render();
-		view.signup();
-		expect(view.$("#error").html()).toEqual("Email &amp; Password Cannot Be Blank");
-	});
-	
 	it("lets user logs in", function(){
 		view.render();
 		view.$("#email").val("jasmine");

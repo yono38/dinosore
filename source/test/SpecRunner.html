@@ -18,6 +18,7 @@
 <script src="../lib/jqm-datebox-1.1.0.mode.calbox.js"></script>    
 <script src="../lib/underscore.js"></script>
 <script src="../lib/backbone.js"></script>
+<script src="../lib/backbone.queryparams.js"></script>
 <script src="../lib/moment.js"></script>
 <script src="../lib/parse-1.2.8.min.js"></script>   
 
@@ -34,32 +35,40 @@
 		Parse.initialize("ILMokni7fwKhJSdWh38cGPpEwL2CLsrhcrUgJmG6", "cDQoHLQqGRRj9srzrpG2jv6X5nl2BPdh7hVUBRoc");
 		$dino.apiRoot = "http://localhost:5555/api/v1";
     </script>
-    <script src="../js/Models/User.js"></script>
-    <script src="../js/Models/Bug.js"></script>
-    <script src="../js/Models/Color.js"></script>
+    <script src="../js/Models/User.js"></script>    
     <script src="../js/Models/Appointment.js"></script>
+    <script src="../js/Models/Bug.js"></script>
     <script src="../js/Models/Doctor.js"></script>        
-    <script src="../js/Models/Symptom.js"></script>        
-    <script src="../js/Models/PlusOne.js"></script>    
     <script src="../js/Models/Medication.js"></script>    
+    <script src="../js/Models/PlusOne.js"></script>    
+    <script src="../js/Models/Symptom.js"></script>        
     <script src="../js/Views/Commons/Dialog/Delete.js"></script>
+    <script src="../js/Views/Commons/PlusList/AddButton.js"></script>
     <script src="../js/Views/Commons/ListItem.js"></script>
+    <script src="../js/Views/Commons/NewForm.js"></script>
     <script src="../js/Views/Commons/New.js"></script>
     <script src="../js/Views/Commons/PlusList.js"></script>
-    <script src="../js/Views/Symptom/List.js"></script>      
-    <script src="../js/Views/Symptom/List/Item.js"></script>   
-    <script src="../js/Views/Bug/List.js"></script>
-    <script src="../js/Views/Bug/List/Item.js"></script>
-    <script src="../js/Views/Bug/Detail.js"></script>
-    <script src="../js/Views/Bug/Modify.js"></script>   
-    <script src="../js/Views/Bug/Modify/Dialog.js"></script>
-    <script src="../js/Views/Bug/New.js"></script>
-    <script src="../js/Views/Login.js"></script>
-    <script src="../js/Views/Footer.js"></script>
     <script src="../js/Views/Appointment/Calendar.js"></script>
-    <script src="../js/Views/Appointment/Modify.js"></script>    
-    <script src="../js/Views/Appointment/New.js"></script>   
-    <script src="../js/Views/MedicalInfo.js"></script> 
+    <script src="../js/Views/Appointment/New.js"></script>
+    <script src="../js/Views/Appointment/List/Item.js"></script>
+    <script src="../js/Views/Bug/Detail.js"></script>
+    <script src="../js/Views/Bug/List.js"></script>
+    <script src="../js/Views/Bug/Modify/Dialog.js"></script>
+    <script src="../js/Views/Condition/List/Item.js"></script>
+    <script src="../js/Views/Condition/New.js"></script>
+    <script src="../js/Views/Footer.js"></script>
+    <script src="../js/Views/Graph.js"></script>
+    <script src="../js/Views/MedicalInfo.js"></script>
+    <script src="../js/Views/OfflineExit.js"></script>
+    <script src="../js/Views/PlusOne/List.js"></script>
+    <script src="../js/Views/PlusOne/List/Item.js"></script>
+    <script src="../js/Views/Start/Login.js"></script>
+    <script src="../js/Views/Start/Privacy.js"></script>
+    <script src="../js/Views/Start/Signup.js"></script>
+    <script src="../js/Views/Start/Splash.js"></script>
+    <script src="../js/Views/Start/Tutorial.js"></script>
+    <script src="../js/Views/Symptom/List/Item.js"></script>
+    <script src="../js/Views/Symptom/Graph.js"></script>
 
   <!-- include spec files here... -->
   <script type="text/javascript" src="src/MockModels.js"></script>
@@ -70,14 +79,13 @@
   <script type="text/javascript" src="spec/PlusListSpec.js"></script>
   <script type="text/javascript" src="spec/SymptomListItemSpec.js"></script>
   <script type="text/javascript" src="spec/BugListSpec.js"></script>
-  <script type="text/javascript" src="spec/BugListItemSpec.js"></script>
+  <script type="text/javascript" src="spec/ConditionListItemSpec.js"></script>
   <script type="text/javascript" src="spec/BugDetailSpec.js"></script>
+  <!-- TODO save appointment tests for another day
   <script type="text/javascript" src="spec/AppointmentCalendarSpec.js"></script>
   <script type="text/javascript" src="spec/AppointmentModifySpec.js"></script>
   <script type="text/javascript" src="spec/AppointmentNewSpec.js"></script>
-  <script type="text/javascript" src="spec/MedicalInfoSpec.js"></script>
-
-
+	-->
 
   <script type="text/javascript">
     (function() {
@@ -99,9 +107,9 @@
           currentWindowOnload();
         }
         tpl.tplDir = '../tpl/';
-	    tpl.loadTemplates(['bug-list', 'appointment-calendar', 'bug-delete-dialog', 'bug-list-item', 'bug-details', 'bug-new', 'login', 
-    'medical-info', 'appointment-new', 'bug-details-modify', 'list-view', 'list-item',
-    'list-new', 'delete-confirm', 'footer', 'appointment-modify', 'appointment-item'],
+		tpl.loadTemplates(['plusone-list-item', 'appointment-list-item', 'start-tutorial', 'graph', 'info-modify', 'offline-exit', 'severity-slider', 'appointment-calendar', 
+		'condition-list-item', 'bug-list-view', 'bug-delete-dialog', 'privacy', 'condition-details', 'condition-new', 'login', 'medical-info', 'appointment-new', 'signup', 'start-splash', 'list-view', 
+		'list-item', 'list-new', 'delete-confirm', 'footer', 'appointment-item'],
         function () {
            execJasmine();
            $(".ui-page").hide();

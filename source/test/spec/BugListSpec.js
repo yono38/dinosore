@@ -1,3 +1,6 @@
+// TODO render lists test
+// TODO retire test
+// TODO proper condition/symptom retire/active ordering test
 describe("BugListView", function() {
 	var view, collection, collData;
 
@@ -33,19 +36,4 @@ describe("BugListView", function() {
 		expect(view.$el).not.toBeEmpty();
 	});
 	
-	it("creates a list from the collection", function(){
-		spyOn(Parse.User, 'current').andReturn({
-			"id" : 25
-		});
-		var item;
-		spyOn(view, 'addOne').andCallFake(function(bug) {
-			item = new $dino.BugListItemView({
-				model : bug
-			});
-			view.$("#myList").append(item.render().el);
-		});
-		view.render();
-		expect(view.$("#myList li").length).toEqual(3);
-		expect($(view.$("#myList li h3")[0]).text()).toEqual("Strep Throat");
-	});
 }); 

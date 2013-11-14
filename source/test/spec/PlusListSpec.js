@@ -3,7 +3,7 @@ describe("PlusListView", function(){
 	
 	beforeEach(function(){
         collection = new $dino.SymptomList();
-		view = new $dino.SymptomListView({
+		view = new $dino.BugListView({
 			modelType: $dino.Symptom,
 			header: "Symptom",
 			collection: collection,
@@ -21,7 +21,7 @@ describe("PlusListView", function(){
 		expect(view.renderList).toHaveBeenCalled();
 		expect(view.$el).toBeDefined();
 	});
-
+/* TODO Move to ListNewView
 	it("can add items", function(){
 		expect(view.newListItem).not.toBeDefined();
 		view.newItem();
@@ -40,7 +40,7 @@ describe("PlusListView", function(){
 		view.newItem();
 		expect(view.addItemToList.calls.length).toEqual(1);
 	});
-	
+
 	it("resets list on new symptom", function(){
 		spyOn(view, 'renderList');
 		expect(view.newListItem).not.toBeDefined();
@@ -51,5 +51,5 @@ describe("PlusListView", function(){
 		expect(view.adding).toBeFalsy();
 //		expect(view.$("#newSymptom .ui-btn-text").text()).toEqual("Add");
 	});
-	
+*/
 });
