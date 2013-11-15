@@ -4,7 +4,6 @@ $dino.AppRouter = Backbone.Router.extend({
 		"" : "start",
 		"bugs/add" : "newBug",
 		"symptoms/add" : "newSymptom",
-		"symptoms" : "symptomList",
 		"symptoms/:id/graph" : "graphSymptom",
 		"bug/:id" : "bugDetails",
 		"bug/:id/modify" : "bugModify",
@@ -199,18 +198,6 @@ $dino.AppRouter = Backbone.Router.extend({
 			}
 		});	},
 
-	symptomList : function() {
-		var coll = new $dino.SymptomList();
-		var sympView = new $dino.SymptomListView({
-			template : _.template(tpl.get('bug-list-view')),
-			modelType : $dino.Symptom,
-			header : "Bugs",
-			collection : coll,
-			name : "symptom"
-		});
-		this.changePage(sympView, true);
-	},
-	
 	graphSymptom: function(id){
 		console.log('graphing '+id);
 		var that = this;
