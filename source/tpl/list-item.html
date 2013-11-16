@@ -1,4 +1,53 @@
-<a id="<%= type %>-detail" href="#<%= type %>/<%= _id %>">
-	<h3><span class="<%= type %>-title"><%= title %></span></h3>
-	<a href="#" class="plus-one"></a>
-</a>
+<style>
+	.set-severity {
+		display: none;
+	}
+	#severity-label {
+		padding-left: 15px;
+	}
+	.set-severity .ui-slider {
+		margin-right: 50px;
+	}
+	#item-title-slide.swiper-no-swiping {
+		padding-bottom: 100px;
+	}
+	.set-severity .ui-input-text {
+		margin-left: 25px;
+		margin-right: 50px;
+	}
+	.ui-block-d {
+		height: 100%;
+	}
+</style>
+<a id="<%= type %>-detail" href="#<%= type %>/<%= _id %>"> <h3 class="swiper-container">
+<div class="swiper-wrapper">
+	<div id="item-title-slide" class="swiper-slide">
+		<div class="item-title <%= type %>-title">
+			<%= title %>
+		</div>
+		<div class="set-severity">
+			<label for="severity">Severity:</label>
+			<input type="range" name="severity" id="severity" value="0" min="0" max="5" /><input type="text" placeholder="Notes" id="symptom-notes" value="" />	
+		</div>
+	</div>
+	<div class="ui-grid-a swiper-slide">
+		<div data-theme="d" class="ui-block-d"
+		
+		<% if (retired && retired === true) { %>
+		data-retired="true">
+ 			<div class="retireItem ui-bar ui-bar-d" data-retired="true">
+			Reactivate
+		<% } else { %>
+			>
+			<div class="retireItem ui-bar ui-bar-d">
+			Retire 
+		<% } %>
+	</div>	
+			</div>
+		<div class="removeItem ui-block-b">
+			<div class="ui-bar">
+				<span class="delete-text">Delete</span>
+			</div>
+		</div>
+	</div>
+</h3> <a class="plus-one ui-icon-nodisc" href="#"></a> </a>

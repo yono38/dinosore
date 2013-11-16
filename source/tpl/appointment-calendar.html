@@ -1,7 +1,31 @@
+<style>
+	#addApptBtn {
+		margin-top: 0;
+		margin-bottom: 0;
+		border-bottom-color: #FCFAD6;
+	}
+	.apptIcons {
+		float: right;
+	}
+	.editAppt, .removeAppt {
+		padding: 10px;
+		background: #A39F6C;
+	}
+	.editAppt .ui-btn-inner, .removeAppt .ui-btn-inner {
+		border: none;
+	}
+	#dayAppts h3, #doctor-title {
+		color: black;
+		font-weight: normal;
+		text-shadow: none;
+	}
+	#dayAppts {
+		list-style-type: none;
+		padding-left: 0;
+	}
+</style>
 <div data-role="header">
-	<a href="#" data-theme="c" data-icon="back" class="back ui-btn-left">Back</a>
-	<h1>Appointments</h1>
-	<a href="#" data-icon="grid" class='ui-disabled' data-role="button" data-theme="a" data-mini="true" data-inline="true">List View</a>
+	<h3>Appointments</h3>
 </div>
 
 <div data-role="content">
@@ -12,16 +36,12 @@
 	<input name="mydate" id="mydate" data-datebox="" />
 	<hr>
 </div>
-<ul data-role="listview" data-split-icon="gear" data-theme="a" data-split-theme="a">
+<ul data-role="listview" data-split-icon="gear" data-theme="f" data-split-theme="f">
 	<li id="add-appt-header" data-theme="a" data-role="list-divider">
 		<div data-role="fieldcontain">
 			<span id="currDate"><%= today %></span>
-			<a href="#" data-role="button" id="addApptBtn" data-inline="true" data-icon="plus">Add</a>
-			</fieldset>
 		</div>
 	</li>
-	<li id="noAppt">
-		No appointments scheduled today
-	</li>
-	<li id="fakeAppt" style="display:none" data-theme="a"></li>
+	<a href="#" data-theme="f" data-role="button" class="ui-icon-alt ui-icon-nodisc" id="addApptBtn" data-inline="false" data-icon="plus">Add</a>
+	<ul data-theme="f" data-role="listview" id="dayAppts"></ul>
 </ul>

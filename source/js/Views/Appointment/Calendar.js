@@ -1,4 +1,4 @@
-window.$dino.AppointmentsView = Backbone.View.extend({
+window.$dino.AppointmentCalendarView = Backbone.View.extend({
 
 	initialize : function(opts) {
 		this.collection = opts.collection;
@@ -9,22 +9,38 @@ window.$dino.AppointmentsView = Backbone.View.extend({
 			success : function(collection) {
 				// This code block will be triggered only after receiving the data.
 				that.buildHighDates();
+				that.loadTodayAppt();
 			}
 		});
-		_.bindAll(this, 'buildHighDates', 'changeDate');
+		this.collection.bind('destroy', this.refreshAppts, this);
+		_.bindAll(this, 'buildHighDates', 'refreshAppts', 'changeDate');
 	},
 	
 	buildHighDates: function(refresh){
 		this.highDates = {};
 		for (var i = 0; i < this.collection.length; i++) {
-			var t = moment(this.collection.models[i].get("date")).format('YYYY-MM-DD');
+			var t = moment.unix(this.collection.models[i].get("date")).format('YYYY-MM-DD');
 			this.highDates[t] = (this.highDates[t]) ? _.union(this.highDates[t], [i] ): [i];
 		}
 		if (refresh) this.$("#mydate").datebox({'highDates': _.keys(this.highDates)}).datebox('refresh');
 	},
 
+	events : {
+		"click .ui-datebox-griddate.ui-corner-all" : "hideEmptyAppt",
+		"click .has-appt" : "showAppts",
+		"datebox" : "changeDate",
+		"click #addApptBtn" : "newAppt",
+	},	
+	
+	loadTodayAppt: function() {
+		this.changeDate(null, {
+			"method" : "set",
+			"value" : moment().format("YYYY-MM-DD")
+		}); 
+	},
+
 	loadApptItem : function(appt) {
-		var day = moment(appt.get("date"));
+		var day = moment.unix(appt.get("date"));
 		var that = this;
 		var doc = appt.get("doc");
 		if (doc != 'none') {
@@ -33,39 +49,44 @@ window.$dino.AppointmentsView = Backbone.View.extend({
 			doctor.fetch({
 				data : { _id : doc },
 				success : function(doctor) {
-					var apptData = {
-						"title" : appt.get("title"),
-						"doc" : doctor.get("title"),
+					var apptData = _.extend(appt.toJSON(), {
 						"time" : day.format('LT'),
-						"apptId" : appt.id
-					};
-					that.$("#fakeAppt").append(_.template(tpl.get("appointment-item"), apptData));
-					that.$("#fakeAppt").show();
+					});
+					var apptItem = new $dino.AppointmentListItemView({
+						model: appt,
+						template: "appointment-item"
+					});
+					that.$("#dayAppts").append(apptItem.render().el);
+					that.$("#dayAppts").show();
 					that.$("#noAppt").hide();
-					that.$(".removeAppt").button();
-					that.$(".editAppt").button();
+			 		apptItem.$el.trigger('indom');
+			 		that.$("#dayAppts").listview();
+			 		that.$("#dayAppts").listview('refresh');
 				},
 				error : function(obj, err) {
 					console.log("failed to retrieve doctor");
 				}
 			});
 		} else {
-			var apptData = {
-				"title" : appt.get("title"),
-				"doc" : "No Doctor",
+			var apptData = _.extend(appt.toJSON(), {
 				"time" : day.format('LT'),
-				"apptId" : appt.id
-			};
-			this.$("#fakeAppt").append(_.template(tpl.get("appointment-item"), apptData));
-			this.$("#fakeAppt").show();
-			this.$("#noAppt").hide();
-			this.$(".removeAppt").button();
-			this.$(".editAppt").button();
+			});
+			console.log(apptData);
+			var apptItem = new $dino.AppointmentListItemView({
+				model: appt,
+				template: "appointment-item"
+			});
+			that.$("#dayAppts").append(apptItem.render().el);
+			this.$("#dayAppts").show();
+	 		apptItem.$el.trigger('indom');
+	 		that.$("#dayAppts").listview();
+	 		that.$("#dayAppts").listview('refresh');
 		}
-
 	},
 
 	changeDate : function(e, passed) {
+		var noChange = false;
+		if (!passed.value) noChange = true;
 		passed.value = passed.value || $("#currDate").text();
 		var self = this;
 		if (passed.method === 'set' || (passed.method == 'postrefresh' && !this.firstDateAlreadyCalled)) {
@@ -73,39 +94,21 @@ window.$dino.AppointmentsView = Backbone.View.extend({
 			var d = this.highDates[passed.value] || [];
 			if (d.length > 0) {
 				var i;
-				this.$("#fakeAppt").show();
+				this.$("#dayAppts").empty();
+				this.$("#dayAppts").show();
 				this.$("#noAppt").hide();
 				for ( i = 0; i < d.length; i++) {
 					this.loadApptItem(this.collection.models[d[i]]);
 				}
 			}
-			this.$("#currDate").html(passed.value);
+			if (!noChange)	this.$("#currDate").html(moment(passed.value).format("dddd, MMMM Do YYYY"));
+			this.currDate = passed.value;
 			this.firstDateAlreadyCalled = true;
 		} else {
 			e.stopPropagation();
 		}
 	},
 
-	render : function(eventName) {
-		this.$el.html(this.template({
-			today : moment().format("YYYY-MM-DD")
-		}));
-		
-		var that = this;
-		this.loadDatebox(1);
-		// get rid of annoying background shadow
-		setTimeout(function() {
-			$(".ui-input-text.ui-shadow-inset").css({
-				"border" : "none",
-				"box-shadow" : "none"
-			});
-		}, 100);
-		this.$("#checkbox-6").on("checkboxradiocreate", function(event, ui) {
-			$(this).bind("click", that.addAppt);
-		});
-		return this;
-	},
-	
 	loadDatebox: function(count){
 		var that = this;
 		var cnt = ($.isNumeric(count)) ? count : 1;
@@ -124,7 +127,7 @@ window.$dino.AppointmentsView = Backbone.View.extend({
 				that.$("#mydate").datebox({
 					"mode" : "calbox",
 					"highDates" : _.keys(that.highDates),
-					//"themeDateHigh" : "e",
+					"themeDateHigh" : "b",
 					"theme" : "a",
 					"useInline" : true,
 					"useImmediate" : true,
@@ -135,60 +138,42 @@ window.$dino.AppointmentsView = Backbone.View.extend({
 		}, 200);
 	},
 
-	events : {
-		"click .ui-datebox-griddate.ui-corner-all" : "hideEmptyAppt",
-		"click" : "preventDefault",
-		"click .has-appt" : "showAppts",
-		"click .removeAppt" : "removeAppt",
-		"click .editAppt" : "modifyAppt",
-		"datebox" : "changeDate",
-		"click #addApptBtn" : "newAppt"
-	},
-	
 	// handles case where user clicks calendar date with no appt
 	"hideEmptyAppt": function(){
-		$("#fakeAppt").hide();
+		$("#dayAppts").hide();
 		$("#noAppt").show();
 	},
 
-	newAppt : function() {
-		$dino.app.navigate("appts/add", {
+	newAppt : function(e) {
+		if (e) e.preventDefault();
+		var passDefault = "";
+		if (this.currDate) {
+			passDefault = "?"+this.currDate;
+			console.log(this.currDate);
+		}
+		$dino.app.navigate("appts/add"+passDefault, {
 			trigger : true
 		});
 	},
 
-	modifyAppt : function() {
-		var apptId = this.$(".editAppt").attr("data-apptId");
-		var appt = new $dino.Appointment({id: apptId});
-		appt.fetch({
-			success : function(appt) {
-				$dino.app.navigate("appts/" + apptId + "/modify", {
-					trigger : true
-				});
-			},
-			error : function(appt, err) {
-				console.log("appointment retrieval failed");
-				console.log(err);
-			}
-		});
-	},
-
-	removeAppt : function() {
-		var apptId = this.$(".removeAppt").attr("data-apptId")
-		, day = $("#currDate").text()
-		, appt = this.collection.get(apptId)
-		, dex = _.indexOf(this.collection.models, appt);
-		appt.destroy();
+	refreshAppts : function() {
 		// update highdates
+		console.log(this);
 		this.buildHighDates(true);
 		this.changeDate(null, {
 			"method" : "set",
-			"value" : $("#currDate").text()
+			"value" : this.$("#mydate").val()
 		});
 	},
 
-	addAppt : function() {
-		$dino.app.navigate("#appts/add", {
+	addAppt : function(e) {
+		e.preventDefault();
+		var passDefault = "";
+		if (this.currDate) {
+			passDefault = "?date="+this.currDate;
+			console.log(this.currDate);
+		}
+		$dino.app.navigate("#appts/add"+passDefault, {
 			trigger : true
 		});
 		// bad practice!
@@ -197,13 +182,29 @@ window.$dino.AppointmentsView = Backbone.View.extend({
 
 	showAppts : function() {
 		setTimeout(function() {
-			$("#fakeAppt").show();
+			$("#dayAppts").show();
 			$("#noAppt").hide();
 		}, 2);
 	},
 
-	preventDefault : function(e) {
-		console.log('preventing default');
-		e.preventDefault();
+	render : function(eventName) {
+		this.$el.html(this.template({
+			today : moment().format("dddd, MMMM Do YYYY")
+		}));
+		
+		var that = this;
+		this.loadDatebox(1);
+		// get rid of annoying background shadow
+		setTimeout(function() {
+			$(".ui-input-text.ui-shadow-inset").css({
+				"border" : "none",
+				"box-shadow" : "none"
+			});
+		}, 100);
+		this.$("#checkbox-6").on("checkboxradiocreate", function(event, ui) {
+			$(this).bind("click", that.addAppt);
+		});
+		return this;
 	}
+		
 });

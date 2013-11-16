@@ -8,31 +8,23 @@ var restify = require('express-restify-mongoose');
 mongoose.connect('mongodb://localhost/dinosore_test');
 
 // MODELS
-// TODO put in sep directories?
-var Color = new Schema({
-    color: { type: String, required: true },
-    hex: { type: String, required: true },
-		createdAt: { type: Number },
-		upNumberdAt: { type: Number }
-});
-
-var ColorModel = mongoose.model('Color', Color);
 
 var User = new Schema({
 	username: { type: String, required: true },
 	password: { type: String, required: true },
-	birthday: { type: Number },
+	birthday: { type: Number, required: true },
+	gender: { type: String, required: true },
 	last_checkup: { type: Number }
 });
 
 var UserModel = mongoose.model('User', User);
 
-
 var Symptom = new Schema({
 	title: { type: String, required: true },
 	user: { type: String, required: true },	
 	count: { type: Number, default: 0 },
-	bug: {type: String}
+	bug: { type: String},
+	retired: { type: Boolean, default: false }
 });
 
 var SymptomModel = mongoose.model('Symptom', Symptom);
@@ -47,21 +39,21 @@ var Medication = new Schema({
 	title: { type: String, required: true },
 	user: { type: String, required: true },	
 	count: { type: Number, default: 0 },
-	bug: {type: String }
+	bug: { type: String },
+	retired: { type: Boolean, default: false }
 });
 
 var MedicationModel= mongoose.model('Medication', Medication);
 
-
 var Bug = new Schema({
 	assignedTo: { type: String, ref: 'Doctor' },	
-	bugDetails: { type: String, default: '' },
-	bugPriority: { type: Number, default: 0 },
-	bugStatus: {type: String, default: 'Open' },
-	color: { type: String, ref: 'Color' },	
-	medicatons: { type: Array },
-	symptoms: { type: Array },
-	tests: { type: Array },
+	details: { type: String, default: '' },
+	priority: { type: Number, default: 0 },
+	status: {type: String, default: 'Active' },
+	count: { type: Number, default: 0 },
+	doctor: { type: Schema.Types.Mixed },
+	medication: { type: Array },
+	symptom: { type: Array },
 	title: { type: String, default: 'New Bug' },
 	user: { type: String, required: true }
 });
@@ -71,18 +63,25 @@ var BugModel = mongoose.model('Bug', Bug);
 var PlusOne = new Schema({
 	date: { type: Number },
     user: { type: String, ref: 'User', required: true },	
+    severity: { type: Number },
+    notes: { type: String },	
     item: { type: String, required: true },	
 	type: { type: String, required: true },
+	parent: {type: String },
+	parentType: {type: String }
 });
 
 var PlusOneModel = mongoose.model('PlusOne', PlusOne);
 
 var Appointment = new Schema({
 	bug : { type: String, ref: 'Bug' },
-    doctor: { type: String, ref: 'Doctor' },	
+	doctor: { type: Schema.Types.Mixed },
+	type: { type: String },
+	condition: { type: Schema.Types.Mixed },
 	user: { type: String, required: true },
 	date: { type: Number, required: true },
 	title: { type: String, required: true},
+	notes: {type: String }
 });
 
 var AppointmentModel = mongoose.model('Appointment', Appointment);
@@ -101,7 +100,6 @@ app.configure(function(){
     app.use(express.bodyParser());
 	app.use(express.logger('dev'));
     app.use(express.methodOverride());
-    restify.serve(app, ColorModel);
     restify.serve(app, UserModel);
     restify.serve(app, DoctorModel);
     restify.serve(app, SymptomModel);

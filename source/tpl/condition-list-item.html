@@ -1,0 +1,41 @@
+<style>
+	span.ui-btn-icon-notext {
+		border: none;
+		box-shadow: none;
+		background: none;
+	}
+	.ui-icon-shadow {
+		box-shadow: none;
+	}
+	#condition-status {
+		padding-top: 5px;
+	}
+</style>
+<a id="<%= type %>-detail" href="#<%= type %>/<%= _id %>"> <h3 class="swiper-container">
+<div class="swiper-wrapper">
+	<div class="swiper-slide">
+		<div class="item-title">
+		<span class="<%= type %>-title"><%= title %></span>
+		<p id="condition-status">
+			<strong><%= status  %></strong>
+		</p>
+		<% if (doctor.title && doctor.title != "None") { %>
+		<p>
+			<strong><%= doctor.title %></strong>
+		</p>
+		<% } %> <div id="symptomSliders"></div>
+		</div>
+	</div>
+	<div class="swiper-slide ui-grid-a">
+		<div class="modifyItem ui-block-b">
+			<div class="condition-item-btn ui-bar ui-bar-f">
+				<span class="modify-text">Modify</span>
+			</div>
+		</div>
+		<div class="condition-item-btn removeItem ui-block-b">
+			<div class="ui-bar">
+				<span class="delete-text">Delete</span>
+			</div>
+		</div>
+	</div>
+</div></h3> <a class="plus-one ui-icon-nodisc" href="#"></a> </a>

@@ -1,0 +1,24 @@
+<style>
+	.ui-content {
+		padding: 0;
+	}
+	#graphcontainer {
+		min-width: 300px;
+	}
+	.loader {
+		text-align: center;
+	}
+</style>
+<div data-theme="a" data-role="header">
+	<h3> <%= title %> </h3>
+</div>
+
+<div data-role="content">
+	<div id="graphContainer" style="height: 450px; margin: 0 auto"><h2 class="fancyFont" class="loader">Loading your graph... </h2>
+		<div class="loader">
+			<img id="load-icon" src="css/images/ajax-loader.gif" alt="loading wheel" />
+		</div>
+		
+	</div>
+	<a href="#" id="back" data-mini="true" data-role="button">Back</a>
+</div>

@@ -1,3 +1,4 @@
+// TODO implement
 window.$dino.SymptomDetailView = new Backbone.View.extend({
 	
 	initalize: function(){

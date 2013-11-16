@@ -1,54 +1,55 @@
 window.$dino.DialogDeleteView = Backbone.View.extend({
-	initialize: function(options){
+	initialize : function(options) {
 		this.template = _.template(tpl.get('delete-confirm'));
 		this.$el.attr("data-theme", "a");
 		this.parentView = options.parentView;
 	},
-	
-	events: {
+
+	events : {
 		"click #cancel" : "destroy",
 		"click #yes" : "deleteItem"
 	},
-	
-	deleteItem: function(){
+
+	deleteItem : function() {
 		var that = this;
 		this.model.destroy({
-			success: function(){
-				// fixed problem where sometimes itemview isn't removed
-				// on model destroy
-				if (that.parentView) {
-					console.log('parentview for item still exists');
-					that.parentView.destroy();
-				}
+			success : function() {
+//				that.trigger('deleteItem');
 				that.destroy();
-			}			
+			},
+			error : function(data, err) {
+				if (err.statusText == "OK"){
+//					that.trigger('deleteItem');
+					that.destroy();
+				} else {
+					console.log('error ', err, data);
+				}
+			}
 		});
-		
+
 	},
-	
-	className: 'ui-content',
-	
-	id: 'confirm',
-	
-	open: function(){
-		this.$el.popup({
-			"positionTo" : $(this.el)
-		});
+
+	className : 'ui-content',
+
+	id : 'confirm',
+
+	open : function() {
+		this.$el.popup();
 		this.$el.popup('open');
 		this.$("#yes").button();
 		this.$("#cancel").button();
 	},
-	
-	destroy: function(){
+
+	destroy : function() {
 		this.$("#yes").remove();
-		this.$("#cancel").remove();	
-		$(this.el).popup("close");
+		this.$("#cancel").remove();
+		//this.$el.popup("close");
 		this.unbind();
-		this.remove();	
-		this.parentView.$("#myList").listview('refresh');
+		this.remove();
+		console.log('triggering delete on dialog');
 	},
-	
-	render: function(){
+
+	render : function() {
 		this.$el.html(this.template());
 	}
-});
+}); 

@@ -22,7 +22,7 @@ describe("SymptomListItemView", function(){
 		expect(view.$el).toBeEmpty();
 		view.render();
 		expect(view.$el).not.toBeEmpty();
-		expect(view.$(".symptom-title").text()).toEqual('New Symptom');	
+		expect(view.$(".symptom-title").text().trim()).toEqual('New Symptom');	
 	});
 	
 	it("opens severity slider", function(){
@@ -38,7 +38,7 @@ describe("SymptomListItemView", function(){
 		expect(view.settingSeverity).toBeTruthy();
 		expect(view.$("#severity").length).toEqual(1);
 		view.resetTitle();
-		expect(view.$("#severity").length).toEqual(0);
+		expect(view.$("#severity")).toBeHidden();
 		expect(view.settingSeverity).toBeFalsy();
 		view.setSeverity();
 		expect(view.settingSeverity).toBeTruthy();

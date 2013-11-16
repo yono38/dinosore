@@ -17,8 +17,8 @@ $dino.env = 'dev';
 var setApiPath = function() {
 	var apiEnv = $dino.env
 	, apiPath = '/api/v1';
-	if (apiEnv == 'dev') $dino.apiRoot = 'http://localhost:3000' + apiPath;
-	else if (apiEnv == 'prod') $dino.apiRoot = 'http://jasonschapiro.com:3000' + apiPath;
+	if (apiEnv == 'dev') $dino.apiRoot = 'https://localhost' + apiPath;
+	else if (apiEnv == 'prod') $dino.apiRoot = 'https://jasonschapiro.com' + apiPath;
 	else $dino.apiRoot = '';
 	console.log('Set up API root "'+$dino.apiRoot+'" for environment '+apiEnv);
 }();
@@ -32,13 +32,14 @@ $dino.offline = false;
 // TODO need to see if this works in phonegap
 $(window).on("offline", function(){
 	$dino.offline = true;
+	if (apiEnv == 'prod') popupExit();
 });
 $(window).on("online", function(){
 	$dino.offline = false;
 });
 
 // Function to ping and see if web server running
-var ping = function(){
+$dino.ping = function(){
 	$.ajax({
 		url: 'http://google.com',
 		success: function(d){
@@ -46,8 +47,9 @@ var ping = function(){
 		},
 		error: function(){
 			$dino.offline = true;
+			$dino.app.navigate("offline", {
+				trigger : true
+			});
 		}
 	});
 };	
-// determine initial state
-if ($dino.env == 'prod') ping();

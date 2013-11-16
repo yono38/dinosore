@@ -1,27 +1,26 @@
+var https = require('https');
 var http = require('http');
 var path = require('path');
 var express = require('express');
 var mongoose = require('mongoose');
+var fs = require('fs');
 var Schema = mongoose.Schema;
 var restify = require('express-restify-mongoose');
 
 mongoose.connect('mongodb://localhost/dinosore');
 
-// MODELS
-// TODO put in sep directories?
-var Color = new Schema({
-    color: { type: String, required: true },
-    hex: { type: String, required: true },
-		createdAt: { type: Number },
-		upNumberdAt: { type: Number }
-});
+// HTTPS Key/Cert
+var key = fs.readFileSync('/etc/ssl/self-signed/server.key'),
+ certificate = fs.readFileSync('/etc/ssl/self-signed/server.crt'),
+credentials = {key: key, cert: certificate};
 
-var ColorModel = mongoose.model('Color', Color);
+// MODELS
 
 var User = new Schema({
 	username: { type: String, required: true },
 	password: { type: String, required: true },
-	birthday: { type: Number },
+	birthday: { type: Number, required: true },
+	gender: { type: String, required: true },
 	last_checkup: { type: Number }
 });
 
@@ -53,10 +52,11 @@ var MedicationModel= mongoose.model('Medication', Medication);
 
 var Bug = new Schema({
 	assignedTo: { type: String, ref: 'Doctor' },	
-	bugDetails: { type: String, default: '' },
-	bugPriority: { type: Number, default: 0 },
-	bugStatus: {type: String, default: 'Open' },
-	color: { type: String },	
+	details: { type: String, default: '' },
+	priority: { type: Number, default: 0 },
+	status: {type: String, default: 'Active' },
+	count: { type: Number, default: 0 },
+	doctor: { type: Schema.Types.Mixed },
 	medication: { type: Array },
 	symptom: { type: Array },
 	title: { type: String, default: 'New Bug' },
@@ -68,15 +68,21 @@ var BugModel = mongoose.model('Bug', Bug);
 var PlusOne = new Schema({
 	date: { type: Number },
     user: { type: String, ref: 'User', required: true },	
+    severity: { type: Number },
+    notes: { type: String },	
     item: { type: String, required: true },	
 	type: { type: String, required: true },
+	parent: {type: String },
+	parentType: {type: String }
 });
 
 var PlusOneModel = mongoose.model('PlusOne', PlusOne);
 
 var Appointment = new Schema({
 	bug : { type: String, ref: 'Bug' },
-    doctor: { type: String, ref: 'Doctor' },	
+	doctor: { type: Schema.Types.Mixed },
+	type: { type: String },
+	condition: { type: Schema.Types.Mixed },
 	user: { type: String, required: true },
 	date: { type: Number, required: true },
 	title: { type: String, required: true},
@@ -98,7 +104,6 @@ app.configure(function(){
     app.use(express.bodyParser());
 	app.use(express.logger('dev'));
     app.use(express.methodOverride());
-    restify.serve(app, ColorModel);
     restify.serve(app, UserModel);
     restify.serve(app, DoctorModel);
     restify.serve(app, SymptomModel);
@@ -112,6 +117,10 @@ app.configure(function(){
 //	});
 });
 
-http.createServer(app).listen(3000, function() {
-    console.log("Express server listening on port 3000");
+var httpServer = http.createServer(app).listen(3000, function() {
+	console.log('Express HTTP server listening on port 3000')
+});
+
+https.createServer(credentials, app).listen(443, function() {
+    console.log("Express HTTPS server listening on port 443");
 });

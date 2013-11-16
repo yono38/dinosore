@@ -1,98 +1,108 @@
+window.$dino.AppointmentNewView = $dino.NewFormView.extend({
+	afterInitialize : function(opts) {
+		this.model = this.model || new $dino.Appointment();
+		if (opts.defaultDate) {
+			this.defaultDate = opts.defaultDate;
+		}
+		this.template = _.template(tpl.get('appointment-new'));
+		this.first = true;
+		// extend child events on to parent's - inheritance ftw
+		_.bindAll(this, 'setCondition', 'setDoctor');
+		this.events = _.extend({}, $dino.NewFormView.prototype.events, this.events);
+	},
 
-window.$dino.NewApptView = Backbone.View.extend({
-  initialize: function(){
-    this.template = _.template(tpl.get('appointment-new'));  
-    this.first = true;   
-    this.priority = 1;
-  },
-  events: {
-    "click #addBtn" : "addAppt"
-  },
-  addAppt: function(e){
-    e.preventDefault();
-    
-    var appt = new $dino.Appointment({
-      user: Parse.User.current().id,
-    });
-    if (this.$("#title").val() != ""){
-      appt.set("title", this.$("#title").val());
-    }
-    if (this.$("#select-bug").val() != "none"){
-      appt.set("bug", this.$("#select-bug").val());    
-    }
-    if (this.$("#select-doc").val() != "none"){
-      appt.set("doc", this.$("#select-doc").val());    
-    }
-    appt.set("date", 
-      moment(
-        $("#appt-date").val()+" "+$("#appt-time").val()
-      ).valueOf()
-    );
-    
-    appt.save(null, {
-      success: function(appt){
-        console.log("New appt saved: "+appt.id);
-        $dino.app.navigate("appts", {trigger: true});
-      },
-      error: function(appt, error){
-        console.log("Failed to save appt, error: "+error.description);
-        console.log(error);
-      }
-    });
-  },
-  
-  // courtesy of o-o on stackoverflow
-  yyyymmdd : function(date) {
-   d = date || new Date();
-   var yyyy = d.getFullYear().toString();
-   var mm = (d.getMonth()+1).toString(); // getMonth() is zero-based
-   var dd  = d.getDate().toString();
-   return yyyy +"-"+ (mm[1]?mm:"0"+mm[0]) +"-"+ (dd[1]?dd:"0"+dd[0]); // padding
-  },
-  
-  yyyymmdd_SlashConvert: function(str){
-    var split = str.split('-');
-    return split[1]+'/'+split[2]+'/'+split[0];
-  },
-  
-  preventDefault: function(e){
-    e.preventDefault();
-  },
-  
-  render: function(){
-    var todayDate = new Date();
-    var data = { 
-     "today" : this.yyyymmdd()
-    };
-    $(this.el).html(this.template(data));
-    this.renderMenu("bug");
-    this.renderMenu("doctor");    
-    return this;  
-  },
-  
-  // for bugs or doctors
-  renderMenu: function(type){
-    if (!(type == "doctor" || type == "bug")) {
-      console.log("invalid type: "+type);
-      return;
-    }
-    var item = (type == "bug") ? new $dino.BugList() : new $dino.DoctorList();
-    var selector = "#select-"+type;
-    var that = this;
-    item.fetch({
-      data: {"user": Parse.User.current().id },
-      success: function(coll){
-        that.$(selector).html("<option value='none'>None</option>");        
-        _.each(coll['_byId'], function(v,k){
-          that.$(selector).append("<option value='"+k+"'>"+v.get("title")+"</option>");
-        });
-       // TODO add new item from menu
-       // that.$(selector).append("<option id='newBug'>New Bug</option>");
-      },  
-      error: function(coll, err){
-        console.log(err);
-      }
-    });
-  }
-  
-});
+	events : {
+		"click #addBtn" : "addAppt",
+		"change #select-condition" : "setCondition",
+		"change #select-doctor" : "setDoctor"
+	},
+	
+	setCondition: function(e) {
+		var $sel = this.$("#select-condition option:selected");
+		var condition = {
+			id: $sel.val(),
+			title: $sel.text()
+		};
+		this.model.set("condition", condition);
+	},
+	
+	setDoctor: function(e) {
+		var $sel = this.$("#select-doctor option:selected");
+		if ($sel.val() != "add-new-item"){
+			var doc = {
+				id: $sel.val(),
+				title: $sel.text()
+			};
+			this.model.set("doctor", doc);
+		}
+	},
+	
+	validateAppt: function() {
+		this.$("#error-msg").empty();
+		var val = this.$("#appt-title").val();
+		var $parent = this.$("#appt-title").parent();
+		if (val == ""){
+			this.$("#error-msg").html("Don't forget to make a title!");
+	// TODO highlight title
+	//		$parent.css("background-color", "rgba(255,0,0,0.2)");
+			return false;
+		}
+		return true;
+	},
+
+	addAppt : function(e) {
+		e.preventDefault();
+		
+		if (!this.validateAppt()) return;
+		
+		this.model.set("title", this.$("#appt-title").val());
+		this.model.set("user", Parse.User.current().id);
+		this.model.set("type", this.$("#select-type").val());
+		this.model.set("notes", this.$("#appt-notes").val());
+
+		this.model.set("date", moment($("#appt-date").val() + " " + $("#appt-time").val()).unix());
+		console.log(this.model.toJSON());
+
+		this.model.save(null, {
+			success : function(appt) {
+				console.log("Appt saved: " + appt.id);
+				$dino.app.navigate("appts", {
+					trigger : true
+				});
+			},
+			error : function(appt, error) {
+				console.log("Failed to save appt, error: " + error.description);
+				console.log(error);
+			}
+		});
+	},
+
+	preventDefault : function(e) {
+		e.preventDefault();
+	},
+
+	render : function(date) {
+		var date = this.model.get("date");
+		this.$el.html(this.template(_.extend(this.model.toJSON(), {
+			"header" : this.header,
+			"day" : this.defaultDate || moment.unix(date).format('YYYY-MM-DD'), 
+			"time" : moment.unix(date).format('HH:mm:ss'), 
+		})));
+		if (this.first) {
+			this.first = false;
+			this.conditionList = new $dino.BugList();
+			this.loadList(this.conditionList, "#select-condition", "condition", true);
+			this.doctorList = new $dino.DoctorList();
+			this.loadList(this.doctorList, "#select-doctor", "doctor");
+		} else if (reload) {
+			this.makeList(this.conditionList, "#select-condition", "condition", true);
+			this.makeList(this.doctorList, "#select-doctor", "doctor");
+		}
+		// TODO figure out how to not need this
+		$(".ui-page").trigger("pagecreate");
+		this.resetMenu("#select-type", this.model.get("type"));
+		console.log(this.model.get("condition").id);
+		return this;
+	},
+
+}); 

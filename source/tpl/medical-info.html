@@ -1,19 +1,69 @@
-<div data-role="header" >
-	<a href="#" id="logout" data-icon="delete" data-theme="c">Logout</a>
-	<h1>Medical Info</h1>
-	<a href="#" class="edit" data-icon="gear" data-theme="c">Modify</a>
-</div>
-
-<div data-role="content">	
+<style>
+	.darktan {
+		background: #C6C39B;
+		margin: 0;
+	}
+	td {
+		padding-left: 0 !important;
+	}
+	.select-header {
+		text-align: center;
+	}
 	
-<ul data-role="listview">
-	<li data-role="list-divider">
-		Blood Type
-		<span style="float:right;"> <strong>A Pos.</strong/> </span>
-	</li>
-</ul>
-	<h2 id="username"><%= username %></h2>
-	<h3 id="age">Age <%= age %></h3>
-	<h3 id="last-checkup">Last Checkup: <%= last_checkup %></h3>
+	#select-or-header {
+		padding-top: 10px;
+		padding-bottom: 10px;
+	}
 
+	#medication-list, #symptom-list, #condition-list {
+		list-style: none;
+	}
+	.ui-icon {
+		background-color: rgba(0,0,0,0.0) /*{global-icon-disc}*/;
+	}
+	#medication-list-bar {
+		margin-top: -10px;
+	}
+	#error {
+		color: red;
+		text-align: center;
+	}
+	#visualize-condition, #visualize-items {
+		border-radius: 25px;
+		margin-left: 10px;
+		margin-right: 10px;
+	}
+	#select-medication-listbox-screen {
+		opacity: 0.75
+	}
+</style>
+<div data-role="header" >
+	<a href="#" id="logout" data-icon="delete" data-theme="c" class="ui-icon-alt" data-iconpos="left">Logout</a>
+	<h1>Graph</h1>
 </div>
+<h2 class="select-header" id="select-items-header">Select Symptom and Medications to Graph:</h2>
+<h3 id="error"></h3>
+				<select class="ui-icon-alt ui-icon-nodisc" name="select-symptom" id="select-symptom"> 
+					<option value="default">Symptoms</option>
+				</select>
+
+		<form action="#" method="get">
+			<div data-role="fieldcontain">
+				<select class="ui-icon-alt ui-icon-nodisc" name="select-medication" id="select-medication" multiple="multiple" data-native-menu="false">
+					<option>Choose Medications</option>
+				</select>
+			</div>
+		</form>
+<ul id="medication-list"></ul>
+
+<a href="#" id="visualize-items" data-role="button" class="darktan" data-theme="c">Graph Items</a>
+
+<h2 id="select-or-header" class="select-header">OR</h2>
+
+<h2 id="select-condition-header" class="select-header"> Select Condition to Graph:</h2>
+
+<select class="ui-icon-alt ui-icon-nodisc" name="select-condition" id="select-condition">
+	<option value="default">Conditions</option>
+</select>
+
+<a href="#" id="visualize-condition" data-role="button" class="darktan" data-theme="c">Graph Condition</a>

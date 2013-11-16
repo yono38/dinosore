@@ -4,36 +4,75 @@ window.$dino.ListItemView = Backbone.View.extend({
 	
 	initialize: function(opts) {
 		this.name = opts.name;
-		this.template = _.template(tpl.get('list-item'));
-		this.model.bind('remove', this.destroy);
-		if (this.model.get("bug")){
-			var colorId = localStorage.getItem("bugcolor-"+this.model.get("bug"));
-			if (colorId){
-				this.color = $dino.colors[colorId];
-			} else {
-				this.fetchBugColor();
-			}
+		// Always be sure to set if overriding, this is the 
+		// size for the symptom/medication listitems (one line)
+		this.swiperHeight = opts.swiperHeight || "45px";
+		var templateName = opts.template || 'list-item';
+		this.template = _.template(tpl.get(templateName));
+		if (!opts.click) {
+			this.$el.on('click', this.dontclick);
 		}
-		_.bindAll(this, 'remove', 'destroy');
+		this.model.bind('remove', this.destroy, this);
+		_.bindAll(this, 'remove', 'destroy', 'hidePlus', 'retireItem');
 	}, 
-	
-	fetchBugColor: function(){
-		var bug = new $dino.Bug();
-		bug.id = this.model.get("bug");
+
+	events: {
+		"click .plus-one" : "clickPlus",
+		"dblclick #item-detail" : "openDetails",
+		"indom" : "makeSwiper",
+		"click .removeItem" : "confirmDelete",
+		"click .retireItem" : "retireItem"
+	},
+
+	setRetiredTheme: function(){
+		var status = this.model.get("status");
+		if (status == "In Remission" || status == "Retired"){
+			console.log('changing theme');
+			this.$el.attr("data-theme", "d");
+		}
+	},
+
+	retireItem: function(e){
+		e.preventDefault();
 		var that = this;
-		bug.fetch({
-			success: function(bug){
-				that.color = $dino.colors[bug.get("color")];
+		if (this.$(".retireItem").data("retired") == true){
+			console.log('reactivate this item')	;
+			this.model.set("retired", false);
+			this.model.save();
+		} else {
+			console.log('retire this item');
+			this.model.set("retired", true);
+		}
+		this.model.save(null, {
+			success: function(data) {
+				console.log('model saved')
+				that.trigger('renderlist');
 			}
 		});
-		
 	},
 	
-	events: {
-		"click" : "dontclick",
-		"click .plus-one" : "clickPlus",
-		"swiperight" : "confirmDelete",
-		"dblclick #item-detail" : "openDetails",
+	makeSwiper: function(e){
+		this.mySwiper = this.$('.swiper-container').swiper({
+			'noSwiping' : true,
+			'onSlideChangeEnd': this.hidePlus,
+			'calculateHeight': false
+		});
+		// TODO this is a dumb hack caused because swiper
+		// is auto-formatting height on list items based on 
+		// length of content text inside, should just be able
+		// to turn off with calculateHeight false :P
+		this.$(".swiper-slide").css("height", "100%");
+		this.$(".swiper-wrapper").css("height", this.swiperHeight);
+	},
+	
+	hidePlus: function(swiper){
+		console.log(swiper);
+		console.log(this);
+		if (swiper.activeIndex == 1){
+			this.$(".plus-one").hide();
+		} else {
+			this.$(".plus-one").show();
+		}
 	},
 	
 	dontclick: function(e){
@@ -55,7 +94,7 @@ window.$dino.ListItemView = Backbone.View.extend({
 		if (!this.settingSeverity){		
 			this.deleteDialog = new $dino.DialogDeleteView({model: this.model, parentView: this});
 			this.deleteDialog.render();
-			$(this.el).append(this.deleteDialog);
+			this.$el.append(this.deleteDialog);
 			this.deleteDialog.open();
 		}
 	},
@@ -70,34 +109,41 @@ window.$dino.ListItemView = Backbone.View.extend({
 		this.plusOne = new $dino.PlusOne();
 		this.plusOne.save({
 			item: that.model.id,
-			type: that.model.urlRoot.substr(8, that.model.urlRoot.length-9),
+			type: that.name,
 			user: Parse.User.current().id
 		}, {
 		success: function(item){
-			that.addBubble('h3', '+1');
+			that.addBubble('.item-title', '+1');
 		}
 		});
 	},
 	
 	destroy: function(){
-		if (this.deleteDialog) this.deleteDialog.destroy();
+		console.log('calling destroy on listitem');
 		this.unbind();
 		if (this.remove){
+			console.log('removing');
 			this.remove();
+			this.model.trigger('refreshList');
 		}
+//		if (this.deleteDialog) this.deleteDialog.destroy();
 	},
 	
 	render:function(eventName){
+		var that = this;
+		var title = this.model.get("title");
 		this.$el.html(this.template(
 			_.extend(
 				this.model.toJSON(), 
-				{type: this.name}
+				{
+					title: (title.length > 30) ? title.substr(0,27) + '...' : title,
+					type: this.name,
+					retired: this.model.get("retired") || false
+				}
 			)
 		));
-		if (this.color){
-			this.$el.attr("style", "background:#"+this.color.hex);
-			tt = this;
-			this.$(".plus-one").attr("style", "background:#"+this.color.hex);
+		if (this.model.get("retired") === true){
+			this.$el.attr("data-theme", "d");
 		}
         return this;
 	}

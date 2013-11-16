@@ -1,14 +1,35 @@
 <style>
 	a.ui-slider-handle .ui-btn-inner {
-		padding-top: 5px;	
+		padding-top:5px;
+	}
+	#no-items-yet div {
+		padding-top:5px;
+		text-align:center;
+	}
+	span.ui-btn-icon-notext {
+		border:none;
+		box-shadow:none;
+		background:none;
+	}
+	.swiper-slide {
+		padding-top:0px;
+		padding-bottom:0px;
+	}
+	#no-items-yet {
+		text-align: center;
 	}
 </style>
+
 <div data-role="header">
 	<h1><%= header %></h1>
-	<a href="#" id="newItem" data-icon="plus" data-theme="c">Add</a>
 </div>
+<ul id="addButton" data-role="listview">
+	<!--		<li class="new-item-padding" data-theme="f" data-role="list-divider">
+	<a href="#" data-role="button" data-iconshadow="false" data-inline="true" class="new-item" class="ui-icon-alt ui-icon-nodisc" data-icon="plus" data-theme="f">Add</a>
+	</li> -->
+</ul>
 
 <div data-role="content">
-	<!--plus separation is here because each item in the list has the same separation-->
-    <ul data-role="listview" id='myList' data-split-theme="b" data-split-icon="plus"></ul>
+	<ul data-role="listview" data-split-icon="plus" id='myList' class="ui-icon-nodisc"></ul>
+	<ul data-role="listview" data-split-icon="plus" data-theme="d" id='retiredList' class="ui-icon-nodisc"></ul>
 </div>

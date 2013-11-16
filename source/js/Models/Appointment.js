@@ -1,8 +1,12 @@
 window.$dino.Appointment = Backbone.Model.extend({
    idAttribute: '_id',
    defaults: {
-    date: moment().valueOf(),
-    title: "New Appointment"
+    date: moment().unix(),
+    type: "Appointment",
+    title: "",
+    notes: "",
+    doctor: {id: "No Doctor"},
+    condition: {id: 'None'}
    },
    urlRoot: $dino.apiRoot + '/appointments'
 });

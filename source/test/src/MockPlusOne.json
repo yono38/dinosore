@@ -1,0 +1,34 @@
+bugs
+[
+  { '_id' : 10, 'title' : 'Diabetes', symptom: [ { 'title' : 'Tired', 'id' : 50 } ], user: 'bb221' },
+  { '_id' : 11, 'title' : 'IBS', symptom: [ { 'title' : 'Tired', 'id' : 50 }, { 'title' : 'Poop', 'id' : 51 } ], user: 'bb221' }
+]
+
+symptom
+[
+ { '_id' : 50, 'title' : 'Tired', user: 'bb221' }, 
+ { '_id' : 51,  'title' : 'Poop', user: 'bb221' },
+ { '_id' : 52, 'title' : 'Itchy', user: 'bb221' }
+]
+
+medication
+[
+{ '_id' : 60, "title":"aloe","user":"bb21", "count":0 },
+{ '_id' : 61, "title":"pleacebo","user":"bb21", "count":1 },
+]
+
+plusones
+[
+  // Use case: user plusOnes Diabetes
+  { '_id' : 80, 'date': 1382285267, 'item': '10', 'type': 'bug', user: 'bb221', },
+  { '_id' : 81, 'date': 1382285267, 'item': '50', 'type': 'symptom', user: 'bb221', '0parent': '10', 'parentType' : 'bug'  },
+  // Use case: user plusOnes IBS
+  { '_id' : 82, 'date': 1382303280, 'item': '10', 'type': 'bug', user: 'bb221' },
+  { '_id' : 83, 'date': 1382303280, 'item': '50', 'type': 'symptom', user: 'bb221', 'parent': '11', 'parentType' : 'bug'  },
+  { '_id' : 84, 'date': 1382303280, 'item': '51', 'type': 'symptom', user: 'bb221', 'parent': '11', 'parentType' : 'bug' },
+  // Use case: user plusOnes Poop and Itchy from main menu one after another
+  { '_id' : 83, 'date': 1378660150, 'item': '51', 'type': 'symptom', user: 'bb221' },
+  { '_id' : 84, 'date': 1378660162, 'item': '52', 'type': 'symptom', user: 'bb221' },  
+  // Use case: user plusOnes Placebo
+  { '_id' : 85, 'date': 1378660378, 'item': '61', 'type': 'medication', user: 'bb221' },  
+]

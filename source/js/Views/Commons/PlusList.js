@@ -2,21 +2,27 @@ window.$dino.PlusListView = Backbone.View.extend({
 
     initialize:function (opts) {
     	_.extend(this, opts);
-        this.template = _.template(tpl.get('list-view'));   
+        this.template = opts.template || _.template(tpl.get('list-view'));   
         _.bindAll(this, 'render', 'renderList', 'addItemToList'); 
-        this.collection.bind('destroy', this.renderList);
+        this.collection.bind('refreshList', this.refreshList, this);
+        this.clickItems = opts.clickItems;
         this.adding = false;
         this.loading = true;
+        if (this.afterInitialize) this.afterInitialize(opts);
     },    
+    
+    refreshList: function(){
+    	if (!this.loading){
+	    	this.$("#myList").listview('refresh');
+	    	this.$("#retiredList").listview('refresh');
+    	}
+    },
     
     sortList: function(item){
     	return -item.get("count");
     },
     
     events: {
-      'click #logout' : 'logout',
-      'click #newItem' : 'newItem',
-      'click #newItemLi' : 'dontClick',
       'pageinit' : 'loadedPage'
     },
     
@@ -28,53 +34,60 @@ window.$dino.PlusListView = Backbone.View.extend({
     	e.preventDefault();
     },
     
-    addItemToList: function(e){
+    addItemToList: function(e, opts){
     	if (e)	e.preventDefault();
     	if (this.newListItem){
 			this.newListItem.remove();    	
 			this.newListItem = null;
 		}
-   		this.$("#newItem .ui-btn-text").text("Add");
-   		this.$("#newItem").removeClass("cancelBtn");
-   		this.$("#newItem").buttonMarkup({ icon: "plus" });
-		this.adding = false;
+		this.addingBtn.adding = false;
+		this.addingBtn.render();
 		this.renderList();
     },
     
-    newItem: function(e){
-    	if (e) e.preventDefault();
-    	if (!this.adding){
+    newItem: function(){
+    	console.log(this.addingBtn);
+    	if (this.addingBtn.adding){
     		var itemData = {
     			modelType: this.modelType,
-    			header: this.header
+    			header: this.placeholder || this.header
     		};
 	    	this.newListItem = new $dino.ListNewView(itemData);
 	      	this.newListItem.bind('newItem', this.addItemToList);
 	    	this.$("#myList").prepend(this.newListItem.render().el);
 	    	this.$("#myList").listview('refresh');
 	   		this.$("#newItemInput").textinput().focus();
-	   		this.$("#newItem .ui-btn-text").text("Cancel");
-	   		this.$("#newItem").addClass("cancelBtn");
-	   		this.$("#newItem").buttonMarkup({ icon: "delete" });
-	   		this.adding = true;
    		} else if (this.newListItem) {
-   			this.addItemToList();
-   		}
+			this.newListItem.remove();    	
+			this.newListItem = null;
+  		}
     },
     
     addOne: function(Item){
-      	var view = new $dino.ListItemView({model: Item, name: this.name});
-     	this.$("#myList").append(view.render().el);  
+      	var view = new $dino.ListItemView({model: Item, name: this.name, click: this.clickItems });
+      //	var selector = (Item.get("status") == "In Remission" || Item.get("status") == "Retired") ? "#retiredList" : "#myList";  
+      	var selector = "#myList";
+      	if (Item.get("retired") == true){
+      		console.log('appending retired');
+	     	this.$(selector).append(view.render().el);  
+      	} else {
+      		console.log('prepending active');
+	     	this.$(selector).prepend(view.render().el);  
+      	}
+     	view.$el.trigger("indom");
+     	view.bind('renderlist', this.renderList);
     },
     
     renderList: function(firstTime) {
     	var that = this;
-    	this.$("#myList").empty();
+    	this.$("#myList").html('<img src="css/images/ajax-loader.gif" style="margin-left:50%;padding-top:15px;" alt="loading..." />');
+    	var fetchData = this.fetchData || { "user" : Parse.User.current().id } ;
         this.collection.fetch({
-      	  data: { "user" : Parse.User.current().id }, 
+      	  data: fetchData, 
           success: function(collection){
+	    	this.$("#myList").empty();
           	if (collection.length ==0){
-          		that.$("#myList").html('<span class="fancyFont"><div>No '+that.header+' Added Yet!</div><hr> <div>Click "Add" Above to Get Started</div><hr></span>');
+          	//	that.$("#myList").html('<span id="no-items-yet" class="fancyFont"><div>No '+that.header+' Added Yet!</div><hr> <div>Click "Add" Above to Get Started</div><hr></span>');
           		return;
           	}
           	
@@ -87,13 +100,26 @@ window.$dino.PlusListView = Backbone.View.extend({
             if (!that.loading){
 		      	that.$("#myList").listview();  
 		      	that.$("#myList").listview('refresh'); 
+		      	that.$("#retiredList").listview();  
+		      	that.$("#retiredList").listview('refresh'); 
 	        }
-          }});
+          },
+          error: function(err, data){
+          	$dino.fail404();
+          }
+          });
         return this;
+    },
+    
+    createAddButton: function(){
+    	this.addingBtn = new $dino.PlusListAddButtonView();
+    	this.$("#addButton").html(this.addingBtn.render().el);
+    	this.addingBtn.bind('toggle', this.newItem, this);
     },
     
     render: function () {                
         $(this.el).html(this.template({"header":this.header}));  
+        if (!this.addingBtn) this.createAddButton();
         this.renderList(this.first);
         this.first = false;
         return this;
