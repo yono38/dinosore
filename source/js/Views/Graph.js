@@ -1,4 +1,5 @@
 window.$dino.GraphView = Backbone.View.extend({
+
 	initialize : function(opts) {
 		var title = 'Test Graph';
 		if (opts.items) {
@@ -11,25 +12,29 @@ window.$dino.GraphView = Backbone.View.extend({
 			this.type = 'condition';
 		}
 		this.template = _.template(tpl.get('graph'));
-		_.bindAll(this, 'render', 'goBack', 'makeSeries', 'loadMultiChart');
+		_.bindAll(this, 'render', 'makeSeries', 'loadMultiChart');
 	},
 
 	events : {
-		'click #back' : 'goBack'
 	},
-
-	goBack : function(e) {
-		if (e)
-			e.preventDefault();
-		var medInfo = new $dino.MedicalInfoView();
-		$dino.app.changePage(medInfo, true);
-		medInfo.loadLists();
+	
+	hasSympPlusOnes: function(data) {
+		console.log(data);
+		var hasSymps =  _.chain(data)
+				.pluck("type")
+				.contains("symptom")
+				.value();
+		return hasSymps;
+	},
+	
+	setNoDataMessage: function() {
+		this.$("#graphContainer").html("<h1>Can't find any data for these :( Try a different set!</h1>");
 	},
 
 	// expects itemIds to be array of mongoIds
 	loadItemPlusOnes : function(itemIds) {
 		if (itemIds.length == 0) {
-			this.$("#graphContainer").html("<h1>Can't find any data for these :( Try a different set!</h1>");
+			this.setNoDataMessage();
 		}
 		var that = this;
 		var apiCall = $dino.apiRoot + '/plusones?user=' + Parse.User.current().id + '&item=~';
@@ -43,6 +48,11 @@ window.$dino.GraphView = Backbone.View.extend({
 				if (that.type == "condition") {
 					that.loadConditionChart(data);
 				} else {
+					// graph currently doesn't support medication-only
+					if (!that.hasSympPlusOnes(data)) {
+						that.setNoDataMessage();
+						return;
+					}
 					that.loadMultiChart(data);
 				}
 			}

@@ -51,28 +51,28 @@ window.$dino.MedicalInfoView = $dino.NewFormView.extend({
 			return;
 		}
 		this.visualize.symptom[symp.val()] = symp.text();
+		var symp_str = symp.val() + ',' + symp.text();
 
 		var meds = this.$("#select-medication option:selected");
+		var med_str = "";
 		_(meds).each(function(med, idx){
+			if (med_str.length > 0) med_str += ",";
 			var $med = $(med);
-			that.visualize.medication[$med.val()] = $med.text();
+			var this_med_str = $med.val() + ',' + $med.text();
+			med_str += this_med_str;
 		});
-		console.log(this.visualize);
-		var visualize = new $dino.GraphView({
-			items: this.visualize,
-			parent: this
+		var nav_str = "graph?symptom=" + symp_str + "&medication=" + med_str;
+		$dino.app.navigate(nav_str, {
+			trigger: true
 		});
-		$dino.app.changePage(visualize);
 	},
 
-	// not implemented yet
 	visualizeCondition: function(e) {
 		e.preventDefault();
-		var visualize = new $dino.GraphView({
-			condition: this.$("#select-condition").val(),
-			parent: this
+		var nav_str = "graph?condition=" + this.$("#select-condition").val();
+		$dino.app.navigate(nav_str, {
+			trigger: true
 		});
-		$dino.app.changePage(visualize);
 	},
 
 	logout : function() {

@@ -2,26 +2,24 @@ $dino.AppRouter = Backbone.Router.extend({
 
 	routes : {
 		"" : "start",
-		"bugs/add" : "newBug",
-		"symptoms/add" : "newSymptom",
-		"symptoms" : "symptomList",
-		"symptoms/:id/graph" : "graphSymptom",
+		"appts" : "appts",
+		"appts/:id/modify" : "modifyAppt",
+		"appts/add(?*path)" : "newAppt",
+		"bugs" : "bugList",
+		"bugs/add" : "newCondition",
 		"bug/:id" : "bugDetails",
 		"bug/:id/modify" : "bugModify",
 		"bug/:id/delete" : "bugDialog",
-		"appts" : "appts",
-		"offline" : "offlineExit",
-		"appts/:id/modifyOld" : "apptModify",
-		"appts/:id/modify" : "apptModifyNew",
-		"appts/add(?*path)" : "newAppt",
-		"bugs" : "bugList",
+		"graph" : "makeGraph",
 		"info" : "info",
 		"info/modify" : "infoModify",
+		"login" : "login",
 		"medications" : "medicationList",
 		"medication/:id" : "medicationDetails",
-		"login" : "login",
+		"offline" : "offlineExit",
 		"privacy" : "privacySettings",
 		"signup" : "signup",
+		"symptoms/:id/graph" : "graphSymptom",
 		"tutorial" : "tutorial",
 		"*path" : "start"
 	},
@@ -34,59 +32,7 @@ $dino.AppRouter = Backbone.Router.extend({
 		this.firstPage = true;
 	},
 
-	bugDialog : function(id) {
-		console.log('in bug dialog');
-		var self = this;
-		this.loadBug(id, function(data) {
-			console.log("view bug details");
-			self.changePage(new $dino.BugModifyDialogView({
-				model : data
-			}));
-		});
-	},
-
-	privacySettings : function() {
-		this.changePage(new $dino.StartPrivacyView());
-	},
-
-	newAppt : function(path) {
-		if (path) console.log(path);
-		this.changePage(new $dino.AppointmentNewView({
-			defaultDate : path
-		}));
-	},
-
-	login : function() {
-		this.changePage(new $dino.StartLoginView());
-	},
-
-	signup : function() {
-		this.changePage(new $dino.StartSignupView());
-	},
-
-	newBug : function() {
-		this.changePage(new $dino.ConditionNewView({
-			header : "New"
-		}));
-	},
-
-	info : function() {
-		var medInfo = new $dino.MedicalInfoView(); 
-		this.changePage(medInfo, true);
-		medInfo.loadLists();
-	},
-	
-	infoModify: function() {
-		this.changePage(new $dino.InfoModifyView({
-			model: Parse.User.current(),
-			tpl: 'info-modify'
-		}));
-	},
-
-	offlineExit : function() {
-		this.changePage(new $dino.OfflineExitView());
-	},
-
+// ===== Appointments ==== //
 	appts : function() {
 		var collection = new $dino.AppointmentList();
 		var apptView = new $dino.AppointmentCalendarView({
@@ -96,27 +42,8 @@ $dino.AppRouter = Backbone.Router.extend({
 		$("#date").hide();
 		$(".hasDatepicker").off().remove();
 	},
-
-	apptModify : function(id) {
-		var self = this;
-		var appt = new $dino.Appointment();
-		appt.id = id;
-		appt.fetch({
-			success : function(data) {
-				console.log("modify appt");
-				self.changePage(new $dino.AppointmentModifyOldView({
-					model : data
-				}));
-				$("#date").hide();
-				$(".hasDatepicker").off().remove();
-			},
-			error : function(data, err) {
-				console.log(err);
-			}
-		});
-	},
-
-	apptModifyNew : function(id) {
+	
+	modifyAppt: function(id) {
 		var self = this;
 		var appt = new $dino.Appointment();
 		appt.id = id;
@@ -136,14 +63,32 @@ $dino.AppRouter = Backbone.Router.extend({
 		});
 	},
 
-	start : function() {
-		if (Parse.User.current()) {
-			this.bugList();
-		} else {
-			this.changePage(new $dino.StartSplashView());
-		}
+	newAppt : function(path) {
+		if (path) console.log(path);
+		this.changePage(new $dino.AppointmentNewView({
+			defaultDate : path
+		}));
 	},
 
+// ===== Misc Views (Unused/Rarely Used) === //
+	info : function() {
+		var medInfo = new $dino.MedicalInfoView(); 
+		this.changePage(medInfo, true);
+		medInfo.loadLists();
+	},
+	
+	infoModify: function() {
+		this.changePage(new $dino.InfoModifyView({
+			model: Parse.User.current(),
+			tpl: 'info-modify'
+		}));
+	},
+
+	offlineExit : function() {
+		this.changePage(new $dino.OfflineExitView());
+	},
+
+// ======== Bug List (Conditions & Symptoms) ====== //
 	bugList : function() {
 		var coll = new $dino.SymptomList();
 		var bugListView = new $dino.BugListView({
@@ -154,6 +99,13 @@ $dino.AppRouter = Backbone.Router.extend({
 			name : "symptom"
 		});
 		this.changePage(bugListView, true);
+	},
+
+// ====== Condition (Bug) Views ======= //
+	newCondition: function() {
+		this.changePage(new $dino.ConditionNewView({
+			header : "New"
+		}));
 	},
 
 	loadBug : function(id, callback) {
@@ -190,6 +142,28 @@ $dino.AppRouter = Backbone.Router.extend({
 		});
 	},
 
+// ========== Start Views ======= //
+	start : function() {
+		if (Parse.User.current()) {
+			this.bugList();
+		} else {
+			this.changePage(new $dino.StartSplashView());
+		}
+	},
+
+	privacySettings : function() {
+		this.changePage(new $dino.StartPrivacyView());
+	},
+
+
+	login : function() {
+		this.changePage(new $dino.StartLoginView());
+	},
+
+	signup : function() {
+		this.changePage(new $dino.StartSignupView());
+	},
+
 	tutorial : function(){
 		var tutView = new $dino.StartTutorialView();
 		this.changePage(tutView);
@@ -197,18 +171,48 @@ $dino.AppRouter = Backbone.Router.extend({
 			onSlideChangeEnd: function(swiper) {
 				tutView.checkEnd(swiper);
 			}
-		});	},
+		});	
+	},
 
-	symptomList : function() {
-		var coll = new $dino.SymptomList();
-		var sympView = new $dino.SymptomListView({
-			template : _.template(tpl.get('bug-list-view')),
-			modelType : $dino.Symptom,
-			header : "Bugs",
-			collection : coll,
-			name : "symptom"
-		});
-		this.changePage(sympView, true);
+// ========== Graphs ========== //
+	makeGraph: function(params) {
+		console.log(params);
+		if (params.condition) {
+			var visualize = new $dino.GraphView({
+				condition: params.condition
+			});
+			$dino.app.changePage(visualize);
+		} else if (params.symptom) {
+			var graph_items = {
+				symptom: [],
+				medication: []
+			};
+			// set up symptom
+			// id first, then title
+			var symp = params.symptom.split(',');
+			graph_items['symptom'][ symp[0] ] = symp[1];
+			
+			// if medications, set medication
+			if (params.medication) {
+				var meds = params.medication.split(',');
+				// if not multiple of 2, something went terribly wrong
+				if (meds.length % 2 !== 0) $dino.fail404();
+				var i = 0;
+				while (i < meds.length) {
+					graph_items['medication'][ meds[i] ] = meds[i + 1];
+					i += 2;
+				}
+			}
+			
+			console.log(graph_items);
+
+			var visualize = new $dino.GraphView({
+				items: graph_items
+			});
+			$dino.app.changePage(visualize);
+		} else {
+			$dino.fail404();
+		}
 	},
 	
 	graphSymptom: function(id){
@@ -229,6 +233,7 @@ $dino.AppRouter = Backbone.Router.extend({
 		});
 	},
 
+// ========== Medications ========== //
 	medicationList : function() {
 		var coll = new $dino.MedicationList();
 		var medView = new $dino.PlusListView({
@@ -254,6 +259,7 @@ $dino.AppRouter = Backbone.Router.extend({
 		this.changePage(medView, true);		
 	},
 
+// ======== Helper Functions ======= //
 	changePage : function(page, hasFooter) {
 		$(page.el).attr('data-role', 'page');
 		$(page.el).data("theme", "a");
@@ -307,4 +313,4 @@ $(document).ready(function() {
  var vDiff = $(window).height() - $page.children('.ui-header').outerHeight() - $page.children('.ui-footer').outerHeight() - 40;//minus thirty for margin
  $page.children('.ui-content').height(vDiff);
  }
- });*/
+ });*/
