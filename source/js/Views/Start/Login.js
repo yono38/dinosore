@@ -34,7 +34,7 @@ window.$dino.StartLoginView = Backbone.View.extend({
 	  	var usr = new $dino.User(user.toJSON());
 	  	usr.id = Parse.User.current().id;
 	  	usr.save();
-        $dino.app.navigate("symptoms", {trigger: true});
+        $dino.app.navigate("bugs", {trigger: true});
       }, 
       error: function(usr, err){
         that.$("#error").html(err.message.toTitleCase());        
