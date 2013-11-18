@@ -95,7 +95,7 @@
 	overflow:visible !important;
 	white-space:normal !important;
 }
-.plus-one {
+.plus-one, .check-items {
 	border-left:2px solid #FCFAD6;
 }
 .ui-datebox-container {
@@ -226,4 +226,28 @@
 }
 .new-item-padding {
 	text-align:center;
+}
+.check-items {
+	display: none;
+}
+.check-items .ui-grid-solo {
+	width: 40px;
+	height: 50%;
+	text-align: center;
+	margin-top: 25%;	
+}
+
+.check-items .ui-grid-solo:last-child {
+	background: red;
+	border-top:2px solid #FCFAD6;
+}
+.check-item {
+	position: relative;
+	top: 25%;
+	color: white;
+	font-weight: bold;
+	text-decoration: none;
+}
+#confirm-plus {
+	font-size: 20px;
 }

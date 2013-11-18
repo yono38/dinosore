@@ -34,15 +34,19 @@ window.$dino.SymptomGraphView = Backbone.View.extend({
 		var sevAxis = [];
 		var noteSeries = [];
 
+		console.log(jsoon);
 		var appendTimeSevToAxis = _.each(jsoon, function(elem) {
 			var time = moment.unix(elem.date);
-			date = (time.format("MMM Do - HH:mm:ss a"));
+			date = (time.format("MMM Do - h:mm a"));
 			timeAxis.push(date);
-			var sev = elem.severity;
+			var sev = elem.severity || 0;
 			sevAxis.push(sev);
 			var notes = elem.notes;
 			noteSeries[date] = notes;
 		});
+		
+		console.log(timeAxis);
+		console.log(sevAxis);
 
 		var chart = new Highcharts.Chart({
 
