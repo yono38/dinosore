@@ -84,15 +84,15 @@ window.$dino.SymptomGraphView = Backbone.View.extend({
             },
 
             plotOptions: {
-                        series: {
-                             lineColor: '#51C4E1',   
-                             marker: {
-                                fillColor: '#3FCCBE',
-                                         
-                            }
+                series: {
+                     lineColor: '#51C4E1',   
+                     marker: {
+                        fillColor: '#3FCCBE',
+                                 
+                    }
 
-                        }
-                    },
+                }
+            },
 
             yAxis: {
             	min: 0,
@@ -101,11 +101,6 @@ window.$dino.SymptomGraphView = Backbone.View.extend({
                     text: 'Severity',
                     style: { color: '#4A4A4A' }
                 },
-                plotLines: [{
-                    value: 0,
-                    width: 1,
-                    color: '#4A4A4A'
-                }]
             },
 
             series: [{

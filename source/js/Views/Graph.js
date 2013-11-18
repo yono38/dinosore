@@ -319,20 +319,21 @@ window.$dino.GraphView = Backbone.View.extend({
 			medTime.push(date);
 			timeStamps.push(el.date);
 		});
+		
+		timeStamps.sort();
+		console.log(timeStamps);
 
 		_.each(timeStamps, function(elem) {
 			var time = moment.unix(elem);
 			var date = (time.format("MMM Do - h:mm a"));
 			timeAxis.push(date);
 		});
-		timeAxis.sort();
 
 		// used as filler if no severity set on date
 		var prev = 0;
 		console.log(jsoon);
 		dattes = jsoon;
 		var appendTimeSevToAxis = _.each(timeStamps, function(time) {
-			console.log(time);
 			var elem = _.first(_.where(jsoon, {"date": time}));
 			if (elem && elem.severity) {
 				var sev = elem.severity;
