@@ -104,6 +104,7 @@
 }
 .plus-one .ui-btn-inner .ui-btn-icon-notext {
 	border-radius:15px;
+	background: transparent /* required to make no discs in phonegap */
 }
 .ui-li-count {
 	border-radius:10px;
@@ -234,16 +235,15 @@
 	width: 40px;
 	height: 50%;
 	text-align: center;
-	margin-top: 25%;	
 }
 
 .check-items .ui-grid-solo:last-child {
-	background: red;
+	background: #B84645;
 	border-top:2px solid #FCFAD6;
 }
 .check-item {
 	position: relative;
-	top: 25%;
+	top: 22.5px;
 	color: white;
 	font-weight: bold;
 	text-decoration: none;
