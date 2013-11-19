@@ -24,16 +24,9 @@ window.$dino.ConditionListItemView = $dino.ListItemView.extend({
 		// TODO PUT THIS BACK!
 		//"click #condition-detail" : "goToConditionDetail",
 		"click .removeItem" : "confirmDelete",
-		"click .modifyItem" : "modifyCondition"
+		"click .modifyItem" : "goToConditionDetail"
 	},
 	
-	modifyCondition: function(e) {
-		e.preventDefault();
-			$dino.app.navigate("bug/"+this.model.id+"/modify", {
-				trigger: true
-			});
-	},
-
 	goToConditionDetail: function(e){
 		if (e) e.preventDefault();
 		if (!this.settingSeverity){

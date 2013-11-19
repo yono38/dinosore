@@ -279,6 +279,8 @@ $dino.AppRouter = Backbone.Router.extend({
 		//	transition = 'none';
 			this.firstPage = false;
 		}
+		// reset noBack flag to default
+		$dino.noBack = false;
 		$.mobile.changePage($(page.el), {
 			changeHash : false,
 			transition : transition
@@ -294,6 +296,15 @@ $(document).ready(function() {
 		$dino = window.$dino || {};
 		$dino.app = new $dino.AppRouter();
 		Backbone.history.start();
+		// override back button for android
+		// if I set $dino.noBack on any page
+		// I can use the back button as I like
+		document.addEventListener("backbutton", function(e){
+			e.preventDefault();
+			if (!$dino.noBack) {
+				window.history.back();
+			}
+		}, false);
 		$dino.fail404 = function(override) {
 			if ($dino.env == 'prod' && !override) {;
 				console.log('offline');
@@ -304,13 +315,3 @@ $(document).ready(function() {
 		};
 	});
 });
-/*   $(document).on("pageshow", ".ui-page", function () {
- var $page  = $(this);
- console.log($page);
- ,  vSpace = $page.children('.ui-header').outerHeight() + $page.children('.ui-footer').outerHeight() + $page.children('.ui-content').height();
-
- if (vSpace < $(window).height()) {
- var vDiff = $(window).height() - $page.children('.ui-header').outerHeight() - $page.children('.ui-footer').outerHeight() - 40;//minus thirty for margin
- $page.children('.ui-content').height(vDiff);
- }
- });*/

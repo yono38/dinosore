@@ -31,6 +31,7 @@ window.$dino.PlusListView = Backbone.View.extend({
     },
     
     dontClick:function(e){
+    	console.log('click prevented');
     	e.preventDefault();
     },
     
