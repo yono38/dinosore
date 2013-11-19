@@ -7,7 +7,7 @@ window.$dino.ConditionListItemView = $dino.ListItemView.extend({
 		});
 		this.template = _.template(tpl.get('condition-list-item'));
 		this.debounceSaveSeverity = _.debounce(this.saveSeverity, 2000);
-		_.bindAll(this, 'saveSeverity', 'debounceSaveSeverity');
+		_.bindAll(this, 'openGraph', 'saveSeverity', 'debounceSaveSeverity');
 		var theme = (this.model.get("status") == "Retired" || this.model.get("status") == "In Remission") ? "d" : "b";
 		this.$el.data('theme', theme);
 		this.swiperHeight = "75px";
@@ -22,7 +22,7 @@ window.$dino.ConditionListItemView = $dino.ListItemView.extend({
 		"keypress #item-notes" : "addOnEnter",
 		"indom" : "makeSwiper",
 		// TODO PUT THIS BACK!
-		//"click #condition-detail" : "goToConditionDetail",
+		"click #condition-detail" : "openGraph",
 		"click .removeItem" : "confirmDelete",
 		"click .modifyItem" : "goToConditionDetail"
 	},
@@ -31,6 +31,16 @@ window.$dino.ConditionListItemView = $dino.ListItemView.extend({
 		if (e) e.preventDefault();
 		if (!this.settingSeverity){
 			$dino.app.navigate("bug/"+this.model.id, {
+				trigger: true
+			});
+		}
+	},
+	
+	openGraph: function(e) {
+		e.preventDefault();
+		if (!this.settingSeverity){
+			var id = this.$("#condition-detail").data('id');
+			$dino.app.navigate("graph?condition="+id, {
 				trigger: true
 			});
 		}
