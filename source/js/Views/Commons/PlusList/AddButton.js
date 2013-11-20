@@ -9,6 +9,7 @@ window.$dino.PlusListAddButtonView = Backbone.View.extend({
 		this.addText = opts.addText || "Add";
 		this.cancelText = opts.cancelText || "Cancel";
 		this.template = _.template(this.templateStr);
+		this.debug = opts.debug;
 		this.id = opts.elId || "#new-item";
 		_.bindAll(this, 'render', 'toggle');
 	},
@@ -24,6 +25,18 @@ window.$dino.PlusListAddButtonView = Backbone.View.extend({
     	this.trigger('toggle');
     },
     
+    toggleButton: function(adding) {
+    	if (adding){
+	   		this.$(".new-item").addClass("cancelBtn");
+	   		this.$el.addClass("cancelBtn");
+    	} else {
+	   		this.$(".new-item").removeClass("cancelBtn");
+	   		this.$el.removeClass("cancelBtn");
+    	}
+   		var btnIcon = adding ? "delete" : "plus";
+   		this.$(".new-item").buttonMarkup({ icon: btnIcon });
+    },
+    
     dontClick: function(e) {
     	e.preventDefault();
     },
@@ -32,16 +45,10 @@ window.$dino.PlusListAddButtonView = Backbone.View.extend({
     	var data = {
     		"btnText": this.adding ? this.cancelText : this.addText, // its actually backwards, don't be tricked
     	};
-    	this.$el.html(this.template(data));
-    	if (this.adding){
-	   		this.$(".new-item").addClass("cancelBtn");
-	   		this.$el.addClass("cancelBtn");
-    	} else {
-	   		this.$(".new-item").removeClass("cancelBtn");
-	   		this.$el.removeClass("cancelBtn");
+    	if (!this.debug){
+	    	this.$el.html(this.template(data));
     	}
-   		var btnIcon = this.adding ? "delete" : "plus";
-   		this.$(".new-item").buttonMarkup({ icon: btnIcon });
+    	this.toggleButton(this.adding);
     	return this;
     },
 });

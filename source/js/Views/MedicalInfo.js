@@ -130,7 +130,6 @@ window.$dino.MedicalInfoView = $dino.NewFormView.extend({
 			console.log("fix this later:");
 			console.log(err);
 		}
-		//	makeList : function(collection, selector, modelType, noAddNew, noFilter) {		
 	},
 
 	render : function(eventName) {

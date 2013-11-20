@@ -13,6 +13,7 @@ $dino.AppRouter = Backbone.Router.extend({
 		"graph" : "makeGraph",
 		"info" : "info",
 		"info/modify" : "infoModify",
+		"intro" : "intro",
 		"login" : "login",
 		"medications" : "medicationList",
 		"medication/:id" : "medicationDetails",
@@ -150,6 +151,10 @@ $dino.AppRouter = Backbone.Router.extend({
 			this.changePage(new $dino.StartSplashView());
 		}
 	},
+	
+	intro: function() {
+		this.changePage(new $dino.StartIntroView(), true);
+	},
 
 	privacySettings : function() {
 		this.changePage(new $dino.StartPrivacyView());
@@ -263,6 +268,10 @@ $dino.AppRouter = Backbone.Router.extend({
 	changePage : function(page, hasFooter) {
 		$(page.el).attr('data-role', 'page');
 		$(page.el).data("theme", "a");
+		$(page.el).on('pageinit', function(){
+			page.pageloaded = true;
+			$(page.el).trigger('pageloaded');
+		});
 		page.render();
 		if (hasFooter) {
 			this.footer = this.footer || new $dino.FooterView();
@@ -285,7 +294,7 @@ $dino.AppRouter = Backbone.Router.extend({
 			changeHash : false,
 			transition : transition
 		});
-		page.pageloaded = true;
+
 		$dino.currView = page;
 	}
 });

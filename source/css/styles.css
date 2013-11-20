@@ -251,3 +251,30 @@
 #confirm-plus {
 	font-size: 20px;
 }
+
+  .customIntro { 
+  	text-align: center;
+  	color: rgb(252, 250, 214);
+  	background-color: #3fccbe;
+    font-family: 'Trebuchet MS', Helvetica, sans-serif;
+	font-size: 16px;
+  }
+  .customIntro .introjs-prevbutton {
+  	display: none;
+  }
+  .customIntro .introjs-tooltipbuttons {
+  	text-align: center;
+  }
+  .customIntro div .introjs-nextbutton {
+  	background: #FF9B3E;
+  }
+  .customIntro div .introjs-skipbutton {
+  	background: #F16A28;
+  }
+  .customIntro div .introjs-nextbutton, .customIntro div .introjs-skipbutton {
+  	text-shadow: none;
+    font-family: 'Trebuchet MS', Helvetica, sans-serif;
+  	color: rgb(252, 250, 214);
+    border-radius: 0;
+    font-size: 16px;
+  }

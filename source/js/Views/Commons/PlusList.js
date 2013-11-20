@@ -23,7 +23,8 @@ window.$dino.PlusListView = Backbone.View.extend({
     },
     
     events: {
-      'pageinit' : 'loadedPage'
+      'pageinit' : 'loadedPage',
+      'click #intro-test' : 'dontClick'
     },
     
     loadedPage: function(){
@@ -113,13 +114,15 @@ window.$dino.PlusListView = Backbone.View.extend({
     },
     
     createAddButton: function(){
-    	this.addingBtn = new $dino.PlusListAddButtonView();
+    	this.addingBtn = new $dino.PlusListAddButtonView({
+    		debug: this.debug
+    	});
     	this.$("#addButton").html(this.addingBtn.render().el);
     	this.addingBtn.bind('toggle', this.newItem, this);
     },
     
     render: function () {                
-        $(this.el).html(this.template({"header":this.header}));  
+        this.$el.html(this.template({"header":this.header}));  
         if (!this.addingBtn) this.createAddButton();
         this.renderList(this.first);
         this.first = false;

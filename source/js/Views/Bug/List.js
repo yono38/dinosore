@@ -2,13 +2,22 @@ window.$dino.BugListView = $dino.PlusListView.extend({
 
 	afterInitialize : function() {
 		this.bugCollection = new $dino.BugList();
+		_.bindAll(this, 'intro');
 	},
 
 	events : {
+	    'click #intro-test' : 'intro',
 		'click .new-item' : 'dontClick',
 		'click #new-symptom-padding' : 'newSymptom',
 		'click #new-condition-padding' : 'newCondition',
 		'pageinit' : 'loadedPage'
+	},
+	
+	intro: function(e) {
+		e.preventDefault();
+		$dino.app.navigate("intro", {
+			trigger: true
+		});
 	},
 
 	createAddButton : function() {
@@ -32,6 +41,7 @@ window.$dino.BugListView = $dino.PlusListView.extend({
 	},
 
 	renderList : function(firstTime) {
+		if (this.debug) return;
 		var that = this;
 		this.$(".loading").show();
     	this.$("#myList").html('<img class="loading" src="css/images/ajax-loader.gif" style="margin-left:50%;padding-top:15px;" alt="loading..." />');
