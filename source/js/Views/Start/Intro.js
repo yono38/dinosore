@@ -37,6 +37,11 @@ window.$dino.StartIntroView = Backbone.View.extend({
           	showBullets: false,
             steps: [
               {
+              	element: '#myList',
+                intro: "<strong>Welcome!</strong><br>Using Dinosore, you can make exact records of your health over time. Don't estimate when you think a problem started, see it for yourself!",
+                position: 'bottom'
+              },
+              {
                 element: '.footerBtn[href="#bugs"]',
                 intro: "This is the Bug List page",
                 position: 'top'
@@ -60,23 +65,44 @@ window.$dino.StartIntroView = Backbone.View.extend({
               	element: '#activeConditionList',
               	intro: 'Choose the severity, add any notes, and click the check to confirm',
               	position: 'bottom'
+              },
+              {
+              	element: '#symptom-detail',
+              	intro: "After you've logged the symptom a few times, click the symptom name to view its graph",
+              	position: 'bottom'
+              },
+              {
+              	element: '#myList',
+              	intro: 'We hope you find Dinosore useful. If you have any questions or comments, feel free to talk to us anytime at dinosorehealth@gmail.com <br><br><strong>-- Rebecca and Jason</strong>',
+              	position: 'bottom'
               }
             ]
           });
           intro.onchange(function(target){
-			console.log($(".introjs-helperNumberLayer").text());
-          	if ($(".introjs-helperNumberLayer").text() == "2") {
-          		console.log('step 2!');
+          	if ($(".introjs-helperNumberLayer").text() == "") {
+          		$("body").append('<style id="temp-intro-css">.introjs-helperLayer {background:transparent;border: none;box-shadow: none;}.introjs-arrow{display:none}.introjs-tooltip{max-width:none;}</style>');
+          		console.log(target);
+          		console.log($(target));
+          		console.log('hide helperLayer');
+          		$(".introjs-helperLayer").addClass("first-step");
+          		$(".introjs-helperLayer").css({
+          		
+          		});
+          	}
+          	if ($(".introjs-helperNumberLayer").text() == "1") {
+          		$("#temp-intro-css").remove();
+          	}
+          	if ($(".introjs-helperNumberLayer").text() == "3") {
           		view.addingBtn.toggleButton(true);
           		view.$(".cancelBtn span .ui-btn-text").text("Cancel");
           		$("#newItemInput").val('Headache');
           	}
-          	if ($(".introjs-helperNumberLayer").text() == "3") {
+          	if ($(".introjs-helperNumberLayer").text() == "4") {
           		$("#myList").hide();
           		view.$(".cancelBtn span .ui-btn-text").text("Symptom");
           		view.addingBtn.toggleButton();
           	}
-          	if ($(".introjs-helperNumberLayer").text() == "4") {
+          	if ($(".introjs-helperNumberLayer").text() == "5") {
           		itemview.setSeverity();
           		itemview.$(".swiper-wrapper").css({
           			"height": "auto",
@@ -89,18 +115,28 @@ window.$dino.StartIntroView = Backbone.View.extend({
           		itemview.$("#symptom-notes").val("Throbbing");
 				itemview.$(".plus-one").hide();
 				itemview.$(".check-items").show();
+          	}
+          	if ($(".introjs-helperNumberLayer").text() == "6") {
+          		itemview.resetTitle();
+          		view.$("#myList").empty().show();
+          	}
+          	if ($(".introjs-helperNumberLayer").text() == "7") {
+          		$("body").append('<style id="temp-intro-css">.introjs-helperLayer {background:transparent;border: none;box-shadow: none;}.introjs-arrow{display:none}.introjs-tooltip{max-width:none;}.introjs-tooltiptext{padding-bottom:15px}</style>');
           		$(".introjs-nextbutton").hide();
+          		$(".introjs-skipbutton").show();
+          		// create graphview
           	}
           	console.log(target);
           });
           intro.onbeforechange(function(target){
-          	if ($(".introjs-helperNumberLayer").text() == "2") {
+			console.log($(".introjs-helperNumberLayer").text());
+          	if ($(".introjs-helperNumberLayer").text() == "3") {
           		$("#myList").show();
           	}
-          	if ($(".introjs-helperNumberLayer").text() == "3") {
+          	if ($(".introjs-helperNumberLayer").text() == "4") {
           		$("#activeConditionList").show();
           	}
-          	if ($(".introjs-helperNumberLayer").text() == "4") {
+          	if ($(".introjs-helperNumberLayer").text() == "5") {
           	}
           });
           	
