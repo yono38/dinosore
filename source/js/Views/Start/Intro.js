@@ -53,12 +53,12 @@ window.$dino.StartIntroView = Backbone.View.extend({
               },
               {
               	element: document.querySelector('#newItemLi'),
-              	intro: 'Input the symptom and click the plus',
+              	intro: 'Input the symptom and click to add',
               	position: 'bottom'
               },
               {
               	element: '.plus-one',
-              	intro: 'Click plus one to log',
+              	intro: 'Click plus button to log',
               	position: 'left'
               },
               {
@@ -73,7 +73,7 @@ window.$dino.StartIntroView = Backbone.View.extend({
               },
               {
               	element: '#myList',
-              	intro: 'We hope you find Dinosore useful. If you have any questions or comments, feel free to talk to us anytime at dinosorehealth@gmail.com <br><br><strong>-- Rebecca and Jason</strong>',
+              	intro: 'We hope you find Dinosore useful and easy to use! If you have any questions or comments, feel free to talk to us anytime at dinosorehealth@gmail.com',
               	position: 'bottom'
               }
             ]
@@ -95,7 +95,14 @@ window.$dino.StartIntroView = Backbone.View.extend({
           	if ($(".introjs-helperNumberLayer").text() == "3") {
           		view.addingBtn.toggleButton(true);
           		view.$(".cancelBtn span .ui-btn-text").text("Cancel");
-          		$("#newItemInput").val('Headache');
+          		var note = "Headache"
+				, i
+				, typeNote = function(i){
+	          		$("#newItemInput").val(note.substr(0,i));
+				};
+				for (i=1; i<=note.length;i++){
+					setTimeout(typeNote, i*200, i);	
+				}
           	}
           	if ($(".introjs-helperNumberLayer").text() == "4") {
           		$("#myList").hide();
@@ -112,12 +119,21 @@ window.$dino.StartIntroView = Backbone.View.extend({
           		itemview.$("#severity").val("4");
           		itemview.$("#severity").slider("refresh");
 				itemview.changeSeverity();
-          		itemview.$("#symptom-notes").val("Throbbing");
+				var note = "Throbbing"
+				, i
+				, typeNote = function(i){
+	          		itemview.$("#symptom-notes").val(note.substr(0,i));
+				};
+				for (i=1; i<=note.length;i++){
+					setTimeout(typeNote, i*200, i);	
+				}
+				
 				itemview.$(".plus-one").hide();
 				itemview.$(".check-items").show();
           	}
           	if ($(".introjs-helperNumberLayer").text() == "6") {
           		itemview.resetTitle();
+				itemview.addBubble('.item-title', 'Saved');		
           		view.$("#myList").empty().show();
           	}
           	if ($(".introjs-helperNumberLayer").text() == "7") {

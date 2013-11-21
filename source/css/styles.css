@@ -257,7 +257,7 @@
   	color: rgb(252, 250, 214);
   	background-color: #3fccbe;
     font-family: 'Trebuchet MS', Helvetica, sans-serif;
-	font-size: 16px;
+	font-size: 20px;
   }
   .customIntro .introjs-skipbutton {
   	background: #F16A28;
@@ -278,5 +278,5 @@
     font-family: 'Trebuchet MS', Helvetica, sans-serif;
   	color: rgb(252, 250, 214);
     border-radius: 0;
-    font-size: 16px;
+    font-size: 20px;
   }
