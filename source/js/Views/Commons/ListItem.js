@@ -51,9 +51,10 @@ window.$dino.ListItemView = Backbone.View.extend({
 		});
 	},
 	
-	makeSwiper: function(e){
+	makeSwiper: function(e, noSwipe){
+		noSwipe = noSwipe || true;
 		this.mySwiper = this.$('.swiper-container').swiper({
-			'noSwiping' : true,
+			'noSwiping' : noSwipe,
 			'onSlideChangeEnd': this.hidePlus,
 			'calculateHeight': false
 		});

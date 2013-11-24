@@ -29,7 +29,7 @@ window.$dino.StartIntroView = Backbone.View.extend({
 		});
 		view.$("#activeConditionList").append(itemview.render().el);
 		view.$("#activeConditionList").listview('refresh');
-		itemview.makeSwiper();
+		itemview.makeSwiper(null, false);
 		$dino.view = view;
         $dino.intro = intro = introJs();
           intro.setOptions({
@@ -53,17 +53,22 @@ window.$dino.StartIntroView = Backbone.View.extend({
               },
               {
               	element: document.querySelector('#newItemLi'),
-              	intro: 'Input the symptom and click to add',
+              	intro: 'Input the symptom and click the plus to add',
               	position: 'bottom'
               },
               {
               	element: '.plus-one',
-              	intro: 'Click plus button to log',
+              	intro: 'Whenever you are feeling the symptom, click the plus to log it',
               	position: 'left'
               },
               {
               	element: '#activeConditionList',
-              	intro: 'Choose the severity, add any notes, and click the check to confirm',
+              	intro: 'Choose the severity, add a descriptive note (only if you want!), and click the check to confirm or the X to cancel',
+              	position: 'bottom'
+              },
+              {
+              	element: '#symptom-detail',
+              	intro: "Swipe left to reveal the options menu. You can delete a symptom or retire it when it is no longer active",
               	position: 'bottom'
               },
               {
@@ -79,18 +84,14 @@ window.$dino.StartIntroView = Backbone.View.extend({
             ]
           });
           intro.onchange(function(target){
+          	console.log($(".introjs-helperNumberLayer").text());
           	if ($(".introjs-helperNumberLayer").text() == "") {
-          		$("body").append('<style id="temp-intro-css">.introjs-helperLayer {background:transparent;border: none;box-shadow: none;}.introjs-arrow{display:none}.introjs-tooltip{max-width:none;}</style>');
-          		console.log(target);
-          		console.log($(target));
+          		view.$el.append('<style id="temp-intro-css">.introjs-helperLayer {background:transparent;border: none;box-shadow: none;}.introjs-arrow{display:none}.introjs-tooltip{max-width:none;}</style>');
           		console.log('hide helperLayer');
-          		$(".introjs-helperLayer").addClass("first-step");
-          		$(".introjs-helperLayer").css({
-          		
-          		});
           	}
           	if ($(".introjs-helperNumberLayer").text() == "1") {
           		$("#temp-intro-css").remove();
+          		console.log('show helperLayer');
           	}
           	if ($(".introjs-helperNumberLayer").text() == "3") {
           		view.addingBtn.toggleButton(true);
@@ -137,10 +138,19 @@ window.$dino.StartIntroView = Backbone.View.extend({
           		view.$("#myList").empty().show();
           	}
           	if ($(".introjs-helperNumberLayer").text() == "7") {
-          		$("body").append('<style id="temp-intro-css">.introjs-helperLayer {background:transparent;border: none;box-shadow: none;}.introjs-arrow{display:none}.introjs-tooltip{max-width:none;}.introjs-tooltiptext{padding-bottom:15px}</style>');
+				swiper = itemview.mySwiper;
+          		itemview.mySwiper.init();
+          		itemview.mySwiper.swipeNext();
+          	}
+          	if ($(".introjs-helperNumberLayer").text() == "8") {
+          		itemview.mySwiper.swipePrev();
+          		view.$el.append('<style id="temp-intro-css">.introjs-helperLayer {background:transparent;border: none;box-shadow: none;}.introjs-arrow{display:none}.introjs-tooltip{max-width:none;}.introjs-tooltiptext{padding-bottom:15px}</style>');
           		$(".introjs-nextbutton").hide();
-          		$(".introjs-skipbutton").show();
-          		// create graphview
+          	//	$(".introjs-nextbutton").text("Learn More");
+          		$(".introjs-skipbutton").text("Get Started").show();
+		        setTimeout(function(){
+					$(".introjs-skipbutton").text("Get Started").show();
+				}, 2);
           	}
           	console.log(target);
           });
@@ -152,30 +162,30 @@ window.$dino.StartIntroView = Backbone.View.extend({
           	if ($(".introjs-helperNumberLayer").text() == "4") {
           		$("#activeConditionList").show();
           	}
-          	if ($(".introjs-helperNumberLayer").text() == "5") {
-          	}
           });
           	
           intro.oncomplete(function(){
-          	that.page = 2;
-          	//that.render();
-          	// temporary
           	$dino.app.navigate("bugs", {
           		trigger: true
           	});
+          	$("#temp-intro-css").remove();
+          	view.$el.empty();
+      		view.remove();
           });
           intro.onexit(function(){
           	$dino.app.navigate("bugs", {
           		trigger: true
           	});
+          	$("#temp-intro-css").remove();
+          	view.$el.empty();
+          	view.remove();
           });
+          // have to wait for jQuery to render before hiding
           setTimeout(function(){
           	intro.start(); 		
           	view.$("#myList").hide();
           	view.$("#activeConditionList").hide();
           }, 2);
-	},
-	createMedicationIntro: function(e) {
 	},
 	// =======================
 	// RENDERING METHODS
@@ -211,26 +221,8 @@ window.$dino.StartIntroView = Backbone.View.extend({
         }, 2);
 		$(".ui-page").trigger('pagecreate');
 	},
-	renderAppointmentView : function() {
-
-	},
-	renderGraphView : function() {
-
-	},
 	render : function() {
-		switch(this.page) {
-			case 1:
-				this.renderBugView();
-				break;
-			case 2:
-				this.renderMedicationView();
-				break;
-			case 3:
-				this.renderAppointmentView();
-				break;
-			case 4:
-				this.renderGraphView();
-		}
+		this.renderBugView();
 		return this;
 	}
 }); 
