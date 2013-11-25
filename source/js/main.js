@@ -251,7 +251,11 @@ $dino.AppRouter = Backbone.Router.extend({
 						page: params.page
 					}), true);
 					break;
-				case 'symptom' : 
+				case 'appointment': 
+					this.changePage(new $dino.HelpAppointmentView({}), true);
+					break;
+				case 'graph': 
+					this.changePage(new $dino.HelpGraphView({}), true);
 					break;
 				default:
 					this.changePage(new $dino.StartIntroView(), true);

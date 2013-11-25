@@ -83,6 +83,16 @@ window.$dino.StartIntroView = Backbone.View.extend({
               }
             ]
           });
+          var nextpage = _.once(function(){
+          	console.log('calling nextpage');
+          	$dino.app.navigate("help?type=condition&page=1",{
+          		trigger: true
+          	});	
+          	$(".introjs-overlay").remove();
+          	$(".introjs-helperLayer").remove();
+          	that.$el.unbind();
+          	that.$el.remove();
+          });
           intro.onchange(function(target){
           	console.log($(".introjs-helperNumberLayer").text());
           	if ($(".introjs-helperNumberLayer").text() == "") {
@@ -145,9 +155,11 @@ window.$dino.StartIntroView = Backbone.View.extend({
           	if ($(".introjs-helperNumberLayer").text() == "8") {
           		itemview.mySwiper.swipePrev();
           		view.$el.append('<style id="temp-intro-css">.introjs-helperLayer {background:transparent;border: none;box-shadow: none;}.introjs-arrow{display:none}.introjs-tooltip{max-width:none;}.introjs-tooltiptext{padding-bottom:15px}</style>');
-          		$(".introjs-nextbutton").hide();
-          	//	$(".introjs-nextbutton").text("Learn More");
+          		$(".introjs-nextbutton").text("Learn More");
           		$(".introjs-skipbutton").text("Get Started").show();
+          		$(".introjs-nextbutton").on("click", function(){
+          			nextpage();
+          		});
 		        setTimeout(function(){
 					$(".introjs-skipbutton").text("Get Started").show();
 				}, 2);
@@ -185,7 +197,7 @@ window.$dino.StartIntroView = Backbone.View.extend({
           	intro.start(); 		
           	view.$("#myList").hide();
           	view.$("#activeConditionList").hide();
-          }, 2);
+          }, 200);
 	},
 	// =======================
 	// RENDERING METHODS
