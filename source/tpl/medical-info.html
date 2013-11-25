@@ -41,7 +41,8 @@
 	<a href="#" id="logout" data-icon="delete" data-theme="c" class="ui-icon-alt" data-iconpos="left">Logout</a>
 	<h1>Graph</h1>
 </div>
-<h2 class="select-header" id="select-items-header">Select Symptom and Medications to Graph:</h2>
+<div id="symp-med-chart">
+	<h2 class="select-header" id="select-items-header">Select Symptom and Medications to Graph:</h2>
 <h3 id="error"></h3>
 				<select class="ui-icon-alt ui-icon-nodisc" name="select-symptom" id="select-symptom"> 
 					<option value="default">Symptoms</option>
@@ -57,9 +58,10 @@
 <ul id="medication-list"></ul>
 
 <a href="#" id="visualize-items" data-role="button" class="darktan" data-theme="c">Graph Items</a>
+</div>
 
 <h2 id="select-or-header" class="select-header">OR</h2>
-
+<div id="condition-chart">
 <h2 id="select-condition-header" class="select-header"> Select Condition to Graph:</h2>
 
 <select class="ui-icon-alt ui-icon-nodisc" name="select-condition" id="select-condition">
@@ -67,3 +69,4 @@
 </select>
 
 <a href="#" id="visualize-condition" data-role="button" class="darktan" data-theme="c">Graph Condition</a>
+</div>

@@ -3,15 +3,20 @@ window.$dino.AppointmentCalendarView = Backbone.View.extend({
 	initialize : function(opts) {
 		this.collection = opts.collection;
 		this.template = _.template(tpl.get('appointment-calendar'));
+		this.apptItems = [];
 		var that = this;
-		this.collection.fetch({
-			data: { "user" : Parse.User.current().id },
-			success : function(collection) {
-				// This code block will be triggered only after receiving the data.
-				that.buildHighDates();
-				that.loadTodayAppt();
-			}
-		});
+		if (!opts.debug){
+			this.collection.fetch({
+				data: { "user" : Parse.User.current().id },
+				success : function(collection) {
+					// This code block will be triggered only after receiving the data.
+					that.buildHighDates();
+					that.loadTodayAppt();
+				}
+			});	
+		} else {
+			this.buildHighDates();
+		}
 		this.collection.bind('destroy', this.refreshAppts, this);
 		_.bindAll(this, 'buildHighDates', 'refreshAppts', 'changeDate');
 	},
@@ -56,6 +61,7 @@ window.$dino.AppointmentCalendarView = Backbone.View.extend({
 						model: appt,
 						template: "appointment-item"
 					});
+					that.apptItems.push(apptItem);
 					that.$("#dayAppts").append(apptItem.render().el);
 					that.$("#dayAppts").show();
 					that.$("#noAppt").hide();
@@ -76,6 +82,7 @@ window.$dino.AppointmentCalendarView = Backbone.View.extend({
 				model: appt,
 				template: "appointment-item"
 			});
+			this.apptItems.push(apptItem);
 			that.$("#dayAppts").append(apptItem.render().el);
 			this.$("#dayAppts").show();
 	 		apptItem.$el.trigger('indom');

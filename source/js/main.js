@@ -11,6 +11,7 @@ $dino.AppRouter = Backbone.Router.extend({
 		"bug/:id/modify" : "bugModify",
 		"bug/:id/delete" : "bugDialog",
 		"graph" : "makeGraph",
+		"help" : "helpPage",
 		"info" : "info",
 		"info/modify" : "infoModify",
 		"intro" : "intro",
@@ -238,6 +239,30 @@ $dino.AppRouter = Backbone.Router.extend({
 		});
 	},
 
+// ========== Help ========== //
+	helpPage: function(params) {
+		console.log(params);
+		if (!params || !params['type']) {
+			this.changePage(new $dino.StartIntroView(), true);
+		} else {
+			switch (params.type) {
+				case 'condition':
+					this.changePage(new $dino.HelpConditionView({
+						page: params.page
+					}), true);
+					break;
+				case 'appointment': 
+					this.changePage(new $dino.HelpAppointmentView({}), true);
+					break;
+				case 'graph': 
+					this.changePage(new $dino.HelpGraphView({}), true);
+					break;
+				default:
+					this.changePage(new $dino.StartIntroView(), true);
+					break;
+			}
+		}
+	},
 // ========== Medications ========== //
 	medicationList : function() {
 		var coll = new $dino.MedicationList();

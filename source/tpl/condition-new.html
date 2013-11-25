@@ -13,7 +13,7 @@
 
 <div data-role="content">
 	<div id="error-msg" class="fancyFont error"></div>
-	<div class="list-border">
+	<div id="title-list-border" class="list-border">
 		<label for="title">Title:</label>
 		<input type="text" class="text-input" placeholder="New Condition" name="title" id="condition-title" value="<%= title %>" data-mini="true" />
 	</div>
@@ -23,7 +23,7 @@
 		<textarea name="textarea" id="condition-details"><%= details %></textarea>
 	</div>
 
-	<div class="list-border">
+	<div id="status-list-border" class="list-border">
 		<p>
 			Status:
 		</p>
@@ -33,7 +33,7 @@
 			<option value="Retired">Retired</option>
 		</select>
 	</div>
-	<div class="list-border">
+	<div id="symptom-list-border" class="list-border">
 		<table id="symptom-list-bar" style='width:100%'>
 			<tbody>
 				<tr>
@@ -72,7 +72,7 @@
 			<% }); %>
 		</ul>
 	</div>
-	<div class="list-border">
+	<div id="medication-list-border" class="list-border">
 		<table id="medication-list-bar" style='width:100%'>
 			<tbody>
 				<tr>
@@ -112,7 +112,7 @@
 		</ul>
 	</div>
 
-	<div class="list-border">
+	<div id="doctor-list-border" class="list-border">
 		<div id="doctor-list-bar">
 			<label for="select-doctor" class="select-doctor-label">Doctor</label>
 			<select name="select-doctor" id="select-doctor" class="ui-icon-nodisc" >
