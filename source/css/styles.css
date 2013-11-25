@@ -252,6 +252,16 @@
 	font-size: 20px;
 }
 
+  .conditionIntro {
+  	bottom: -218px !important;
+  	left: -150px !important;
+  }
+  .conditionIntro .introjs-tooltipbuttons {
+  	margin-top: 10px;
+  }
+  .conditionIntro .introjs-arrow {
+  	left: 200px;
+  }
   .customIntro { 
   	text-align: center;
   	color: rgb(252, 250, 214);
@@ -266,7 +276,7 @@
   .customIntro .introjs-tooltipbuttons {
   	text-align: center;
   }
-  .customIntro div .introjs-nextbutton {
+  .customIntro div .introjs-nextbutton, .conditionIntro .introjs-skipbutton {
   	background: #FF9B3E;
   }
   .customIntro div .introjs-prevbutton {
