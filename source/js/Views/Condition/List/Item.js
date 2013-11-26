@@ -83,6 +83,7 @@ window.$dino.ConditionListItemView = $dino.ListItemView.extend({
 			this.$("#cancel-change-severity").button({
 				mini : true
 			});
+			this.$(".swiper-slide").addClass('swiper-no-swiping');
 			this.changeSeverity();
 			this.settingSeverity = true;
 		}
@@ -93,6 +94,7 @@ window.$dino.ConditionListItemView = $dino.ListItemView.extend({
 			e.preventDefault();
 		console.log(this.model.toJSON());
 		console.log('clicked plus');
+		this.$(".set-severity").show();
 		if (!this.added) {
 			var that = this;
 			this.model.set("count", (this.model.get("count") + 1));
@@ -126,6 +128,7 @@ window.$dino.ConditionListItemView = $dino.ListItemView.extend({
 		this.$(".ui-icon").addClass("ui-icon-plus");
 		this.$("#symptomSliders").empty();
 		// this resets slide size for modify/remove buttons
+		this.$(".swiper-slide").removeClass('swiper-no-swiping');
 		this.$(".swiper-slide").css("height", "100%");
 		// TODO change this to use render
 		// currently loses formatting on refresh

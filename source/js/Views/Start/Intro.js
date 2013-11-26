@@ -53,32 +53,32 @@ window.$dino.StartIntroView = Backbone.View.extend({
               },
               {
               	element: document.querySelector('#newItemLi'),
-              	intro: 'Input the symptom and click the plus to add',
+              	intro: 'Input the symptom and click the plus to add.',
               	position: 'bottom'
               },
               {
               	element: '.plus-one',
-              	intro: 'Whenever you are feeling the symptom, click the plus to log it',
+              	intro: 'Whenever you are feeling the symptom, click the plus to log it.',
               	position: 'left'
               },
               {
               	element: '#activeConditionList',
-              	intro: 'Choose the severity, add a descriptive note (only if you want!), and click the check to confirm or the X to cancel',
+              	intro: 'Choose the severity, add a descriptive note (only if you want!), and click the check to confirm or the X to cancel.',
               	position: 'bottom'
               },
               {
               	element: '#symptom-detail',
-              	intro: "Swipe left to reveal the options menu. You can delete a symptom or retire it when it is no longer active",
+              	intro: "After you've logged the symptom a few times, click the symptom name to view its graph.",
               	position: 'bottom'
               },
               {
               	element: '#symptom-detail',
-              	intro: "After you've logged the symptom a few times, click the symptom name to view its graph",
+              	intro: "Swipe left to reveal the options menu. You can delete a symptom or retire it when it is no longer active.",
               	position: 'bottom'
               },
               {
               	element: '#myList',
-              	intro: 'We hope you find Dinosore useful and easy to use! If you have any questions or comments, feel free to talk to us anytime at dinosorehealth@gmail.com',
+              	intro: 'We hope you find Dinosore useful and easy to use! If you have any questions or comments, feel free to talk to us anytime at dinosorehealth@gmail.com.',
               	position: 'bottom'
               }
             ]

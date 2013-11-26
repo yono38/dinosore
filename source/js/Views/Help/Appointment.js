@@ -11,22 +11,22 @@ window.$dino.HelpAppointmentView = Backbone.View.extend({
             steps: [
               {
               	element: '.footerBtn#appointments',
-                intro: "This is the appointments page",
+                intro: "This is the appointments page.",
                 position: 'top'
               },
               {
               	element: "div[data-role='content']",
-                intro: "Choose a day to load appointment information",
+                intro: "Choose a day to load appointment information.",
                 position: 'bottom'
               },
               {
               	element: "#dayAppts",
-                intro: "The appointment stores the details on your appointment, including any doctor or condition you have linked to the appointment",
+                intro: "The appointment stores the details on your appointment, including any doctor or condition you have linked to the appointment.",
                 position: 'top'
               },
               {
               	element: "#dayAppts",
-                intro: "Like with Symptoms and Condtions, you can swipe left to access the options menu",
+                intro: "Like with Symptoms and Condtions, you can swipe left to access the options menu.",
                 position: 'top'
               },
               ]
@@ -107,8 +107,6 @@ window.$dino.HelpAppointmentView = Backbone.View.extend({
 		this.$el.bind('pageloaded', this.createIntro);
 		this.$el.html(view.render().el);
 
-		//view.loadDatebox(1);
-		// get rid of annoying background shadow
 		setTimeout(function() {
 			$(".ui-input-text.ui-shadow-inset").css({
 				"border" : "none",
