@@ -1,7 +1,7 @@
 {
   "name": "dinosore",
   "description": "A health tracking app",
-  "version" : "1.0.0",
+  "version": "1.0.0",
   "contributors": [
     "Jason Schapiro <yono38@gmail.com>",
     "Rebecca Hillegass <rebecca.hillegass@gmail.com>"
@@ -10,9 +10,10 @@
     "express-restify-mongoose": ">=0.3.3"
   },
   "devDependencies": {
-    "grunt": "~0.4.1",
+    "grunt": "~0.4.2",
     "grunt-contrib-jshint": "~0.6.3",
     "grunt-contrib-nodeunit": "~0.2.0",
-    "grunt-contrib-uglify": "~0.2.2"
+    "grunt-contrib-uglify": "~0.2.2",
+    "grunt-contrib-jasmine": "~0.5.2"
   }
 }
