@@ -12,7 +12,7 @@ window.$dino.HelpGraphView = Backbone.View.extend({
             steps: [
               {
               	element: '.footerBtn#info',
-                intro: "This is the correlation graph page. Here you can select symptoms, medications and conditions that you wish to visualize",
+                intro: "This is the correlation graph page. Here you can select symptoms, medications and conditions that you wish to visualize.",
                 position: 'top'
               },
               {

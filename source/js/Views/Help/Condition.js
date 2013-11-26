@@ -22,7 +22,7 @@ window.$dino.HelpConditionView = Backbone.View.extend({
             steps: [
               {
               	element: '#new-condition-padding',
-                intro: "Conditions are greater health problems which have related medications and symptoms (i.e. Asthma, Migraines, Diabetes, etc). Press plus to create a condition",
+                intro: "Conditions are greater health problems which have related medications and symptoms (i.e. Asthma, Migraines, Diabetes, etc). Press plus to create a condition.",
                 position: 'bottom'
               },
             ]
@@ -92,7 +92,7 @@ window.$dino.HelpConditionView = Backbone.View.extend({
               },
               {
               	element: '#symptom-new-group',
-                intro: 'To create a new symptom, type in the name and click Add. It will be added to the symptom list. This same behavior applies to medications as well',
+                intro: 'To create a new symptom, type in the name and click Add. It will be added to the symptom list. This same behavior applies to medications as well.',
                 position: 'bottom'
               },
               {
@@ -183,7 +183,7 @@ window.$dino.HelpConditionView = Backbone.View.extend({
               },
               {
               	element: ".footerBtn#medications",
-                intro: "This button brings you to the medications page. Medications work like symptoms, but don't track a severity.",
+                intro: "This button brings you to the medications page. Medications work like symptoms, but don't have a severity.",
                 position: 'top'
               },
               ]
