@@ -1,6 +1,6 @@
 window.$dino.MedicalInfoView = $dino.NewFormView.extend({
 	afterInitialize : function(opts) {
-		this.template = _.template(tpl.get('medical-info'));
+		this.template = _.template($dino.tpl.get('medical-info'));
 		// extend child events on to parent's - inheritance ftw
 		this.events = _.extend({}, $dino.NewFormView.prototype.events, this.events);
 		_.bindAll(this, 'loadList', 'render');

@@ -3,7 +3,7 @@ window.$dino.BugListItemView = Backbone.View.extend({
 	tagName : "li",
 
 	initialize : function() {
-		this.template = _.template(tpl.get('bug-list-item'));
+		this.template = _.template($dino.tpl.get('bug-list-item'));
 		this.model.bind("change", this.render, this);
 		var color = this.model.get("color");
 		if (color)

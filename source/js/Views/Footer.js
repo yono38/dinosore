@@ -1,6 +1,6 @@
 window.$dino.FooterView = Backbone.View.extend({
   initialize: function () {
-    this.template = _.template(tpl.get('footer'));
+    this.template = _.template($dino.tpl.get('footer'));
   },
   events: { 'click .footerBtn': 'navBtn' },
   navBtn: function (e) {

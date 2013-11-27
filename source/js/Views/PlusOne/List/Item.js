@@ -3,7 +3,7 @@ window.$dino.PlusOneListItemView = Backbone.View.extend({
   className: 'plus-one-item',
   initialize: function (opts) {
     var templateName = opts.template || 'plusone-list-item';
-    this.template = _.template(tpl.get(templateName));
+    this.template = _.template($dino.tpl.get(templateName));
   },
   render: function () {
     var that = this;

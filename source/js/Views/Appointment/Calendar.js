@@ -1,7 +1,7 @@
 window.$dino.AppointmentCalendarView = Backbone.View.extend({
   initialize: function (opts) {
     this.collection = opts.collection;
-    this.template = _.template(tpl.get('appointment-calendar'));
+    this.template = _.template($dino.tpl.get('appointment-calendar'));
     this.apptItems = [];
     var that = this;
     if (!opts.debug) {

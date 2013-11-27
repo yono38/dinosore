@@ -4,7 +4,7 @@ window.$dino.AppointmentNewView = $dino.NewFormView.extend({
 		if (opts.defaultDate) {
 			this.defaultDate = opts.defaultDate;
 		}
-		this.template = _.template(tpl.get('appointment-new'));
+		this.template = _.template($dino.tpl.get('appointment-new'));
 		this.first = true;
 		// extend child events on to parent's - inheritance ftw
 		_.bindAll(this, 'setCondition', 'setDoctor');

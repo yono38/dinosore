@@ -21,7 +21,6 @@ $dino.AppRouter = Backbone.Router.extend({
     'privacy': 'privacySettings',
     'signup': 'signup',
     'symptoms/:id/graph': 'graphSymptom',
-    'tutorial': 'tutorial',
     '*path': 'start'
   },
   initialize: function () {
@@ -79,7 +78,7 @@ $dino.AppRouter = Backbone.Router.extend({
   bugList: function () {
     var coll = new $dino.SymptomList();
     var bugListView = new $dino.BugListView({
-        template: _.template(tpl.get('bug-list-view')),
+        template: _.template($dino.tpl.get('bug-list-view')),
         modelType: $dino.Symptom,
         header: 'Bugs',
         collection: coll,
@@ -137,15 +136,6 @@ $dino.AppRouter = Backbone.Router.extend({
   },
   signup: function () {
     this.changePage(new $dino.StartSignupView());
-  },
-  tutorial: function () {
-    var tutView = new $dino.StartTutorialView();
-    this.changePage(tutView);
-    tutView.mySwiper = tutView.$('.swiper-container').swiper({
-      onSlideChangeEnd: function (swiper) {
-        tutView.checkEnd(swiper);
-      }
-    });
   },
   makeGraph: function (params) {
     console.log(params);
@@ -273,34 +263,9 @@ $dino.AppRouter = Backbone.Router.extend({
   }
 });
 $(document).ready(function () {
+  $dino = window.$dino || {};
   FastClick.attach(document.body);
-  tpl.loadTemplates([
-    'plusone-list-item',
-    'appointment-list-item',
-    'start-tutorial',
-    'graph',
-    'info-modify',
-    'offline-exit',
-    'severity-slider',
-    'appointment-calendar',
-    'condition-list-item',
-    'bug-list-view',
-    'bug-delete-dialog',
-    'privacy',
-    'condition-details',
-    'condition-new',
-    'login',
-    'medical-info',
-    'appointment-new',
-    'signup',
-    'start-splash',
-    'list-view',
-    'list-item',
-    'list-new',
-    'delete-confirm',
-    'footer',
-    'appointment-item'
-  ], function () {
+  var tplCallback = function () {
     $dino = window.$dino || {};
     $dino.app = new $dino.AppRouter();
     Backbone.history.start();
@@ -319,5 +284,36 @@ $(document).ready(function () {
         $dino.app.navigate('offline', { trigger: true });
       }
     };
-  });
+  };
+  if ($dino.env == 'prod') {
+    $dino.tpl.loadTemplateFile(tplCallback);
+  } else {
+    $dino.tpl.loadTemplates([
+      'plusone-list-item',
+      'appointment-list-item',
+      'start-tutorial',
+      'graph',
+      'info-modify',
+      'offline-exit',
+      'severity-slider',
+      'appointment-calendar',
+      'condition-list-item',
+      'bug-list-view',
+      'bug-delete-dialog',
+      'privacy',
+      'condition-details',
+      'condition-new',
+      'login',
+      'medical-info',
+      'appointment-new',
+      'signup',
+      'start-splash',
+      'list-view',
+      'list-item',
+      'list-new',
+      'delete-confirm',
+      'footer',
+      'appointment-item'
+    ], tplCallback);
+  }
 });

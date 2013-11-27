@@ -6,7 +6,7 @@ window.$dino.ListItemView = Backbone.View.extend({
     // size for the symptom/medication listitems (one line)
     this.swiperHeight = opts.swiperHeight || '45px';
     var templateName = opts.template || 'list-item';
-    this.template = _.template(tpl.get(templateName));
+    this.template = _.template($dino.tpl.get(templateName));
     if (!opts.click) {
       this.$el.on('click', this.dontclick);
     }

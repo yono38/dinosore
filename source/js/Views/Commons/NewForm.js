@@ -1,7 +1,7 @@
 window.$dino.NewFormView = Backbone.View.extend({
 	initialize : function(opts) {
 		opts = opts || {};
-		this.template = (opts.tpl) ? _.template(tpl.get(opts.tpl)) : _.template(tpl.get('condition-new'));
+		this.template = (opts.tpl) ? _.template($dino.tpl.get(opts.tpl)) : _.template($dino.tpl.get('condition-new'));
 		this.header = opts.header || "New";
 		this.model = this.model;
 		this.debounceSaveTextInput = _.debounce(this.saveTextInput, 2000);

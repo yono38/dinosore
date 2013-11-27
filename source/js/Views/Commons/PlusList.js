@@ -1,7 +1,7 @@
 window.$dino.PlusListView = Backbone.View.extend({
   initialize: function (opts) {
     _.extend(this, opts);
-    this.template = opts.template || _.template(tpl.get('list-view'));
+    this.template = opts.template || _.template($dino.tpl.get('list-view'));
     _.bindAll(this, 'render', 'renderList', 'addItemToList');
     this.collection.bind('refreshList', this.refreshList, this);
     this.clickItems = opts.clickItems;

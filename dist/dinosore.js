@@ -1,4 +1,4 @@
-window.$dino.Allergy = Backbone.Model.extend({
+/*! dinosore - v1.0.0 - 2013-11-27 */window.$dino.Allergy = Backbone.Model.extend({
   idAttribute: '_id',
   defaults: {
     user: Parse.User.current().id,
@@ -107,7 +107,7 @@ window.$dino.SymptomList = Backbone.Collection.extend({
 });;window.$dino.AppointmentCalendarView = Backbone.View.extend({
   initialize: function (opts) {
     this.collection = opts.collection;
-    this.template = _.template(tpl.get('appointment-calendar'));
+    this.template = _.template($dino.tpl.get('appointment-calendar'));
     this.apptItems = [];
     var that = this;
     if (!opts.debug) {
@@ -340,7 +340,7 @@ window.$dino.SymptomList = Backbone.Collection.extend({
 		if (opts.defaultDate) {
 			this.defaultDate = opts.defaultDate;
 		}
-		this.template = _.template(tpl.get('appointment-new'));
+		this.template = _.template($dino.tpl.get('appointment-new'));
 		this.first = true;
 		// extend child events on to parent's - inheritance ftw
 		_.bindAll(this, 'setCondition', 'setDoctor');
@@ -444,7 +444,7 @@ window.$dino.SymptomList = Backbone.Collection.extend({
 }); ;window.$dino.BugDetailView = Backbone.View.extend({
 
 	initialize : function() {
-		this.template = _.template(tpl.get('condition-details'));
+		this.template = _.template($dino.tpl.get('condition-details'));
 	},
 
 	loadAppts: function() {
@@ -455,7 +455,7 @@ window.$dino.SymptomList = Backbone.Collection.extend({
 			},
 			success: function(appts) {
 				console.log(appts.toJSON());
-				var template = _.template(tpl.get("appointment-list-item"));
+				var template = _.template($dino.tpl.get("appointment-list-item"));
 				appts.each(function(appt) {
 					console.log(appt);
 					var data = _.extend(appt.toJSON(), {
@@ -590,7 +590,7 @@ window.$dino.SymptomList = Backbone.Collection.extend({
 	tagName : "li",
 
 	initialize : function() {
-		this.template = _.template(tpl.get('bug-list-item'));
+		this.template = _.template($dino.tpl.get('bug-list-item'));
 		this.model.bind("change", this.render, this);
 		var color = this.model.get("color");
 		if (color)
@@ -618,7 +618,7 @@ window.$dino.SymptomList = Backbone.Collection.extend({
 	}
 }); ;window.$dino.DialogDeleteView = Backbone.View.extend({
 	initialize : function(options) {
-		this.template = _.template(tpl.get('delete-confirm'));
+		this.template = _.template($dino.tpl.get('delete-confirm'));
 		this.$el.attr("data-theme", "a");
 		this.parentView = options.parentView;
 	},
@@ -678,7 +678,7 @@ window.$dino.SymptomList = Backbone.Collection.extend({
     // size for the symptom/medication listitems (one line)
     this.swiperHeight = opts.swiperHeight || '45px';
     var templateName = opts.template || 'list-item';
-    this.template = _.template(tpl.get(templateName));
+    this.template = _.template($dino.tpl.get(templateName));
     if (!opts.click) {
       this.$el.on('click', this.dontclick);
     }
@@ -808,7 +808,7 @@ window.$dino.SymptomList = Backbone.Collection.extend({
 });;window.$dino.ListNewView = Backbone.View.extend({
   tagName: 'li',
   initialize: function (opts) {
-    this.template = _.template(tpl.get('list-new'));
+    this.template = _.template($dino.tpl.get('list-new'));
     this.modelType = opts.modelType;
     // ex $dino.Medication
     this.header = opts.header;
@@ -870,7 +870,7 @@ window.$dino.SymptomList = Backbone.Collection.extend({
 });;window.$dino.NewFormView = Backbone.View.extend({
 	initialize : function(opts) {
 		opts = opts || {};
-		this.template = (opts.tpl) ? _.template(tpl.get(opts.tpl)) : _.template(tpl.get('condition-new'));
+		this.template = (opts.tpl) ? _.template($dino.tpl.get(opts.tpl)) : _.template($dino.tpl.get('condition-new'));
 		this.header = opts.header || "New";
 		this.model = this.model;
 		this.debounceSaveTextInput = _.debounce(this.saveTextInput, 2000);
@@ -1134,7 +1134,7 @@ window.$dino.SymptomList = Backbone.Collection.extend({
 ;window.$dino.PlusListView = Backbone.View.extend({
   initialize: function (opts) {
     _.extend(this, opts);
-    this.template = opts.template || _.template(tpl.get('list-view'));
+    this.template = opts.template || _.template($dino.tpl.get('list-view'));
     _.bindAll(this, 'render', 'renderList', 'addItemToList');
     this.collection.bind('refreshList', this.refreshList, this);
     this.clickItems = opts.clickItems;
@@ -1305,7 +1305,7 @@ window.$dino.SymptomList = Backbone.Collection.extend({
 		$dino.ConditionListItemView.__super__.initialize.call(this, {
 			name : "condition"
 		});
-		this.template = _.template(tpl.get('condition-list-item'));
+		this.template = _.template($dino.tpl.get('condition-list-item'));
 		this.debounceSaveSeverity = _.debounce(this.saveSeverity, 2000);
 		_.bindAll(this, 'openGraph', 'saveSeverity', 'debounceSaveSeverity');
 		var theme = (this.model.get("status") == "Retired" || this.model.get("status") == "In Remission") ? "d" : "b";
@@ -1357,7 +1357,7 @@ window.$dino.SymptomList = Backbone.Collection.extend({
 	},
 
 	severityTpl : function(data) {
-		return _.template(tpl.get('severity-slider'), data);
+		return _.template($dino.tpl.get('severity-slider'), data);
 	},
 
 	setSeverity : function() {
@@ -1472,7 +1472,7 @@ window.$dino.SymptomList = Backbone.Collection.extend({
 });
 ;window.$dino.ConditionNewView = $dino.NewFormView.extend({
   initialize: function (opts) {
-    this.template = _.template(tpl.get('condition-new'));
+    this.template = _.template($dino.tpl.get('condition-new'));
     this.first = true;
     this.header = opts.header || 'Condition';
     this.model = this.model || new $dino.Bug();
@@ -1767,7 +1767,7 @@ window.$dino.SymptomList = Backbone.Collection.extend({
   }
 });;window.$dino.FooterView = Backbone.View.extend({
   initialize: function () {
-    this.template = _.template(tpl.get('footer'));
+    this.template = _.template($dino.tpl.get('footer'));
   },
   events: { 'click .footerBtn': 'navBtn' },
   navBtn: function (e) {
@@ -1799,7 +1799,7 @@ window.$dino.SymptomList = Backbone.Collection.extend({
       this.condition = opts.condition;
       this.type = 'condition';
     }
-    this.template = _.template(tpl.get('graph'));
+    this.template = _.template($dino.tpl.get('graph'));
     _.bindAll(this, 'render', 'makeSeries', 'loadMultiChart');
   },
   events: {},
@@ -2606,7 +2606,7 @@ window.$dino.SymptomList = Backbone.Collection.extend({
   },
   renderBugView: function () {
     var view = this.views[0] = new $dino.BugListView({
-        template: _.template(tpl.get('bug-list-view')),
+        template: _.template($dino.tpl.get('bug-list-view')),
         modelType: $dino.Symptom,
         header: 'Bugs',
         collection: new $dino.SymptomList(),
@@ -2768,7 +2768,7 @@ window.$dino.SymptomList = Backbone.Collection.extend({
   }
 });;window.$dino.MedicalInfoView = $dino.NewFormView.extend({
 	afterInitialize : function(opts) {
-		this.template = _.template(tpl.get('medical-info'));
+		this.template = _.template($dino.tpl.get('medical-info'));
 		// extend child events on to parent's - inheritance ftw
 		this.events = _.extend({}, $dino.NewFormView.prototype.events, this.events);
 		_.bindAll(this, 'loadList', 'render');
@@ -2892,7 +2892,7 @@ window.$dino.SymptomList = Backbone.Collection.extend({
 	tagName: "li",
 	
 	initialize: function(){
-		this.template = _.template(tpl.get('list-item'));
+		this.template = _.template($dino.tpl.get('list-item'));
 		this.debounceSaveSeverity =  _.debounce(this.saveSeverity, 2000);
 		this.model.bind('remove', this.destroy);
 		_.bindAll(this, 'destroy');
@@ -2968,7 +2968,7 @@ window.$dino.SymptomList = Backbone.Collection.extend({
 });;// Temporary view until caching implemented
 window.$dino.OfflineExitView = Backbone.View.extend({
 	initialize : function(options) {
-		this.template = _.template(tpl.get('offline-exit'));
+		this.template = _.template($dino.tpl.get('offline-exit'));
 		this.$el.attr("data-theme", "a");
 	},
 
@@ -3056,7 +3056,7 @@ window.$dino.OfflineExitView = Backbone.View.extend({
   className: 'plus-one-item',
   initialize: function (opts) {
     var templateName = opts.template || 'plusone-list-item';
-    this.template = _.template(tpl.get(templateName));
+    this.template = _.template($dino.tpl.get(templateName));
   },
   render: function () {
     var that = this;
@@ -3253,7 +3253,7 @@ window.$dino.OfflineExitView = Backbone.View.extend({
   },
   renderBugView: function () {
     var view = this.views[0] = this.views[0] || new $dino.BugListView({
-        template: _.template(tpl.get('bug-list-view')),
+        template: _.template($dino.tpl.get('bug-list-view')),
         modelType: $dino.Symptom,
         header: 'Bugs',
         collection: new $dino.SymptomList(),
@@ -3287,7 +3287,7 @@ window.$dino.OfflineExitView = Backbone.View.extend({
   }
 });;window.$dino.StartLoginView = Backbone.View.extend({
   initialize: function () {
-    this.template = _.template(tpl.get('login'));
+    this.template = _.template($dino.tpl.get('login'));
   },
   events: {
     'click #signupBtn': 'signup',
@@ -3356,7 +3356,7 @@ function normalizeTable(tbl, isTest) {
 };window.$dino.StartPrivacyView = Backbone.View.extend({
 
 	initialize : function() {
-		this.template = _.template(tpl.get('privacy'));
+		this.template = _.template($dino.tpl.get('privacy'));
 	},
 
 	events : {
@@ -3384,7 +3384,7 @@ function normalizeTable(tbl, isTest) {
 }); 
 ;window.$dino.StartSignupView = Backbone.View.extend({
 	initialize : function() {
-		this.template = _.template(tpl.get('signup'));
+		this.template = _.template($dino.tpl.get('signup'));
 	},
 
 	events : {
@@ -3472,7 +3472,7 @@ function normalizeTable(tbl, isTest) {
 ;window.$dino.StartSplashView = Backbone.View.extend({
 
 	initialize : function() {
-		this.template = _.template(tpl.get('start-splash'));
+		this.template = _.template($dino.tpl.get('start-splash'));
 	},
 	events : {
 		'click #splash-login' : 'login',
@@ -3500,7 +3500,7 @@ function normalizeTable(tbl, isTest) {
 }); 
 ;window.$dino.StartTutorialView = Backbone.View.extend({
 	initialize : function() {
-		this.template = _.template(tpl.get('start-tutorial'));
+		this.template = _.template($dino.tpl.get('start-tutorial'));
 		this.currId = 1;
 	},
 
@@ -3540,7 +3540,7 @@ function normalizeTable(tbl, isTest) {
 window.$dino.SymptomDetailView = new Backbone.View.extend({
 	
 	initalize: function(){
-		this.template(tpl.get('symptom-detail'));
+		this.template($dino.tpl.get('symptom-detail'));
 	},
 	
 	events: {
@@ -3555,7 +3555,7 @@ window.$dino.SymptomDetailView = new Backbone.View.extend({
 ;window.$dino.SymptomGraphView = Backbone.View.extend({
 	initialize : function(opts) {
 		var title = 'Test Graph';
-		this.template = _.template(tpl.get('graph'));
+		this.template = _.template($dino.tpl.get('graph'));
 		_.bindAll(this, 'render', 'loadSingleChart');
 	},
 
@@ -3958,7 +3958,7 @@ $dino.ping = function(){
   bugList: function () {
     var coll = new $dino.SymptomList();
     var bugListView = new $dino.BugListView({
-        template: _.template(tpl.get('bug-list-view')),
+        template: _.template($dino.tpl.get('bug-list-view')),
         modelType: $dino.Symptom,
         header: 'Bugs',
         collection: coll,
@@ -4152,34 +4152,9 @@ $dino.ping = function(){
   }
 });
 $(document).ready(function () {
+  $dino = window.$dino || {};
   FastClick.attach(document.body);
-  tpl.loadTemplates([
-    'plusone-list-item',
-    'appointment-list-item',
-    'start-tutorial',
-    'graph',
-    'info-modify',
-    'offline-exit',
-    'severity-slider',
-    'appointment-calendar',
-    'condition-list-item',
-    'bug-list-view',
-    'bug-delete-dialog',
-    'privacy',
-    'condition-details',
-    'condition-new',
-    'login',
-    'medical-info',
-    'appointment-new',
-    'signup',
-    'start-splash',
-    'list-view',
-    'list-item',
-    'list-new',
-    'delete-confirm',
-    'footer',
-    'appointment-item'
-  ], function () {
+  var tplCallback = function () {
     $dino = window.$dino || {};
     $dino.app = new $dino.AppRouter();
     Backbone.history.start();
@@ -4198,55 +4173,86 @@ $(document).ready(function () {
         $dino.app.navigate('offline', { trigger: true });
       }
     };
+  };
+  if ($dino.env == 'prod') {
+    $dino.tpl.loadTemplateFile(tplCallback);
+  } else {
+    $dino.tpl.loadTemplates([
+      'plusone-list-item',
+      'appointment-list-item',
+      'start-tutorial',
+      'graph',
+      'info-modify',
+      'offline-exit',
+      'severity-slider',
+      'appointment-calendar',
+      'condition-list-item',
+      'bug-list-view',
+      'bug-delete-dialog',
+      'privacy',
+      'condition-details',
+      'condition-new',
+      'login',
+      'medical-info',
+      'appointment-new',
+      'signup',
+      'start-splash',
+      'list-view',
+      'list-item',
+      'list-new',
+      'delete-confirm',
+      'footer',
+      'appointment-item'
+    ], tplCallback);
+  }
+});;$dino = window.$dino || {};
+$dino.tpl = {
+  templates: {},
+  tplDir: 'tpl/',
+  tplFile: 'templates.html',
+  loadTemplates: function (names, callback) {
+    var that = this;
+    var loadTemplate = function (index) {
+      var name = names[index];
+      //     console.log('Loading template: ' + name);
+      $.ajax({
+        url: that.tplDir + name + '.html',
+        cache: false,
+        success: function (data) {
+          that.templates[name] = data;
+          index++;
+          if (index < names.length) {
+            loadTemplate(index);
+          } else {
+            callback();
+          }
+        }
+      });
+    };
+    loadTemplate(0);
+  },
+  loadTemplateFile: function (callback) {
+    var that = this;
+    $.get('templates.html', function (data) {
+      var tpls = $(data);
+      for (var i = 0; i < tpls.length; i++) {
+        var $tpl = $(tpls[i]);
+        var id = $tpl.attr('id');
+        var html = $tpl.html();
+        that.templates[id] = html;
+      }
+      callback();
+    });
+  },
+  get: function (name) {
+    return this.templates[name];
+  }
+};
+String.prototype.toTitleCase = function () {
+  return this.replace(/\w\S*/g, function (txt) {
+    return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
   });
-});;tpl = {
-
-	// Hash of preloaded templates for the app
-	templates : {},
-
-	tplDir : 'tpl/',
-
-	// Recursively pre-load all the templates for the app.
-	// This implementation should be changed in a production environment. All the template files should be
-	// concatenated in a single file.
-	loadTemplates : function(names, callback) {
-
-		var that = this;
-
-		var loadTemplate = function(index) {
-			var name = names[index];
-			//     console.log('Loading template: ' + name);
-			$.ajax({
-				url : that.tplDir + name + '.html',
-				cache: false,
-				success : function(data) {
-					that.templates[name] = data;
-					index++;
-					if (index < names.length) {
-						loadTemplate(index);
-					} else {
-						callback();
-					}
-				}
-			});
-		};
-
-		loadTemplate(0);
-	},
-
-	// Get template by name from hash of preloaded templates
-	get : function(name) {
-		return this.templates[name];
-	}
-};
-
-String.prototype.toTitleCase = function() {
-	return this.replace(/\w\S*/g, function(txt) {
-		return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
-	});
-};
-
-;// Backbone.js 0.5.3
+};;// Backbone.js 0.5.3
 // (c) 2010 Jeremy Ashkenas, DocumentCloud Inc.
 // Backbone may be freely distributed under the MIT license.
 // For all details and documentation:
@@ -6570,16 +6576,7 @@ function iterateQueryString(queryString, callback) {
   });
 }
 
-}));;/**
- * @preserve FastClick: polyfill to remove click delays on browsers with touch UIs.
- *
- * @version 0.6.9
- * @codingstandard ftlabs-jsv2
- * @copyright The Financial Times Limited [All Rights Reserved]
- * @license MIT License (see LICENSE.txt)
- */
-
-/*jslint browser:true, node:true*/
+}));;/*jslint browser:true, node:true*/
 /*global define, Event, Node*/
 
 
@@ -24354,19 +24351,7 @@ extend(Highcharts, {
 	product: PRODUCT,
 	version: VERSION
 });
-}());;/*
- * Swiper 2.2 - Mobile Touch Slider
- * http://www.idangero.us/sliders/swiper/
- *
- * Copyright 2012-2013, Vladimir Kharlampidi
- * The iDangero.us
- * http://www.idangero.us/
- *
- * Licensed under GPL & MIT
- *
- * Updated on: September 15, 2013
-*/
-var Swiper = function (selector, params) {
+}());;var Swiper = function (selector, params) {
     /*=========================
       A little bit dirty but required part for IE8 and old FF support
       ===========================*/
@@ -26790,15 +26775,7 @@ if (window.jQuery||window.Zepto) {
 if ( typeof( module ) !== 'undefined' )
 {
     module.exports = Swiper;
-};/**
- * Intro.js v0.6.0
- * https://github.com/usablica/intro.js
- * MIT licensed
- *
- * Copyright (C) 2013 usabli.ca - A weekend project by Afshin Mehrabani (@afshinmeh)
- */
-
-(function (root, factory) {
+};(function (root, factory) {
   if (typeof exports === 'object') {
     // CommonJS
     factory(exports);
@@ -27680,13 +27657,7 @@ if ( typeof( module ) !== 'undefined' )
   exports.introJs = introJs;
   return introJs;
 }));
-;/*
- * jQuery Mobile Framework : plugin to provide a date and time picker.
- * Copyright (c) JTSage
- * CC 3.0 Attribution.  May be relicensed without permission/notification.
- * https://github.com/jtsage/jquery-mobile-datebox
- */
-/* CORE Functions */
+;/* CORE Functions */
 
 (function($) {
 	$.widget( "mobile.datebox", $.mobile.widget, {
@@ -28895,13 +28866,7 @@ if ( typeof( module ) !== 'undefined' )
 		});
 	});
 })( jQuery );
-;/*
- * jQuery Mobile Framework : plugin to provide a date and time picker.
- * Copyright (c) JTSage
- * CC 3.0 Attribution.  May be relicensed without permission/notification.
- * https://github.com/jtsage/jquery-mobile-datebox
- */
-/* CALBOX Mode */
+;/* CALBOX Mode */
 
 (function($) {
 	$.extend( $.mobile.datebox.prototype.options, {

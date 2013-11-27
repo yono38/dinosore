@@ -1,7 +1,7 @@
 // Temporary view until caching implemented
 window.$dino.OfflineExitView = Backbone.View.extend({
 	initialize : function(options) {
-		this.template = _.template(tpl.get('offline-exit'));
+		this.template = _.template($dino.tpl.get('offline-exit'));
 		this.$el.attr("data-theme", "a");
 	},
 

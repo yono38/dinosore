@@ -5,7 +5,7 @@ window.$dino.ConditionListItemView = $dino.ListItemView.extend({
 		$dino.ConditionListItemView.__super__.initialize.call(this, {
 			name : "condition"
 		});
-		this.template = _.template(tpl.get('condition-list-item'));
+		this.template = _.template($dino.tpl.get('condition-list-item'));
 		this.debounceSaveSeverity = _.debounce(this.saveSeverity, 2000);
 		_.bindAll(this, 'openGraph', 'saveSeverity', 'debounceSaveSeverity');
 		var theme = (this.model.get("status") == "Retired" || this.model.get("status") == "In Remission") ? "d" : "b";
@@ -57,7 +57,7 @@ window.$dino.ConditionListItemView = $dino.ListItemView.extend({
 	},
 
 	severityTpl : function(data) {
-		return _.template(tpl.get('severity-slider'), data);
+		return _.template($dino.tpl.get('severity-slider'), data);
 	},
 
 	setSeverity : function() {

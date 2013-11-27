@@ -1,6 +1,6 @@
 window.$dino.StartSignupView = Backbone.View.extend({
 	initialize : function() {
-		this.template = _.template(tpl.get('signup'));
+		this.template = _.template($dino.tpl.get('signup'));
 	},
 
 	events : {

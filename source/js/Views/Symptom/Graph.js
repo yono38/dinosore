@@ -1,7 +1,7 @@
 window.$dino.SymptomGraphView = Backbone.View.extend({
 	initialize : function(opts) {
 		var title = 'Test Graph';
-		this.template = _.template(tpl.get('graph'));
+		this.template = _.template($dino.tpl.get('graph'));
 		_.bindAll(this, 'render', 'loadSingleChart');
 	},
 

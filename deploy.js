@@ -20,8 +20,8 @@ var fs = require('fs-extra')
 // TODO use git diff to determine exactly which files to move
 var copySrcFiles = function(cb){
 	console.log('copying newest source files over to phonegap/www folder..');
-	console.log('Note: Doesn\'t copy over main.js or config.js by default');
-	var copyDirs = ['js/main.js', 'index.html', 'css', 'img', 'lib', 'js/Models', 'js/Views'];
+	console.log('Note: Doesn\'t copy over config.js');
+	var copyDirs = ['js/main.js', 'js/utils.js', 'index.html', 'css', 'img', 'lib', 'js/Models', 'js/Views'];
 	var targetDir = './build/phonegap/www/';
 	var sourceDir = './source/';
 	copyDirs.forEach(function(dir, idx, arr){

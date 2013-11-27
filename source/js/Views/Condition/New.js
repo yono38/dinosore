@@ -1,6 +1,6 @@
 window.$dino.ConditionNewView = $dino.NewFormView.extend({
   initialize: function (opts) {
-    this.template = _.template(tpl.get('condition-new'));
+    this.template = _.template($dino.tpl.get('condition-new'));
     this.first = true;
     this.header = opts.header || 'Condition';
     this.model = this.model || new $dino.Bug();

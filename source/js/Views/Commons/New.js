@@ -1,7 +1,7 @@
 window.$dino.ListNewView = Backbone.View.extend({
   tagName: 'li',
   initialize: function (opts) {
-    this.template = _.template(tpl.get('list-new'));
+    this.template = _.template($dino.tpl.get('list-new'));
     this.modelType = opts.modelType;
     // ex $dino.Medication
     this.header = opts.header;

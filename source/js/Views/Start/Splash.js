@@ -1,7 +1,7 @@
 window.$dino.StartSplashView = Backbone.View.extend({
 
 	initialize : function() {
-		this.template = _.template(tpl.get('start-splash'));
+		this.template = _.template($dino.tpl.get('start-splash'));
 	},
 	events : {
 		'click #splash-login' : 'login',

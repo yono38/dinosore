@@ -10,7 +10,7 @@ window.$dino.GraphView = Backbone.View.extend({
       this.condition = opts.condition;
       this.type = 'condition';
     }
-    this.template = _.template(tpl.get('graph'));
+    this.template = _.template($dino.tpl.get('graph'));
     _.bindAll(this, 'render', 'makeSeries', 'loadMultiChart');
   },
   events: {},

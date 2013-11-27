@@ -186,7 +186,7 @@ window.$dino.StartIntroView = Backbone.View.extend({
   },
   renderBugView: function () {
     var view = this.views[0] = this.views[0] || new $dino.BugListView({
-        template: _.template(tpl.get('bug-list-view')),
+        template: _.template($dino.tpl.get('bug-list-view')),
         modelType: $dino.Symptom,
         header: 'Bugs',
         collection: new $dino.SymptomList(),

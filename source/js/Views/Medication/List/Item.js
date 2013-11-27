@@ -3,7 +3,7 @@ window.$dino.MedicationListItemView = Backbone.View.extend({
 	tagName: "li",
 	
 	initialize: function(){
-		this.template = _.template(tpl.get('list-item'));
+		this.template = _.template($dino.tpl.get('list-item'));
 		this.debounceSaveSeverity =  _.debounce(this.saveSeverity, 2000);
 		this.model.bind('remove', this.destroy);
 		_.bindAll(this, 'destroy');
