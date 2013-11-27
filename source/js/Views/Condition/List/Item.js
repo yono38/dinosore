@@ -157,7 +157,7 @@ window.$dino.ConditionListItemView = $dino.ListItemView.extend({
 		var that = this;
 		_(this.$(".symptom-severity")).each(function(el, idx, arr) {
 			var symp_id = $(el).data('id');
-			var symp_severity = parseInt($(el).val());
+			var symp_severity = parseInt($(el).val(), 10);
 			console.log(symp_severity);
 			that.saveSymptomSeverity(symp_id, symp_severity);
 		});

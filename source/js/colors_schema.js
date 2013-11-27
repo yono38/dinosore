@@ -1,17 +1,0 @@
-window.$dino = $dino || {};$dino.colors = { 	"52363a0ec0b741d104ef513b": {		"hex": "F5A2BD",		"color": "PINK"	},
-	"52363a0ec0b741d104ef513c": {		"hex": "D4B0C7",		"color": "PURPLEPINK"	},
-	"52363a0ec0b741d104ef513d": {		"hex": "CE9AE3",		"color": "PURPLE"	},
-	"52363a0ec0b741d104ef513e": {		"hex": "C2B4BD",		"color": "GREY"	},
-	"52363a0ec0b741d104ef513f": {		"hex": "E8909F",		"color": "RED"	},
-	"52363a0ec0b741d104ef5140": {		"hex": "629EE3",		"color": "PERIWINKLE"	},
-	"52363a0ec0b741d104ef5141": {		"hex": "84EDF5",		"color": "LIGHTBLUE"	},
-	"52363a0ec0b741d104ef5142": {		"hex": "90F5E4",		"color": "LIGHTTEAL"	},
-	"52363a0ec0b741d104ef5143": {		"hex": "6FBFB2",		"color": "TEAL"	},
-	"52363a0ec0b741d104ef5144": {		"hex": "C0FAD3",		"color": "LIGHTGREEN"	},
-	"52363a0ec0b741d104ef5145": {		"hex": "34FA73",		"color": "GREEN"	},
-	"52363a0ec0b741d104ef5146": {		"hex": "48FA34",		"color": "LIGHTNEONGREEN"	},
-	"52363a0ec0b741d104ef5147": {		"hex": "A1FA34",		"color": "NEONGREEN"	},
-	"52363a0ec0b741d104ef5148": {		"hex": "FAFA2F",		"color": "YELLOW"	},
-	"52363a0ec0b741d104ef5149": {		"hex": "FAC72F",		"color": "LIGHTORANGE"	},
-	"52363a0ec0b741d104ef514a": {		"hex": "FA8B2F",		"color": "ORANGE"	},
-	"52363a0ec0b741d104ef514b": {		"hex": "FAA082",		"color": "PEACH"	}}

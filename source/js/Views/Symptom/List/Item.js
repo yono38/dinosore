@@ -52,7 +52,7 @@ window.$dino.SymptomListItemView = $dino.ListItemView.extend({
 	},
 	
 	addOnEnter: function(e){
-	  if (e.keyCode == 13) this.clickPlus();
+		if (e.keyCode == 13) this.clickPlus();
 	},
 
 	setSeverity: function(){
@@ -83,7 +83,7 @@ window.$dino.SymptomListItemView = $dino.ListItemView.extend({
 	
 	saveSymptom: function(){
 		var that = this;
-		var severityLvl = this.settingSeverity ? parseInt(this.$("#severity").val()) : null;
+		var severityLvl = this.settingSeverity ? parseInt(this.$("#severity").val(), 10) : null;
 		var sympNotes = this.$("#symptom-notes").val();
 		var plusOne = new $dino.PlusOne();
 		plusOne.save({

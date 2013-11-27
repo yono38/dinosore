@@ -11,7 +11,7 @@ window.$dino.StartSignupView = Backbone.View.extend({
 		var valid = true;
 		$("#error").empty();
 		_(inputs).each(function(val, key, arr){
-			if (!val || val == ""){
+			if (!val || val === ""){
 				$("#error").html("You forgot some info!");
 				$("#"+key).addClass('input-error');
 				valid = false;

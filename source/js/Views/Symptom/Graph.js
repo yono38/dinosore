@@ -24,7 +24,7 @@ window.$dino.SymptomGraphView = Backbone.View.extend({
 	
 	loadSingleChart: function(data){
 		var that = this;
-		if (data.length == 0){
+		if (data.length === 0){
 			this.$("#graphContainer").html('<h4 class="fancyFont">Sorry! No plusones recorded for this symptom yet, come back when you\'ve tracked more data :)');
 			return;
 		}
@@ -58,20 +58,20 @@ window.$dino.SymptomGraphView = Backbone.View.extend({
                 marginBottom: 75,
                 marginTop: 75,
                 events: {
-                	load: function() {
-                		console.log('graph load complete');
-                		// TODO figure out why this doesn't work immediately
-                		// jQuery mobile drawing issue?
-                		setTimeout(function(){
-	                		that.resize();
-                		}, 200);
-                	}
+					load: function() {
+						console.log('graph load complete');
+						// TODO figure out why this doesn't work immediately
+						// jQuery mobile drawing issue?
+						setTimeout(function(){
+							that.resize();
+						}, 200);
+					}
                 }
             },
 
             credits: {
                 enabled: false
-        	},
+			},
       
             title: {
                 text: ' ',
@@ -99,7 +99,7 @@ window.$dino.SymptomGraphView = Backbone.View.extend({
             },
 
             yAxis: {
-            	min: 0,
+				min: 0,
                 max: 5,
                 title: {
                     text: 'Severity',

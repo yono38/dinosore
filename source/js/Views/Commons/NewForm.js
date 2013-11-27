@@ -25,10 +25,10 @@ window.$dino.NewFormView = Backbone.View.extend({
 		if (e)
 			e.preventDefault();
 		var that = this;
-		var type = type || $(e.currentTarget).data('type');
+		type = type || $(e.currentTarget).data('type');
 		var val = this.$("#new-" + type + "-input").val();
 		console.log(type, val);
-		if (val != "" & _.contains(this.validTypes, type)) {
+		if (val !== "" & _.contains(this.validTypes, type)) {
 			console.log("Add to collection: ", type, val);
 			var item = new $dino[type.toTitleCase()]();
 			item.set({
@@ -60,7 +60,7 @@ window.$dino.NewFormView = Backbone.View.extend({
 	cancelNewItem : function(e, type) {
 		if (e)
 			e.preventDefault();
-		var type = type || $(e.currentTarget).data('type');
+		type = type || $(e.currentTarget).data('type');
 		if (_.contains(this.validTypes, type)) {
 			this.resetMenu("#select-" + type);
 			this.$('#' + type + '-new-group').hide();
@@ -132,21 +132,23 @@ window.$dino.NewFormView = Backbone.View.extend({
 	addItem : function(e, opts) {
 		var itemType, itemVal, itemTitle;
 		if (e) {
-			itemType = $(e.currentTarget).data('type'), itemVal = this.$("#select-" + itemType).val(), itemTitle = this.$("#select-" + itemType + " option:selected").text();
+			itemType = $(e.currentTarget).data('type');
+			itemVal = this.$("#select-" + itemType).val();
+			itemTitle = this.$("#select-" + itemType + " option:selected").text();
 		} else if (opts) {
-			itemType = opts.type, itemVal = opts.id, itemTitle = opts.title;
+			itemType = opts.type;
+			itemVal = opts.id;
+			itemTitle = opts.title;
 		} else {
 			console.log("Error: invalid addItem call");
 			return;
 		}
-		console.log(itemVal);
-		console.log(itemType);
 		// doctors are handled differently
 		if (itemType == "doctor") {
 			this.addNewDoctor(itemVal, itemTitle);
 			return;
 		}
-		if (itemVal && itemVal != "") {
+		if (itemVal && itemVal !== "") {
 			var typeItemArr = this.model.get(itemType);
 			// defaults to false
 			if (!typeItemArr) {
@@ -197,7 +199,7 @@ window.$dino.NewFormView = Backbone.View.extend({
 
 	checkForAddNew : function(e) {
 		var $sel = $("option:selected", e.currentTarget);
-		if ($sel.val() == "add-new-item" && $sel.data("type") != "" && $sel.data("new") == true) {
+		if ($sel.val() == "add-new-item" && $sel.data("type") !== "" && $sel.data("new") === true) {
 			this.showNewItemInput($sel.data("type"));
 		}
 	},
@@ -234,7 +236,7 @@ window.$dino.NewFormView = Backbone.View.extend({
 		var that = this;
 		console.log('running makelist on ' + selector);
 		that.$(selector).empty();
-		if (modelType && modelType != "doctor" && modelType != "condition" && this.model.get(modelType) && this.model.get(modelType).length != 0) {
+		if (modelType && modelType != "doctor" && modelType != "condition" && this.model.get(modelType) && this.model.get(modelType).length !== 0) {
 			console.log(this.model.toJSON());
 			console.log(modelType);
 			this.filterCollection(collection, selector, modelType);

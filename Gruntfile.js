@@ -4,7 +4,10 @@ module.exports = function(grunt) {
     pkg: grunt.file.readJSON('package.json'),
     concat: {
       options: {
-        separator: ';'
+        separator: ';',
+      stripBanners: true,
+      banner: '/*! <%= pkg.name %> - v<%= pkg.version %> - ' +
+        '<%= grunt.template.today("yyyy-mm-dd") %> */'
       },
       dist: {
         src: ['source/**/*.js'],
@@ -15,7 +18,7 @@ module.exports = function(grunt) {
       options: {
         banner: '/*! <%= pkg.name %> <%= grunt.template.today("dd-mm-yyyy") %> */\n'
       },
-      dist: {
+     dist: {
         files: {
           'dist/<%= pkg.name %>.min.js': ['<%= concat.dist.dest %>']
         }
@@ -34,6 +37,8 @@ module.exports = function(grunt) {
       files: ['Gruntfile.js', 'source/js/**/*.js'],
       options: {
         // options here to override JSHint defaults
+        smarttabs: false,
+        laxcomma: true,
         globals: {
           jQuery: true,
           console: true,
@@ -50,12 +55,12 @@ module.exports = function(grunt) {
 
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-jshint');
-  grunt.loadNpmTasks('grunt-contrib-jasmine');
+ // grunt.loadNpmTasks('grunt-contrib-jasmine');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-concat');
 
   grunt.registerTask('test', ['jshint', 'jasmine']);
 
-  grunt.registerTask('default', ['jshint', 'jasmine', 'concat', 'uglify']);
+  grunt.registerTask('default', ['jshint', /*'jasmine',*/ 'concat', 'uglify']);
 
 };
