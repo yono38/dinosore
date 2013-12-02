@@ -21,7 +21,7 @@ var fs = require('fs-extra')
 var copySrcFiles = function(cb){
 	console.log('copying newest source files over to phonegap/www folder..');
 	console.log('Note: Doesn\'t copy over config.js');
-	var copyDirs = ['js/main.js', 'js/utils.js', 'index.html', 'css', 'img', 'lib', 'js/Models', 'js/Views'];
+	var copyDirs = ['css/images', 'img'];
 	var targetDir = './build/phonegap/www/';
 	var sourceDir = './source/';
 	copyDirs.forEach(function(dir, idx, arr){
@@ -46,32 +46,6 @@ var copySrcFiles = function(cb){
 	});
 };
 
-// ============== CONCAT TEMPLATES ============ //
-var concatTpl = function(callback){
-	var fs = require('fs');
-	
-	console.log('Concatinating templates for production..');
-	var tplDir= path.normalize('./source/tpl/'),
-	    resultFileName = path.normalize('./build/phonegap/www/templates.html');
-	try {
-		var final = fs.removeSync(resultFileName);
-	} catch (err){
-		console.log(err);
-	}
-	var tpls = fs.readdirSync(tplDir);
-	
-	console.log(tpls);
-	tpls.forEach(function(tpl, idx, arr) {
-		// remove .html from name
-		var tplName = path.basename(tpl, '.html');
-		fs.appendFileSync(resultFileName, '<!---- ============== '+tplName+' ============== ---->\n<script type="template" id="'+tplName+'">\n');
-		var tplFileContents = fs.readFileSync(tplDir+tpl, {encoding: 'utf8'});
-		fs.appendFileSync(resultFileName, tplFileContents);
-		fs.appendFileSync(resultFileName, '</script>\n\n');
-	});
-	console.log('Templates succesfully concatinated');
-	if (callback) callback(null);
-};
 // ================== BUILD WITH PHONEGAP ============ //
 function buildPhonegap(callback){
 	console.log('building phonegap app for android');
@@ -198,7 +172,6 @@ client.auth({
 
 async.waterfall([
     copySrcFiles,
-    concatTpl,
     buildPhonegap,
     downloadApk,
     sendMail

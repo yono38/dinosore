@@ -1,4 +1,4 @@
-/*! dinosore - v1.0.0 - 2013-11-27 */window.$dino.Allergy = Backbone.Model.extend({
+/*! dinosore - v1.0.0 - 2013-12-02 */window.$dino.Allergy = Backbone.Model.extend({
   idAttribute: '_id',
   defaults: {
     user: Parse.User.current().id,
@@ -3212,7 +3212,7 @@ window.$dino.OfflineExitView = Backbone.View.extend({
       if ($('.introjs-helperNumberLayer').text() == '8') {
         itemview.mySwiper.swipePrev();
         view.$el.append('<style id="temp-intro-css">.introjs-helperLayer {background:transparent;border: none;box-shadow: none;}.introjs-arrow{display:none}.introjs-tooltip{max-width:none;}.introjs-tooltiptext{padding-bottom:15px}</style>');
-        $('.introjs-nextbutton').text('Learn More');
+        $('.introjs-nextbutton').text('Continue Tutorial');
         $('.introjs-skipbutton').text('Get Started').show();
         $('.introjs-nextbutton').on('click', function () {
           nextpage();
@@ -3782,49 +3782,6 @@ Parse.initialize("ILMokni7fwKhJSdWh38cGPpEwL2CLsrhcrUgJmG6", "cDQoHLQqGRRj9srzrp
 $dino.env = 'dev';
 //$dino.env = 'prod';
 //$dino.env = 'cache';
-
-// ==========================
-// SET API ROOT
-// ==========================
-var setApiPath = function() {
-	var apiEnv = $dino.env
-	, apiPath = '/api/v1';
-	if (apiEnv == 'dev') $dino.apiRoot = 'https://localhost' + apiPath;
-	else if (apiEnv == 'prod') $dino.apiRoot = 'https://jasonschapiro.com' + apiPath;
-	else $dino.apiRoot = '';
-	console.log('Set up API root "'+$dino.apiRoot+'" for environment '+apiEnv);
-}();
-// =========================
-// SET UP OFFLINE STATUS
-// =========================
-// Defaults to online
-$dino.offline = false;
-
-// Always listening for changes
-// TODO need to see if this works in phonegap
-$(window).on("offline", function(){
-	$dino.offline = true;
-	if (apiEnv == 'prod') popupExit();
-});
-$(window).on("online", function(){
-	$dino.offline = false;
-});
-
-// Function to ping and see if web server running
-$dino.ping = function(){
-	$.ajax({
-		url: 'http://google.com',
-		success: function(d){
-			$dino.offline = false;
-		},
-		error: function(){
-			$dino.offline = true;
-			$dino.app.navigate("offline", {
-				trigger : true
-			});
-		}
-	});
-};	
 ;$(document).bind("mobileinit", function () {
     console.log('mobileinit');
     $.mobile.ajaxEnabled = false;
@@ -4158,10 +4115,15 @@ $(document).ready(function () {
     ], tplCallback);
   }
 });;$dino = window.$dino || {};
+
+// ==========================
+// TEMPLATING FUNCTIONALITY
+// ==========================
 $dino.tpl = {
   templates: {},
   tplDir: 'tpl/',
   tplFile: 'templates.html',
+  // used in dev
   loadTemplates: function (names, callback) {
     var that = this;
     var loadTemplate = function (index) {
@@ -4183,6 +4145,7 @@ $dino.tpl = {
     };
     loadTemplate(0);
   },
+  // used in prod
   loadTemplateFile: function (callback) {
     var that = this;
     $.get('templates.html', function (data) {
@@ -4200,6 +4163,54 @@ $dino.tpl = {
     return this.templates[name];
   }
 };
+
+// ==========================
+// SET API ROOT
+// ==========================
+var setApiPath = function() {
+	var apiEnv = $dino.env
+	, apiPath = '/api/v1';
+	if (apiEnv == 'dev') $dino.apiRoot = 'https://localhost' + apiPath;
+	else if (apiEnv == 'prod') $dino.apiRoot = 'https://jasonschapiro.com' + apiPath;
+	else $dino.apiRoot = '';
+	console.log('Set up API root "'+$dino.apiRoot+'" for environment '+apiEnv);
+}();
+// =========================
+// SET UP OFFLINE STATUS
+// =========================
+// Defaults to online
+$dino.offline = false;
+
+// Always listening for changes
+// TODO need to see if this works in phonegap
+// Not implemented yet
+$(window).on("offline", function(){
+	$dino.offline = true;
+//	if (apiEnv == 'prod') popupExit();
+});
+$(window).on("online", function(){
+	$dino.offline = false;
+});
+
+// Function to ping and see if web server running
+// requires CORS
+// TODO not implemented yet
+$dino.ping = function(){
+/*	$.ajax({
+		url: 'http://google.com',
+		success: function(d){
+			$dino.offline = false;
+		},
+		error: function(){
+			$dino.offline = true;
+			$dino.app.navigate("offline", {
+				trigger : true
+			});
+		}
+}); */
+};	
+
+// Turns first letter capital, used in formatting in app
 String.prototype.toTitleCase = function () {
   return this.replace(/\w\S*/g, function (txt) {
     return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
