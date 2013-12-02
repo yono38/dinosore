@@ -1,6 +1,6 @@
 window.$dino.StartSignupView = Backbone.View.extend({
 	initialize : function() {
-		this.template = _.template(tpl.get('signup'));
+		this.template = _.template($dino.tpl.get('signup'));
 	},
 
 	events : {
@@ -11,7 +11,7 @@ window.$dino.StartSignupView = Backbone.View.extend({
 		var valid = true;
 		$("#error").empty();
 		_(inputs).each(function(val, key, arr){
-			if (!val || val == ""){
+			if (!val || val === ""){
 				$("#error").html("You forgot some info!");
 				$("#"+key).addClass('input-error');
 				valid = false;
@@ -58,7 +58,7 @@ window.$dino.StartSignupView = Backbone.View.extend({
 				});
 				User.save(null,{ 
 					success: function(){
-						$dino.app.navigate("tutorial", {
+						$dino.app.navigate("intro", {
 							trigger : true
 						});
 					},

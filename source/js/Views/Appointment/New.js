@@ -4,7 +4,7 @@ window.$dino.AppointmentNewView = $dino.NewFormView.extend({
 		if (opts.defaultDate) {
 			this.defaultDate = opts.defaultDate;
 		}
-		this.template = _.template(tpl.get('appointment-new'));
+		this.template = _.template($dino.tpl.get('appointment-new'));
 		this.first = true;
 		// extend child events on to parent's - inheritance ftw
 		_.bindAll(this, 'setCondition', 'setDoctor');
@@ -41,7 +41,7 @@ window.$dino.AppointmentNewView = $dino.NewFormView.extend({
 		this.$("#error-msg").empty();
 		var val = this.$("#appt-title").val();
 		var $parent = this.$("#appt-title").parent();
-		if (val == ""){
+		if (val === ""){
 			this.$("#error-msg").html("Don't forget to make a title!");
 	// TODO highlight title
 	//		$parent.css("background-color", "rgba(255,0,0,0.2)");
@@ -81,7 +81,7 @@ window.$dino.AppointmentNewView = $dino.NewFormView.extend({
 		e.preventDefault();
 	},
 
-	render : function(date) {
+	render : function() {
 		var date = this.model.get("date");
 		this.$el.html(this.template(_.extend(this.model.toJSON(), {
 			"header" : this.header,

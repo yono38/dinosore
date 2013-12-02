@@ -9,18 +9,19 @@
 // =================== IMPORT LIBRARIES ================= //
 var fs = require('fs-extra')
 , nodemailer = require('nodemailer')
-, client = require('phonegap-build-api')
 , phonegap = require('phonegap')
 , async = require('async')
 , path = require('path')
+, http = require('http')
+, https = require('https')
 , spawn = require('child_process');
 
 // ============== MOVE LATEST SOURCE TO PHONEGAP ============ //
 // TODO use git diff to determine exactly which files to move
 var copySrcFiles = function(cb){
 	console.log('copying newest source files over to phonegap/www folder..');
-	console.log('Note: Doesn\'t copy over main.js or config.js by default');
-	var copyDirs = ['js/main.js', 'index.html', 'css', 'img', 'lib', 'js/Models', 'js/Views'];
+	console.log('Note: Doesn\'t copy over config.js');
+	var copyDirs = ['js/main.js', 'js/utils.js', 'index.html', 'css', 'img', 'lib', 'js/Models', 'js/Views'];
 	var targetDir = './build/phonegap/www/';
 	var sourceDir = './source/';
 	copyDirs.forEach(function(dir, idx, arr){
@@ -78,14 +79,18 @@ function buildPhonegap(callback){
 	console.log('Changing directory to ' + process.cwd() + normDir);
 	process.chdir(normDir);
 	var spawn = require('child_process').spawn,
+	 buffer = require('buffer'),
      pg = spawn('cmd', ['/c', 'phonegap run android']);
 
 	pg.stdout.on('data', function (data) {
-	  console.log(data);
+	  var buf = new Buffer(data);
+	  console.log(buf.toString());
 	});
 	
 	pg.stderr.on('data', function (data) {
-	  console.log('stderr: ' + data);
+	  console.log('stderr: ');
+	  var buf = new Buffer(data);
+	  console.log(buf.toString());
 	});
 	
 	pg.on('close', function (code) {
@@ -112,7 +117,7 @@ var sendMail = function(callback) {
 		from : 'Dinosore <jason@dinoso.re>',
 		to : '"Jason Schapiro" <yono38@gmail.com>,"Rebecca Hillegass" <rebecca.hillegass@gmail.com>',
 		subject : 'Phonegap build', //
-		text : 'Built at ' + (new Date().getTime()),
+		text : 'Built at ' + (new Date().toLocaleDateString()) + '. Can also download at https://build.phonegap.com/apps/541789/builds',
 		attachments : [{
 			filePath : "app.apk"
 		}]
@@ -130,19 +135,38 @@ var sendMail = function(callback) {
 	});
 };
 
+// =================== DOWNLOAD NEW APK ================= //
 var downloadApk = function(callback) {
-	// Authorize with Phonegap
-	client.auth({
-		token : 'wnANkqxtFzbqzQ6sMxyx'
-	}, function(e, api) {
-		var writeStream = fs.createWriteStream('app.apk');
-		/********* DOWNLOAD THE APP ***************/
-		var get = (api.get('/apps/514031/android'));
-		get.pipe(writeStream);
-		get.on('end', function() {
-			console.log('file app.apk ready');
-			console.log('Sending Mail');
-			if (callback) callback(null);
+	var options = {
+		host : 'build.phonegap.com',
+		path : '/api/v1/apps/541789/android',
+		auth : 'yono38@gmail.com:d1n0s0re',
+		port : 443
+	};
+	// phonegap only gives you the link to download off S3
+	https.get(options, function(res) {
+		var loc_str = "";
+		res.on('data', function(chunk){
+			var buf = new Buffer(chunk);
+			loc_str += buf.toString();
+		});
+		res.on('end', function(){
+			console.log('App location acquired from phonegap');
+			var loc = JSON.parse(loc_str);
+			if (!loc.location) {
+				console.log('something went wrong');
+				console.log(JSON.stringify(loc));
+			} else {
+				console.log('Downloading from '+loc.location);
+				http.get(loc.location, function(res){
+					console.log('Piping Data');
+					var writeStream = fs.createWriteStream('app.apk');
+					res.pipe(writeStream);
+					console.log('file app.apk ready');
+					console.log('Sending Mail');
+					if (callback) callback(null);
+				});
+			}	
 		});
 	});
 };

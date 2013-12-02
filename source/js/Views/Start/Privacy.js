@@ -1,7 +1,7 @@
 window.$dino.StartPrivacyView = Backbone.View.extend({
 
 	initialize : function() {
-		this.template = _.template(tpl.get('privacy'));
+		this.template = _.template($dino.tpl.get('privacy'));
 	},
 
 	events : {

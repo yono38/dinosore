@@ -1,22 +1,9 @@
 window.$dino.BugDetailView = Backbone.View.extend({
 
 	initialize : function() {
-		this.template = _.template(tpl.get('condition-details'));
+		this.template = _.template($dino.tpl.get('condition-details'));
 	},
 
-	events : {
-		'click #deleteBug' : 'deleteBug'
-	},
-
-	deleteBug : function(e) {
-		e.preventDefault();
-		console.log(window.location);
-		var route = window.location.hash + "/delete";
-		$dino.app.navigate(route, {
-			trigger : true
-		});
-	},
-	
 	loadAppts: function() {
 		var appts = new $dino.AppointmentList();
 		appts.fetch({
@@ -25,7 +12,7 @@ window.$dino.BugDetailView = Backbone.View.extend({
 			},
 			success: function(appts) {
 				console.log(appts.toJSON());
-				var template = _.template(tpl.get("appointment-list-item"));
+				var template = _.template($dino.tpl.get("appointment-list-item"));
 				appts.each(function(appt) {
 					console.log(appt);
 					var data = _.extend(appt.toJSON(), {

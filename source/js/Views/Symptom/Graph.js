@@ -1,7 +1,7 @@
 window.$dino.SymptomGraphView = Backbone.View.extend({
 	initialize : function(opts) {
 		var title = 'Test Graph';
-		this.template = _.template(tpl.get('graph'));
+		this.template = _.template($dino.tpl.get('graph'));
 		_.bindAll(this, 'render', 'loadSingleChart');
 	},
 
@@ -24,7 +24,7 @@ window.$dino.SymptomGraphView = Backbone.View.extend({
 	
 	loadSingleChart: function(data){
 		var that = this;
-		if (data.length == 0){
+		if (data.length === 0){
 			this.$("#graphContainer").html('<h4 class="fancyFont">Sorry! No plusones recorded for this symptom yet, come back when you\'ve tracked more data :)');
 			return;
 		}
@@ -34,15 +34,19 @@ window.$dino.SymptomGraphView = Backbone.View.extend({
 		var sevAxis = [];
 		var noteSeries = [];
 
+		console.log(jsoon);
 		var appendTimeSevToAxis = _.each(jsoon, function(elem) {
 			var time = moment.unix(elem.date);
-			date = (time.format("MMM Do - HH:mm:ss a"));
+			date = (time.format("MMM Do - h:mm a"));
 			timeAxis.push(date);
-			var sev = elem.severity;
+			var sev = elem.severity || 0;
 			sevAxis.push(sev);
 			var notes = elem.notes;
 			noteSeries[date] = notes;
 		});
+		
+		console.log(timeAxis);
+		console.log(sevAxis);
 
 		var chart = new Highcharts.Chart({
 
@@ -54,20 +58,20 @@ window.$dino.SymptomGraphView = Backbone.View.extend({
                 marginBottom: 75,
                 marginTop: 75,
                 events: {
-                	load: function() {
-                		console.log('graph load complete');
-                		// TODO figure out why this doesn't work immediately
-                		// jQuery mobile drawing issue?
-                		setTimeout(function(){
-	                		that.resize();
-                		}, 200);
-                	}
+					load: function() {
+						console.log('graph load complete');
+						// TODO figure out why this doesn't work immediately
+						// jQuery mobile drawing issue?
+						setTimeout(function(){
+							that.resize();
+						}, 200);
+					}
                 }
             },
 
             credits: {
                 enabled: false
-        	},
+			},
       
             title: {
                 text: ' ',
@@ -84,28 +88,23 @@ window.$dino.SymptomGraphView = Backbone.View.extend({
             },
 
             plotOptions: {
-                        series: {
-                             lineColor: '#51C4E1',   
-                             marker: {
-                                fillColor: '#3FCCBE',
-                                         
-                            }
+                series: {
+                     lineColor: '#51C4E1',   
+                     marker: {
+                        fillColor: '#3FCCBE',
+                                 
+                    }
 
-                        }
-                    },
+                }
+            },
 
             yAxis: {
-            	min: 0,
+				min: 0,
                 max: 5,
                 title: {
                     text: 'Severity',
                     style: { color: '#4A4A4A' }
                 },
-                plotLines: [{
-                    value: 0,
-                    width: 1,
-                    color: '#4A4A4A'
-                }]
             },
 
             series: [{

@@ -3,17 +3,17 @@ window.$dino.SymptomListItemView = $dino.ListItemView.extend({
 	initialize: function(){
 		// calling super.constructor
 		$dino.SymptomListItemView.__super__.initialize.call(this, {name: "symptom"});
-		this.debounceSaveSeverity =  _.debounce(this.saveSeverity, 2000);
-		_.bindAll(this, 'saveSeverity', 'debounceSaveSeverity');
+		_.bindAll(this, 'saveSymptom');
 	}, 
 	
 	events: {
 		"click" : "dontclick",
 		"click .plus-one" : "clickPlus",
+		"click #confirm-plus" : "saveSymptom",
 		"slidestop" : "changeSeverity",
 		"keypress #symptom-notes" : "addOnEnter",
 		"indom" : "makeSwiper",
-		"click #cancel-change-severity" : "resetTitle",
+		"click #cancel-plus" : "resetTitle",
 		"click #item-title-slide" : "goToSymptomDetail",
 		"click .removeItem" : "confirmDelete",
 		"click .retireItem" : "retireItem"
@@ -23,6 +23,8 @@ window.$dino.SymptomListItemView = $dino.ListItemView.extend({
 	// can place added bubble on plusOne
 	resetTitle: function(e){
 		if (e) e.preventDefault();
+		this.$(".check-items").hide();
+		this.$(".plus-one").show();
 		this.$(".set-severity").hide();
 		this.$(".swiper-slide").removeClass('swiper-no-swiping');
 		this.$(".swiper-slide").css("height", "100%");
@@ -50,7 +52,7 @@ window.$dino.SymptomListItemView = $dino.ListItemView.extend({
 	},
 	
 	addOnEnter: function(e){
-	  if (e.keyCode == 13) this.clickPlus();
+		if (e.keyCode == 13) this.clickPlus();
 	},
 
 	setSeverity: function(){
@@ -73,50 +75,31 @@ window.$dino.SymptomListItemView = $dino.ListItemView.extend({
 	clickPlus: function(e){
 		if (e) e.preventDefault();
 		console.log('clicking plus');
-		if (!this.added){
-			var that = this;
-			this.model.set("count", (this.model.get("count") + 1));
-			this.model.save(); 
-			//create a new plusOne object when someone clicks plusOne
-			this.plusOne = new $dino.PlusOne();
-			this.plusOne.save({
+		this.setSeverity();
+		this.$(".plus-one").hide();
+		this.$(".check-items").show();
+		this.$(".swiper-slide").css("height", "auto");
+	},
+	
+	saveSymptom: function(){
+		var that = this;
+		var severityLvl = this.settingSeverity ? parseInt(this.$("#severity").val(), 10) : null;
+		var sympNotes = this.$("#symptom-notes").val();
+		var plusOne = new $dino.PlusOne();
+		plusOne.save({
 				item: this.model.id,
 				type: this.name,
-				user: Parse.User.current().id
+				user: Parse.User.current().id,
+				notes: sympNotes,
+				severity: severityLvl,
 			}, {
-			success: function(item){
-				that.added = true;
-				that.setSeverity();
-				that.$(".ui-icon").removeClass("ui-icon-plus");
-				that.$(".ui-icon").addClass("ui-icon-check");
-				that.$(".swiper-slide").css("height", "auto");
+			success: function(item){ 
+				that.resetTitle();
+				that.addBubble('.item-title', 'Saved');		
+				that.model.set("count", (this.model.get("count") + 1));
+				that.model.save(); 
 			}
-			});
-		} else {
-			this.clickCheck();
-		}
-	},
-	
-	clickCheck: function(){
-		this.saveSeverity();
-		// reset added button
-		this.added = false;
-		this.$(".ui-icon").removeClass("ui-icon-check");
-		this.$(".ui-icon").addClass("ui-icon-plus");
-		this.resetTitle();
-		this.addBubble('.item-title', 'Saved');		
-	},
-	
-	saveSeverity: function(){
-			var severityLvl = this.settingSeverity ? parseInt(this.$("#severity").val()) : null;
-			var sympNotes = this.$("#symptom-notes").val();
-			
-			if (this.added){
-				this.plusOne.save({
-					notes: sympNotes,
-					severity: severityLvl,
-				});				
-			}
+		});
 	}
 	
 });

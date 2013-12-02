@@ -11,7 +11,7 @@
 		padding-top: 5px;
 	}
 </style>
-<a id="<%= type %>-detail" href="#<%= type %>/<%= _id %>"> <h3 class="swiper-container">
+<a id="<%= type %>-detail" href="#<%= type %>/<%= _id %>" data-id="<%= _id %>"> <h3 class="swiper-container">
 <div class="swiper-wrapper">
 	<div class="swiper-slide">
 		<div class="item-title">
@@ -23,13 +23,13 @@
 		<p>
 			<strong><%= doctor.title %></strong>
 		</p>
-		<% } %> <div id="symptomSliders"></div>
+		<% } %> <div class="set-severity" id="symptomSliders"></div>
 		</div>
 	</div>
 	<div class="swiper-slide ui-grid-a">
 		<div class="modifyItem ui-block-b">
 			<div class="condition-item-btn ui-bar ui-bar-f">
-				<span class="modify-text">Modify</span>
+				<span class="modify-text">Details</span>
 			</div>
 		</div>
 		<div class="condition-item-btn removeItem ui-block-b">

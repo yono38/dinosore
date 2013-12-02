@@ -5,9 +5,9 @@ window.$dino.ConditionListItemView = $dino.ListItemView.extend({
 		$dino.ConditionListItemView.__super__.initialize.call(this, {
 			name : "condition"
 		});
-		this.template = _.template(tpl.get('condition-list-item'));
+		this.template = _.template($dino.tpl.get('condition-list-item'));
 		this.debounceSaveSeverity = _.debounce(this.saveSeverity, 2000);
-		_.bindAll(this, 'saveSeverity', 'debounceSaveSeverity');
+		_.bindAll(this, 'openGraph', 'saveSeverity', 'debounceSaveSeverity');
 		var theme = (this.model.get("status") == "Retired" || this.model.get("status") == "In Remission") ? "d" : "b";
 		this.$el.data('theme', theme);
 		this.swiperHeight = "75px";
@@ -22,22 +22,25 @@ window.$dino.ConditionListItemView = $dino.ListItemView.extend({
 		"keypress #item-notes" : "addOnEnter",
 		"indom" : "makeSwiper",
 		// TODO PUT THIS BACK!
-		//"click #condition-detail" : "goToConditionDetail",
+		"click #condition-detail" : "openGraph",
 		"click .removeItem" : "confirmDelete",
-		"click .modifyItem" : "modifyCondition"
+		"click .modifyItem" : "goToConditionDetail"
 	},
 	
-	modifyCondition: function(e) {
-		e.preventDefault();
-			$dino.app.navigate("bug/"+this.model.id+"/modify", {
-				trigger: true
-			});
-	},
-
 	goToConditionDetail: function(e){
 		if (e) e.preventDefault();
 		if (!this.settingSeverity){
 			$dino.app.navigate("bug/"+this.model.id, {
+				trigger: true
+			});
+		}
+	},
+	
+	openGraph: function(e) {
+		e.preventDefault();
+		if (!this.settingSeverity){
+			var id = this.$("#condition-detail").data('id');
+			$dino.app.navigate("graph?condition="+id, {
 				trigger: true
 			});
 		}
@@ -54,7 +57,7 @@ window.$dino.ConditionListItemView = $dino.ListItemView.extend({
 	},
 
 	severityTpl : function(data) {
-		return _.template(tpl.get('severity-slider'), data);
+		return _.template($dino.tpl.get('severity-slider'), data);
 	},
 
 	setSeverity : function() {
@@ -80,6 +83,7 @@ window.$dino.ConditionListItemView = $dino.ListItemView.extend({
 			this.$("#cancel-change-severity").button({
 				mini : true
 			});
+			this.$(".swiper-slide").addClass('swiper-no-swiping');
 			this.changeSeverity();
 			this.settingSeverity = true;
 		}
@@ -90,6 +94,7 @@ window.$dino.ConditionListItemView = $dino.ListItemView.extend({
 			e.preventDefault();
 		console.log(this.model.toJSON());
 		console.log('clicked plus');
+		this.$(".set-severity").show();
 		if (!this.added) {
 			var that = this;
 			this.model.set("count", (this.model.get("count") + 1));
@@ -123,6 +128,7 @@ window.$dino.ConditionListItemView = $dino.ListItemView.extend({
 		this.$(".ui-icon").addClass("ui-icon-plus");
 		this.$("#symptomSliders").empty();
 		// this resets slide size for modify/remove buttons
+		this.$(".swiper-slide").removeClass('swiper-no-swiping');
 		this.$(".swiper-slide").css("height", "100%");
 		// TODO change this to use render
 		// currently loses formatting on refresh
@@ -151,7 +157,7 @@ window.$dino.ConditionListItemView = $dino.ListItemView.extend({
 		var that = this;
 		_(this.$(".symptom-severity")).each(function(el, idx, arr) {
 			var symp_id = $(el).data('id');
-			var symp_severity = parseInt($(el).val());
+			var symp_severity = parseInt($(el).val(), 10);
 			console.log(symp_severity);
 			that.saveSymptomSeverity(symp_id, symp_severity);
 		});
