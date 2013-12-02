@@ -17,7 +17,7 @@ module.exports = function(grunt) {
 		cssmin: {
 			combine: {
 				files: {
-					'build/www/css/<%= pkg.name %>.min.css' : ['dist/<%= pkg.name %>.css']
+					'build/phonegap/www/css/<%= pkg.name %>.min.css' : ['dist/<%= pkg.name %>.css']
 				}
 			}
 		},
@@ -39,7 +39,7 @@ module.exports = function(grunt) {
 			},
 			dist : {
 				files : {
-					'build/www/js/<%= pkg.name %>.min.js' : ['dist/<%= pkg.name %>.js'],
+					'build/phonegap/www/js/<%= pkg.name %>.min.js' : ['dist/<%= pkg.name %>.js'],
 				}
 			}
 		},

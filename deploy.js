@@ -16,36 +16,6 @@ var fs = require('fs-extra')
 , https = require('https')
 , spawn = require('child_process');
 
-// ============== MOVE LATEST SOURCE TO PHONEGAP ============ //
-// TODO use git diff to determine exactly which files to move
-var copySrcFiles = function(cb){
-	console.log('copying newest source files over to phonegap/www folder..');
-	console.log('Note: Doesn\'t copy over config.js');
-	var copyDirs = ['css/images', 'img'];
-	var targetDir = './build/phonegap/www/';
-	var sourceDir = './source/';
-	copyDirs.forEach(function(dir, idx, arr){
-		// remove old files
-		console.log("removing ", path.join(targetDir, dir));
-		fs.removeSync(path.join(targetDir + dir));
-
-		// copy over new files
-		// TODO use async to make a series
-		
-	});
-	async.each(copyDirs, function(dir, callback){
-		fs.copy(path.join(sourceDir, dir), path.join(targetDir, dir), function(err){
-			if (err) callback(err);
-			else callback(null);
-		});
-	},
-	function(err){
-		console.log('File copy complete');
-		if (cb && err) cb(err);
-		else if (cb) cb(null);
-	});
-};
-
 // ================== BUILD WITH PHONEGAP ============ //
 function buildPhonegap(callback){
 	console.log('building phonegap app for android');
@@ -171,7 +141,6 @@ client.auth({
 /* ============= MAIN SCRIPT ========== */
 
 async.waterfall([
-    copySrcFiles,
     buildPhonegap,
     downloadApk,
     sendMail

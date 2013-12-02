@@ -25,14 +25,14 @@ window.$dino.StartLoginView = Backbone.View.extend({
       return;
     }
     Parse.User.logIn(usr, pw, {
-      success: function (user) {
-        var usr = new $dino.User(user.toJSON());
-        usr.id = Parse.User.current().id;
-        usr.save();
-        $dino.app.navigate('bugs', { trigger: true });
-      },
-      error: function (usr, err) {
-        that.$('#error').html(err.message.toTitleCase());
+      success: function(user) {
+	  	var usr = new $dino.User(user.toJSON());
+	  	usr.id = Parse.User.current().id;
+	  	usr.save();
+        $dino.app.navigate("bugs", {trigger: true});
+      }, 
+      error: function(usr, err){
+        that.$("#error").html(err.message.toTitleCase());        
       }
     });
   },
