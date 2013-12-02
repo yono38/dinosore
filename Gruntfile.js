@@ -9,7 +9,7 @@ module.exports = function(grunt) {
 			},
 			dist : {
 				files : {
-					'dist/<%= pkg.name %>.js' : 'source/**/*.js',
+					'dist/<%= pkg.name %>.js' : ['source/**/*.js', 'source/js/!(config).js'],
 					'dist/templates.html' : 'source/tpl/*.html',
 				}
 			}
@@ -46,16 +46,24 @@ module.exports = function(grunt) {
 				}
 			}
 		},
+		execute: {
+			simple_target: {
+				// execute javascript files in a node child_process
+				src: ['deploy.js']
+			},
+		},
 		watch : {
 			files : ['<%= jshint.files %>'],
-			tasks : ['jshint', 'qunit']
+			tasks : ['jshint']
 		}
 	});
 	grunt.loadNpmTasks('grunt-contrib-uglify');
 	grunt.loadNpmTasks('grunt-contrib-jshint');
-	// grunt.loadNpmTasks('grunt-contrib-jasmine');
+	grunt.loadNpmTasks('grunt-contrib-jasmine');
 	grunt.loadNpmTasks('grunt-contrib-watch');
 	grunt.loadNpmTasks('grunt-contrib-concat');
+	grunt.loadNpmTasks('grunt-execute');
 	grunt.registerTask('test', ['jshint', 'jasmine']);
-	grunt.registerTask('default', ['jshint', 'concat', 'uglify']);
+	grunt.registerTask('build', ['jshint', /*jasmine,*/ 'concat', 'uglify']);
+	grunt.registerTask('default', ['jshint', /*jasmine,*/ 'concat', 'uglify', 'execute']);
 }; 

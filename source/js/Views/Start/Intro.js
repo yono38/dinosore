@@ -145,7 +145,7 @@ window.$dino.StartIntroView = Backbone.View.extend({
       if ($('.introjs-helperNumberLayer').text() == '8') {
         itemview.mySwiper.swipePrev();
         view.$el.append('<style id="temp-intro-css">.introjs-helperLayer {background:transparent;border: none;box-shadow: none;}.introjs-arrow{display:none}.introjs-tooltip{max-width:none;}.introjs-tooltiptext{padding-bottom:15px}</style>');
-        $('.introjs-nextbutton').text('Learn More');
+        $('.introjs-nextbutton').text('Continue Tutorial');
         $('.introjs-skipbutton').text('Get Started').show();
         $('.introjs-nextbutton').on('click', function () {
           nextpage();
