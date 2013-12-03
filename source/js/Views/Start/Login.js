@@ -26,9 +26,9 @@ window.$dino.StartLoginView = Backbone.View.extend({
     }
     Parse.User.logIn(usr, pw, {
       success: function(user) {
-	  	var usr = new $dino.User(user.toJSON());
-	  	usr.id = Parse.User.current().id;
-	  	usr.save();
+		var usr = new $dino.User(user.toJSON());
+		usr.id = Parse.User.current().id;
+		usr.save();
         $dino.app.navigate("bugs", {trigger: true});
       }, 
       error: function(usr, err){

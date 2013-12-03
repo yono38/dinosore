@@ -1,24 +1,12 @@
 module.exports = function(grunt) {
 	grunt.initConfig({
 		pkg : grunt.file.readJSON('package.json'),
-		concat : {
-			options : {
-				separator : ';',
-				stripBanners : true,
-				banner : '/*! <%= pkg.name %> - v<%= pkg.version %> - ' + '<%= grunt.template.today("yyyy-mm-dd") %> */'
-			},
-			dist : {
-				files : {
-					'dist/<%= pkg.name %>.css' : ['source/**/*.css'],
-					'dist/<%= pkg.name %>.js' : ['source/**/*.js', 'source/js/!(config).js'],
-				}
-			}
-		},
 		cssmin: {
-			combine: {
-				files: {
-					'build/phonegap/www/css/<%= pkg.name %>.min.css' : ['dist/<%= pkg.name %>.css']
-				}
+			minify: {
+				expand: true,
+				cwd: 'source/css/',
+				src: ['*.css', '!*.min.css'],
+				dest: 'build/phonegap/www/css/',
 			}
 		},
 		copy: {
@@ -31,16 +19,37 @@ module.exports = function(grunt) {
 				files: [
 					{expand: true, cwd: 'source/css/images/', src: ['**'], dest: 'build/phonegap/www/css/images'},
 				]
+			},
+			font: {
+				files: [
+					{expand: true, cwd: 'source/css', src: ['playtime*'], dest: 'build/phonegap/www/css'},
+				]
+				
 			}
 		},
 		uglify : {
-			options : {
-				banner : '/*! <%= pkg.name %> <%= grunt.template.today("dd-mm-yyyy") %> */\n'
-			},
 			dist : {
-				files : {
-					'build/phonegap/www/js/<%= pkg.name %>.min.js' : ['dist/<%= pkg.name %>.js'],
-				}
+				files: [{
+					expand: true,
+					cwd: 'source/js',  // source files mask
+					src: ['**/*.js', '!config.js'],
+					dest: 'build/phonegap/www/js',    // destination folder
+				}]				
+// Need to implement requireJs first
+//				files : {
+//					'build/phonegap/www/js/<%= pkg.name %>.min.js' : ['dist/<%= pkg.name %>.js'],
+//				},
+//				options : {
+//                    banner : '/*! <%= pkg.name %> <%= grunt.template.today("dd-mm-yyyy") %> */\n'
+//               }
+			},
+			lib: {
+				files: [{
+					expand: true,
+					cwd: 'source/lib',  // source files mask
+					src: '**/*.js',
+					dest: 'build/phonegap/www/lib',    // destination folder
+				}]
 			}
 		},
 		jasmine : {
@@ -121,6 +130,6 @@ module.exports = function(grunt) {
     // NAME GRUNT TASKS
     // ========================
 	grunt.registerTask('test', ['jshint', 'jasmine']);
-	grunt.registerTask('default', ['jshint', /*jasmine,*/ 'concat', 'cssmin', 'uglify', 'copy', 'tplconcat']);
-	grunt.registerTask('deploy', ['jshint', /*jasmine,*/ 'concat', 'cssmin', 'uglify', 'copy', 'tplconcat', 'execute']);
+	grunt.registerTask('default', ['jshint', /*jasmine,*/ 'cssmin', 'uglify', 'copy', 'tplconcat']);
+	grunt.registerTask('deploy', ['jshint', /*jasmine,*/ 'cssmin', 'uglify', 'copy', 'tplconcat', 'execute']);
 }; 

@@ -55,7 +55,7 @@ var setApiPath = function() {
 	var apiEnv = $dino.env
 	, apiPath = '/api/v1';
 	if (apiEnv == 'dev') $dino.apiRoot = 'https://localhost' + apiPath;
-	else if (apiEnv == 'prod') $dino.apiRoot = 'https://jasonschapiro.com' + apiPath;
+	else if (apiEnv == 'prod') $dino.apiRoot = 'https://api.dinoso.re' + apiPath;
 	else $dino.apiRoot = '';
 	console.log('Set up API root "'+$dino.apiRoot+'" for environment '+apiEnv);
 }();
@@ -63,6 +63,7 @@ var setApiPath = function() {
 // SET UP OFFLINE STATUS
 // =========================
 // Defaults to online
+/*
 $dino.offline = false;
 
 // Always listening for changes
@@ -92,7 +93,7 @@ $dino.ping = function(){
 			});
 		}
 }); */
-};	
+//};	
 
 // Turns first letter capital, used in formatting in app
 String.prototype.toTitleCase = function () {

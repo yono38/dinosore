@@ -11,3 +11,4 @@ build/phonegap/www/js/Views/
 build/phonegap/www/lib/
 build/phonegap/www/tpl/
 node_modules/
+dist/
