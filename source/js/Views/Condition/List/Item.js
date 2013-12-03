@@ -76,10 +76,10 @@ window.$dino.ConditionListItemView = $dino.ListItemView.extend({
 				}));
 			});
 			this.$("#item-notes").textinput();
-			this.$("#severity").slider({
+			this.$(".symptom-severity").slider({
 				trackTheme : 'b',
 			});
-			this.$("#severity").hide();
+			this.$(".symptom-severity").hide();
 			this.$("#cancel-change-severity").button({
 				mini : true
 			});
