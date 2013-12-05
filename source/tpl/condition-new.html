@@ -34,19 +34,13 @@
 		</select>
 	</div>
 	<div id="symptom-list-border" class="list-border">
+		<p>
+			Symptoms:
+		</p>
 		<table id="symptom-list-bar" style='width:100%'>
-			<tbody>
-				<tr>
-					<td>
-					<fieldset data-role="controlgroup">
-						<label for="select-symptom" class="select-symptom-label">Category</label>
-						<select class=" ui-icon-nodisc" name="select-symptom" id="select-symptom">
-							<option value="default">Symptoms</option>
-						</select>
-					</fieldset></td>
-					<td style='width:5em; padding-left:1em'><a id="add-symptom-btn" class="add_detail_item  ui-icon-nodisc" data-type="symptom" data-role="button" data-icon="plus" >Add</a></td>
-				</tr>
-			</tbody>
+			<select class="ui-icon-alt ui-icon-nodisc" name="select-symptom" id="select-symptom" multiple="multiple" data-native-menu="false">
+				 <option value="" disabled selected>Choose Symptoms</option>
+			</select>
 		</table>
 		<div class="new-group" id="symptom-new-group">
 			<input id="new-symptom-input" class="fancyFont new-item-input" placeholder="New Symptom" />
@@ -63,19 +57,14 @@
 				</div>
 			</div>
 		</div>
-		<ul id="symptom-list">
-			<% _.each( symptom, function( Item ){ %>
-			<li>
-				<a href="#" data-role="button" data-inline="true" data-corners="true" data-icon="delete" data-id="<%= Item.id %>" class=" ui-icon-nodisc delete_detail_item" data-type="symptom" data-iconpos="notext">X</a>
-				<span class="fancyFont itemName"><span data-id="<%= Item.id %>" class="itemName"><%= Item.title %></span></span>
-			</li>
-			<% }); %>
-		</ul>
 	</div>
-	<div id="medication-list-border" class="list-border">
+	<div id="medicaton-list-border" class="list-border">
+		<p>
+			Medications:
+		</p>
 		<table id="medication-list-bar" style='width:100%'>
 			<select class="ui-icon-alt ui-icon-nodisc" name="select-medication" id="select-medication" multiple="multiple" data-native-menu="false">
-				 <option value="" disabled selected>Medications</option>
+				 <option value="" disabled selected>Choose Medications</option>
 			</select>
 
 		</table>
@@ -94,14 +83,6 @@
 				</div>
 			</div>
 		</div>
-		<ul id="medication-list">
-			<% _.each( medication, function( Item ){ %>
-			<li>
-				<a href="#" data-role="button" data-inline="true" data-icon="delete" data-id="<%= Item.id %>" class="delete_detail_item" data-type="medication" data-iconpos="notext">X</a>
-				<span class="itemName fancyFont"><span data-id="<%= Item.id %>" class="itemName"><%= Item.title %></span></span>
-			</li>
-			<% }); %>
-		</ul>
 	</div>
 
 	<div id="doctor-list-border" class="list-border">

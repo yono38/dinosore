@@ -15,31 +15,49 @@ window.$dino.ConditionNewView = $dino.NewFormView.extend({
 		'keyup .text-input' : 'debounceSaveTextInput',
 		'change select' : 'checkForAddNew',
 		'change #select-doctor' : 'setDoctor',
-		'click #select-medication-button' : 'openListbox',
-		'click #select-medication-listbox .ui-header a.ui-btn-left' : 'closeBox',
 		'change #select-status' : 'setStatus',
 		'click .add-btn-padding' : 'addNewItem',
 		'click .cancel-btn-padding' : 'cancelNewItem',
 		'change #select-medication' : 'selectMedication',
-		'pageinit' : 'setMenu'
+		'pageinit' : 'setMenu',
+		'click #select-medication-button' : 'openMedListbox',
+		'click #select-symptom-button' : 'openSympListbox',
+		'click #select-medication-listbox .ui-header a.ui-btn-left' : 'closeMedListbox',
+		'click #select-symptom-listbox .ui-header a.ui-btn-left' : 'closeSympListbox',
 	},
-	closeBox : function(e) {
+	// =====================
+	// MultiSelect Handling
+	// ====================
+	closeSympListbox: function(e) {
 		e.preventDefault();
-		this.$('#select-medication-listbox').popup('close');
+		this.closeListbox('symptom');
 	},
-	openListbox : function(e) {
+	closeMedListbox: function(e) {
 		e.preventDefault();
-		console.log(e);
-		this.$('#select-medication').selectmenu('refresh');
-		this.$('#select-medication-listbox').popup({
+		this.closeListbox('medication');
+	},
+	closeListbox : function(item) {
+		this.$('#select-'+ item +'-listbox').popup('close');
+	},
+	openSympListbox: function(e) {
+		e.preventDefault();
+		this.openListbox('symptom');
+	},
+	openMedListbox: function(e) {
+		e.preventDefault();
+		this.openListbox('medication');
+	},
+	openListbox : function(item) {
+		this.$('#select-'+ item).selectmenu('refresh');
+		this.$('#select-'+ item +'-listbox').popup({
 			overlayTheme : 'a'
 		});
-		this.$('#select-medication-listbox').popup('open');
-		this.$('#select-medication-listbox li:first-child').removeClass('ui-btn-down-a ui-focus');
+		this.$('#select-'+ item +'-listbox').popup('open');
+		this.$('#select-'+ item +'-listbox li:first-child').removeClass('ui-btn-down-a ui-focus');
 	},
 	selectMedication: function(e){
 		console.log('chose medication');
-		this.$("#select-medication-button .ui-btn-inner .ui-btn-text span").text("Medications");
+//		this.$("#select-medication-button .ui-btn-inner .ui-btn-text span").text("Medications");
 	},
 	setMenu : function() {
 		console.log('setting status menu to proper item');
@@ -281,8 +299,6 @@ window.$dino.ConditionNewView = $dino.NewFormView.extend({
 				that.$(selector).append('<option value="' + item.id + '">' + item.get('title') + '</li>');
 			});
 		}
-		// special li at end for adding new items to db
-		this.$(selector).append('<option data-new="true" data-type="' + modelType + '" value="add-new-item">Add New</li>');
 	},
 	render : function(reload) {
 		console.log(this.header);
@@ -305,6 +321,7 @@ window.$dino.ConditionNewView = $dino.NewFormView.extend({
 			this.makeList(this.symptomList, '#select-symptom', 'symptom');
 			this.makeList(this.doctorList, '#select-doctor', 'doctor');
 		}
+		this.$(".new-group").show();
 		// TODO figure out how to not need this
 		$('.ui-page').trigger('pagecreate');
 		return this;
