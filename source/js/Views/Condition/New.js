@@ -188,9 +188,7 @@ window.$dino.ConditionNewView = $dino.NewFormView.extend({
 			});
 			this.model.set(itemType, typeItemArr);
 			console.log(this.model.toJSON());
-			// TODO this is a hack should understand and change it
-			that.first = true;
-			that.render();
+			that.loadList(that[itemType+'List'],'#select-'+itemType, itemType);
 		}
 	},
 	addNewDoctor : function(id, title) {
