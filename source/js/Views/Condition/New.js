@@ -8,7 +8,6 @@ window.$dino.ConditionNewView = $dino.NewFormView.extend({
 		_(this).bindAll('addCondition', 'deleteItem', 'makeList', 'render');
 	},
 	events : {
-		'click .add_detail_item' : 'addItem',
 		'click .delete_detail_item' : 'deleteItemEvent',
 		'click #addBtn' : 'addCondition',
 		'click .new-item' : 'preventDefault',
@@ -16,8 +15,9 @@ window.$dino.ConditionNewView = $dino.NewFormView.extend({
 		'change select' : 'checkForAddNew',
 		'change #select-doctor' : 'setDoctor',
 		'change #select-status' : 'setStatus',
-		'click .add-btn-padding' : 'addNewItem',
+		'click .open-input-new-item' : 'openNewItemInput',
 		'click .cancel-btn-padding' : 'cancelNewItem',
+		'click .add-btn-padding' : 'addNewItem',
 		'change #select-medication' : 'selectMedication',
 		'pageinit' : 'setMenu',
 		'click #select-medication-button' : 'openMedListbox',
@@ -78,6 +78,26 @@ window.$dino.ConditionNewView = $dino.NewFormView.extend({
 		var $stat = this.$('#select-status option:selected');
 		this.model.set('status', $stat.val());
 	},
+	// ======================
+	// New Item Functions
+	// ======================
+	openNewItemInput:function(e, type){
+		if (e)
+			e.preventDefault();
+		type = type || $(e.currentTarget).data('type');
+		this.$("#"+type+"-new-group").show();
+		this.$("#select-"+type+"-button").hide();
+		this.$("#new-"+type+"-input-btn").hide();
+	},
+	cancelNewItem : function(e, type) {
+		if (e)
+			e.preventDefault();
+		type = type || $(e.currentTarget).data('type');
+		this.$("#"+type+"-new-group").hide();
+		this.$("#select-"+type+"-button").show();
+		this.$("#new-"+type+"-input-btn").show();
+		this.$("#new-"+type+"-input").val("");
+	},
 	addNewItem : function(e, type) {
 		if (e)
 			e.preventDefault();
@@ -85,6 +105,13 @@ window.$dino.ConditionNewView = $dino.NewFormView.extend({
 		type = type || $(e.currentTarget).data('type');
 		var val = this.$('#new-' + type + '-input').val();
 		console.log(type, val);
+		// validate
+		if (val === '' ) {
+			this.$("#"+type+"-new-group .ui-input-text").css("border-bottom", "2px solid red");
+			return;
+		} else {
+			this.$("#"+type+"-new-group .ui-input-text").css("border-bottom", "none");
+		}
 		if (val !== '' & _.contains(['symptom', 'doctor', 'medication'], type)) {
 			console.log('Add to collection: ', type, val);
 			var item = new $dino[(type.toTitleCase())]();
@@ -92,6 +119,7 @@ window.$dino.ConditionNewView = $dino.NewFormView.extend({
 				title : val,
 				user : Parse.User.current().id
 			});
+			console.log(item);
 			item.save(null, {
 				success : function(item) {
 					console.log(item.id);
@@ -109,16 +137,8 @@ window.$dino.ConditionNewView = $dino.NewFormView.extend({
 					that.addItem(null, opts);
 				}
 			});
-		}
-	},
-	cancelNewItem : function(e, type) {
-		if (e)
-			e.preventDefault();
-		type = type || $(e.currentTarget).data('type');
-		if (_.contains(['symptom', 'doctor', 'medication'], type)) {
-			this.resetMenu('#select-' + type);
-			this.$('#' + type + '-new-group').hide();
-			this.$('#' + type + '-list-bar').show();
+		} else {
+			console.log("Trying to add unknown type:", type);
 		}
 	},
 	saveTextInput : function(e) {
@@ -156,11 +176,7 @@ window.$dino.ConditionNewView = $dino.NewFormView.extend({
 	},
 	addItem : function(e, opts) {
 		var itemType, itemVal, itemTitle;
-		if (e) {
-			itemType = $(e.currentTarget).data('type');
-			itemVal = this.$('#select-' + itemType).val();
-			itemTitle = this.$('#select-' + itemType + ' option:selected').text();
-		} else if (opts) {
+		if (opts) {
 			itemType = opts.type;
 			itemVal = opts.id;
 			itemTitle = opts.title;
@@ -168,7 +184,11 @@ window.$dino.ConditionNewView = $dino.NewFormView.extend({
 			console.log('Error: invalid addItem call');
 			return;
 		}
-		console.log(itemVal);
+		this.$("#select-"+itemType).append('<option selected value="'+itemVal+'">'+itemTitle+'</option>');
+		this.$("#select-"+itemType).selectmenu('refresh');
+		this.$("#new-"+itemType+"-input").val("");
+		this.cancelNewItem(null, itemType);
+		/*console.log(itemVal);
 		console.log(itemType);
 		// doctors are handled differently
 		if (itemType == 'doctor') {
@@ -187,9 +207,9 @@ window.$dino.ConditionNewView = $dino.NewFormView.extend({
 				'id' : itemVal
 			});
 			this.model.set(itemType, typeItemArr);
+
 			console.log(this.model.toJSON());
-			that.loadList(that[itemType+'List'],'#select-'+itemType, itemType);
-		}
+		}*/
 	},
 	addNewDoctor : function(id, title) {
 		var doctorItem = {
@@ -201,13 +221,37 @@ window.$dino.ConditionNewView = $dino.NewFormView.extend({
 		console.log(id);
 		this.resetMenu('#select-doctor', id);
 	},
+	// underscore ftw!
+	getSelected: function(type) {
+		var r =_.map(
+			// choose not disabled so it won't get placeholder element
+			this.$("#select-"+type+" option:not(:disabled):selected"), 
+			function(node){
+				return {"id":node.value,"title":node.text}; 
+			}
+		);
+		console.log(r);
+		return r;
+	},
 	addCondition : function(e) {
 		e.preventDefault();
 		//this.$("#error-msg").hide();
 		if (!this.validateCondition())
 			return;
+		this.model.set({
+			'user': Parse.User.current().id,
+			'symptom' : this.getSelected('symptom'),
+			'medication': this.getSelected('medication'),
+			'count': 0,
+			'status': this.$("select-status").val(),
+			'doctor': {
+				'title': this.$("#select-doctor option:selected").text(),
+				'id': this.$("#select-doctor option:selected").val()
+			},
+			'title': this.$("#condition-title").val(),
+			'details': this.$("#condition-details").val()
+		});
 		console.log(this.model.toJSON());
-		this.model.set('user', Parse.User.current().id);
 		this.model.save(null, {
 			success : function(condition) {
 				console.log('New condition saved: ' + condition.id);
@@ -222,11 +266,16 @@ window.$dino.ConditionNewView = $dino.NewFormView.extend({
 		});
 	},
 	validateCondition : function() {
+		sympSize = _.chain(this.$("#select-symptom option:selected"))
+			.map(function(node){return node.value;})
+			.compact() // remove falsy from placeholder value
+			.value()
+			.length;
 		if (this.$('#condition-title').val() === '') {
 			this.$('#error-msg').html('Don\'t forgot to make a title!');
 			this.$('#error-msg').show();
 			return false;
-		} else if (this.model.get('symptom').length === 0) {
+		} else if (sympSize === 0) {
 			this.$('#error-msg').html('Add a symptom to start tracking this condition');
 			this.$('#error-msg').show();
 			return false;
@@ -267,29 +316,31 @@ window.$dino.ConditionNewView = $dino.NewFormView.extend({
 	makeList : function(collection, selector, modelType) {
 		modelType = modelType || '';
 		var that = this;
+		var selectedItem = "";
+		var selected = _.pluck(this.model.get(modelType), 'id');
 		console.log('running makelist on ' + selector);
+		this.$(selector).children( 'option:not(:first)' ).remove();
 		if (modelType && modelType != 'doctor' && this.model.get(modelType) && this.model.get(modelType).length !== 0) {
 			console.log(this.model.toJSON());
 			console.log(modelType);
+			console.log(collection);
 			try {
-				var type_ids = _.map(this.model.get(modelType), function(item) {
-					return item.id;
+				collection.each(function(item, idx, models) {
+					selectedItem = "";
+					if (_.contains(selected, item.id)) selectedItem = "selected";
+					that.$(selector).append('<option '+selectedItem +' value="' + item.id + '">' + item.get('title') + '</li>');
 				});
-				console.log(type_ids);
-				var filteredColl = collection.filter(function(item) {
-					return !_.contains(type_ids, item.id);
-				});
-				_(filteredColl).each(function(item, idx, models) {
-					that.$(selector).append('<option value="' + item.id + '">' + item.get('title') + '</li>');
-				});
+				that.$(selector).selectmenu('refresh');
 			} catch (err) {
 				console.log(err);
 			}
 		} else if (modelType == 'doctor') {
-			var selected;
+			selectedItem = "";
 			var modelDoctor = that.model.get('doctor').id;
 			collection.each(function(item, idx, models) {
-				that.$(selector).append('<option ' + selected + ' value="' + item.id + '">' + item.get('title') + '</li>');
+				selectedItem = "";
+				if (modelDoctor === item.id) selectedItem = "selected";
+				that.$(selector).append('<option ' + selectedItem + ' value="' + item.id + '">' + item.get('title') + '</li>');
 			});
 			this.resetMenu('#select-doctor', modelDoctor);
 		} else {
@@ -319,7 +370,6 @@ window.$dino.ConditionNewView = $dino.NewFormView.extend({
 			this.makeList(this.symptomList, '#select-symptom', 'symptom');
 			this.makeList(this.doctorList, '#select-doctor', 'doctor');
 		}
-		this.$(".new-group").show();
 		// TODO figure out how to not need this
 		$('.ui-page').trigger('pagecreate');
 		return this;

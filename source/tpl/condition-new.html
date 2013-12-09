@@ -6,6 +6,9 @@
 		background-color: rgba(0,0,0,0.0) /*{global-icon-disc}*/;
 		background-image: url(css/images/icons-18-white.png) /*{global-icon-set}*/;
 	}
+	.new-group {
+		display: none;
+	}
 </style>
 <div data-role="header" >
 	<h1><%= header %> Condition</h1>
@@ -42,6 +45,7 @@
 				 <option value="" disabled selected>Choose Symptoms</option>
 			</select>
 		</table>
+		<a href="#" data-role="button" data-iconshadow="false" data-mini="true" id="new-symptom-input-btn" class="open-input-new-item ui-icon-nodisc" data-type="symptom" data-icon="plus" data-theme="b">New Symptom</a>
 		<div class="new-group" id="symptom-new-group">
 			<input id="new-symptom-input" class="fancyFont new-item-input" placeholder="New Symptom" />
 			<div data-theme="a" class="ui-grid-a">
@@ -68,6 +72,7 @@
 			</select>
 
 		</table>
+		<a href="#" data-role="button" data-iconshadow="false" data-mini="true" id="new-medication-input-btn" class="open-input-new-item ui-icon-nodisc" data-type="medication" data-icon="plus" data-theme="b">New Medication</a>
 		<div class="new-group" id="medication-new-group">
 			<input id="new-medication-input" class="fancyFont new-item-input" placeholder="New Medication" />
 			<div data-theme="a" class="ui-grid-a">
@@ -92,6 +97,7 @@
 				<option value="No Doctor">None</option>
 			</select>
 		</div>
+		<a href="#" data-role="button" data-iconshadow="false" data-mini="true" id="new-doctor-input-btn" class="open-input-new-item ui-icon-nodisc" data-type="doctor" data-icon="plus" data-theme="b">New Doctor</a>
 		<div class="new-group" id="doctor-new-group">
 			<input id="new-doctor-input" class="fancyFont new-item-input" placeholder="New Doctor" />
 			<div data-theme="a" class="ui-grid-a">
