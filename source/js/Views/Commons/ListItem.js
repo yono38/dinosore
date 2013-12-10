@@ -83,6 +83,7 @@ window.$dino.ListItemView = Backbone.View.extend({
     this.$('.added-bubble').fadeToggle(3000);
   },
   confirmDelete: function () {
+	console.log('confirming delete');
     if (!this.settingSeverity) {
       this.deleteDialog = new $dino.DialogDeleteView({
         model: this.model,

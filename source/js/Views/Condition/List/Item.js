@@ -16,13 +16,11 @@ window.$dino.ConditionListItemView = $dino.ListItemView.extend({
 	events : {
 		"click" : "dontclick",
 		"click .plus-one" : "clickPlus",
-		//"swiperight" : "confirmDelete",
-		"dblclick #item-detail" : "openDetails",
 		"slidestop" : "changeSeverity",
 		"keypress #item-notes" : "addOnEnter",
 		"indom" : "makeSwiper",
 		// TODO PUT THIS BACK!
-		"click #condition-detail" : "openGraph",
+		"click .item-title" : "openGraph",
 		"click .removeItem" : "confirmDelete",
 		"click .modifyItem" : "goToConditionDetail"
 	},
@@ -76,10 +74,10 @@ window.$dino.ConditionListItemView = $dino.ListItemView.extend({
 				}));
 			});
 			this.$("#item-notes").textinput();
-			this.$("#severity").slider({
+			this.$(".symptom-severity").slider({
 				trackTheme : 'b',
 			});
-			this.$("#severity").hide();
+			this.$(".symptom-severity").hide();
 			this.$("#cancel-change-severity").button({
 				mini : true
 			});

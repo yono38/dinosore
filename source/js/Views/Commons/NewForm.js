@@ -231,11 +231,12 @@ window.$dino.NewFormView = Backbone.View.extend({
 
 	// builds list from fetched collection filtering from an
 	// optional modelType that removes item already attached to the model from the modelType list
-	makeList : function(collection, selector, modelType, noAddNew) {
+	makeList : function(collection, selector, modelType, noAddNew, defaultText) {
 		modelType = modelType || "";
 		var that = this;
 		console.log('running makelist on ' + selector);
-		that.$(selector).empty();
+		//that.$(selector).empty();
+		//that.$(selector).append('<option>Choose ' + this.header + '</option>');
 		if (modelType && modelType != "doctor" && modelType != "condition" && this.model.get(modelType) && this.model.get(modelType).length !== 0) {
 			console.log(this.model.toJSON());
 			console.log(modelType);
@@ -250,7 +251,7 @@ window.$dino.NewFormView = Backbone.View.extend({
 			this.resetMenu("#select-doctor", modelDoctor);
 		} else {
 			collection.each(function(item, idx, models) {
-				that.$(selector).append('<option value="' + item.id + '">' + item.get("title") + '</li>');
+				that.$(selector).append('<option value="' + item.id + '">' + item.get("title") + '</option>');
 			});
 		}
 		if (modelType == "condition") {
