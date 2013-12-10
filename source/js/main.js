@@ -6,7 +6,7 @@ $dino.AppRouter = Backbone.Router.extend({
     'appts/add(?*path)': 'newAppt',
     'bugs': 'bugList',
     'bugs/add': 'newCondition',
-    'bug/:id': 'bugDetails',
+    'bug/:id': 'conditionDetails',
     'bug/:id/modify': 'bugModify',
     'bug/:id/delete': 'bugDialog',
     'graph': 'makeGraph',
@@ -102,10 +102,10 @@ $dino.AppRouter = Backbone.Router.extend({
       }
     });
   },
-  bugDetails: function (id) {
+  conditionDetails: function (id) {
     var self = this;
     this.loadBug(id, function (data) {
-      self.changePage(new $dino.BugDetailView({ model: data }), true);
+      self.changePage(new $dino.ConditionDetailView({ model: data }), true);
     });
   },
   bugModify: function (id) {
