@@ -1,0 +1,122 @@
+i<style>
+	#medication-list, #symptom-list {
+		list-style: none;
+	}
+	.ui-icon {
+		background-color: rgba(0,0,0,0.0) /*{global-icon-disc}*/;
+		background-image: url(css/images/icons-18-white.png) /*{global-icon-set}*/;
+	}
+	.new-group {
+		display: none;
+	}
+</style>
+<div data-role="header" >
+	<h1><%= header %> Condition</h1>
+</div>
+
+<div data-role="content">
+	<div id="error-msg" class="fancyFont error"></div>
+	<div id="title-list-border" class="list-border">
+		<label for="title">Title:</label>
+		<input type="text" class="text-input" placeholder="New Condition" name="title" id="condition-title" value="<%= title %>" data-mini="true" />
+	</div>
+
+	<div class="text-input" style="border-bottom: 3px solid; padding-bottom: 15px; padding-top: 10px">
+		<label for="textarea-a">Details:</label>
+		<textarea name="textarea" id="condition-details"><%= details %></textarea>
+	</div>
+
+	<div id="status-list-border" class="list-border">
+		<p>
+			Status:
+		</p>
+		<select class=" ui-icon-nodisc" id="select-status">
+			<option value="Active">Active</option>
+			<option value="In Remission">In Remission</option>
+			<option value="Retired">Retired</option>
+		</select>
+	</div>
+	<div id="symptom-list-border" class="list-border">
+		<p>
+			Symptoms:
+		</p>
+		<table id="symptom-list-bar" style='width:100%'>
+			<select class="ui-icon-alt ui-icon-nodisc" name="select-symptom" id="select-symptom" multiple="multiple" data-native-menu="false">
+				 <option value="" disabled selected>Choose Symptoms</option>
+			</select>
+		</table>
+		<a href="#" data-role="button" data-iconshadow="false" data-mini="true" id="new-symptom-input-btn" class="open-input-new-item ui-icon-nodisc" data-type="symptom" data-icon="plus" data-theme="b">New Symptom</a>
+		<div class="new-group" id="symptom-new-group">
+			<input id="new-symptom-input" class="fancyFont new-item-input" placeholder="New Symptom" />
+			<div data-theme="a" class="ui-grid-a">
+				<div class="ui-block-a">
+					<div id="add-new-symptom-padding" data-type="symptom" class="add-btn-padding new-item-padding ui-bar ui-bar-a">
+						<a href="#" data-role="button" data-iconshadow="false" data-corners="true" data-inline="true" id="add-new-symptom" class="new-item  ui-icon-nodisc" data-icon="plus" data-theme="a">Add</a>
+					</div>
+				</div>
+				<div class="ui-block-b">
+					<div id="cancel-new-symptom-padding" data-type="symptom" class="cancel-btn-padding new-item-padding ui-bar ui-bar-b">
+						<a href="#" data-role="button" data-iconshadow="false" data-inline="true" id="cancel-new-symptom" class="new-item  ui-icon-nodisc" data-icon="plus" data-theme="b">Cancel</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="medicaton-list-border" class="list-border">
+		<p>
+			Medications:
+		</p>
+		<table id="medication-list-bar" style='width:100%'>
+			<select class="ui-icon-alt ui-icon-nodisc" name="select-medication" id="select-medication" multiple="multiple" data-native-menu="false">
+				 <option value="" disabled selected>Choose Medications</option>
+			</select>
+
+		</table>
+		<a href="#" data-role="button" data-iconshadow="false" data-mini="true" id="new-medication-input-btn" class="open-input-new-item ui-icon-nodisc" data-type="medication" data-icon="plus" data-theme="b">New Medication</a>
+		<div class="new-group" id="medication-new-group">
+			<input id="new-medication-input" class="fancyFont new-item-input" placeholder="New Medication" />
+			<div data-theme="a" class="ui-grid-a">
+				<div class="ui-block-a">
+					<div id="add-medciation-padding" data-type="medication" class="add-btn-padding new-item-padding ui-bar ui-bar-a">
+						<a href="#" data-role="button" data-iconshadow="false" data-inline="true" id="add-new-medication" class="new-item ui-icon-nodisc" data-icon="plus" data-theme="a">Add</a>
+					</div>
+				</div>
+				<div class="ui-block-b">
+					<div id="cancel-medication-padding" data-type="medication" class="cancel-btn-padding gew-item-padding ui-bar ui-bar-b">
+						<a href="#" data-role="button" data-iconshadow="false" data-inline="true" id="cancel-new-medication" class="new-item ui-icon-nodisc" data-icon="plus" data-theme="b">Cancel</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div id="doctor-list-border" class="list-border">
+		<div id="doctor-list-bar">
+			<label for="select-doctor" class="select-doctor-label">Doctor</label>
+			<select name="select-doctor" id="select-doctor" class="ui-icon-nodisc" >
+				<option value="No Doctor">None</option>
+			</select>
+		</div>
+		<a href="#" data-role="button" data-iconshadow="false" data-mini="true" id="new-doctor-input-btn" class="open-input-new-item ui-icon-nodisc" data-type="doctor" data-icon="plus" data-theme="b">New Doctor</a>
+		<div class="new-group" id="doctor-new-group">
+			<input id="new-doctor-input" class="fancyFont new-item-input" placeholder="New Doctor" />
+			<div data-theme="a" class="ui-grid-a">
+				<div class="ui-block-a">
+					<div id="add-btn-padding" data-type="doctor" class="add-btn-padding new-item-padding ui-bar ui-bar-a">
+						<a href="#" data-role="button" data-iconshadow="false" data-inline="true" id="add-new-doctor" class="new-item ui-icon-nodisc" data-icon="plus" data-theme="a">Add</a>
+					</div>
+				</div>
+				<div class="ui-block-b">
+					<div id="cancel-btn-padding" data-type="doctor" class="cancel-btn-padding new-item-padding ui-bar ui-bar-b">
+						<a href="#" data-role="button" data-iconshadow="false" data-inline="true" id="cancel-new-doctor" class="new-item ui-icon-nodisc" data-icon="plus" data-theme="b">Cancel</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</div>
+
+<a href="#" id="addBtn" class=" ui-icon-nodisc" data-role="button" data-icon="plus" data-theme="a">Save</a>
+<a href="#" id="cancelBtn" class="back cancelBtn  ui-icon-nodisc" data-role="button" data-icon="delete" data-theme="b">Cancel</a>
+

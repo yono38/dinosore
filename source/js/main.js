@@ -17,6 +17,7 @@ $dino.AppRouter = Backbone.Router.extend({
     'login': 'login',
     'medications': 'medicationList',
     'medication/:id': 'medicationDetails',
+    'medication/:id/modify': 'medicationModify',
     'offline': 'offlineExit',
     'privacy': 'privacySettings',
     'signup': 'signup',
@@ -55,6 +56,20 @@ $dino.AppRouter = Backbone.Router.extend({
         console.log(err);
       }
     });
+  },
+  medicationModify: function(id) {
+    var self = this;
+    var med = new $dino.Medication();
+    med.id = id;
+    med.fetch({
+      success: function (data) {
+        console.log('modify medication');
+        self.changePage(new $dino.MedicationModifyView({
+          header: 'Modify',
+          model: data
+        }));
+        }
+     });
   },
   newAppt: function (path) {
     if (path)
