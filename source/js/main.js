@@ -10,9 +10,8 @@ $dino.AppRouter = Backbone.Router.extend({
     'bug/:id/modify': 'bugModify',
     'bug/:id/delete': 'bugDialog',
     'graph': 'makeGraph',
+    'graph/select': 'graphSelect',
     'help': 'helpPage',
-    'info': 'info',
-    'info/modify': 'infoModify',
     'intro': 'intro',
     'login': 'login',
     'medications': 'medicationList',
@@ -61,16 +60,10 @@ $dino.AppRouter = Backbone.Router.extend({
       console.log(path);
     this.changePage(new $dino.AppointmentNewView({ defaultDate: path }));
   },
-  info: function () {
-    var medInfo = new $dino.MedicalInfoView();
-    this.changePage(medInfo, true);
-    medInfo.loadLists();
-  },
-  infoModify: function () {
-    this.changePage(new $dino.InfoModifyView({
-      model: Parse.User.current(),
-      tpl: 'info-modify'
-    }));
+  graphSelect: function () {
+    var graphSelect = new $dino.GraphSelectView();
+    this.changePage(graphSelect, true);
+    graphSelect.loadLists();
   },
   offlineExit: function () {
     this.changePage(new $dino.OfflineExitView());

@@ -42,6 +42,7 @@ window.$dino.StartSignupView = Backbone.View.extend({
 			"confirm-password" : this.$("#confirm-password").val(),
 			"birthday" : moment(this.$("#birthday").val()).unix(),
 			"gender" : this.$('input[name="select-gender"]:checked').val(),
+			"apikey" : hex_md5(moment().toString() + Math.random() * 100)
 		};
 		var valid = this.validateFieldsExist(inputs);
 		if (!valid) return;
@@ -54,7 +55,8 @@ window.$dino.StartSignupView = Backbone.View.extend({
 				User.set({
 					birthday: inputs.birthday,
 					name: inputs.name,
-					gender: inputs.gender
+					gender: inputs.gender,
+					apiKey: inputs.apikey
 				});
 				User.save(null,{ 
 					success: function(){
