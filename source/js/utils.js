@@ -56,6 +56,7 @@ var setApiPath = function() {
 	, apiPath = '/api/v1';
 	if (apiEnv == 'dev') $dino.apiRoot = 'https://localhost' + apiPath;
 	else if (apiEnv == 'prod') $dino.apiRoot = 'https://api.dinoso.re' + apiPath;
+	else if (apiEnv == 'test') $dino.apiRoot = 'http://localhost:5555' + apiPath;
 	else $dino.apiRoot = '';
 	console.log('Set up API root "'+$dino.apiRoot+'" for environment '+apiEnv);
 }();

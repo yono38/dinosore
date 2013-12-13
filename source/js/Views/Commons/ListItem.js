@@ -1,7 +1,7 @@
 window.$dino.ListItemView = Backbone.View.extend({
   tagName: 'li',
   initialize: function (opts) {
-    this.name = opts.name;
+    this.name = opts.name; // name represents type of item ex: 'medication'
     // Always be sure to set if overriding, this is the 
     // size for the symptom/medication listitems (one line)
     this.swiperHeight = opts.swiperHeight || '45px';
@@ -33,10 +33,17 @@ window.$dino.ListItemView = Backbone.View.extend({
     if (this.$('.retireItem').data('retired') === true) {
       console.log('reactivate this item');
       this.model.set('retired', false);
-      this.model.save();
     } else {
       console.log('retire this item');
       this.model.set('retired', true);
+      // log a severity plusone of 0
+      var retired_marker = new $dino.PlusOne();
+      retired_marker.set({
+      	item: this.model.id,
+      	severity: 0,
+      	user: Parse.User.current().id,
+      	type: this.name
+      });
     }
     this.model.save(null, {
       success: function (data) {
@@ -121,7 +128,7 @@ window.$dino.ListItemView = Backbone.View.extend({
       this.model.trigger('refreshList');
     }  //		if (this.deleteDialog) this.deleteDialog.destroy();
   },
-  render: function (eventName) {
+  render: function () {
     var that = this;
     var title = this.model.get('title');
     this.$el.html(this.template(_.extend(this.model.toJSON(), {

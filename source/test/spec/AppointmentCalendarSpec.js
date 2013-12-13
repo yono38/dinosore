@@ -24,6 +24,9 @@ describe("AppointmentCalendarView", function() {
 	});
 
 	it("renders", function() {
+		// this is required because some event in datebox is delayed
+		// and the page isn't fully rendered immediately after render method
+		// TODO fix appointments
 		var finishedRender = false;
 
 		runs(function() {

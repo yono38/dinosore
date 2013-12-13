@@ -10,6 +10,12 @@ module.exports = function(grunt) {
 			}
 		},
 		copy: {
+			index: {
+				files: [
+					{cwd: 'source/', src: ['index.html'], dest: 'build/phonegap/www/'},
+				]
+			},
+			cssimg: {
 			img: {
 				files: [
 					{expand: true, cwd: 'source/img/', src: ['**'], dest: 'build/phonegap/www/img'},

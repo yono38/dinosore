@@ -1,8 +1,8 @@
-describe("BugDetailView", function(){
+describe("ConditionDetailView", function(){
 	var view;
 	
 	beforeEach(function(){
-		view = new $dino.BugDetailView();
+		view = new $dino.ConditionDetailView();
 		Parse = {
 			User: {
 				current: function() {
