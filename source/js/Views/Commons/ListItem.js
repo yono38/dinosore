@@ -31,10 +31,8 @@ window.$dino.ListItemView = Backbone.View.extend({
     e.preventDefault();
     var that = this;
     if (this.$('.retireItem').data('retired') === true) {
-      console.log('reactivate this item');
       this.model.set('retired', false);
     } else {
-      console.log('retire this item');
       this.model.set('retired', true);
       // log a severity plusone of 0
       var retired_marker = new $dino.PlusOne();
@@ -44,6 +42,7 @@ window.$dino.ListItemView = Backbone.View.extend({
       	user: Parse.User.current().id,
       	type: this.name
       });
+      retired_marker.save();
     }
     this.model.save(null, {
       success: function (data) {
