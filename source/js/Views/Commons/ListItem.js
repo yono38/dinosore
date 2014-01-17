@@ -18,7 +18,11 @@ window.$dino.ListItemView = Backbone.View.extend({
     'dblclick #item-detail': 'openDetails',
     'indom': 'makeSwiper',
     'click .removeItem': 'confirmDelete',
-    'click .retireItem': 'retireItem'
+    'click .retireItem': 'retireItem',
+    'pageinit' : 'test'
+  },
+  test: function () {
+  	console.log('pagecreate called on listitem');
   },
   setRetiredTheme: function () {
     var status = this.model.get('status');
@@ -53,11 +57,13 @@ window.$dino.ListItemView = Backbone.View.extend({
   },
   makeSwiper: function (e, noSwipe) {
     noSwipe = noSwipe || true;
-    this.mySwiper = this.$('.swiper-container').swiper({
+    console.log('running makeSwiper');
+    $dino.mySwiper = this.$('.swiper-container').swiper({
       'noSwiping': noSwipe,
       'onSlideChangeEnd': this.hidePlus,
       'calculateHeight': false
     });
+    console.log(this.$('.swiper-container'));
     // TODO this is a dumb hack caused because swiper
     // is auto-formatting height on list items based on 
     // length of content text inside, should just be able

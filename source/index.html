@@ -23,15 +23,16 @@
     <script src="lib/underscore.js"></script>
     <script src="lib/backbone.js"></script>
     <script src="lib/backbone.queryparams.js"></script>
+    <script src="lib/backbone.dualstorage.js"></script>
     <script src="lib/highcharts.js"></script>
     <script src="lib/idangerous.swiper-2.2.js"></script>
     <script src="lib/md5.js"></script>
 
-<!--    <script src="lib/backbone.dualstorage.js"></script> -->
     <script src="lib/moment.js"></script>
     <script src="lib/parse-1.2.12.js"></script>   
     <script type="text/javascript">
     	window.$dino = window.$dino || {};
+    	Backbone.Collection.prototype.local = true;
     </script>
     <script src="js/config.js"></script>
     <script src="js/utils.js"></script>

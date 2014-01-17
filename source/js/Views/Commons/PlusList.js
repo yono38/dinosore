@@ -73,6 +73,8 @@ window.$dino.PlusListView = Backbone.View.extend({
       console.log('prepending active');
       this.$(selector).prepend(view.render().el);
     }
+    //view.$el.trigger('pageinit');
+    console.log('triggering indom on pluslistview');
     view.$el.trigger('indom');
     view.bind('renderlist', this.renderList);
   },
@@ -115,7 +117,12 @@ window.$dino.PlusListView = Backbone.View.extend({
     this.$el.html(this.template({ 'header': this.header }));
     if (!this.addingBtn)
       this.createAddButton();
-    this.renderList(this.first);
+    var that = this;
+    // TODO fix dumb hack required for proper creation of sliders
+    // after jquery mobile styling finished
+    setTimeout(function() {
+		that.renderList(that.first);
+	}, 50);
     this.first = false;
     return this;
   }
