@@ -337,3 +337,7 @@ top: 26%;
 	padding-left: 65px;
 	padding-top: 10px;
 }
+
+#login_webapp {
+	font-family: 'Quicksand', sans-serif;
+}
